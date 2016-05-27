@@ -2,14 +2,79 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
+    android:background="#eff0f5"
+    android:clipChildren="false"
     android:orientation="vertical">
-
 
     <FrameLayout
         android:id="@+id/content_frame"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </FrameLayout>
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#eff0f5"
+        />
+        <RadioGroup
+            android:id="@+id/radio_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp">
 
+            <RadioButton
+                android:id="@+id/btn_core_index"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_weight="1"
+                android:button="@null"
+                android:gravity="center_horizontal"
+                android:text="核心指标"
+                android:textSize="14sp"
+                />
+
+            <RadioButton
+                android:id="@+id/btn_thematic_analysis"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_weight="1"
+                android:button="@null"
+                android:gravity="center"
+                android:text="专题分析"
+                android:textSize="14sp" />
+
+            <RadioButton
+                android:id="@+id/btn_telescope"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_weight="1"
+                android:button="@null"
+                android:gravity="center"
+                android:text="千里眼"
+                android:textSize="14sp" />
+
+            <RadioButton
+                android:id="@+id/btn_news"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_weight="1"
+                android:button="@null"
+                android:gravity="center"
+                android:text="新闻公告"
+                android:textSize="14sp" />
+            <RadioButton
+                android:id="@+id/btn_more"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_weight="1"
+                android:button="@null"
+                android:gravity="center"
+                android:text="更多"
+                android:textSize="14sp" />
+        </RadioGroup>
 </LinearLayout>
