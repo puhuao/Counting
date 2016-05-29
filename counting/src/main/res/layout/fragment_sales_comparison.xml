@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ui_header_height"
+        android:background="@color/bg_color">
+
+        <RelativeLayout
+            android:id="@+id/ly_title_bar_left"
+            android:layout_width="100dp"
+            android:layout_height="@dimen/ui_header_height"
+            android:layout_alignParentLeft="true"
+            android:gravity="center_vertical"
+            android:clickable="true"
+            android:paddingLeft="12dp">
+
+            <ImageView
+                android:id="@+id/iv_title_bar_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="10dp"
+                android:focusable="false"
+                android:src="@drawable/selector_btn_back" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/ly_title_bar_center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tv_title_bar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:singleLine="true"
+                android:textColor="#ffffff"
+                android:textSize="16sp"
+                android:text="销售额对比"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/ly_title_bar_right"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:paddingRight="10dp">
+
+
+            <ImageView
+                android:id="@+id/btn_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:clickable="true"
+                android:src="@drawable/chart"/>
+
+        </RelativeLayout>
+    </RelativeLayout>
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+        <RadioButton
+            android:id="@+id/sales_number"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="销售额"
+            android:drawableRight="@drawable/down"
+            android:button="@null"
+            android:gravity="center"/>
+        <RadioButton
+            android:id="@+id/gross_profit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="毛利额"
+            android:drawableRight="@drawable/down"
+            android:gravity="center"
+            android:button="@null"/>
+        <RadioButton
+            android:id="@+id/gross_margin"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="毛利率"
+            android:drawableRight="@drawable/down"
+            android:gravity="center"
+            android:button="@null"/>
+        <RadioButton
+            android:id="@+id/channel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="客单数"
+            android:drawableRight="@drawable/down"
+            android:gravity="center"
+            android:button="@null"/>
+        <RadioButton
+            android:id="@+id/index"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="客单价"
+            android:drawableRight="@drawable/down"
+            android:gravity="center"
+            android:button="@null"/>
+    </RadioGroup>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@color/light_gray"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+        <TextView
+            android:id="@+id/area"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="全国"
+            android:drawableRight="@drawable/down"
+
+            android:gravity="center"/>
+        <TextView
+            android:id="@+id/all_channel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="全部渠道"
+            android:drawableRight="@drawable/down"
+            android:gravity="center"/>
+        <TextView
+            android:id="@+id/sort"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="排序"
+            android:drawableRight="@drawable/down"
+            android:gravity="center"/>
+
+    </LinearLayout>
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/list_view"/>
+</LinearLayout>
