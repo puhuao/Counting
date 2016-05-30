@@ -3,6 +3,7 @@ package com.wksc.counting.adapter;
 import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.wksc.counting.R;
@@ -44,7 +45,7 @@ public class AreaListAdapter extends BaseListAdapter<String> {
 
     class ViewHolder{
         @Bind(R.id.item)
-        TextView name;
+        CheckBox name;
         public ViewHolder(View convertView) {
             ButterKnife.bind(this,convertView);
         }

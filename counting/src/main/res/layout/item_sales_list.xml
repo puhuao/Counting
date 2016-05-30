@@ -13,27 +13,31 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="地区/部门"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:textSize="10sp"/>
         <TextView
             android:id="@+id/moth_data"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="月累计(万元)"
-            android:gravity="center" />
+            android:gravity="center"
+            android:textSize="10sp"/>
         <TextView
             android:id="@+id/month_comparison_relative"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="月同比"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:textSize="10sp"/>
         <TextView
             android:id="@+id/month_comparison_eala"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="月环比"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:textSize="10sp"/>
     </LinearLayout>
 </LinearLayout>

@@ -11,6 +11,65 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="销售达成分析:"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
+            <TextView
+                android:id="@+id/area"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="区域"
+                android:drawableRight="@drawable/down"
+
+                android:gravity="center"/>
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="时间"
+                android:drawableRight="@drawable/down"
+                android:gravity="center"/>
+            <TextView
+                android:id="@+id/goods"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="商品"
+                android:drawableRight="@drawable/down"
+                android:gravity="center" />
+            <TextView
+                android:id="@+id/index"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="指标"
+                android:drawableRight="@drawable/down"
+                android:gravity="center"/>
+
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/sales_analysis"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="分销渠道销售分析:"/>
+        <ListView
+            android:id="@+id/supply_analysis"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 
 </LinearLayout>

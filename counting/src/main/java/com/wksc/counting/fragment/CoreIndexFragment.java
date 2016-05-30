@@ -14,6 +14,9 @@ import com.wksc.counting.adapter.CoreIndexListAdapter;
 import com.wksc.counting.model.CoreIndexModel;
 import com.wksc.counting.popwindows.AreaPopupwindow;
 import com.wksc.counting.popwindows.GoodsPopupwindow;
+import com.wksc.counting.popwindows.IndexPopupwindow;
+import com.wksc.counting.popwindows.SupplyChianPopupwindow;
+import com.wksc.counting.popwindows.TimePopupwindow;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 
 import butterknife.Bind;
@@ -58,6 +61,9 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
         list.setOnItemClickListener(this);
         area.setOnClickListener(this);
         goods.setOnClickListener(this);
+        time.setOnClickListener(this);
+        channel.setOnClickListener(this);
+        index.setOnClickListener(this);
         return v;
     }
 
@@ -77,6 +83,20 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
             case R.id.goods:
                 GoodsPopupwindow goodsPopupwindow = new GoodsPopupwindow(getActivity());
                 goodsPopupwindow.showPopupwindow(v);
+                break;
+            case R.id.time:
+                TimePopupwindow timePopupwindow = new TimePopupwindow(getActivity());
+                timePopupwindow.showPopupwindow(v);
+                break;
+            case R.id.channel:
+                SupplyChianPopupwindow supplyChianPopupwindow = new SupplyChianPopupwindow(getActivity());
+                supplyChianPopupwindow.showPopupwindow(v);
+                break;
+            case R.id.index:
+                IndexPopupwindow indexPopupwindow = new IndexPopupwindow(getActivity());
+                indexPopupwindow.showPopupwindow(v);
+                break;
+
         }
     }
 }
