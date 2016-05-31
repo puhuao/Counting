@@ -20,7 +20,7 @@
             android:paddingLeft="12dp">
 
             <ImageView
-                android:id="@+id/iv_title_bar_left"
+                android:id="@+id/bar_left"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
@@ -54,8 +54,8 @@
             android:paddingRight="10dp">
 
 
-            <ImageView
-                android:id="@+id/btn_right"
+            <ImageButton
+                android:id="@+id/ib_right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -78,8 +78,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:button="@null"
-            android:drawableRight="@drawable/down"
             android:gravity="center"
+            android:background="@color/light_gray"
+            android:layout_margin="1dp"
             android:text="销售额" />
 
         <RadioButton
@@ -88,8 +89,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:button="@null"
-            android:drawableRight="@drawable/down"
             android:gravity="center"
+            android:background="@color/light_gray"
+            android:layout_margin="1dp"
             android:text="毛利额" />
 
         <RadioButton
@@ -98,8 +100,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:button="@null"
-            android:drawableRight="@drawable/down"
             android:gravity="center"
+            android:background="@color/light_gray"
+            android:layout_margin="1dp"
             android:text="毛利率" />
 
         <RadioButton
@@ -108,8 +111,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:button="@null"
-            android:drawableRight="@drawable/down"
             android:gravity="center"
+            android:background="@color/light_gray"
+            android:layout_margin="1dp"
             android:text="客单数" />
 
         <RadioButton
@@ -118,8 +122,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:button="@null"
-            android:drawableRight="@drawable/down"
             android:gravity="center"
+            android:background="@color/light_gray"
+            android:layout_margin="1dp"
             android:text="客单价" />
     </RadioGroup>
 
@@ -130,13 +135,16 @@
         <LinearLayout
             android:id="@+id/arc_bar_layout"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
-
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
             <com.wksc.counting.widegit.ColorArcProgressBar
                 android:id="@+id/bar1"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
                 android:layout_gravity="center_horizontal"
                 app:back_color="@android:color/darker_gray"
                 app:back_width="4dp"
@@ -144,14 +152,25 @@
                 app:front_width="5dp"
                 app:is_need_content="true"
                 app:is_need_unit = "true"
-                app:max_value="100"
+                app:max_value="1000"
                 app:total_engle="360"
-                />
-
+                app:string_unit="万元"
+                app:is_need_title="true"
+                app:string_title="广州公司月累计"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="最低\n2016-04"
+        android:layout_gravity="center"/>
+</LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
             <com.wksc.counting.widegit.ColorArcProgressBar
                 android:id="@+id/bar2"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
                 android:layout_gravity="center_horizontal"
                 app:back_color="@android:color/darker_gray"
                 app:back_width="4dp"
@@ -159,10 +178,19 @@
                 app:front_width="5dp"
                 app:is_need_content="true"
                 app:is_need_unit="true"
-                app:max_value="100"
-                app:string_unit="百分比%"
+                app:max_value="1000"
+                app:string_unit="万元"
                 app:total_engle="360"
-                android:visibility="gone"/>
+                android:visibility="visible"
+                app:is_need_title="true"
+                app:string_title="四川公司月累计"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="最高\n2016-04"
+                    android:layout_gravity="center"/>
+            </LinearLayout>
+
         </LinearLayout>
 
         <com.github.mikephil.charting.charts.LineChart

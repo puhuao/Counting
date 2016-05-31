@@ -6,10 +6,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
@@ -22,6 +24,9 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.wksc.counting.R;
 import com.wksc.counting.adapter.SalesCompareListAdapter;
+import com.wksc.counting.popwindows.AreaPopupwindow;
+import com.wksc.counting.popwindows.SortPopupwindow;
+import com.wksc.counting.popwindows.SupplyChianPopupwindow;
 import com.wksc.counting.widegit.ColorArcProgressBar;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 
@@ -44,8 +49,16 @@ public class SalesComparisonFragment extends CommonFragment {
     ColorArcProgressBar bar2;
     @Bind(R.id.arc_bar_layout)
     LinearLayout arcBarLayout;
-    @Bind(R.id.ly_title_bar_right)
-    RelativeLayout btnRight;
+    @Bind(R.id.ib_right)
+    ImageButton btnRight;
+    @Bind(R.id.bar_left)
+            ImageView barLeft;
+    @Bind(R.id.area)
+    TextView area;
+    @Bind(R.id.all_channel)
+            TextView channel;
+    @Bind(R.id.sort)
+            TextView sort;
     SalesCompareListAdapter adapter;
 
     @Override
@@ -64,12 +77,8 @@ public class SalesComparisonFragment extends CommonFragment {
     }
 
     private void initView() {
-        bar1.setCurrentValues(35);
-        bar1.setTextSize(10);
-
-        bar1.setDiameter(100);
-        bar2.setCurrentValues(88);
-        bar2.setTextSize(10);
+        bar1.setCurrentValues(13);
+        bar2.setCurrentValues(966);
         btnRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,6 +90,33 @@ public class SalesComparisonFragment extends CommonFragment {
                     mChart.setVisibility(View.GONE);
                 }
 
+            }
+        });
+        barLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+            }
+        });
+        area.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AreaPopupwindow areaPopupwindow = new AreaPopupwindow(getActivity());
+                areaPopupwindow.showPopupwindow(v);
+            }
+        });
+        channel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SupplyChianPopupwindow supplyChianPopupwindow = new SupplyChianPopupwindow(getActivity());
+                supplyChianPopupwindow.showPopupwindow(v);
+            }
+        });
+        sort.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SortPopupwindow sortPopupwindow =new SortPopupwindow(getActivity());
+                sortPopupwindow.showPopupwindow(v);
             }
         });
         adapter = new SalesCompareListAdapter(getActivity());

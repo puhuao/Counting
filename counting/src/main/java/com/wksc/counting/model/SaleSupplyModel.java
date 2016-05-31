@@ -17,7 +17,7 @@ public class SaleSupplyModel {
     public String saleProportion;
     public static List<SaleSupplyModel> getData(){
         List<SaleSupplyModel> list = new ArrayList<>();
-        for (int i =0 ;i < 5;i ++){
+        for (int i =0 ;i < 4;i ++){
             SaleSupplyModel model = new SaleSupplyModel();
             if (i ==1 ){
                 model.name = "天猫";

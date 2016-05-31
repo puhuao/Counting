@@ -15,7 +15,7 @@ public class PurchaseModel {
     public String reachRate;
     public static List<PurchaseModel> getData(){
         List<PurchaseModel> list = new ArrayList<>();
-        for (int i =0 ;i < 5;i ++){
+        for (int i =0 ;i < 4;i ++){
             PurchaseModel model = new PurchaseModel();
             if (i ==1 ){
                 model.name = "白酒";

@@ -16,7 +16,7 @@ public class ComparisonModel {
 
     public static List<ComparisonModel> getData(){
         List<ComparisonModel> list = new ArrayList<>();
-        for (int i =0 ;i < 5;i ++){
+        for (int i =0 ;i < 6;i ++){
             ComparisonModel model = new ComparisonModel();
             if (i ==1 ){
                 model.area = "四川";
@@ -31,6 +31,11 @@ public class ComparisonModel {
         }
             if(i != 0){
                 model.monthData = "133.3";
+                if(i==5){
+                    model.monthData = "13";
+                }else if(i == 1){
+                    model.monthData = "966";
+                }
                 model.monthCompareRelative = "+12%";
                 model.monthCompareEalair = "-3%";
             }else{

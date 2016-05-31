@@ -52,7 +52,7 @@ public class ColorArcProgressBar extends View{
     private float curValues = 0;
     private float bgArcWidth = dipToPx(2);
     private float progressWidth = dipToPx(10);
-    private float textSize = dipToPx(30);
+    private float textSize = dipToPx(60);
     private float hintSize = dipToPx(15);
     private float curSpeedSize = dipToPx(13);
     private int aniSpeed = 1000;
@@ -318,7 +318,7 @@ public class ColorArcProgressBar extends View{
      * 设置标题
      * @param title
      */
-    private void setTitle(String title){
+    public void setTitle(String title){
         this.titleString = title;
     }
 

@@ -15,7 +15,7 @@ public class SalesFinishModel {
     public String reachRate;
     public static List<SalesFinishModel> getData(){
         List<SalesFinishModel> list = new ArrayList<>();
-        for (int i =0 ;i < 5;i ++){
+        for (int i =0 ;i < 4;i ++){
             SalesFinishModel model = new SalesFinishModel();
             if (i ==1 ){
                 model.name = "销售额";
