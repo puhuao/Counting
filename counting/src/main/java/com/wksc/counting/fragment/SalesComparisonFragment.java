@@ -38,7 +38,6 @@ public class SalesComparisonFragment extends CommonFragment {
     ListView list;
     @Bind(R.id.chart)
     LineChart mChart;
-<<<<<<< HEAD
     @Bind(R.id.bar1)
     ColorArcProgressBar bar1;
     @Bind(R.id.bar2)
@@ -47,8 +46,6 @@ public class SalesComparisonFragment extends CommonFragment {
     LinearLayout arcBarLayout;
     @Bind(R.id.ly_title_bar_right)
     RelativeLayout btnRight;
-=======
->>>>>>> 6779665a073516930851c8e0a12e1c6cc9307dd7
     SalesCompareListAdapter adapter;
 
     @Override

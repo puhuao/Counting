@@ -123,7 +123,6 @@
             android:text="客单价" />
     </RadioGroup>
 
-<<<<<<< HEAD
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="200dp">
@@ -173,13 +172,6 @@
             android:visibility="gone" />
     </RelativeLayout>
 
-=======
-    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/chart"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_above="@+id/seekBar1" />
->>>>>>> 6779665a073516930851c8e0a12e1c6cc9307dd7
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
