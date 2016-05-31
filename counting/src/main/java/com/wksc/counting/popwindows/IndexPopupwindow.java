@@ -30,7 +30,11 @@ public class IndexPopupwindow extends PopupWindow {
         sure = (Button) view.findViewById(R.id.sure);
         this.setContentView(view);
         this.setOutsideTouchable(true);
+<<<<<<< HEAD
         this.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+=======
+        this.setWidth(150);
+>>>>>>> 6779665a073516930851c8e0a12e1c6cc9307dd7
         this.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
         this.setBackgroundDrawable(new BitmapDrawable());
         this.setFocusable(true);

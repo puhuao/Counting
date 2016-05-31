@@ -29,7 +29,11 @@ public class TimePopupwindow extends PopupWindow implements AdapterView.OnItemCl
         list = (ListView) view.findViewById(R.id.lv_time);
         this.setContentView(view);
         this.setOutsideTouchable(true);
+<<<<<<< HEAD
         this.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+=======
+        this.setWidth(150);
+>>>>>>> 6779665a073516930851c8e0a12e1c6cc9307dd7
         this.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
         this.setBackgroundDrawable(new BitmapDrawable());
         this.setFocusable(true);
