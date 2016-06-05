@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -13,6 +14,10 @@ import android.widget.PopupWindow;
 import com.wksc.counting.R;
 import com.wksc.counting.adapter.AreaListAdapter;
 import com.wksc.counting.adapter.IndexListAdapter;
+import com.wksc.counting.model.AreaModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Administrator on 2016/5/29.
@@ -22,8 +27,18 @@ public class IndexPopupwindow extends PopupWindow {
     Button sure;
     IndexListAdapter areaListAdapter;
     Activity mContext;
+    List<AreaModel> listIndex = new ArrayList<>();
+
+
     public IndexPopupwindow(Activity context){
         super();
+        listIndex.add(new AreaModel("销售额"));
+        listIndex.add(new AreaModel("毛利额"));
+        listIndex.add(new AreaModel("销售环比"));
+        listIndex.add(new AreaModel("客单数"));
+        listIndex.add(new AreaModel("客单价"));
+        listIndex.add(new AreaModel("会员总数"));
+        listIndex.add(new AreaModel("新注册会员数"));
         mContext = context;
         View view = LayoutInflater.from(context).inflate(R.layout.pop_layout_index,null);
         list = (ListView) view.findViewById(R.id.diriction_area);
@@ -42,11 +57,19 @@ public class IndexPopupwindow extends PopupWindow {
             }
         });
         areaListAdapter = new IndexListAdapter(context);
+        areaListAdapter. setList(listIndex);
         list.setAdapter(areaListAdapter);
         sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dissmisPopupwindow();
+            }
+        });
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                listIndex.get(position).isCheck = !listIndex.get(position).isCheck;
+                areaListAdapter.notifyDataSetChanged();
             }
         });
     }

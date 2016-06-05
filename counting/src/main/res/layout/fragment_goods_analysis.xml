@@ -44,14 +44,6 @@
             android:text="渠道"
             android:drawableRight="@drawable/down"
             android:gravity="center"/>
-        <TextView
-            android:id="@+id/index"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="指标"
-            android:drawableRight="@drawable/down"
-            android:gravity="center"/>
 
     </LinearLayout>
 

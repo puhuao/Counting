@@ -17,4 +17,25 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="style0">
+        <item name="android:textColor">@color/light_gray</item>
+    </style>
+
+    <style name="style1">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textStyle">italic</item>
+    </style>
+
+    <style name="style2">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textStyle">italic</item>
+    </style>
+
+    <style name="style3">
+        <item name="android:textColor">@color/green</item>
+        <item name="android:textStyle">italic</item>
+    </style>
+
+
+
 </resources>

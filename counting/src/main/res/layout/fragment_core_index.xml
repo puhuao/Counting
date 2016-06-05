@@ -13,8 +13,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="区域"
-        android:drawableRight="@drawable/down"
-
+android:drawableTop="@drawable/img_location_normal"
+        android:drawablePadding="5dp"
         android:gravity="center"/>
     <TextView
         android:id="@+id/goods"
@@ -22,7 +22,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="商品"
-        android:drawableRight="@drawable/down"
+        android:drawableTop="@drawable/img_good_normal"
+        android:drawablePadding="5dp"
         android:gravity="center" />
     <TextView
         android:id="@+id/time"
@@ -30,7 +31,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="时间"
-        android:drawableRight="@drawable/down"
+        android:drawableTop="@drawable/img_time_normal"
+        android:drawablePadding="5dp"
         android:gravity="center"/>
     <TextView
         android:id="@+id/channel"
@@ -38,7 +40,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="渠道"
-        android:drawableRight="@drawable/down"
+        android:drawableTop="@drawable/img_chain_normal"
+        android:drawablePadding="5dp"
         android:gravity="center"/>
     <TextView
         android:id="@+id/index"
@@ -46,7 +49,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="指标"
-        android:drawableRight="@drawable/down"
+        android:drawableTop="@drawable/img_index_normal"
+        android:drawablePadding="5dp"
         android:gravity="center"/>
 
 </LinearLayout>

@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -13,11 +14,17 @@ import android.widget.PopupWindow;
 import com.wksc.counting.R;
 import com.wksc.counting.adapter.AreaListAdapter;
 import com.wksc.counting.adapter.SupplyListAdapter;
+import com.wksc.counting.model.AreaModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Administrator on 2016/5/29.
  */
 public class SupplyChianPopupwindow extends PopupWindow {
+    List<AreaModel> listChains = new ArrayList<>();
+
     ListView list ;
     Button sure;
     SupplyListAdapter areaListAdapter;
@@ -41,12 +48,27 @@ public class SupplyChianPopupwindow extends PopupWindow {
                 dismiss();
             }
         });
+
+        listChains.add(new AreaModel("全部"));
+        listChains.add(new AreaModel("渠道A"));
+        listChains.add(new AreaModel("渠道B"));
+        listChains.add(new AreaModel("渠道C"));
+        listChains.add(new AreaModel("渠道D"));
+
         areaListAdapter = new SupplyListAdapter(context);
+        areaListAdapter. setList(listChains);
         list.setAdapter(areaListAdapter);
         sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dissmisPopupwindow();
+            }
+        });
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                listChains.get(position).isCheck = !listChains.get(position).isCheck;
+                areaListAdapter.notifyDataSetChanged();
             }
         });
     }

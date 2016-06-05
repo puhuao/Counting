@@ -30,13 +30,14 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/ly_title_bar_center"
-            android:layout_width="match_parent"
+            android:id="@+id/ly_title"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="center">
+            android:gravity="center"
+            android:layout_centerHorizontal="true">
 
             <TextView
-                android:id="@+id/tv_title_bar_title"
+                android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -67,6 +68,7 @@
     </RelativeLayout>
 
     <RadioGroup
+        android:id="@+id/radio_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -79,7 +81,8 @@
             android:layout_weight="1"
             android:button="@null"
             android:gravity="center"
-            android:background="@color/light_gray"
+            android:background="@drawable/time_pop_selector"
+            android:textColor="@color/main_tab_text_selector"
             android:layout_margin="1dp"
             android:text="销售额" />
 
@@ -90,9 +93,10 @@
             android:layout_weight="1"
             android:button="@null"
             android:gravity="center"
-            android:background="@color/light_gray"
             android:layout_margin="1dp"
-            android:text="毛利额" />
+            android:text="毛利额"
+            android:background="@drawable/time_pop_selector"
+            android:textColor="@color/main_tab_text_selector"/>
 
         <RadioButton
             android:id="@+id/gross_margin"
@@ -101,7 +105,8 @@
             android:layout_weight="1"
             android:button="@null"
             android:gravity="center"
-            android:background="@color/light_gray"
+            android:background="@drawable/time_pop_selector"
+            android:textColor="@color/main_tab_text_selector"
             android:layout_margin="1dp"
             android:text="毛利率" />
 
@@ -112,7 +117,8 @@
             android:layout_weight="1"
             android:button="@null"
             android:gravity="center"
-            android:background="@color/light_gray"
+            android:background="@drawable/time_pop_selector"
+            android:textColor="@color/main_tab_text_selector"
             android:layout_margin="1dp"
             android:text="客单数" />
 
@@ -123,7 +129,8 @@
             android:layout_weight="1"
             android:button="@null"
             android:gravity="center"
-            android:background="@color/light_gray"
+            android:background="@drawable/time_pop_selector"
+            android:textColor="@color/main_tab_text_selector"
             android:layout_margin="1dp"
             android:text="客单价" />
     </RadioGroup>
@@ -131,67 +138,11 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="200dp">
-
-        <LinearLayout
-            android:id="@+id/arc_bar_layout"
+        <com.github.mikephil.charting.charts.HorizontalBarChart
+            android:id="@+id/chart1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
-            <com.wksc.counting.widegit.ColorArcProgressBar
-                android:id="@+id/bar1"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:layout_gravity="center_horizontal"
-                app:back_color="@android:color/darker_gray"
-                app:back_width="4dp"
-                app:front_color1="@color/colorAccent"
-                app:front_width="5dp"
-                app:is_need_content="true"
-                app:is_need_unit = "true"
-                app:max_value="1000"
-                app:total_engle="360"
-                app:string_unit="万元"
-                app:is_need_title="true"
-                app:string_title="广州公司月累计"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="最低\n2016-04"
-        android:layout_gravity="center"/>
-</LinearLayout>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-            <com.wksc.counting.widegit.ColorArcProgressBar
-                android:id="@+id/bar2"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:layout_gravity="center_horizontal"
-                app:back_color="@android:color/darker_gray"
-                app:back_width="4dp"
-                app:front_color1="@color/colorAccent"
-                app:front_width="5dp"
-                app:is_need_content="true"
-                app:is_need_unit="true"
-                app:max_value="1000"
-                app:string_unit="万元"
-                app:total_engle="360"
-                android:visibility="visible"
-                app:is_need_title="true"
-                app:string_title="四川公司月累计"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="最高\n2016-04"
-                    android:layout_gravity="center"/>
-            </LinearLayout>
-
-        </LinearLayout>
+            android:layout_height="200dp"
+            android:background="@android:color/white" />
 
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/chart"
@@ -224,15 +175,6 @@
             android:drawableRight="@drawable/down"
             android:gravity="center"
             android:text="全部渠道" />
-
-        <TextView
-            android:id="@+id/sort"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawableRight="@drawable/down"
-            android:gravity="center"
-            android:text="排序" />
 
     </LinearLayout>
 

@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 
 import com.wksc.counting.R;
+import com.wksc.counting.model.AreaModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,14 +17,15 @@ import butterknife.ButterKnife;
 /**
  * Created by Administrator on 2016/5/29.
  */
-public class GoodsListAdapter extends BaseListAdapter<String> {
+public class GoodsListAdapter extends BaseListAdapter<AreaModel> {
     public GoodsListAdapter(Activity context) {
         super(context);
-        List<String> list = new ArrayList<>();
-        list.add("品类");
-        list.add("品牌");
-        list.add("商品性质");
-        setList(list);
+    }
+
+    public void setAllCheck(Boolean check) {
+        for (AreaModel m : mList) {
+            m.isCheck = check;
+        }
     }
 
     @Override
@@ -37,7 +39,8 @@ public class GoodsListAdapter extends BaseListAdapter<String> {
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         }
-        holder.name.setText(mList.get(position));
+        holder.name.setText(mList.get(position).name);
+        holder.name.setChecked(mList.get(position).isCheck);
         return convertView;
     }
 
@@ -47,5 +50,15 @@ public class GoodsListAdapter extends BaseListAdapter<String> {
         public ViewHolder(View convertView) {
             ButterKnife.bind(this,convertView);
         }
+    }
+    public int getCheckedNumber(){
+        int i = 0;
+        for (AreaModel area:
+                mList) {
+            if (area.isCheck){
+                i++;
+            }
+        }
+        return i;
     }
 }

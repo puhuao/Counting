@@ -1,6 +1,9 @@
 package com.wksc.counting.adapter;
 
 import android.app.Activity;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.TextAppearanceSpan;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -35,8 +38,14 @@ public class SalesFinishListAdapter extends BaseListAdapter<SalesFinishModel>{
 
         holder.name.setText(mList.get(position).name);
         holder.data.setText(mList.get(position).goal);
-        holder.monthRelative.setText(mList.get(position).acture);
-        holder.monthEarlier.setText(mList.get(position).reachRate);
+        SpannableString styledText = new SpannableString(mList.get(position).acture);
+        if (position!=0)
+        styledText.setSpan(new TextAppearanceSpan(mContext, R.style.style1), 0, styledText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        holder.monthRelative.setText(styledText,TextView.BufferType.SPANNABLE);
+        styledText = new SpannableString(mList.get(position).reachRate);
+        if (position!=0)
+        styledText.setSpan(new TextAppearanceSpan(mContext, R.style.style3), 0, styledText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        holder.monthEarlier.setText(styledText,TextView.BufferType.SPANNABLE);
         return convertView;
     }
     class ViewHolder{

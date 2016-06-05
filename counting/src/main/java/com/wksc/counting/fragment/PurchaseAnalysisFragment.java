@@ -33,8 +33,6 @@ public class PurchaseAnalysisFragment extends CommonFragment implements View.OnC
     TextView goods;
     @Bind(R.id.time)
     TextView time;
-    @Bind(R.id.index)
-    TextView index;
     @Bind(R.id.area)
     TextView area;
     PurchaseAnalysisListAdapter goodsSalesAnalysisListAdapter;
@@ -59,7 +57,6 @@ public class PurchaseAnalysisFragment extends CommonFragment implements View.OnC
         area.setOnClickListener(this);
         goods.setOnClickListener(this);
         time.setOnClickListener(this);
-        index.setOnClickListener(this);
     }
 
     @Override

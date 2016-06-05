@@ -1,6 +1,9 @@
 package com.wksc.counting.adapter;
 
 import android.app.Activity;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.TextAppearanceSpan;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -35,12 +38,22 @@ public class GoodsSalesAnalysisListAdapter extends BaseListAdapter<GoodsAnalysis
 
         holder.name.setText(mList.get(position).name);
         holder.data.setText(mList.get(position).saleData);
-        holder.monthRelative.setText(mList.get(position).saleRalive);
-        holder.monthEarlier.setText(mList.get(position).saleProportion);
+        SpannableString styledText = new SpannableString(mList.get(position).saleRalive);
+        if (position!=0)
+            styledText.setSpan(new TextAppearanceSpan(mContext, R.style.style1), 0, styledText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        holder.monthRelative.setText(styledText,TextView.BufferType.SPANNABLE);
+
+        if (position!=0)
+            styledText.setSpan(new TextAppearanceSpan(mContext, R.style.style2), 0, styledText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        holder.monthEarlier.setText(styledText,TextView.BufferType.SPANNABLE);
         holder.profitData.setText(mList.get(position).profitData);
+        if (position!=0)
+            styledText.setSpan(new TextAppearanceSpan(mContext, R.style.style3), 0, styledText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        holder.profitRate.setText(styledText,TextView.BufferType.SPANNABLE);
         holder.profitRate.setText(mList.get(position).profitRate);
         return convertView;
     }
+
     class ViewHolder{
         @Bind(R.id.area)
         TextView name;

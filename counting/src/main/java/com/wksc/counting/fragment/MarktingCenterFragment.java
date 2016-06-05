@@ -1,9 +1,19 @@
 package com.wksc.counting.fragment;
 
+import android.annotation.TargetApi;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -15,7 +25,12 @@ import com.wksc.counting.popwindows.GoodsPopupwindow;
 import com.wksc.counting.popwindows.IndexPopupwindow;
 import com.wksc.counting.popwindows.SupplyChianPopupwindow;
 import com.wksc.counting.popwindows.TimePopupwindow;
+import com.wksc.counting.widegit.CustomViewPager;
+import com.wksc.counting.widegit.PagerSlidingTabStrip;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -23,21 +38,14 @@ import butterknife.ButterKnife;
 /**
  * Created by Administrator on 2016/5/29.
  */
-public class MarktingCenterFragment extends CommonFragment implements View.OnClickListener {
-    @Bind(R.id.sales_analysis)
-    ListView lvSalesAnalysis;
-    @Bind(R.id.supply_analysis)
-    ListView lvSupplyAnalysis;
-    @Bind(R.id.area)
-    TextView area;
-    @Bind(R.id.goods)
-    TextView goods;
-    @Bind(R.id.time)
-    TextView time;
-    @Bind(R.id.index)
-    TextView index;
-    SalesFinishListAdapter salesFinishListAdapter;
-    SalesSupplyListAdapter salesSupplyListAdapter;
+public class MarktingCenterFragment extends CommonFragment {
+    @Bind(R.id.indicator)
+    PagerSlidingTabStrip mIndicator;
+    @Bind(R.id.viewPager_history)
+    CustomViewPager mViewPager;
+
+    private ArrayList<FragmentEntity> indicatorFragmentEntityList;
+    private MyPagerAdapter adapter;
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_marketing_center, null);
@@ -53,39 +61,144 @@ public class MarktingCenterFragment extends CommonFragment implements View.OnCli
     }
 
     private void initView() {
-        salesFinishListAdapter = new SalesFinishListAdapter(getActivity());
-        lvSalesAnalysis.setAdapter(salesFinishListAdapter);
-        salesSupplyListAdapter = new SalesSupplyListAdapter(getActivity());
-        lvSupplyAnalysis.setAdapter(salesSupplyListAdapter);
-        area.setOnClickListener(this);
-        goods.setOnClickListener(this);
-        time.setOnClickListener(this);
-        index.setOnClickListener(this);
+        indicatorFragmentEntityList = new ArrayList<>();
+
+        for (int i =0 ;i < 3;i++) {
+            String name = null;
+            Fragment fragment = null;
+            FragmentEntity fragmentEntity = null;
+            if (i == 0){
+                fragment = new SaleGoalAnalysisFragment();
+                name = "销售达成分析";
+            }else if(i == 1){
+                fragment = new SaleChainAnalysisFragment();
+                name = "分销渠道分析";
+            }else if(i ==2){
+                fragment = new PlatformCenterFragment();
+                name = "会员分析";
+            }
+            if (fragment != null) {
+                fragmentEntity = new FragmentEntity(name, fragment);
+                indicatorFragmentEntityList.add(fragmentEntity);
+            }
+        }
+
+        mIndicator.setTabViewFactory(new PagerSlidingTabStrip.TabViewFactory() {
+            @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+            @Override
+            public void addTabs(ViewGroup parent, int defaultPosition) {
+                parent.removeAllViews();
+                for (int i = 0; i < indicatorFragmentEntityList.size(); i++) {
+                    LinearLayout layout = new LinearLayout(getActivity());
+                    layout.setGravity(Gravity.CENTER);
+                    TextView tab = new TextView(getContext());
+                    tab.setGravity(Gravity.CENTER);
+                    tab.setTextSize(15);
+                    tab.setText(indicatorFragmentEntityList.get(i).name);
+                    tab.setPadding(8, 8, 8, 8);
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    params.setMargins(10,0,10,0);
+                    tab.setLayoutParams(params);
+                    tab.setBackground(getResources().getDrawable(R.drawable.tab_text_selector));
+                    if (indicatorFragmentEntityList.size() == 2) {
+                        if (i == 0) {
+                            tab.setTextColor(getResources().getColor(R.color.bg_color));
+                            tab.setBackgroundResource(R.drawable.tab_left_select);
+                        } else {
+                            tab.setTextColor(getResources().getColor(R.color.white));
+                            tab.setBackgroundResource(R.drawable.tab_right_notselect);
+                        }
+                    } else if (indicatorFragmentEntityList.size() == 1) {
+                        tab.setTextColor(getResources().getColor(R.color.white));
+                        tab.setBackgroundResource(R.drawable.transparent);
+                    }
+                    layout.addView(tab);
+                    parent.addView(layout);
+                }
+            }
+        });
+        FragmentManager fm = getChildFragmentManager();
+        List<Fragment> fragments =  fm.getFragments();
+        if(fragments!=null)fragments.clear();
+
+        adapter = new MyPagerAdapter(fm,
+                indicatorFragmentEntityList);
+        mViewPager.setAdapter(adapter);
+        mViewPager.setPagingEnabled(false);
+        mViewPager.setOffscreenPageLimit(3);
+        mIndicator.setViewPager(mViewPager);
+
+        mIndicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (indicatorFragmentEntityList.size() == 2) {
+                    if (position == 0) {
+                        TextView tvTab0 = (TextView) mIndicator.getTab(0);
+                        tvTab0.setBackgroundResource(R.drawable.tab_left_select);
+                        tvTab0.setTextColor(getResources().getColor(R.color.bg_color));
+
+                        TextView tvTab1 = (TextView) mIndicator.getTab(1);
+                        tvTab1.setBackgroundResource(R.drawable.tab_right_notselect);
+                        tvTab1.setTextColor(getResources().getColor(R.color.white));
+                    } else if (position == 1) {
+                        TextView tvTab0 = (TextView) mIndicator.getTab(0);
+                        tvTab0.setBackgroundResource(R.drawable.tab_left_notselect);
+                        tvTab0.setTextColor(getResources().getColor(R.color.white));
+
+                        TextView tvTab1 = (TextView) mIndicator.getTab(1);
+                        tvTab1.setBackgroundResource(R.drawable.tab_right_select);
+                        tvTab1.setTextColor(getResources().getColor(R.color.bg_color));
+                    }
+
+                } else if (indicatorFragmentEntityList.size() == 1) {
+                    TextView tvTab = (TextView) mIndicator.getTab(position);
+                    tvTab.setTextColor(getResources().getColor(R.color.white));
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.area:
-                AreaPopupwindow areaPopupwindow = new AreaPopupwindow(getActivity());
-                areaPopupwindow.showPopupwindow(v);
-                break;
-            case R.id.goods:
-                GoodsPopupwindow goodsPopupwindow = new GoodsPopupwindow(getActivity());
-                goodsPopupwindow.showPopupwindow(v);
-                break;
-            case R.id.time:
-                TimePopupwindow timePopupwindow = new TimePopupwindow(getActivity());
-                timePopupwindow.showPopupwindow(v);
-                break;
-            case R.id.channel:
-                SupplyChianPopupwindow supplyChianPopupwindow = new SupplyChianPopupwindow(getActivity());
-                supplyChianPopupwindow.showPopupwindow(v);
-                break;
-            case R.id.index:
-                IndexPopupwindow indexPopupwindow = new IndexPopupwindow(getActivity());
-                indexPopupwindow.showPopupwindow(v);
-                break;
+    class FragmentEntity {
+        public String name;
+        public Fragment fragment;
+
+        public FragmentEntity( String name, Fragment fragment) {
+            this.name = name;
+            this.fragment = fragment;
         }
+    }
+    public class MyPagerAdapter extends FragmentPagerAdapter {
+
+        public MyPagerAdapter(FragmentManager fm, ArrayList<FragmentEntity> fragments) {
+            super(fm);
+            this.fragmentsList = fragments;
+
         }
+
+        private ArrayList<FragmentEntity> fragmentsList;
+
+        public void setFragmentsList(ArrayList<FragmentEntity> fragmentsList) {
+            this.fragmentsList = fragmentsList;
+            notifyDataSetChanged();
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return fragmentsList.get(position).fragment;
+        }
+
+        @Override
+        public int getCount() {
+            return fragmentsList.size();
+        }
+
+    }
 }

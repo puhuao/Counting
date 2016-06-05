@@ -1,5 +1,6 @@
 package com.wksc.counting.fragment;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -55,7 +56,7 @@ public class ThematicAnalysisFragment extends CommonFragment {
     private void initView() {
         indicatorFragmentEntityList = new ArrayList<>();
 
-        for (int i =0 ;i < 4;i++) {
+        for (int i =0 ;i < 3;i++) {
             String name = null;
             Fragment fragment = null;
             FragmentEntity fragmentEntity = null;
@@ -68,15 +69,18 @@ public class ThematicAnalysisFragment extends CommonFragment {
             }else if(i ==2){
                 fragment = new CustomerServiceFragment();
                 name = "客服中心";
-            }else if(i ==3){
-                fragment = new PlatformCenterFragment();
-                name = "平台中心";
             }
+//            else if(i ==3){
+//                fragment = new PlatformCenterFragment();
+//                name = "平台中心";
+//            }
             if (fragment != null) {
                 fragmentEntity = new FragmentEntity(name, fragment);
                 indicatorFragmentEntityList.add(fragmentEntity);
             }
         }
+        Drawable drawable = getResources().getDrawable(R.drawable.slide_block_shape);
+        mIndicator.setSlidingBlockDrawable(drawable);
 
         mIndicator.setTabViewFactory(new PagerSlidingTabStrip.TabViewFactory() {
             @Override

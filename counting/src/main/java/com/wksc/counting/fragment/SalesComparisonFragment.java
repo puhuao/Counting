@@ -10,26 +10,36 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.github.mikephil.charting.formatter.YAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.wksc.counting.R;
 import com.wksc.counting.adapter.SalesCompareListAdapter;
+import com.wksc.counting.model.ComparisonModel;
 import com.wksc.counting.popwindows.AreaPopupwindow;
 import com.wksc.counting.popwindows.SortPopupwindow;
 import com.wksc.counting.popwindows.SupplyChianPopupwindow;
 import com.wksc.counting.widegit.ColorArcProgressBar;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import butterknife.Bind;
@@ -43,12 +53,6 @@ public class SalesComparisonFragment extends CommonFragment {
     ListView list;
     @Bind(R.id.chart)
     LineChart mChart;
-    @Bind(R.id.bar1)
-    ColorArcProgressBar bar1;
-    @Bind(R.id.bar2)
-    ColorArcProgressBar bar2;
-    @Bind(R.id.arc_bar_layout)
-    LinearLayout arcBarLayout;
     @Bind(R.id.ib_right)
     ImageButton btnRight;
     @Bind(R.id.bar_left)
@@ -57,8 +61,16 @@ public class SalesComparisonFragment extends CommonFragment {
     TextView area;
     @Bind(R.id.all_channel)
             TextView channel;
-    @Bind(R.id.sort)
-            TextView sort;
+
+    @Bind(R.id.chart1)
+    HorizontalBarChart chart1;
+    @Bind(R.id.title)
+            TextView titleBar;
+    @Bind(R.id.ly_title)
+            RelativeLayout lyTitle;
+    @Bind(R.id.radio_group)
+    RadioGroup radioGroup;
+
     SalesCompareListAdapter adapter;
 
     @Override
@@ -72,21 +84,140 @@ public class SalesComparisonFragment extends CommonFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, v);
+        initChart1();
         initView();
         return v;
     }
 
+    private void initChart1() {
+//        chart1.setOnChartValueSelectedListener(this);
+        chart1.setDrawGridBackground(false);
+        chart1.setDescription("");
+
+        // scaling can now only be done on x- and y-axis separately
+        chart1.setPinchZoom(false);
+
+        chart1.setDrawBarShadow(false);
+        chart1.setDrawValueAboveBar(true);
+
+        chart1.getAxisLeft().setEnabled(false);
+        chart1.getAxisRight().setAxisMaxValue(1000f);
+        chart1.getAxisRight().setAxisMinValue(100f);
+        chart1.getAxisRight().setDrawGridLines(false);
+        chart1.getAxisRight().setDrawZeroLine(true);
+        chart1.getAxisRight().setLabelCount(7, false);
+        chart1.getAxisRight().setValueFormatter(new CustomFormatter());
+        chart1.getAxisRight().setTextSize(9f);
+
+        XAxis xAxis = chart1.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTH_SIDED);
+        xAxis.setDrawGridLines(false);
+        xAxis.setDrawAxisLine(false);
+        xAxis.setTextSize(9f);
+
+        Legend l = chart1.getLegend();
+        l.setPosition(Legend.LegendPosition.BELOW_CHART_RIGHT);
+        l.setFormSize(8f);
+        l.setFormToTextSpace(4f);
+        l.setXEntrySpace(6f);
+
+        setDownToUp();
+    }
+
+    private void setDownToUp() {
+        // IMPORTANT: When using negative values in stacked bars, always make sure the negative values are in the array first
+        ArrayList<BarEntry> yValues = new ArrayList<BarEntry>();
+        yValues.add(new BarEntry(new float[]{ 400, 500 }, 0));
+        yValues.add(new BarEntry(new float[]{ 350, 600 }, 1));
+        yValues.add(new BarEntry(new float[]{ 350, 650}, 2));
+        yValues.add(new BarEntry(new float[]{ 300, 700 }, 3));
+        yValues.add(new BarEntry(new float[]{ 200, 800 }, 4));
+
+        BarDataSet set = new BarDataSet(yValues, "Age Distribution");
+        set.setValueFormatter(new CustomFormatter());
+        set.setValueTextSize(7f);
+        set.setAxisDependency(YAxis.AxisDependency.RIGHT);
+        set.setBarSpacePercent(40f);
+        set.setColors(new int[] { R.color.white,Color.rgb(124,181,236)});
+
+        String []xVals = new String[]{"广东", "贵州", "云南", "江苏", "四川"};
+
+        BarData data = new BarData(xVals, set);
+        chart1.setData(data);
+        chart1.invalidate();
+    }
+
+    private void setUpToDown(){
+        ArrayList<BarEntry> yValues = new ArrayList<BarEntry>();
+        yValues.add(new BarEntry(new float[]{  200, 800 }, 0));
+        yValues.add(new BarEntry(new float[]{ 300, 700 }, 1));
+        yValues.add(new BarEntry(new float[]{ 350, 650 }, 2));
+        yValues.add(new BarEntry(new float[]{ 350, 600 }, 3));
+        yValues.add(new BarEntry(new float[]{ 400, 500 }, 4));
+
+        BarDataSet set = new BarDataSet(yValues, "Age Distribution");
+        set.setValueFormatter(new CustomFormatter());
+        set.setValueTextSize(7f);
+        set.setAxisDependency(YAxis.AxisDependency.RIGHT);
+        set.setBarSpacePercent(40f);
+        set.setColors(new int[] { R.color.white,Color.rgb(124,181,236)});
+
+        String []xVals = new String[]{"四川", "江苏","云南", "贵州", "广东"};
+
+        BarData data = new BarData(xVals, set);
+        chart1.setData(data);
+        chart1.invalidate();
+    }
+
+    private Boolean down = true;
     private void initView() {
-        bar1.setCurrentValues(13);
-        bar2.setCurrentValues(966);
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId){
+                    case R.id.sales_number:
+                        titleBar.setText("销售额对比");
+                        break;
+                    case R.id.gross_profit:
+                        titleBar.setText("毛利额对比");
+                        break;
+                    case R.id.gross_margin:
+                        titleBar.setText("毛利率对比");
+                        break;
+                    case R.id.channel:
+                        titleBar.setText("客单数对比");
+                        break;
+                    case R.id.index:
+                        titleBar.setText("客单价对比");
+                        break;
+
+
+                }
+            }
+        });
+        lyTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (down){
+                    setUpToDown();
+                    adapter.setDownToUp();
+                }else {
+                    setDownToUp();
+                    adapter.setList(ComparisonModel.getData());
+                    adapter.notifyDataSetChanged();
+                }
+                down = !down;
+            }
+        });
+
         btnRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(!mChart.isShown()){
-                    arcBarLayout.setVisibility(View.GONE);
+                    chart1.setVisibility(View.GONE);
                     mChart.setVisibility(View.VISIBLE);
                 } else{
-                    arcBarLayout.setVisibility(View.VISIBLE);
+                    chart1.setVisibility(View.VISIBLE);
                     mChart.setVisibility(View.GONE);
                 }
 
@@ -112,13 +243,13 @@ public class SalesComparisonFragment extends CommonFragment {
                 supplyChianPopupwindow.showPopupwindow(v);
             }
         });
-        sort.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SortPopupwindow sortPopupwindow =new SortPopupwindow(getActivity());
-                sortPopupwindow.showPopupwindow(v);
-            }
-        });
+//        sort.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                SortPopupwindow sortPopupwindow =new SortPopupwindow(getActivity());
+//                sortPopupwindow.showPopupwindow(v);
+//            }
+//        });
         adapter = new SalesCompareListAdapter(getActivity());
         list.setAdapter(adapter);
 //        mChart.setOnChartValueSelectedListener(this);
@@ -254,5 +385,26 @@ public class SalesComparisonFragment extends CommonFragment {
 
         // set data
         mChart.setData(data);
+    }
+
+    private class CustomFormatter implements ValueFormatter, YAxisValueFormatter {
+
+        private DecimalFormat mFormat;
+
+        public CustomFormatter() {
+            mFormat = new DecimalFormat("###");
+        }
+
+        // data
+        @Override
+        public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+            return mFormat.format(Math.abs(value)) + "";
+        }
+
+        // YAxis
+        @Override
+        public String getFormattedValue(float value, YAxis yAxis) {
+            return mFormat.format(Math.abs(value)) + "";
+        }
     }
 }

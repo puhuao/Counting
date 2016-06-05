@@ -32,7 +32,9 @@
                 android:gravity="center_horizontal"
                 android:text="核心指标"
                 android:textSize="14sp"
-                />
+                android:drawableTop="@drawable/main_core_tab_selector"
+                android:textColor="@color/main_tab_text_selector"
+                android:checked="true"/>
 
             <RadioButton
                 android:id="@+id/btn_thematic_analysis"
@@ -43,7 +45,9 @@
                 android:button="@null"
                 android:gravity="center"
                 android:text="专题分析"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:textColor="@color/main_tab_text_selector"
+                android:drawableTop="@drawable/main_thematic_tab_selector"/>
 
             <RadioButton
                 android:id="@+id/btn_telescope"
@@ -54,7 +58,9 @@
                 android:button="@null"
                 android:gravity="center"
                 android:text="千里眼"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:textColor="@color/main_tab_text_selector"
+                android:drawableTop="@drawable/main_telescope_tab_selector"/>
 
             <RadioButton
                 android:id="@+id/btn_news"
@@ -65,7 +71,9 @@
                 android:button="@null"
                 android:gravity="center"
                 android:text="新闻公告"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:textColor="@color/main_tab_text_selector"
+                android:drawableTop="@drawable/main_news_tab_selector"/>
             <RadioButton
                 android:id="@+id/btn_more"
                 android:layout_width="0dp"
@@ -75,6 +83,8 @@
                 android:button="@null"
                 android:gravity="center"
                 android:text="更多"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:textColor="@color/main_tab_text_selector"
+                android:drawableTop="@drawable/main_more_tab_selector"/>
         </RadioGroup>
 </LinearLayout>

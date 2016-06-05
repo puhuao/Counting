@@ -7,12 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 
 import com.wksc.counting.R;
 import com.wksc.counting.adapter.AreaListAdapter;
+import com.wksc.counting.model.AreaModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,12 +23,15 @@ import java.util.List;
  * Created by Administrator on 2016/5/29.
  */
 public class AreaPopupwindow extends PopupWindow {
-    List<String> provinces = new ArrayList<>();
-    List<String> city = new ArrayList<>();
+    List<AreaModel> provinces = new ArrayList<>();
+    List<AreaModel> city = new ArrayList<>();
+    List<AreaModel> temp = new ArrayList<>();
+    List<AreaModel> cTemp = new ArrayList<>();
     Activity mContext;
     ListView list,province,lvCity ;
     Button sure;
     AreaListAdapter areaListAdapter,provinceListAdapter,cityListAdapter;
+    List<AreaModel> areas = new ArrayList<>();
     public AreaPopupwindow(Activity context){
         super();
         mContext = context;
@@ -48,7 +53,17 @@ public class AreaPopupwindow extends PopupWindow {
                 dismiss();
             }
         });
+
+
+        areas.add(new AreaModel("全国"));
+        areas.add(new AreaModel("东北大区"));
+        areas.add(new AreaModel("东南大区"));
+        areas.add(new AreaModel("西北大区"));
+        areas.add(new AreaModel("西南大区"));
+
         areaListAdapter = new AreaListAdapter(context);
+        areaListAdapter.isAll = true;
+        areaListAdapter.setList(areas);
         list.setAdapter(areaListAdapter);
         sure.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,23 +72,84 @@ public class AreaPopupwindow extends PopupWindow {
             }
         });
 
-        provinces.add("四川省");
-        provinces.add("重庆市");
-        provinces.add("云南省");
-        provinces.add("贵州省");
+        provinces.add(new AreaModel("四川省"));
+        provinces.add(new AreaModel("重庆市"));
+        provinces.add(new AreaModel("云南省"));
+        provinces.add(new AreaModel("贵州省"));
 
-        city.add("成都");
-        city.add("绵阳");
-        city.add("德阳");
-        city.add("资阳");
-        city.add("遂宁");
-        city.add("泸州");
+
+        city.add(new AreaModel("成都"));
+        city.add(new AreaModel("绵阳"));
+        city.add(new AreaModel("德阳"));
+        city.add(new AreaModel("资阳"));
+        city.add(new AreaModel("遂宁"));
+        city.add(new AreaModel("泸州"));
         provinceListAdapter = new AreaListAdapter(context);
         provinceListAdapter.setList(provinces);
         province.setAdapter(provinceListAdapter);
         cityListAdapter = new AreaListAdapter(context);
         cityListAdapter.setList(city);
         lvCity.setAdapter(cityListAdapter);
+        province.setVisibility(View.GONE);
+        lvCity.setVisibility(View.GONE);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 0){
+                    areaListAdapter.setAllCheck(!areas.get(position).isCheck);
+                    areaListAdapter.notifyDataSetChanged();
+                    province.setVisibility(View.GONE);
+                    lvCity.setVisibility(View.GONE);
+                }else{
+                    areas.get(0).isCheck = false;
+                    areas.get(position).isCheck = !areas.get(position).isCheck;
+                    areaListAdapter.notifyDataSetChanged();
+                   int checkecNumber =  areaListAdapter.getCheckedNumber();
+                    if (checkecNumber >1){
+                        province.setVisibility(View.GONE);
+                        provinceListAdapter.setAllCheck(false);
+                        provinceListAdapter.notifyDataSetChanged();
+                        lvCity.setVisibility(View.GONE);
+                        cityListAdapter.setAllCheck(false);
+                        cityListAdapter.notifyDataSetChanged();
+//                        lvCity.setVisibility(View.GONE);
+                    }else if(checkecNumber==1){
+                        provinceListAdapter.setAllCheck(true);
+                        provinceListAdapter.notifyDataSetChanged();
+                        province.setVisibility(View.VISIBLE);
+//                        lvCity.setVisibility(View.GONE);
+                    }
+                    if(checkecNumber == areas.size()-1){
+                        areas.get(0).isCheck = true;
+                    }
+                }
+            }
+        });
+
+        province.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                provinces.get(position).isCheck = !provinces.get(position).isCheck;
+                int checkedNumber = provinceListAdapter.getCheckedNumber();
+                if (checkedNumber>1){
+                    cityListAdapter.setAllCheck(false);
+                    cityListAdapter.notifyDataSetChanged();
+                    lvCity.setVisibility(View.GONE);
+                }else{
+                    cityListAdapter.setAllCheck(true);
+                    cityListAdapter.notifyDataSetChanged();
+                    lvCity.setVisibility(View.VISIBLE);
+                }
+                provinceListAdapter.notifyDataSetChanged();
+            }
+        });
+        lvCity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                city.get(position).isCheck = !city.get(position).isCheck;
+                cityListAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     public void showPopupwindow(View view){

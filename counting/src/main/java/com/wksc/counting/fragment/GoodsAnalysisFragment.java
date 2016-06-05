@@ -36,8 +36,6 @@ public class GoodsAnalysisFragment extends CommonFragment implements View.OnClic
     TextView time;
     @Bind(R.id.channel)
     TextView channel;
-    @Bind(R.id.index)
-    TextView index;
 
     GoodsSalesAnalysisListAdapter goodsSalesAnalysisListAdapter;
     @Override
@@ -62,7 +60,6 @@ public class GoodsAnalysisFragment extends CommonFragment implements View.OnClic
         goods.setOnClickListener(this);
         time.setOnClickListener(this);
         channel.setOnClickListener(this);
-        index.setOnClickListener(this);
     }
 
     @Override

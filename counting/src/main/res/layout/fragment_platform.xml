@@ -38,15 +38,6 @@
             android:gravity="center"
             android:text="商品" />
 
-        <TextView
-            android:id="@+id/index"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawableRight="@drawable/down"
-            android:gravity="center"
-            android:text="指标" />
-
     </LinearLayout>
 
     <com.wksc.counting.widegit.OverScrollView
@@ -63,7 +54,10 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:text="会员购买情况" />
-
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/pie1"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"/>
             <com.wksc.counting.widegit.NestedListView
                 android:id="@+id/lv_vip_purchase"
                 android:layout_width="match_parent"
@@ -74,6 +68,10 @@
                 android:layout_margin="10dp"
                 android:text="会员/非会员订单对比" />
 
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/pie2"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"/>
             <com.wksc.counting.widegit.NestedListView
                 android:id="@+id/lv_vip_compare"
                 android:layout_width="match_parent"
@@ -83,7 +81,10 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:text="渠道会员新增数" />
-
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/pie3"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"/>
             <com.wksc.counting.widegit.NestedListView
                 android:id="@+id/lv_chain_vip_grow"
                 android:layout_width="match_parent"

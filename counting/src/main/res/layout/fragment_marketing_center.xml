@@ -1,75 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <LinearLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/view_main_nav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="销售达成分析:"/>
-        <LinearLayout
+
+        <com.wksc.counting.widegit.PagerSlidingTabStrip
+            android:id="@+id/indicator"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="10dp">
-            <TextView
-                android:id="@+id/area"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="区域"
-                android:drawableRight="@drawable/down"
+            android:layout_height="60dp"
+            app:allowWidthFull="true"
+            app:slidingBlock="@drawable/transparent" />
 
-                android:gravity="center"/>
-            <TextView
-                android:id="@+id/time"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="时间"
-                android:drawableRight="@drawable/down"
-                android:gravity="center"/>
-            <TextView
-                android:id="@+id/goods"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="商品"
-                android:drawableRight="@drawable/down"
-                android:gravity="center" />
-            <TextView
-                android:id="@+id/index"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="指标"
-                android:drawableRight="@drawable/down"
-                android:gravity="center"/>
+    </RelativeLayout>
 
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.wksc.counting.widegit.CustomViewPager
+            android:id="@+id/viewPager_history"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <LinearLayout
+            android:id="@+id/ll_empty"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:orientation="vertical"
+            android:paddingBottom="50dp"
+            android:gravity="center"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/img_k"/>
+
+            <TextView
+                android:id="@+id/tv_empty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="10dp"
+                android:text="暂没有绑定任何指标！"
+                android:textColor="#999999"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/btn_empty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:background="@drawable/selector_round_dark_gray_rectangle"
+                android:gravity="center"
+                android:text="添加"
+                android:textColor="@color/white"
+                android:textSize="13sp" />
         </LinearLayout>
 
-        <ListView
-            android:id="@+id/sales_analysis"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="分销渠道销售分析:"/>
-        <ListView
-            android:id="@+id/supply_analysis"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
+    </FrameLayout>
+
 
 </LinearLayout>

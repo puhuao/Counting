@@ -33,8 +33,6 @@ public class SaveAnalysisFragment extends CommonFragment implements View.OnClick
     TextView goods;
     @Bind(R.id.time)
     TextView time;
-    @Bind(R.id.index)
-    TextView index;
     @Bind(R.id.area)
     TextView area;
     SaveAnalysisListAdapter goodsSalesAnalysisListAdapter;
@@ -59,7 +57,6 @@ public class SaveAnalysisFragment extends CommonFragment implements View.OnClick
         area.setOnClickListener(this);
         goods.setOnClickListener(this);
         time.setOnClickListener(this);
-        index.setOnClickListener(this);
     }
 
     @Override

@@ -20,16 +20,13 @@ import com.wksc.counting.adapter.TimeListAdapter;
  */
 public class TimePopupwindow extends PopupWindow implements AdapterView.OnItemClickListener {
     Activity mContext;
-    ListView list ;
-    TimeListAdapter areaListAdapter;
     public TimePopupwindow(Activity context){
         super();
         mContext = context;
         View view = LayoutInflater.from(context).inflate(R.layout.pop_layout_time,null);
-        list = (ListView) view.findViewById(R.id.lv_time);
         this.setContentView(view);
         this.setOutsideTouchable(true);
-        this.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+        this.setWidth(800);
         this.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
         this.setBackgroundDrawable(new BitmapDrawable());
         this.setFocusable(true);
@@ -40,9 +37,6 @@ public class TimePopupwindow extends PopupWindow implements AdapterView.OnItemCl
                 dismiss();
             }
         });
-        areaListAdapter = new TimeListAdapter(context);
-        list.setAdapter(areaListAdapter);
-        list.setOnItemClickListener(this);
     }
 
     public void showPopupwindow(View view){
