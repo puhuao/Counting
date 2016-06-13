@@ -33,7 +33,7 @@ public class CoreIndexModel {
                 model.name = "客单数(个)";
                 model.data = "105";
             }
-            model.currentDada = "256";
+            model.mounthData = "256";
             model.mounthRealativ = "+89%";
             model.currentDada = "2555";
             model.mounthEaliear="-52%";
