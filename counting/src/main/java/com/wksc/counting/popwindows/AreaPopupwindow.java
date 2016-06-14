@@ -1,7 +1,6 @@
 package com.wksc.counting.popwindows;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +14,7 @@ import android.widget.PopupWindow;
 import com.wksc.counting.R;
 import com.wksc.counting.adapter.AreaListAdapter;
 import com.wksc.counting.model.AreaModel;
+import com.wksc.counting.widegit.MarqueeText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +32,8 @@ public class AreaPopupwindow extends PopupWindow {
     Button sure;
     AreaListAdapter areaListAdapter,provinceListAdapter,cityListAdapter;
     List<AreaModel> areas = new ArrayList<>();
+    private MarqueeText area;
+
     public AreaPopupwindow(Activity context){
         super();
         mContext = context;
@@ -42,7 +44,7 @@ public class AreaPopupwindow extends PopupWindow {
         sure = (Button) view.findViewById(R.id.sure);
         this.setContentView(view);
         this.setOutsideTouchable(true);
-        this.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+        this.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
         this.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
         this.setBackgroundDrawable(new BitmapDrawable());
         this.setFocusable(true);
@@ -68,7 +70,15 @@ public class AreaPopupwindow extends PopupWindow {
         sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                StringBuilder sb= new StringBuilder();
+                    sb.append(areaListAdapter.sb).append(provinceListAdapter.sb).append(cityListAdapter.sb);
                 dissmisPopupwindow();
+                if (area.length()>0){
+                    area.setText(sb.toString());
+                }else{
+                    area.setText("地区");
+                }
+
             }
         });
 
@@ -97,6 +107,7 @@ public class AreaPopupwindow extends PopupWindow {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0){
                     areaListAdapter.setAllCheck(!areas.get(position).isCheck);
+                    areaListAdapter.getCheckedNumber();
                     areaListAdapter.notifyDataSetChanged();
                     province.setVisibility(View.GONE);
                     lvCity.setVisibility(View.GONE);
@@ -112,15 +123,21 @@ public class AreaPopupwindow extends PopupWindow {
                         lvCity.setVisibility(View.GONE);
                         cityListAdapter.setAllCheck(false);
                         cityListAdapter.notifyDataSetChanged();
+                        provinceListAdapter.getCheckedNumber();
 //                        lvCity.setVisibility(View.GONE);
                     }else if(checkecNumber==1){
                         provinceListAdapter.setAllCheck(true);
                         provinceListAdapter.notifyDataSetChanged();
                         province.setVisibility(View.VISIBLE);
 //                        lvCity.setVisibility(View.GONE);
+                        provinceListAdapter.getCheckedNumber();
                     }
                     if(checkecNumber == areas.size()-1){
                         areas.get(0).isCheck = true;
+                    }
+                    if (checkecNumber ==0 ){
+                        province.setVisibility(View.GONE);
+                        lvCity.setVisibility(View.GONE);
                     }
                 }
             }
@@ -134,11 +151,13 @@ public class AreaPopupwindow extends PopupWindow {
                 if (checkedNumber>1){
                     cityListAdapter.setAllCheck(false);
                     cityListAdapter.notifyDataSetChanged();
+                    cityListAdapter.getCheckedNumber();
                     lvCity.setVisibility(View.GONE);
                 }else{
                     cityListAdapter.setAllCheck(true);
                     cityListAdapter.notifyDataSetChanged();
                     lvCity.setVisibility(View.VISIBLE);
+                    cityListAdapter.getCheckedNumber();
                 }
                 provinceListAdapter.notifyDataSetChanged();
             }
@@ -148,6 +167,7 @@ public class AreaPopupwindow extends PopupWindow {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 city.get(position).isCheck = !city.get(position).isCheck;
                 cityListAdapter.notifyDataSetChanged();
+                cityListAdapter.getCheckedNumber();
             }
         });
     }
@@ -167,4 +187,7 @@ public class AreaPopupwindow extends PopupWindow {
         mContext.getWindow().setAttributes(lp);
     }
 
+    public void bindTextView(MarqueeText area) {
+        this.area = area;
+    }
 }

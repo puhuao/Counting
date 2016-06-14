@@ -4,14 +4,9 @@ import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.TextView;
 
 import com.wksc.counting.R;
 import com.wksc.counting.model.AreaModel;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -21,12 +16,15 @@ import butterknife.ButterKnife;
  */
 public class AreaListAdapter extends BaseListAdapter<AreaModel> {
     public Boolean isAll=false;
+    public StringBuilder sb = new StringBuilder();
 
     public AreaListAdapter(Activity context) {
         super(context);
     }
 
     public void setAllCheck(Boolean check) {
+        if (sb.length()>0)
+        sb.delete(0,sb.length()-1);
         for (AreaModel m : mList) {
             m.isCheck = check;
         }
@@ -57,13 +55,19 @@ public class AreaListAdapter extends BaseListAdapter<AreaModel> {
     }
 
     public int getCheckedNumber(){
+        if (sb.length()>0){
+            sb.delete(0,sb.length());
+        }
         int i = 0;
         for (AreaModel area:
              mList) {
             if (area.isCheck){
                 i++;
+                sb.append(area.name).append(".");
             }
         }
+        if (sb.length()>0)
+        sb.deleteCharAt(sb.length()-1);
         return i;
     }
 

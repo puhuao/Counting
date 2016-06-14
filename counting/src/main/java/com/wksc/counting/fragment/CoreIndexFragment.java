@@ -17,6 +17,7 @@ import com.wksc.counting.popwindows.GoodsPopupwindow;
 import com.wksc.counting.popwindows.IndexPopupwindow;
 import com.wksc.counting.popwindows.SupplyChianPopupwindow;
 import com.wksc.counting.popwindows.TimePopupwindow;
+import com.wksc.counting.widegit.MarqueeText;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 
 import butterknife.Bind;
@@ -31,7 +32,7 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
     @Bind(R.id.list)
     ListView list;
     @Bind(R.id.area)
-    TextView area;
+    MarqueeText area;
     @Bind(R.id.goods)
     TextView goods;
     @Bind(R.id.time)
@@ -78,6 +79,7 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
         switch (v.getId()){
             case R.id.area:
                 AreaPopupwindow areaPopupwindow = new AreaPopupwindow(getActivity());
+                areaPopupwindow.bindTextView(area);
                 areaPopupwindow.showPopupwindow(v);
                 break;
             case R.id.goods:
