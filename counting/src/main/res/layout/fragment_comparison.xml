@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ui_header_height"
+        android:background="@color/bg_color">
+
+        <RelativeLayout
+            android:id="@+id/ly_title_bar_left"
+            android:layout_width="100dp"
+            android:layout_height="@dimen/ui_header_height"
+            android:layout_alignParentLeft="true"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            android:paddingLeft="12dp">
+
+            <ImageView
+                android:id="@+id/bar_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="10dp"
+                android:focusable="false"
+                android:src="@drawable/selector_btn_back" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/ly_title"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_centerHorizontal="true">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="销售额对比"
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/ly_title_bar_right"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:paddingRight="10dp">
+
+
+            <ImageButton
+                android:id="@+id/ib_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:clickable="true"
+                android:src="@drawable/chart" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/view_main_nav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <com.wksc.counting.widegit.PagerSlidingTabStrip
+            android:id="@+id/indicator"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            app:allowWidthFull="true"
+            app:slidingBlock="@drawable/transparent"
+            android:background="#EFF2F7"/>
+
+    </RelativeLayout>
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.wksc.counting.widegit.CustomViewPager
+            android:id="@+id/viewPager_history"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <LinearLayout
+            android:id="@+id/ll_empty"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:orientation="vertical"
+            android:paddingBottom="50dp"
+            android:gravity="center"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/img_k"/>
+
+            <TextView
+                android:id="@+id/tv_empty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="10dp"
+                android:text="暂没有绑定任何指标！"
+                android:textColor="#999999"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/btn_empty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:background="@drawable/selector_round_dark_gray_rectangle"
+                android:gravity="center"
+                android:text="添加"
+                android:textColor="@color/white"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+    </FrameLayout>
+
+
+</LinearLayout>

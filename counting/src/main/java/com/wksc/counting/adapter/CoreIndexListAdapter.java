@@ -47,20 +47,16 @@ public class CoreIndexListAdapter extends BaseListAdapter<CoreIndexModel>{
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         }
-
-
-
-
         holder.name.setText(mList.get(position).name);
         holder.data.setText(mList.get(position).data);
-        holder.current.setText("当月值:"+mList.get(position).currentDada);
-        SpannableString styledText = new SpannableString("月同比:"+mList.get(position).mounthRealativ);
+        holder.current.setText("当月值: "+mList.get(position).currentDada);
+        SpannableString styledText = new SpannableString("月同比: "+mList.get(position).mounthRealativ);
             styledText.setSpan(new TextAppearanceSpan(mContext, R.style.style0), 0, 4, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             styledText.setSpan(new TextAppearanceSpan(mContext, R.style.style1), 4, styledText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         holder.monthRelative.setText(styledText,TextView.BufferType.SPANNABLE);
 
-        holder.monthData.setText("月累计:"+mList.get(position).mounthData);
-        styledText = new SpannableString("月环比:"+mList.get(position).mounthEaliear);
+        holder.monthData.setText("月累计: "+mList.get(position).mounthData);
+        styledText = new SpannableString("月环比: "+mList.get(position).mounthEaliear);
                 styledText.setSpan(new TextAppearanceSpan(mContext, R.style.style0), 0, 4, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 styledText.setSpan(new TextAppearanceSpan(mContext, R.style.style2), 4, styledText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         holder.monthEarlier.setText(styledText,TextView.BufferType.SPANNABLE);

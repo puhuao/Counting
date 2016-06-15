@@ -20,33 +20,36 @@ android:layout_height="match_parent">
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"/>
+        android:textSize="14sp"
+        android:textStyle="bold"/>
     <TextView
         android:id="@+id/data"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"/>
+        android:textSize="14sp"
+        android:textStyle="bold"/>
 </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="10dp"
-        android:textSize="10sp">
+        >
         <TextView
             android:id="@+id/current"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
-            android:textSize="10sp"/>
+            android:gravity="left|center_vertical"
+            android:textSize="12sp"/>
         <TextView
-            android:textSize="10sp"
+            android:textSize="12sp"
             android:id="@+id/month_relative"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"/>
+            android:gravity="left|center_vertical"
+            />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -59,15 +62,15 @@ android:layout_height="match_parent">
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
-            android:textSize="10sp"/>
+            android:gravity="left|center_vertical"
+            android:textSize="12sp"/>
         <TextView
             android:id="@+id/month_earlier"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
-            android:textSize="10sp"/>
+            android:gravity="left|center_vertical"
+            android:textSize="12sp"/>
     </LinearLayout>
 </LinearLayout>
 </LinearLayout>

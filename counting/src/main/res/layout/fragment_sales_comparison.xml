@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    <!--<RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="@dimen/ui_header_height"
         android:background="@color/bg_color">
@@ -134,7 +134,7 @@
             android:layout_margin="1dp"
             android:text="客单价" />
     </RadioGroup>
-
+-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="200dp">

@@ -19,10 +19,10 @@ public class CoreIndexModel {
         for (int i = 0 ; i <4;i++){
             CoreIndexModel model = new CoreIndexModel();
             if (i == 0){
-                model.name = "销售额(万元)：";
+                model.name = "销售额/万元：";
                 model.data = "105555.00";
             }else if (i == 1){
-                model.name = "毛利额(万元)：";
+                model.name = "毛利额/万元：";
                 model.data = "555.00";
             }
             else if (i == 2){
@@ -30,7 +30,7 @@ public class CoreIndexModel {
                 model.data = "58%";
             }
             else if (i == 3){
-                model.name = "客单数(个)";
+                model.name = "客单数/个";
                 model.data = "105";
             }
             model.mounthData = "256";

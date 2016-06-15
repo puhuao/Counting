@@ -34,7 +34,8 @@
             android:drawablePadding="5dp"
             android:drawableTop="@drawable/img_good_normal"
             android:gravity="center"
-            android:text="商品" />
+            android:text="商品"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/time"
@@ -64,7 +65,8 @@
             android:drawablePadding="5dp"
             android:drawableTop="@drawable/img_index_normal"
             android:gravity="center"
-            android:text="指标" />
+            android:text="指标"
+            android:visibility="gone"/>
 
     </LinearLayout>
 

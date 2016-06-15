@@ -32,6 +32,7 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.wksc.counting.R;
 import com.wksc.counting.adapter.SalesCompareListAdapter;
+import com.wksc.counting.event.ChangeChartEvent;
 import com.wksc.counting.model.ComparisonModel;
 import com.wksc.counting.popwindows.AreaPopupwindow;
 import com.wksc.counting.popwindows.SortPopupwindow;
@@ -44,6 +45,8 @@ import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import de.greenrobot.event.EventBus;
+import de.greenrobot.event.Subscribe;
 
 /**
  * Created by Administrator on 2016/5/29.
@@ -53,10 +56,7 @@ public class SalesComparisonFragment extends CommonFragment {
     ListView list;
     @Bind(R.id.chart)
     LineChart mChart;
-    @Bind(R.id.ib_right)
-    ImageButton btnRight;
-    @Bind(R.id.bar_left)
-            ImageView barLeft;
+
     @Bind(R.id.area)
     TextView area;
     @Bind(R.id.all_channel)
@@ -64,12 +64,12 @@ public class SalesComparisonFragment extends CommonFragment {
 
     @Bind(R.id.chart1)
     HorizontalBarChart chart1;
-    @Bind(R.id.title)
-            TextView titleBar;
-    @Bind(R.id.ly_title)
-            RelativeLayout lyTitle;
-    @Bind(R.id.radio_group)
-    RadioGroup radioGroup;
+//    @Bind(R.id.title)
+//            TextView titleBar;
+//    @Bind(R.id.ly_title)
+//            RelativeLayout lyTitle;
+//    @Bind(R.id.radio_group)
+//    RadioGroup radioGroup;
 
     SalesCompareListAdapter adapter;
 
@@ -84,6 +84,7 @@ public class SalesComparisonFragment extends CommonFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, v);
+        EventBus.getDefault().register(this);
         initChart1();
         initView();
         return v;
@@ -171,64 +172,47 @@ public class SalesComparisonFragment extends CommonFragment {
 
     private Boolean down = true;
     private void initView() {
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId){
-                    case R.id.sales_number:
-                        titleBar.setText("销售额对比");
-                        break;
-                    case R.id.gross_profit:
-                        titleBar.setText("毛利额对比");
-                        break;
-                    case R.id.gross_margin:
-                        titleBar.setText("毛利率对比");
-                        break;
-                    case R.id.channel:
-                        titleBar.setText("客单数对比");
-                        break;
-                    case R.id.index:
-                        titleBar.setText("客单价对比");
-                        break;
+//        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(RadioGroup group, int checkedId) {
+//                switch (checkedId){
+//                    case R.id.sales_number:
+//                        titleBar.setText("销售额对比");
+//                        break;
+//                    case R.id.gross_profit:
+//                        titleBar.setText("毛利额对比");
+//                        break;
+//                    case R.id.gross_margin:
+//                        titleBar.setText("毛利率对比");
+//                        break;
+//                    case R.id.channel:
+//                        titleBar.setText("客单数对比");
+//                        break;
+//                    case R.id.index:
+//                        titleBar.setText("客单价对比");
+//                        break;
+//
+//
+//                }
+//            }
+//        });
+//        lyTitle.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (down){
+//                    setUpToDown();
+//                    adapter.setDownToUp();
+//                }else {
+//                    setDownToUp();
+//                    adapter.setList(ComparisonModel.getData());
+//                    adapter.notifyDataSetChanged();
+//                }
+//                down = !down;
+//            }
+//        });
+//
 
 
-                }
-            }
-        });
-        lyTitle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (down){
-                    setUpToDown();
-                    adapter.setDownToUp();
-                }else {
-                    setDownToUp();
-                    adapter.setList(ComparisonModel.getData());
-                    adapter.notifyDataSetChanged();
-                }
-                down = !down;
-            }
-        });
-
-        btnRight.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(!mChart.isShown()){
-                    chart1.setVisibility(View.GONE);
-                    mChart.setVisibility(View.VISIBLE);
-                } else{
-                    chart1.setVisibility(View.VISIBLE);
-                    mChart.setVisibility(View.GONE);
-                }
-
-            }
-        });
-        barLeft.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().finish();
-            }
-        });
         area.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -318,6 +302,18 @@ public class SalesComparisonFragment extends CommonFragment {
         rightAxis.setDrawZeroLine(false);
 
     }
+    @Subscribe
+    public void changeChart(ChangeChartEvent event){
+        if(!mChart.isShown()){
+            chart1.setVisibility(View.GONE);
+            mChart.setVisibility(View.VISIBLE);
+        } else{
+            chart1.setVisibility(View.VISIBLE);
+            mChart.setVisibility(View.GONE);
+        }
+    }
+
+
     private void setData(int count, float range) {
 
         ArrayList<String> xVals = new ArrayList<String>();

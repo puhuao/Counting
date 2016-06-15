@@ -3,6 +3,7 @@ package com.wksc.counting.activity;
 import android.os.Bundle;
 
 import com.wksc.counting.R;
+import com.wksc.counting.fragment.CompareFragment;
 import com.wksc.counting.fragment.SalesComparisonFragment;
 import com.wksc.framwork.activity.CommonActivity;
 
@@ -14,7 +15,7 @@ public class SalesComparisonActivity extends CommonActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_container);
-        pushFragmentToBackStack(SalesComparisonFragment.class, null);
+        pushFragmentToBackStack(CompareFragment.class, null);
     }
 
     @Override
