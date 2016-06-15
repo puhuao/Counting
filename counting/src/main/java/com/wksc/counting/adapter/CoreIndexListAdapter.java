@@ -86,7 +86,7 @@ public class CoreIndexListAdapter extends BaseListAdapter<CoreIndexModel>{
         holder.chart.setBackgroundColor(Color.LTGRAY);
 
         // add data
-        setData(20, 30,holder.chart);
+        setData(10, 30,holder.chart);
 
         holder.chart.animateX(2500);
 
