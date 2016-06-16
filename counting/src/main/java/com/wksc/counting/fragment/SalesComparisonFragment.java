@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -30,6 +31,7 @@ import com.wksc.counting.adapter.SalesCompareListAdapter;
 import com.wksc.counting.event.ChangeChartEvent;
 import com.wksc.counting.popwindows.AreaPopupwindow;
 import com.wksc.counting.popwindows.SupplyChianPopupwindow;
+import com.wksc.counting.popwindows.TimePopupwindow;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 
 import org.greenrobot.eventbus.EventBus;
@@ -51,18 +53,14 @@ public class SalesComparisonFragment extends CommonFragment {
     LineChart mChart;
 
     @Bind(R.id.area)
-    TextView area;
+    LinearLayout area;
     @Bind(R.id.all_channel)
-            TextView channel;
+    LinearLayout channel;
+    @Bind(R.id.time)
+    LinearLayout time;
 
     @Bind(R.id.chart1)
     HorizontalBarChart chart1;
-//    @Bind(R.id.title)
-//            TextView titleBar;
-//    @Bind(R.id.ly_title)
-//            RelativeLayout lyTitle;
-//    @Bind(R.id.radio_group)
-//    RadioGroup radioGroup;
 
     SalesCompareListAdapter adapter;
 
@@ -171,46 +169,6 @@ public class SalesComparisonFragment extends CommonFragment {
 
     private Boolean down = true;
     private void initView() {
-//        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(RadioGroup group, int checkedId) {
-//                switch (checkedId){
-//                    case R.id.sales_number:
-//                        titleBar.setText("销售额对比");
-//                        break;
-//                    case R.id.gross_profit:
-//                        titleBar.setText("毛利额对比");
-//                        break;
-//                    case R.id.gross_margin:
-//                        titleBar.setText("毛利率对比");
-//                        break;
-//                    case R.id.channel:
-//                        titleBar.setText("客单数对比");
-//                        break;
-//                    case R.id.index:
-//                        titleBar.setText("客单价对比");
-//                        break;
-//
-//
-//                }
-//            }
-//        });
-//        lyTitle.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (down){
-//                    setUpToDown();
-//                    adapter.setDownToUp();
-//                }else {
-//                    setDownToUp();
-//                    adapter.setList(ComparisonModel.getData());
-//                    adapter.notifyDataSetChanged();
-//                }
-//                down = !down;
-//            }
-//        });
-//
-
 
         area.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -226,13 +184,13 @@ public class SalesComparisonFragment extends CommonFragment {
                 supplyChianPopupwindow.showPopupwindow(v);
             }
         });
-//        sort.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                SortPopupwindow sortPopupwindow =new SortPopupwindow(getActivity());
-//                sortPopupwindow.showPopupwindow(v);
-//            }
-//        });
+        time.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TimePopupwindow timePopupwindow = new TimePopupwindow(getActivity());
+                timePopupwindow.showPopupwindow(v);
+            }
+        });
         adapter = new SalesCompareListAdapter(getActivity());
         list.setAdapter(adapter);
 //        mChart.setOnChartValueSelectedListener(this);

@@ -7,37 +7,125 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="10dp">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
         <TextView
             android:id="@+id/area"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:text="地区/部门"
             android:gravity="center"
-            android:textSize="10sp"/>
-        <TextView
-            android:id="@+id/moth_data"
+            android:textSize="12sp"
+            android:layout_gravity="center_vertical"/>
+        <LinearLayout
+            android:id="@+id/store"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="invisible"
+            android:layout_marginLeft="5dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="老店"
+                android:textSize="10sp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="新店"
+                android:textSize="10sp"/>
+        </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_gravity="center_vertical">
+        <TextView
+            android:id="@+id/moth_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="月累计(万元)"
             android:gravity="center"
             android:textSize="10sp"/>
-        <TextView
-            android:id="@+id/month_comparison_relative"
+            <TextView
+                android:id="@+id/moth_data_new"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="月累计(万元)"
+                android:gravity="center"
+                android:textSize="10sp"/>
+        </LinearLayout>
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_gravity="center_vertical">
+            <TextView
+                android:id="@+id/store_month_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="店均值"
+                android:gravity="center"
+                android:textSize="10sp"/>
+            <TextView
+                android:id="@+id/store_month_data_new"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="店均值"
+                android:gravity="center"
+                android:textSize="10sp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_gravity="center_vertical">
+        <TextView
+            android:id="@+id/month_comparison_relative"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="月同比"
             android:gravity="center"
             android:textSize="10sp"/>
-        <TextView
-            android:id="@+id/month_comparison_eala"
+            <TextView
+                android:id="@+id/month_comparison_relative_new"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="月同比"
+                android:gravity="center"
+                android:textSize="10sp"/>
+            </LinearLayout>
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_gravity="center_vertical">
+        <TextView
+            android:id="@+id/month_comparison_eala"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="月环比"
             android:gravity="center"
             android:textSize="10sp"/>
+            <TextView
+                android:id="@+id/month_comparison_eala_new"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="月环比"
+                android:gravity="center"
+                android:textSize="10sp"/>
+            </LinearLayout>
     </LinearLayout>
 </LinearLayout>

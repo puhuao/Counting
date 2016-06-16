@@ -10,9 +10,14 @@ import java.util.List;
  */
 public class ComparisonModel {
     public String area;
-    public String monthData;
-    public String monthCompareRelative;
-    public String monthCompareEalair;
+    public String oldStoreMonthData;
+    public String oldStoreMonthCompareRelative;
+    public String oldStoreMonthCompareEalair;
+    public String newStoreMonthData;
+    public String newStoreMonthCompareRelative;
+    public String newStoreMonthCompareEalair;
+    public String oldStoreData;
+    public String newStoreData;
 
     public static List<ComparisonModel> getData(){
         List<ComparisonModel> list = new ArrayList<>();
@@ -30,19 +35,31 @@ public class ComparisonModel {
                 model.area = "广东";
         }
             if(i != 0){
-                model.monthData = "133.3";
+                model.oldStoreMonthData = "133.3";
+                model.newStoreMonthData = "333.3";
                 if(i==5){
-                    model.monthData = "13";
+                    model.oldStoreMonthData = "130";
+                    model.newStoreMonthData = "300";
                 }else if(i == 1){
-                    model.monthData = "966";
+                    model.oldStoreMonthData = "966";
+                    model.newStoreMonthData = "900";
                 }
-                model.monthCompareRelative = "+12%";
-                model.monthCompareEalair = "-3%";
+                model.oldStoreMonthCompareRelative = "+12%";
+                model.newStoreMonthCompareRelative = "+13%";
+                model.oldStoreMonthCompareEalair = "-3%";
+                model.newStoreMonthCompareEalair = "-3%";
+                model.newStoreData = "30";
+                model.oldStoreData = "35";
             }else{
                 model.area = "区域/部门";
-                model.monthData = "月累计(万元)";
-                model.monthCompareRelative = "月同比";
-                model.monthCompareEalair = "月环比";
+                model.oldStoreMonthData = "月累计(万元)";
+                model.oldStoreMonthCompareRelative = "月同比";
+                model.oldStoreMonthCompareEalair = "月环比";
+                model.oldStoreData = "月均值";
+                model.newStoreMonthData = "900";
+                model.newStoreMonthCompareRelative = "+13%";
+                model.newStoreMonthCompareEalair = "-3%";
+                model.newStoreData = "30";
             }
             list.add(model);
         }

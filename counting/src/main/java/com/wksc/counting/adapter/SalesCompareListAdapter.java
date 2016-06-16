@@ -6,6 +6,7 @@ import android.text.Spanned;
 import android.text.style.TextAppearanceSpan;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.wksc.counting.R;
@@ -39,17 +40,36 @@ public class SalesCompareListAdapter extends BaseListAdapter<ComparisonModel>{
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         }
-
+if (position == 0){
+    holder.store.setVisibility(View.INVISIBLE);
+    holder.storeDataNew.setVisibility(View.GONE);
+    holder.monthEarlierNew.setVisibility(View.GONE);
+    holder.monthRelativeNew.setVisibility(View.GONE);
+    holder.dataNew.setVisibility(View.GONE);
+    holder.monthRelative.setTextColor(mContext.getResources().getColor(R.color.text_bold));
+    holder.monthRelativeNew.setTextColor(mContext.getResources().getColor(R.color.text_bold));
+    holder.monthEarlier.setTextColor(mContext.getResources().getColor(R.color.text_bold));
+    holder.monthEarlierNew.setTextColor(mContext.getResources().getColor(R.color.text_bold));
+}else{
+    holder.store.setVisibility(View.VISIBLE);
+    holder.storeDataNew.setVisibility(View.VISIBLE);
+    holder.monthEarlierNew.setVisibility(View.VISIBLE);
+    holder.monthRelativeNew.setVisibility(View.VISIBLE);
+    holder.dataNew.setVisibility(View.VISIBLE);
+    holder.monthRelative.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
+    holder.monthRelativeNew.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
+    holder.monthEarlier.setTextColor(mContext.getResources().getColor(R.color.green));
+    holder.monthEarlierNew.setTextColor(mContext.getResources().getColor(R.color.green));
+}
         holder.name.setText(mList.get(position).area);
-        holder.data.setText(mList.get(position).monthData);
-        SpannableString styledText = new SpannableString(mList.get(position).monthCompareRelative);
-        if (position!=0)
-        styledText.setSpan(new TextAppearanceSpan(mContext, R.style.style1), 0, styledText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        holder.monthRelative.setText(styledText,TextView.BufferType.SPANNABLE);
-        styledText = new SpannableString(mList.get(position).monthCompareEalair);
-        if (position!=0)
-            styledText.setSpan(new TextAppearanceSpan(mContext, R.style.style3), 0, styledText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        holder.monthEarlier.setText(styledText,TextView.BufferType.SPANNABLE);
+        holder.data.setText(mList.get(position).oldStoreMonthData);
+        holder.dataNew.setText(mList.get(position).newStoreData);
+        holder.monthRelative.setText(mList.get(position).oldStoreMonthCompareRelative);
+        holder.monthRelativeNew.setText(mList.get(position).newStoreMonthCompareRelative);
+        holder.storeData.setText(mList.get(position).oldStoreData);
+        holder.storeDataNew.setText(mList.get(position).newStoreData);
+        holder.monthEarlier.setText(mList.get(position).oldStoreMonthCompareEalair);
+        holder.monthEarlierNew.setText(mList.get(position).newStoreMonthCompareEalair);
         holder.name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,6 +88,19 @@ public class SalesCompareListAdapter extends BaseListAdapter<ComparisonModel>{
         TextView monthRelative;
         @Bind(R.id.month_comparison_eala)
         TextView monthEarlier;
+        @Bind(R.id.moth_data_new)
+        TextView dataNew;
+        @Bind(R.id.month_comparison_relative_new)
+        TextView monthRelativeNew;
+        @Bind(R.id.month_comparison_eala_new)
+        TextView monthEarlierNew;
+        @Bind(R.id.store_month_data)
+        TextView storeData;
+        @Bind(R.id.store_month_data_new)
+        TextView storeDataNew;
+        @Bind(R.id.store)
+        LinearLayout store;
+
         public ViewHolder(View convertView) {
             ButterKnife.bind(this,convertView);
         }
