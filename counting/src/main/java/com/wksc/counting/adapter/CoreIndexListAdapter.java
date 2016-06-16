@@ -84,7 +84,7 @@ public class CoreIndexListAdapter extends BaseListAdapter<CoreIndexModel>{
         // add data
         setData(10, 30,holder.chart);
 
-        holder.chart.animateX(2500);
+//        holder.chart.animateX(2500);
 
         Typeface tf = Typeface.createFromAsset(mContext.getAssets(), "OpenSans-Regular.ttf");
 

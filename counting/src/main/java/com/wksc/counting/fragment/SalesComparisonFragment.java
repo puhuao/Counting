@@ -6,12 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.HorizontalBarChart;
@@ -33,20 +28,18 @@ import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.wksc.counting.R;
 import com.wksc.counting.adapter.SalesCompareListAdapter;
 import com.wksc.counting.event.ChangeChartEvent;
-import com.wksc.counting.model.ComparisonModel;
 import com.wksc.counting.popwindows.AreaPopupwindow;
-import com.wksc.counting.popwindows.SortPopupwindow;
 import com.wksc.counting.popwindows.SupplyChianPopupwindow;
-import com.wksc.counting.widegit.ColorArcProgressBar;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import de.greenrobot.event.EventBus;
-import de.greenrobot.event.Subscribe;
 
 /**
  * Created by Administrator on 2016/5/29.
@@ -74,6 +67,12 @@ public class SalesComparisonFragment extends CommonFragment {
     SalesCompareListAdapter adapter;
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_sales_comparison, null);
         hideTitleBar();
@@ -84,7 +83,7 @@ public class SalesComparisonFragment extends CommonFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, v);
-        EventBus.getDefault().register(this);
+
         initChart1();
         initView();
         return v;
@@ -262,7 +261,7 @@ public class SalesComparisonFragment extends CommonFragment {
         // add data
         setData(20, 30);
 
-        mChart.animateX(2500);
+//        mChart.animateX(2500);
 
         Typeface tf = Typeface.createFromAsset(getActivity().getAssets(), "OpenSans-Regular.ttf");
 
@@ -326,8 +325,6 @@ public class SalesComparisonFragment extends CommonFragment {
         for (int i = 0; i < count; i++) {
             float mult = range / 2f;
             float val = (float) (Math.random() * mult) + 50;// + (float)
-            // ((mult *
-            // 0.1) / 10);
             yVals1.add(new Entry(val, i));
         }
 
@@ -402,5 +399,11 @@ public class SalesComparisonFragment extends CommonFragment {
         public String getFormattedValue(float value, YAxis yAxis) {
             return mFormat.format(Math.abs(value)) + "";
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

@@ -41,6 +41,7 @@ public class TitleHeaderBar extends RelativeLayout {
      mCenterTitleTextView = (TextView) findViewById(R.id.tv_title_bar_title);
      mRightImageView = (ImageView) findViewById(R.id.btn_right);
      mRightTextView = (TextView) findViewById(R.id.tv_right);
+     mCenterViewContainer = (RelativeLayout) findViewById(R.id.ly_title_bar_center);
      }
 
      protected int getHeaderViewLayoutId() {
