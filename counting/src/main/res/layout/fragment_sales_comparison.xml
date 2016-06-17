@@ -3,71 +3,107 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+<com.wksc.counting.widegit.OverScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="10dp">
-<LinearLayout
-    android:id="@+id/area"
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:layout_weight="1"
-    android:orientation="horizontal"
-    android:layout_gravity="center_vertical"
-    android:gravity="center">
-        <TextView
 
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/area"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:drawableRight="@drawable/down"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
             android:gravity="center"
-            android:text="全国"
-            android:layout_gravity="center"/>
-</LinearLayout>
+            android:orientation="horizontal">
+
+            <com.wksc.counting.widegit.MarqueeText
+                android:id="@+id/tv_area"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawableRight="@drawable/down"
+                android:ellipsize="marquee"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="center"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:text="地区" />
+        </LinearLayout>
+
         <LinearLayout
             android:id="@+id/time"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:orientation="horizontal"
-            android:layout_gravity="center_vertical">
-        <TextView
+            android:orientation="horizontal">
 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawablePadding="5dp"
-            android:drawableLeft="@drawable/img_time_normal"
-            android:gravity="center"
-            android:text="时间"
-            android:layout_gravity="center"/>
-            </LinearLayout>
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawableLeft="@drawable/img_time_normal"
+                android:drawablePadding="5dp"
+                android:gravity="center"
+                android:text="时间" />
+        </LinearLayout>
+
         <LinearLayout
             android:id="@+id/all_channel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:orientation="horizontal"
-            android:layout_gravity="center_vertical">
-        <TextView
+            android:orientation="horizontal">
 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableRight="@drawable/down"
-            android:gravity="center"
-            android:text="全部渠道"
-            android:layout_gravity="center"/>
-            </LinearLayout>
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawableRight="@drawable/down"
+                android:gravity="center"
+                android:text="全部渠道" />
+        </LinearLayout>
 
     </LinearLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="200dp">
-        <com.github.mikephil.charting.charts.HorizontalBarChart
+
+        <LinearLayout
             android:id="@+id/chart1"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:background="@android:color/white" />
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.github.mikephil.charting.charts.HorizontalBarChart
+                android:id="@+id/bar_chart_old"
+                android:layout_width="0dp"
+                android:layout_height="200dp"
+                android:layout_weight="1"
+                android:background="@android:color/white" />
+
+            <com.github.mikephil.charting.charts.HorizontalBarChart
+                android:id="@+id/bar_chart_new"
+                android:layout_width="0dp"
+                android:layout_height="200dp"
+                android:layout_weight="1"
+                android:background="@android:color/white" />
+        </LinearLayout>
 
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/chart"
@@ -77,9 +113,10 @@
     </RelativeLayout>
 
 
-
-    <ListView
+    <com.wksc.counting.widegit.NestedListView
         android:id="@+id/list_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+    </LinearLayout>
+</com.wksc.counting.widegit.OverScrollView>
 </LinearLayout>

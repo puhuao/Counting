@@ -1,5 +1,7 @@
 package com.wksc.counting.fragment;
 
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -32,11 +34,14 @@ public class ThematicAnalysisFragment extends CommonFragment {
 
     private MyPagerAdapter adapter;
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_thematic_analysis, null);
         hideLeftButton();
         setHeaderTitle("专题分析");
+        getTitleHeaderBar().getTitleTextView().setCompoundDrawables(null,null,
+                getContext().getDrawable(R.drawable.down),null);
         return v;
     }
 
