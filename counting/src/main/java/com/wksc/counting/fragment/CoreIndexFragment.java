@@ -1,6 +1,7 @@
 package com.wksc.counting.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,8 @@ import android.widget.TextView;
 import com.wksc.counting.R;
 import com.wksc.counting.activity.SalesComparisonActivity;
 import com.wksc.counting.adapter.CoreIndexListAdapter;
+import com.wksc.counting.callBack.BaseInfoCallBack;
+import com.wksc.counting.model.BaseInfo;
 import com.wksc.counting.model.CoreIndexModel;
 import com.wksc.counting.popwindows.AreaPopupwindow;
 import com.wksc.counting.popwindows.GoodsPopupwindow;
@@ -19,9 +22,11 @@ import com.wksc.counting.popwindows.SupplyChianPopupwindow;
 import com.wksc.counting.popwindows.TimePopupwindow;
 import com.wksc.counting.widegit.MarqueeText;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
+import com.zhy.http.okhttp.OkHttpUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import okhttp3.Call;
 
 /**
  * Created by puhua on 2016/5/27.
@@ -65,7 +70,27 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
         time.setOnClickListener(this);
         channel.setOnClickListener(this);
         index.setOnClickListener(this);
+        getBaseData();
         return v;
+    }
+
+    private void getBaseData() {
+        String url = "http://101.200.131.198:8090/promot/gw?cmd=appGetBaseInfo";
+        OkHttpUtils.post()
+                .url(url)
+                .build()
+                .execute(new BaseInfoCallBack(){
+
+                    @Override
+                    public void onError(Call call, Exception e) {
+                        Log.i("e",e.toString());
+                    }
+
+                    @Override
+                    public void onResponse(BaseInfo response) {
+                        Log.i("e",response.getSessionId());
+                    }
+                });
     }
 
     @Override

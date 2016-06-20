@@ -1,9 +1,7 @@
 package com.wksc.counting.adapter;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -85,18 +83,21 @@ public class CheckBoxListAdapter extends BaseListAdapter<AreaCheckModel> {
         return i;
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void setSelect(int status,TextView view){
         Drawable drawable = null;
         switch (status){
             case NORMAL:
-                drawable = mContext.getDrawable(R.drawable.ic_check_normal);
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                    drawable = mContext.getDrawable(R.drawable.ic_check_normal);
+//                }else{
+                    drawable = mContext.getResources().getDrawable(R.drawable.ic_check_normal);
+//                }
                 break;
             case ALL:
-                drawable = mContext.getDrawable(R.drawable.ic_check);
+                drawable = mContext.getResources().getDrawable(R.drawable.ic_check);
                 break;
             case HALF:
-                drawable = mContext.getDrawable(R.drawable.icon_blue_selected);
+                drawable = mContext.getResources().getDrawable(R.drawable.icon_blue_selected);
                 break;
         }
         drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());

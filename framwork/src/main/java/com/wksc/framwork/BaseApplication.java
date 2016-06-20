@@ -2,15 +2,18 @@ package com.wksc.framwork;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.preference.PreferenceManager;
 import android.util.Log;
+
 import com.wksc.framwork.platform.config.IConfig;
 import com.wksc.framwork.platform.config.PreferenceConfig;
 import com.wksc.framwork.platform.config.PropertiesConfig;
 import com.wksc.framwork.util.AppUtil;
+import com.zhy.http.okhttp.OkHttpUtils;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by puhua on 2016/5/26.
@@ -64,6 +67,9 @@ public class BaseApplication extends Application {
 //        RequestManager.init(this);
 
         //init DBManger
+        OkHttpUtils.getInstance().debug("OkHttpUtils").setConnectTimeout(100000, TimeUnit.MILLISECONDS);
+        //使用https，但是默认信任全部证书
+        OkHttpUtils.getInstance().setCertificates();
         this.initDB();
     }
 
