@@ -9,14 +9,19 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="10dp">
-
-        <com.wksc.counting.widegit.MarqueeText
-            android:id="@+id/area"
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:padding="10dp">
+        <com.wksc.counting.widegit.MarqueeText
+            android:id="@+id/area"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:drawablePadding="5dp"
-            android:drawableTop="@drawable/img_location_normal"
+            android:drawableLeft="@drawable/location"
             android:gravity="center"
             android:text="区域"
             android:focusable="true"
@@ -24,8 +29,9 @@
             android:scrollHorizontally="true"
             android:marqueeRepeatLimit="marquee_forever"
             android:ellipsize="marquee"
-            android:singleLine="true"/>
-
+            android:singleLine="true"
+            android:drawableRight="@drawable/rectangle"/>
+</LinearLayout>
         <TextView
             android:id="@+id/goods"
             android:layout_width="0dp"
@@ -37,25 +43,41 @@
             android:text="商品"
             android:visibility="gone"/>
 
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:padding="10dp">
         <TextView
             android:id="@+id/time"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:drawablePadding="5dp"
-            android:drawableTop="@drawable/img_time_normal"
+            android:drawableLeft="@drawable/time"
+            android:drawableRight="@drawable/rectangle"
             android:gravity="center"
             android:text="时间" />
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/channel"
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:padding="10dp">
+        <TextView
+            android:id="@+id/channel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:drawablePadding="5dp"
-            android:drawableTop="@drawable/img_chain_normal"
+            android:drawableLeft="@drawable/channel"
+            android:drawableRight="@drawable/rectangle"
             android:gravity="center"
             android:text="渠道" />
+            </LinearLayout>
 
         <TextView
             android:id="@+id/index"

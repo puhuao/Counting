@@ -853,4 +853,25 @@ public class StringUtils {
         }
         return week;
     }
+
+    public static boolean isNotEmpty(String s) {
+        return s != null && !"".equals(s.trim());
+    }
+
+
+    /**
+     * ͨ��{n},��ʽ��.
+     *
+     * @param src
+     * @param objects
+     * @return
+     */
+    public static String format(String src, Object... objects) {
+        int k = 0;
+        for (Object obj : objects) {
+            src = src.replace("{" + k + "}", obj.toString());
+            k++;
+        }
+        return src;
+    }
 }

@@ -109,6 +109,9 @@ public class PickListView extends ListView implements AdapterView.OnItemClickLis
             currentAdapter.moveToNextStatus(position);
 //            baseInfo.getRetObj().getRegions().get(position).
 //            scentAdapter.setList();
+            if (currentDataSet.get(position).isCheck == CheckBoxListAdapter.ALL){
+                //下级列表重新加载当前position对应的列表
+            }
             int checkecNumber = currentAdapter.getCheckedNumber();
                 if (checkecNumber == currentDataSet.size()) {
                     if (currentDataSet.size()==1){
