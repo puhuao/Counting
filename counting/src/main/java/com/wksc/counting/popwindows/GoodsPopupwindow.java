@@ -53,8 +53,8 @@ public class GoodsPopupwindow extends PopupWindow {
             }
         });
 //        areaListAdapter = new GoodsListAdapter(context);
-//        list.setAdapter(areaListAdapter);
-//        list.setVisibility(View.GONE);
+//        reginListView.setAdapter(areaListAdapter);
+//        reginListView.setVisibility(View.GONE);
         sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

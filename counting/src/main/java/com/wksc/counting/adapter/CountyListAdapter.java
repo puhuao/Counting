@@ -15,14 +15,14 @@ import butterknife.ButterKnife;
 /**
  * Created by Administrator on 2016/5/29.
  */
-public class CheckBoxListAdapter extends BaseListAdapter<County> {
+public class CountyListAdapter extends BaseListAdapter<County> {
     public static final int NORMAL = 0;
     public static final int HALF = 1;
     public static final int ALL = 2;
     public Boolean isAll=false;
     public StringBuilder sb = new StringBuilder();
 
-    public CheckBoxListAdapter(Activity context) {
+    public CountyListAdapter(Activity context) {
         super(context);
     }
 
@@ -104,7 +104,7 @@ public class CheckBoxListAdapter extends BaseListAdapter<County> {
         view.setCompoundDrawables(drawable,null,null,null);
     }
 
-    public int moveToNextStatus(int position){
+    public void moveToNextStatus(int position){
         switch (mList.get(position).isCheck){
             case ALL:
                 mList.get(position).isCheck = NORMAL;
@@ -116,7 +116,6 @@ public class CheckBoxListAdapter extends BaseListAdapter<County> {
                 mList.get(position).isCheck = ALL;
                 break;
         }
-        return  mList.get(position).isCheck;
     }
 
 }

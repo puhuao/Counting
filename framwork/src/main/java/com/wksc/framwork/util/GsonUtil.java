@@ -4,10 +4,12 @@ import android.annotation.SuppressLint;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
+import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
@@ -16,6 +18,7 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -103,7 +106,16 @@ public class GsonUtil {
         }
         return objList;
     }
-    
+
+    public static <T> List<T> fromJsonList(String json, Class<T> cls) {
+        List<T> mList = new ArrayList();
+        JsonArray array = new JsonParser().parse(json).getAsJsonArray();
+        for(final JsonElement elem : array){
+            mList.add(gson.fromJson(elem, cls));
+        }
+        return mList;
+    }
+
     /**
      * 将json格式转换成list对象，并准确指定类型
      * 

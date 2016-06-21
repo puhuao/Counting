@@ -2,7 +2,7 @@ package com.wksc.counting.callBack;
 
 import android.util.Log;
 
-import com.wksc.counting.model.BaseInfo;
+import com.wksc.counting.model.baseinfo.BaseInfo;
 import com.wksc.framwork.util.GsonUtil;
 import com.zhy.http.okhttp.callback.Callback;
 

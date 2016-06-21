@@ -6,16 +6,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.PopupWindow;
 
+import com.wksc.counting.Basedata.BaseDataUtil;
 import com.wksc.counting.R;
 import com.wksc.counting.adapter.CheckBoxListAdapter;
 import com.wksc.counting.model.AreaCheckModel;
 import com.wksc.counting.model.AreaModel;
 import com.wksc.counting.widegit.MarqueeText;
+import com.wksc.counting.widegit.unionPickListView.PickListView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,9 +29,13 @@ public class AreaPopupwindow extends PopupWindow {
     List<AreaModel> temp = new ArrayList<>();
     List<AreaModel> cTemp = new ArrayList<>();
     Activity mContext;
-    ListView list,province,lvCity ;
+    PickListView regionListView, cityListView,countyListView ,all;
     Button sure;
-    CheckBoxListAdapter areaListAdapter,provinceListAdapter,cityListAdapter;
+//    CheckBoxListAdapter areaListAdapter,provinceListAdapter,cityListAdapter;
+CheckBoxListAdapter reginListAdapter;
+    CheckBoxListAdapter cityListAdapter;
+    CheckBoxListAdapter countyListAdapter;
+
     List<AreaCheckModel> areas = new ArrayList<>();
     private MarqueeText area;
 
@@ -39,9 +43,10 @@ public class AreaPopupwindow extends PopupWindow {
         super();
         mContext = context;
         View view = LayoutInflater.from(context).inflate(R.layout.pop_layout_area,null);
-        list = (ListView) view.findViewById(R.id.diriction_area);
-        province = (ListView) view.findViewById(R.id.diriction_province);
-        lvCity = (ListView) view.findViewById(R.id.diriction_city);
+        regionListView = (PickListView) view.findViewById(R.id.diriction_area);
+        cityListView = (PickListView) view.findViewById(R.id.diriction_province);
+        countyListView = (PickListView) view.findViewById(R.id.diriction_city);
+//        all = (ListView) view.findViewById(R.id.all);
         sure = (Button) view.findViewById(R.id.sure);
         this.setContentView(view);
         this.setOutsideTouchable(true);
@@ -56,23 +61,15 @@ public class AreaPopupwindow extends PopupWindow {
                 dismiss();
             }
         });
-
-
-        areas.add(new AreaCheckModel("全国"));
-        areas.add(new AreaCheckModel("东北大区"));
-        areas.add(new AreaCheckModel("东南大区"));
-        areas.add(new AreaCheckModel("西北大区"));
-        areas.add(new AreaCheckModel("西南大区"));
-
-        areaListAdapter = new CheckBoxListAdapter(context);
-        areaListAdapter.isAll = true;
-        areaListAdapter.setList(areas);
-        list.setAdapter(areaListAdapter);
+        reginListAdapter = new CheckBoxListAdapter(context);
+        reginListAdapter.isAll = true;
+        reginListAdapter.setList(BaseDataUtil.regions());
+        regionListView.setAdapter(reginListAdapter);
         sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 StringBuilder sb= new StringBuilder();
-                    sb.append(areaListAdapter.sb).append(provinceListAdapter.sb).append(cityListAdapter.sb);
+                    sb.append(reginListAdapter.sb).append(cityListAdapter.sb).append(countyListAdapter.sb);
                 dissmisPopupwindow();
                 if (sb.length()>0){
                     area.setText(sb.toString());
@@ -82,105 +79,15 @@ public class AreaPopupwindow extends PopupWindow {
 
             }
         });
-
-        provinces.add(new AreaCheckModel("四川省"));
-        provinces.add(new AreaCheckModel("重庆市"));
-        provinces.add(new AreaCheckModel("云南省"));
-        provinces.add(new AreaCheckModel("贵州省"));
-
-
-        city.add(new AreaCheckModel("成都"));
-        city.add(new AreaCheckModel("绵阳"));
-        city.add(new AreaCheckModel("德阳"));
-        city.add(new AreaCheckModel("资阳"));
-        city.add(new AreaCheckModel("遂宁"));
-        city.add(new AreaCheckModel("泸州"));
-        provinceListAdapter = new CheckBoxListAdapter(context);
-        provinceListAdapter.setList(provinces);
-        province.setAdapter(provinceListAdapter);
         cityListAdapter = new CheckBoxListAdapter(context);
-        cityListAdapter.setList(city);
-        lvCity.setAdapter(cityListAdapter);
-        province.setVisibility(View.GONE);
-        lvCity.setVisibility(View.GONE);
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0){
-                    if (areas.get(position).isCheck == CheckBoxListAdapter.NORMAL)
-                        areaListAdapter.setAllCheck();
-                    else if(areas.get(position).isCheck == CheckBoxListAdapter.ALL)
-                        areaListAdapter.setAllNormal();
-//                    else
-//                        areaListAdapter.moveToNextStatus(position);
-                    areaListAdapter.getCheckedNumber();
-                    areaListAdapter.notifyDataSetChanged();
-                    province.setVisibility(View.GONE);
-                    lvCity.setVisibility(View.GONE);
-                }else{
-//                    areas.get(position).isCheck = !areas.get(position).isCheck;
-                    areaListAdapter.moveToNextStatus(position);
-                   int checkecNumber =  areaListAdapter.getCheckedNumber();
-                    if (checkecNumber >1&&checkecNumber<areas.size()-1){
-                        areas.get(0).isCheck = CheckBoxListAdapter.HALF;
-                        province.setVisibility(View.GONE);
-//                        provinceListAdapter.setAllCheck(false);
-                        provinceListAdapter.notifyDataSetChanged();
-                        lvCity.setVisibility(View.GONE);
-//                        cityListAdapter.setAllCheck(false);
-                        cityListAdapter.notifyDataSetChanged();
-                        provinceListAdapter.getCheckedNumber();
-//                        lvCity.setVisibility(View.GONE);
-                    }else if(checkecNumber==1){
-                        provinceListAdapter.setAllCheck();
-                        provinceListAdapter.notifyDataSetChanged();
-                        province.setVisibility(View.VISIBLE);
-//                        lvCity.setVisibility(View.GONE);
-                        provinceListAdapter.getCheckedNumber();
-                    }
-                    areaListAdapter.notifyDataSetChanged();
-                    if(checkecNumber == areas.size()-1){
-                        areas.get(0).isCheck = CheckBoxListAdapter.ALL;
-                        areaListAdapter.notifyDataSetChanged();
-                    }
-                    if (checkecNumber ==0 ){
-                        province.setVisibility(View.GONE);
-                        lvCity.setVisibility(View.GONE);
-                    }
-                }
-            }
-        });
-
-        province.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                provinces.get(position).isCheck = !provinces.get(position).isCheck;
-                provinceListAdapter.moveToNextStatus(position);
-                int checkedNumber = provinceListAdapter.getCheckedNumber();
-
-                if (checkedNumber>1){
-//                    cityListAdapter.setAllCheck();
-                    cityListAdapter.notifyDataSetChanged();
-                    cityListAdapter.getCheckedNumber();
-                    lvCity.setVisibility(View.GONE);
-                }else{
-                    cityListAdapter.setAllCheck();
-                    cityListAdapter.notifyDataSetChanged();
-                    lvCity.setVisibility(View.VISIBLE);
-                    cityListAdapter.getCheckedNumber();
-                }
-                provinceListAdapter.notifyDataSetChanged();
-            }
-        });
-        lvCity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                city.get(position).isCheck = !city.get(position).isCheck;
-                cityListAdapter.moveToNextStatus(position);
-                cityListAdapter.notifyDataSetChanged();
-                cityListAdapter.getCheckedNumber();
-            }
-        });
+        cityListAdapter.setList(BaseDataUtil.citys(0));
+        cityListView.setAdapter(cityListAdapter);
+        countyListAdapter = new CheckBoxListAdapter(context);
+        countyListAdapter.setList(BaseDataUtil.countys(0,0));
+        countyListView.setAdapter(countyListAdapter);
+        regionListView.initView(null,cityListView);
+        cityListView.initView(regionListView,countyListView);
+        countyListView.initView(cityListView,null);
     }
 
     public void showPopupwindow(View view){

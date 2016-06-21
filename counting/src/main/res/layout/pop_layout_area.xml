@@ -10,20 +10,28 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="horizontal">
-
-        <ListView
+<LinearLayout
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:orientation="vertical">
+    <ListView
+        android:id="@+id/all"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+        <com.wksc.counting.widegit.unionPickListView.PickListView
             android:id="@+id/diriction_area"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        <ListView
+            />
+</LinearLayout>
+        <com.wksc.counting.widegit.unionPickListView.PickListView
             android:id="@+id/diriction_province"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
 
-        <ListView
+        <com.wksc.counting.widegit.unionPickListView.PickListView
             android:id="@+id/diriction_city"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

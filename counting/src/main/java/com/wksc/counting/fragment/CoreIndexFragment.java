@@ -9,20 +9,34 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.wksc.counting.Basedata.BaseDataUtil;
 import com.wksc.counting.R;
 import com.wksc.counting.activity.SalesComparisonActivity;
 import com.wksc.counting.adapter.CoreIndexListAdapter;
-import com.wksc.counting.callBack.BaseInfoCallBack;
-import com.wksc.counting.model.BaseInfo;
 import com.wksc.counting.model.CoreIndexModel;
+import com.wksc.counting.model.baseinfo.Channel;
+import com.wksc.counting.model.baseinfo.GoodsClassFrist;
+import com.wksc.counting.model.baseinfo.GoodsClassScend;
+import com.wksc.counting.model.baseinfo.Region;
 import com.wksc.counting.popwindows.AreaPopupwindow;
 import com.wksc.counting.popwindows.GoodsPopupwindow;
 import com.wksc.counting.popwindows.IndexPopupwindow;
 import com.wksc.counting.popwindows.SupplyChianPopupwindow;
 import com.wksc.counting.popwindows.TimePopupwindow;
 import com.wksc.counting.widegit.MarqueeText;
+import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
+import com.wksc.framwork.platform.config.IConfig;
+import com.wksc.framwork.util.GsonUtil;
 import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -46,6 +60,7 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
     TextView channel;
     @Bind(R.id.index)
     TextView index;
+    private IConfig config = null;
 
     CoreIndexListAdapter coreIndexListAdapter;
     @Override
@@ -79,16 +94,39 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
         OkHttpUtils.post()
                 .url(url)
                 .build()
-                .execute(new BaseInfoCallBack(){
-
+                .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e) {
-                        Log.i("e",e.toString());
                     }
-
                     @Override
-                    public void onResponse(BaseInfo response) {
-                        Log.i("e",response.getSessionId());
+                    public void onResponse(String response) {
+                        config = BaseApplication.getInstance().getPreferenceConfig();
+                        try {
+                            JSONObject object = new JSONObject(response);
+                            JSONObject retObject = object.getJSONObject("retObj");
+                            String regin = retObject.getString("regions");
+                            String channel = retObject.getString("channel");
+                            JSONArray array = retObject.getJSONArray("GoodsClass");
+                            BaseDataUtil.region.addAll(
+                                    GsonUtil.fromJsonList(regin,Region.class));
+                            List<Channel> channels = (List<Channel>) GsonUtil.jsonToList(channel);
+                            List<GoodsClassFrist> goodsClassFrists = new ArrayList<>();
+                            for (int i =0 ;i <array.length();i++) {
+                                JSONObject obj = array.getJSONObject(i);
+                                GoodsClassFrist first = new GoodsClassFrist();
+                                first.name = obj.getString("name");
+                                first.code = obj.getString("code");
+                                String classS = obj.getString("class");
+                                List<GoodsClassScend> goodsClassScends = (List<GoodsClassScend>)
+                                        GsonUtil.jsonToList(classS);
+                                first.classX = goodsClassScends;
+                                goodsClassFrists.add(first);
+                            }
+                            Log.i("TAG",goodsClassFrists.toString());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
                     }
                 });
     }

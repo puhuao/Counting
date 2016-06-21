@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.wksc.counting.R;
-import com.wksc.counting.model.baseinfo.County;
+import com.wksc.counting.model.baseinfo.City;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -15,28 +15,28 @@ import butterknife.ButterKnife;
 /**
  * Created by Administrator on 2016/5/29.
  */
-public class CheckBoxListAdapter extends BaseListAdapter<County> {
+public class CityListAdapter extends BaseListAdapter<City> {
     public static final int NORMAL = 0;
     public static final int HALF = 1;
     public static final int ALL = 2;
     public Boolean isAll=false;
     public StringBuilder sb = new StringBuilder();
 
-    public CheckBoxListAdapter(Activity context) {
+    public CityListAdapter(Activity context) {
         super(context);
     }
 
     public void setAllCheck() {
         if (sb.length()>0)
             sb.delete(0,sb.length()-1);
-        for (County m : mList) {
+        for (City m : mList) {
             m.isCheck = ALL;
         }
     }
     public void setAllNormal() {
         if (sb.length()>0)
             sb.delete(0,sb.length()-1);
-        for (County m : mList) {
+        for (City m : mList) {
             m.isCheck = NORMAL;
         }
     }
@@ -71,7 +71,7 @@ public class CheckBoxListAdapter extends BaseListAdapter<County> {
             sb.delete(0,sb.length());
         }
         int i = 0;
-        for (County area:
+        for (City area:
              mList) {
             if (area.isCheck==ALL){
                 i++;
@@ -104,7 +104,7 @@ public class CheckBoxListAdapter extends BaseListAdapter<County> {
         view.setCompoundDrawables(drawable,null,null,null);
     }
 
-    public int moveToNextStatus(int position){
+    public void moveToNextStatus(int position){
         switch (mList.get(position).isCheck){
             case ALL:
                 mList.get(position).isCheck = NORMAL;
@@ -116,7 +116,6 @@ public class CheckBoxListAdapter extends BaseListAdapter<County> {
                 mList.get(position).isCheck = ALL;
                 break;
         }
-        return  mList.get(position).isCheck;
     }
 
 }

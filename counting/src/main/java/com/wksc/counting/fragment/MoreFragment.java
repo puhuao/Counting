@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import com.wksc.counting.R;
 import com.wksc.counting.activity.LocusPassActivity;
-import com.wksc.counting.activity.SalesComparisonActivity;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 
 import butterknife.Bind;
@@ -35,6 +34,8 @@ public class MoreFragment extends CommonFragment implements View.OnClickListener
         loc.setOnClickListener(this);
         return v;
     }
+
+
 
     @Override
     public void onClick(View v) {
