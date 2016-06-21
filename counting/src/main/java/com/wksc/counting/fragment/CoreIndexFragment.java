@@ -13,8 +13,12 @@ import com.wksc.counting.Basedata.BaseDataUtil;
 import com.wksc.counting.R;
 import com.wksc.counting.activity.SalesComparisonActivity;
 import com.wksc.counting.adapter.CoreIndexListAdapter;
+import com.wksc.counting.callBack.CoreIndexCallBack;
+import com.wksc.counting.model.CoreIndexListModel;
 import com.wksc.counting.model.CoreIndexModel;
 import com.wksc.counting.model.baseinfo.Channel;
+import com.wksc.counting.model.baseinfo.CoreInfo;
+import com.wksc.counting.model.baseinfo.CoreItem;
 import com.wksc.counting.model.baseinfo.GoodsClassFrist;
 import com.wksc.counting.model.baseinfo.GoodsClassScend;
 import com.wksc.counting.model.baseinfo.Region;
@@ -28,6 +32,7 @@ import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 import com.wksc.framwork.platform.config.IConfig;
 import com.wksc.framwork.util.GsonUtil;
+import com.wksc.framwork.util.ToastUtil;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -63,6 +68,7 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
     private IConfig config = null;
 
     CoreIndexListAdapter coreIndexListAdapter;
+    List<CoreItem> coreItems;
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_core_index, null);
@@ -77,7 +83,7 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
         View v = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, v);
         coreIndexListAdapter = new CoreIndexListAdapter(getActivity());
-        coreIndexListAdapter.setList(CoreIndexModel.getData());
+//        coreIndexListAdapter.setList(CoreIndexModel.getData());
         list.setAdapter(coreIndexListAdapter);
         list.setOnItemClickListener(this);
         area.setOnClickListener(this);
@@ -86,17 +92,19 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
         channel.setOnClickListener(this);
         index.setOnClickListener(this);
         getBaseData();
+
         return v;
     }
 
     private void getBaseData() {
-        String url = "http://101.200.131.198:8090/promot/gw?cmd=appGetBaseInfo";
+        String url = "http://101.200.131.198:8087/gw?cmd=appGetBaseInfo";
         OkHttpUtils.post()
                 .url(url)
                 .build()
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e) {
+                        Log.e("error",e.toString());
                     }
                     @Override
                     public void onResponse(String response) {
@@ -106,11 +114,13 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
                             JSONObject retObject = object.getJSONObject("retObj");
                             String regin = retObject.getString("regions");
                             String channel = retObject.getString("channel");
+                            String items = retObject.getString("coreitem");
                             JSONArray array = retObject.getJSONArray("GoodsClass");
                             BaseDataUtil.region.addAll(
                                     GsonUtil.fromJsonList(regin,Region.class));
                             List<Channel> channels = (List<Channel>) GsonUtil.jsonToList(channel);
                             List<GoodsClassFrist> goodsClassFrists = new ArrayList<>();
+                            coreItems =  GsonUtil.fromJsonList(items,CoreItem.class);
                             for (int i =0 ;i <array.length();i++) {
                                 JSONObject obj = array.getJSONObject(i);
                                 GoodsClassFrist first = new GoodsClassFrist();
@@ -123,6 +133,37 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
                                 goodsClassFrists.add(first);
                             }
                             Log.i("TAG",goodsClassFrists.toString());
+                            getListData();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                });
+    }
+
+    private void getListData(){
+        String url = "http://101.200.131.198:8087/gw?cmd=appCoreIndex";
+        OkHttpUtils.post()
+                .url(url)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e) {
+                        Log.e("error",e.toString());
+                        ToastUtil.showShortMessage(getContext(),e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(String response) {
+
+                        try {
+                            JSONObject object = new JSONObject(response);
+                            JSONObject retObject = object.getJSONObject("retObj");
+                            String item = retObject.getString("CoreIndex");
+                            List<CoreIndexListModel> coreIndexListModels =  GsonUtil.fromJsonList(item,CoreIndexListModel.class);
+                            coreIndexListAdapter.setList(coreIndexListModels);
+                            Log.i("TAG",coreIndexListModels.toString());
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

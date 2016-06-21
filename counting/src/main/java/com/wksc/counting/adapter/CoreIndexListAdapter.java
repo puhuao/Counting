@@ -21,7 +21,9 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.wksc.counting.R;
+import com.wksc.counting.model.CoreIndexListModel;
 import com.wksc.counting.model.CoreIndexModel;
+import com.wksc.framwork.util.ToastUtil;
 
 import java.util.ArrayList;
 
@@ -31,7 +33,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Administrator on 2016/5/29.
  */
-public class CoreIndexListAdapter extends BaseListAdapter<CoreIndexModel>{
+public class CoreIndexListAdapter extends BaseListAdapter<CoreIndexListModel>{
     public CoreIndexListAdapter(Activity context) {
         super(context);
     }
@@ -47,25 +49,35 @@ public class CoreIndexListAdapter extends BaseListAdapter<CoreIndexModel>{
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         }
-        holder.name.setText(mList.get(position).name);
-        holder.data.setText(mList.get(position).data);
-        holder.current.setText("当月值: "+mList.get(position).currentDada);
-        SpannableString styledText = new SpannableString("月同比: "+mList.get(position).mounthRealativ);
-            styledText.setSpan(new TextAppearanceSpan(mContext, R.style.style0), 0, 4, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            styledText.setSpan(new TextAppearanceSpan(mContext, R.style.style1), 4, styledText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        final  int pos = position;
+        holder.name.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                ToastUtil.showShortMessage(mContext,mList.get(pos).titleDesc);
+                return false;
+            }
+        });
+        holder.name.setText(mList.get(position).title+"/"+mList.get(position).titleUnit);
+//        holder.data.setText(mList.get(position).data);
+        holder.data.setVisibility(View.GONE);
+        holder.current.setText(mList.get(position).item3+mList.get(position).itemValue3);
+        SpannableString styledText = new SpannableString(mList.get(position).item2+mList.get(position).itemValue2);
+            styledText.setSpan(new TextAppearanceSpan(mContext, R.style.style0), 0, mList.get(position).item2.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            styledText.setSpan(new TextAppearanceSpan(mContext, R.style.style1), mList.get(position).item2.length(), styledText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         holder.monthRelative.setText(styledText,TextView.BufferType.SPANNABLE);
 
-        holder.monthData.setText("月累计: "+mList.get(position).mounthData);
-        styledText = new SpannableString("月环比: "+mList.get(position).mounthEaliear);
-                styledText.setSpan(new TextAppearanceSpan(mContext, R.style.style0), 0, 4, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                styledText.setSpan(new TextAppearanceSpan(mContext, R.style.style2), 4, styledText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//        holder.monthData.setText("月累计: "+mList.get(position).mounthData);
+        holder.monthData.setVisibility(View.GONE);
+        styledText = new SpannableString(mList.get(position).item1+mList.get(position).itemValue1);
+                styledText.setSpan(new TextAppearanceSpan(mContext, R.style.style0), 0, mList.get(position).item1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                styledText.setSpan(new TextAppearanceSpan(mContext, R.style.style2), mList.get(position).item1.length(), styledText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         holder.monthEarlier.setText(styledText,TextView.BufferType.SPANNABLE);
 
         holder.chart.setDescription("");
         holder.chart.setNoDataTextDescription("You need to provide data for the chart.");
 
         // enable touch gestures
-        holder.chart.setTouchEnabled(true);
+        holder.chart.setTouchEnabled(false);
 
         holder.chart.setDragDecelerationFrictionCoef(0.9f);
 
@@ -82,7 +94,7 @@ public class CoreIndexListAdapter extends BaseListAdapter<CoreIndexModel>{
         holder.chart.setBackgroundColor(Color.LTGRAY);
 
         // add data
-        setData(10, 30,holder.chart);
+        setData(6, mList.get(position).chartData,holder.chart,position);
 
 //        holder.chart.animateX(2500);
 
@@ -111,21 +123,20 @@ public class CoreIndexListAdapter extends BaseListAdapter<CoreIndexModel>{
         YAxis leftAxis = holder.chart.getAxisLeft();
         leftAxis.setTypeface(tf);
         leftAxis.setTextColor(ColorTemplate.getHoloBlue());
-        leftAxis.setAxisMaxValue(200f);
+        leftAxis.setAxisMaxValue(10f);
         leftAxis.setAxisMinValue(0f);
         leftAxis.setDrawGridLines(true);
 
         YAxis rightAxis = holder.chart.getAxisRight();
         rightAxis.setTypeface(tf);
-        rightAxis.setTextColor(Color.RED);
-        rightAxis.setAxisMaxValue(900);
-        rightAxis.setAxisMinValue(-200);
+        rightAxis.setTextColor(ColorTemplate.getHoloBlue());
+        rightAxis.setAxisMaxValue(10f);
+        rightAxis.setAxisMinValue(0f);
         rightAxis.setDrawGridLines(false);
-        rightAxis.setDrawZeroLine(false);
         return convertView;
     }
 
-    private void setData(int count, float range, Chart chart) {
+    private void setData(int count, String range, Chart chart,int pos) {
 
         ArrayList<String> xVals = new ArrayList<String>();
         for (int i = 0; i < count; i++) {
@@ -134,16 +145,15 @@ public class CoreIndexListAdapter extends BaseListAdapter<CoreIndexModel>{
 
         ArrayList<Entry> yVals1 = new ArrayList<Entry>();
 
+        String[] strArray = range.split(",");
         for (int i = 0; i < count; i++) {
-            float mult = range / 2f;
-            float val = (float) (Math.random() * mult) + 50;// + (float)
-            // ((mult *
-            // 0.1) / 10);
-            yVals1.add(new Entry(val, i));
+            String s = strArray[i];
+            float f = Float.valueOf(s);
+            yVals1.add(new Entry(f, i));
         }
 
         // create a dataset and give it a type
-        LineDataSet set1 = new LineDataSet(yVals1, "DataSet 1");
+        LineDataSet set1 = new LineDataSet(yVals1, mList.get(pos).title);
         set1.setAxisDependency(YAxis.AxisDependency.LEFT);
         set1.setColor(ColorTemplate.getHoloBlue());
         set1.setCircleColor(Color.WHITE);
@@ -153,36 +163,7 @@ public class CoreIndexListAdapter extends BaseListAdapter<CoreIndexModel>{
         set1.setFillColor(ColorTemplate.getHoloBlue());
         set1.setHighLightColor(Color.rgb(244, 117, 117));
         set1.setDrawCircleHole(false);
-        //set1.setFillFormatter(new MyFillFormatter(0f));
-//        set1.setDrawHorizontalHighlightIndicator(false);
-//        set1.setVisible(false);
-//        set1.setCircleHoleColor(Color.WHITE);
-
-        ArrayList<Entry> yVals2 = new ArrayList<Entry>();
-
-        for (int i = 0; i < count; i++) {
-            float mult = range;
-            float val = (float) (Math.random() * mult) + 450;// + (float)
-            // ((mult *
-            // 0.1) / 10);
-            yVals2.add(new Entry(val, i));
-        }
-
-        // create a dataset and give it a type
-        LineDataSet set2 = new LineDataSet(yVals2, "DataSet 2");
-        set2.setAxisDependency(YAxis.AxisDependency.RIGHT);
-        set2.setColor(Color.RED);
-        set2.setCircleColor(Color.WHITE);
-        set2.setLineWidth(2f);
-        set2.setCircleRadius(3f);
-        set2.setFillAlpha(65);
-        set2.setFillColor(Color.RED);
-        set2.setDrawCircleHole(false);
-        set2.setHighLightColor(Color.rgb(244, 117, 117));
-        //set2.setFillFormatter(new MyFillFormatter(900f));
-
         ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
-        dataSets.add(set2);
         dataSets.add(set1); // add the datasets
 
         // create a data object with the datasets

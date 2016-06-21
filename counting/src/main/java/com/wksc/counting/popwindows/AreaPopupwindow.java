@@ -29,7 +29,7 @@ public class AreaPopupwindow extends PopupWindow {
     List<AreaModel> temp = new ArrayList<>();
     List<AreaModel> cTemp = new ArrayList<>();
     Activity mContext;
-    PickListView regionListView, cityListView,countyListView ,all;
+    PickListView regionListView, cityListView,countyListView ;
     Button sure;
 //    CheckBoxListAdapter areaListAdapter,provinceListAdapter,cityListAdapter;
 CheckBoxListAdapter reginListAdapter;
@@ -46,12 +46,11 @@ CheckBoxListAdapter reginListAdapter;
         regionListView = (PickListView) view.findViewById(R.id.diriction_area);
         cityListView = (PickListView) view.findViewById(R.id.diriction_province);
         countyListView = (PickListView) view.findViewById(R.id.diriction_city);
-//        all = (ListView) view.findViewById(R.id.all);
         sure = (Button) view.findViewById(R.id.sure);
         this.setContentView(view);
         this.setOutsideTouchable(true);
         this.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
-        this.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+        this.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
         this.setBackgroundDrawable(new BitmapDrawable());
         this.setFocusable(true);
         this.setOnDismissListener(new OnDismissListener() {

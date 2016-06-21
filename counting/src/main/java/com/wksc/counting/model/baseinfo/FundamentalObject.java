@@ -11,5 +11,6 @@ public class FundamentalObject {
     public List<Region> regions;
     public List<Channel> channel;
     public List<GoodsClassFrist> GoodsClass;
+    public List<CoreItem> coreitem;
 
 }
