@@ -99,15 +99,21 @@ public class PickListView extends ListView implements AdapterView.OnItemClickLis
             scendListView.update(position,0);
             //////////////////////////////////////////////////////////
             int checkecNumber = currentAdapter.getCheckedNumber();
-            if (checkecNumber == 1&& currentDataSet.size()==1){
-                scendListView.show();
-//                scentAdapter.setAllCheck();
-            }
+
             if (checkecNumber == currentDataSet.size()) {
-                scendListView.hide();
-//                scentAdapter.setAllNormal();
+                if (checkecNumber == 1&& currentDataSet.size()==1){
+                    scendListView.show();
+                }else{
+                    scendListView.hide();
+                }
             } else if (checkecNumber == 0) {
 //                scentAdapter.setAllNormal();
+//                scendListView.hide();
+            }else if(checkecNumber == 1){
+//                scentAdapter.setList(BaseDataUtil.citys(currentAdapter.oneCheckPosition));
+
+                scendListView.show();
+            }else if (checkecNumber>1){
                 scendListView.hide();
             }
             currentAdapter.notifyDataSetChanged();
@@ -123,23 +129,20 @@ public class PickListView extends ListView implements AdapterView.OnItemClickLis
             scentAdapter.setList(scendDataSet);
             //////////////////////////////////////////////////////////
             int checkecNumber = currentAdapter.getCheckedNumber();
-                if (checkecNumber == currentDataSet.size()) {
-                    //super设置为全选
-//
-//                    if (currentDataSet.size()==1){
-//                        scentAdapter.setAllCheck();
-//                    }
-                } else if (checkecNumber == 0) {
-//                    scentAdapter.setAllNormal();
-                } else {
-                    //super设置为半选
-                    if (checkecNumber == 1) {//如果选中数为1清除其它下级菜单的所有选中项，
-                        //并把当前位置的下级菜单全选
-//                        scentAdapter.setAllCheck();
-                    }else{
-                        //当前位置的下级菜单不做任何处理，本级菜单重刷
-                    }
+            if (checkecNumber == currentDataSet.size()) {
+                if (checkecNumber == 1&& currentDataSet.size()==1){
+                    scendListView.show();
+                }else{
+                    scendListView.hide();
                 }
+            } else if (checkecNumber == 0) {
+//                scentAdapter.setAllNormal();
+//                scendListView.hide();
+            }else if(checkecNumber == 1){
+                scendListView.show();
+            }else if (checkecNumber>1){
+                scendListView.hide();
+            }
             currentAdapter.notifyDataSetChanged();
             scentAdapter.notifyDataSetChanged();
             superAdaper.notifyDataSetChanged();
@@ -150,6 +153,7 @@ public class PickListView extends ListView implements AdapterView.OnItemClickLis
             int checkecNumber = currentAdapter.getCheckedNumber();
             if (checkecNumber == currentDataSet.size()) {
                 //super设置为全选
+
                 }
             currentAdapter.notifyDataSetChanged();
             superAdaper.notifyDataSetChanged();
@@ -157,6 +161,15 @@ public class PickListView extends ListView implements AdapterView.OnItemClickLis
 
         /////////////////////////////////////////////////////////
 
+    }
+
+    private void changeSupperStatus(){
+        this.superDataSet.get(scendPosition).isCheck = CheckBoxListAdapter.HALF;
+        if (hasSuperLevel){
+            if (this.currentAdapter.getCheckedNumber() < currentDataSet.size()&&this.currentAdapter.getCheckedNumber()>0){
+
+            }
+        }
     }
 
     public void update(int arg1,int arg2){
@@ -177,6 +190,11 @@ public class PickListView extends ListView implements AdapterView.OnItemClickLis
 
     public void show(){
         this.setVisibility(VISIBLE);
+        if (hasScendLevel){
+            if (currentAdapter.getCheckedNumber()==1||currentAdapter.getCheckedNumber()==0){
+                scendListView.show();
+            }
+        }
 
     }
 }

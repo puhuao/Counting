@@ -32,7 +32,7 @@ public class AreaPopupwindow extends PopupWindow {
     PickListView regionListView, cityListView,countyListView ;
     Button sure;
 //    CheckBoxListAdapter areaListAdapter,provinceListAdapter,cityListAdapter;
-CheckBoxListAdapter reginListAdapter;
+    CheckBoxListAdapter reginListAdapter;
     CheckBoxListAdapter cityListAdapter;
     CheckBoxListAdapter countyListAdapter;
 
@@ -70,6 +70,7 @@ CheckBoxListAdapter reginListAdapter;
                 StringBuilder sb= new StringBuilder();
                     sb.append(reginListAdapter.sb).append(cityListAdapter.sb).append(countyListAdapter.sb);
                 dissmisPopupwindow();
+                if (area!=null)
                 if (sb.length()>0){
                     area.setText(sb.toString());
                 }else{

@@ -19,6 +19,7 @@ public class CoreIndexListModel {
     public String itemColor3;
     public String itemColor2;
     public String itemColor1;
-
-
+    public String item4;
+    public String itemValue4;
+    public String itemColor4;
 }

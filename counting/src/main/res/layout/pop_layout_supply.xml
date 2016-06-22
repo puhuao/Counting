@@ -26,5 +26,5 @@
         android:text="确认"
         android:textSize="14sp"
         android:padding="10dp"
-        android:visibility="gone"/>
+        />
 </LinearLayout>

@@ -1,6 +1,7 @@
 package com.wksc.counting.widegit;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
 
 import com.github.mikephil.charting.charts.HorizontalBarChart;
@@ -12,6 +13,7 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.wksc.counting.R;
 import com.wksc.counting.model.coreDetail.BarChartModel;
 
 import java.util.ArrayList;
@@ -88,6 +90,7 @@ public class BarChartTool {
         l.setPosition(Legend.LegendPosition.BELOW_CHART_LEFT);
         l.setFormSize(8f);
         l.setXEntrySpace(10f);
+        horizontalBarChart.invalidate();
     }
 
     private  void setData(BarChartModel coreChart) {
@@ -100,7 +103,10 @@ public class BarChartTool {
         yValues.add(new BarEntry(Float.valueOf(coreChart.chartValue1), 1));
 
         BarDataSet set = new BarDataSet(yValues, coreChart.chartTitle1);
-        set.setColors(ColorTemplate.VORDIPLOM_COLORS);
+        int color1 = Color.parseColor("#70AD47");
+        int color2 = Color.parseColor("#BE364B");
+        int[] colors = new int[]{color2,color1};
+        set.setColors(colors);
         ArrayList<IBarDataSet> dataSets = new ArrayList<>();
         dataSets.add(set);
 

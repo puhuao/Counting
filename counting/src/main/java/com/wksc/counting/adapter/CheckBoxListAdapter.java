@@ -9,6 +9,8 @@ import android.widget.TextView;
 import com.wksc.counting.R;
 import com.wksc.counting.model.baseinfo.BaseWithCheckBean;
 
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -66,6 +68,8 @@ public class CheckBoxListAdapter extends BaseListAdapter<BaseWithCheckBean> {
         }
     }
 
+    public int oneCheckPosition = -1;
+
     public int getCheckedNumber(){
         if (sb.length()>0){
             sb.delete(0,sb.length());
@@ -75,6 +79,7 @@ public class CheckBoxListAdapter extends BaseListAdapter<BaseWithCheckBean> {
              mList) {
             if (area.isCheck==ALL){
                 i++;
+                oneCheckPosition = mList.indexOf(area);
                 sb.append(area.name).append(".");
             }
         }

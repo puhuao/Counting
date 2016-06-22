@@ -25,10 +25,10 @@ android:layout_height="match_parent">
         android:textSize="14sp"
         android:textStyle="bold"/>
     <TextView
-        android:id="@+id/data"
+        android:id="@+id/unit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="14sp"
+        android:textSize="12sp"
         android:textStyle="bold"/>
 </LinearLayout>
     <LinearLayout
@@ -38,20 +38,36 @@ android:layout_height="match_parent">
         android:padding="10dp"
         >
         <TextView
-            android:id="@+id/current"
+            android:id="@+id/name1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="left|center_vertical"
+            android:gravity="right|center_vertical"
             android:textSize="12sp"/>
         <TextView
-            android:textSize="12sp"
-            android:id="@+id/month_relative"
+            android:id="@+id/item1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="left|center_vertical"
+            android:textSize="12sp"
+            android:layout_marginLeft="5dp"/>
+        <TextView
+            android:id="@+id/name2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right|center_vertical"
+            android:textSize="12sp"
             />
+        <TextView
+            android:textSize="12sp"
+            android:id="@+id/item2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left|center_vertical"
+            android:layout_marginLeft="5dp"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -60,19 +76,35 @@ android:layout_height="match_parent">
         android:padding="10dp"
         android:textSize="10sp">
         <TextView
-            android:id="@+id/month_data"
+            android:id="@+id/name3"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="left|center_vertical"
+            android:gravity="right|center_vertical"
             android:textSize="12sp"/>
         <TextView
-            android:id="@+id/month_earlier"
+            android:id="@+id/item3"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="left|center_vertical"
+            android:textSize="12sp"
+            android:layout_marginLeft="5dp"/>
+        <TextView
+            android:id="@+id/name4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right|center_vertical"
             android:textSize="12sp"/>
+        <TextView
+            android:id="@+id/item4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left|center_vertical"
+            android:textSize="12sp"
+            android:layout_marginLeft="5dp"/>
     </LinearLayout>
 </LinearLayout>
 </LinearLayout>

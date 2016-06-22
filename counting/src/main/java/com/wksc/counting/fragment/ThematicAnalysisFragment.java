@@ -34,14 +34,14 @@ public class ThematicAnalysisFragment extends CommonFragment {
 
     private MyPagerAdapter adapter;
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_thematic_analysis, null);
         hideLeftButton();
         setHeaderTitle("专题分析");
         getTitleHeaderBar().getTitleTextView().setCompoundDrawables(null,null,
-                getContext().getDrawable(R.drawable.down),null);
+                getContext().getResources().getDrawable(R.drawable.rectangle),null);
         return v;
     }
 

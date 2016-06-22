@@ -32,7 +32,8 @@
             android:textSize="16sp"
             android:padding="10dp"
             android:button="@null"
-            android:background="@drawable/time_pop_selector"/>
+            android:background="@drawable/time_pop_selector"
+            android:visibility="gone"/>
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -50,7 +51,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:padding="10dp">
+        android:padding="10dp"
+        android:visibility="gone">
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -82,34 +84,19 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:textColor="@color/black"
-        android:hint="20150621"
+        android:hint="yyyymmdd"
         android:layout_gravity="center_horizontal"
         android:textSize="16sp"
         android:padding="10dp"
+        android:gravity="center"
         />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="到"
-        android:textColor="@color/light_gray"
-        android:layout_gravity="center_horizontal"
-        android:textSize="16sp"
-        android:padding="10dp"
-        />
-    <EditText
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:textColor="@color/black"
-        android:hint="20150731"
-        android:layout_gravity="center_horizontal"
-        android:textSize="16sp"
-        android:padding="10dp"
-        />
+
     <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
         android:src="@drawable/ic_search"
-        android:scaleType="centerCrop"/>
+        android:scaleType="centerCrop"
+        android:background="@null"
+        android:layout_margin="5dp"/>
 </LinearLayout>
 </LinearLayout>

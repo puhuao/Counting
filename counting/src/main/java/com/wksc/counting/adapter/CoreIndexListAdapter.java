@@ -22,7 +22,6 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.wksc.counting.R;
 import com.wksc.counting.model.CoreIndexListModel;
-import com.wksc.counting.model.CoreIndexModel;
 import com.wksc.framwork.util.ToastUtil;
 
 import java.util.ArrayList;
@@ -57,22 +56,24 @@ public class CoreIndexListAdapter extends BaseListAdapter<CoreIndexListModel>{
                 return false;
             }
         });
-        holder.name.setText(mList.get(position).title+"/"+mList.get(position).titleUnit);
-//        holder.data.setText(mList.get(position).data);
-        holder.data.setVisibility(View.GONE);
-        holder.current.setText(mList.get(position).item3+mList.get(position).itemValue3);
-        SpannableString styledText = new SpannableString(mList.get(position).item2+mList.get(position).itemValue2);
-            styledText.setSpan(new TextAppearanceSpan(mContext, R.style.style0), 0, mList.get(position).item2.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            styledText.setSpan(new TextAppearanceSpan(mContext, R.style.style1), mList.get(position).item2.length(), styledText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        holder.monthRelative.setText(styledText,TextView.BufferType.SPANNABLE);
-
+        holder.name.setText(mList.get(position).title);
+        holder.unit.setText("/"+mList.get(position).titleUnit);
+        holder.name1.setText(mList.get(position).item1);
+        holder.text1.setText(mList.get(position).itemValue1);
+        holder.text2.setText(mList.get(position).itemValue2);
+        holder.name2.setText(mList.get(position).item2);
+        String[] color = mList.get(position).itemColor2.split(",");
+        int red = Integer.valueOf(color[0]);
+        int green = Integer.valueOf(color[1]);
+        int blue = Integer.valueOf(color[2]);
+        holder.text2.setTextColor(Color.rgb(red,green,blue));
 //        holder.monthData.setText("月累计: "+mList.get(position).mounthData);
-        holder.monthData.setVisibility(View.GONE);
-        styledText = new SpannableString(mList.get(position).item1+mList.get(position).itemValue1);
-                styledText.setSpan(new TextAppearanceSpan(mContext, R.style.style0), 0, mList.get(position).item1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                styledText.setSpan(new TextAppearanceSpan(mContext, R.style.style2), mList.get(position).item1.length(), styledText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        holder.monthEarlier.setText(styledText,TextView.BufferType.SPANNABLE);
-
+        holder.name3.setText(mList.get(position).item3);
+        holder.text3.setText(mList.get(position).itemValue3);
+        holder.text4.setText(mList.get(position).itemValue4);
+        holder.name4.setText(mList.get(position).item4);
+        color = mList.get(position).itemColor4.split(",");
+        holder.text4.setTextColor(Color.rgb(Integer.valueOf(color[0]),Integer.valueOf(color[1]),Integer.valueOf(color[2])));
         holder.chart.setDescription("");
         holder.chart.setNoDataTextDescription("You need to provide data for the chart.");
 
@@ -178,16 +179,24 @@ public class CoreIndexListAdapter extends BaseListAdapter<CoreIndexListModel>{
     class ViewHolder{
         @Bind(R.id.name)
         TextView name;
-        @Bind(R.id.data)
-        TextView data;
-        @Bind(R.id.current)
-        TextView current;
-        @Bind(R.id.month_data)
-        TextView monthData;
-        @Bind(R.id.month_relative)
-        TextView monthRelative;
-        @Bind(R.id.month_earlier)
-        TextView monthEarlier;
+        @Bind(R.id.unit)
+        TextView unit;
+        @Bind(R.id.item1)
+        TextView text1;
+        @Bind(R.id.item3)
+        TextView text3;
+        @Bind(R.id.item2)
+        TextView text2;
+        @Bind(R.id.item4)
+        TextView text4;
+        @Bind(R.id.name1)
+        TextView name1;
+        @Bind(R.id.name2)
+        TextView name2;
+        @Bind(R.id.name3)
+        TextView name3;
+        @Bind(R.id.name4)
+        TextView name4;
         @Bind(R.id.chart)
         LineChart chart;
         public ViewHolder(View convertView) {
