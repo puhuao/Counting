@@ -7,13 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ListView;
 import android.widget.PopupWindow;
 
 import com.wksc.counting.R;
-import com.wksc.counting.adapter.AreaListAdapter;
-import com.wksc.counting.adapter.TimeListAdapter;
 
 /**
  * Created by Administrator on 2016/5/29.
@@ -26,7 +22,7 @@ public class TimePopupwindow extends PopupWindow implements AdapterView.OnItemCl
         View view = LayoutInflater.from(context).inflate(R.layout.pop_layout_time,null);
         this.setContentView(view);
         this.setOutsideTouchable(true);
-        this.setWidth(800);
+        this.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
         this.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
         this.setBackgroundDrawable(new BitmapDrawable());
         this.setFocusable(true);

@@ -49,7 +49,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:gravity="center">
 
             <TextView
 
@@ -69,7 +70,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:gravity="center">
 
             <TextView
 
@@ -117,7 +119,58 @@
             android:visibility="gone" />
     </RelativeLayout>
 
+        <LinearLayout
+            android:id="@+id/titles"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center"
+                    android:text="地区/部门"
+                    android:textSize="12sp" />
 
+                <TextView
+                    android:id="@+id/moth_data_title"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/store_month_data_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textSize="10sp" />
+
+
+                <TextView
+                    android:id="@+id/month_comparison_relative_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textSize="10sp" />
+
+
+                <TextView
+                    android:id="@+id/month_comparison_eala_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textSize="10sp" />
+        </LinearLayout>
     <com.wksc.counting.widegit.NestedListView
         android:id="@+id/list_view"
         android:layout_width="match_parent"

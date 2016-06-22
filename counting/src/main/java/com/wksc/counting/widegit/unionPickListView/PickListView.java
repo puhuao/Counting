@@ -9,7 +9,7 @@ import android.widget.ListView;
 import com.wksc.counting.Basedata.BaseDataUtil;
 import com.wksc.counting.adapter.CheckBoxListAdapter;
 import com.wksc.counting.model.BaseInfo;
-import com.wksc.counting.model.baseinfo.County;
+import com.wksc.counting.model.baseinfo.BaseWithCheckBean;
 
 import java.util.List;
 
@@ -37,9 +37,9 @@ public class PickListView extends ListView implements AdapterView.OnItemClickLis
     private PickListView scendListView;
     private CheckBoxListAdapter superAdaper;
     private CheckBoxListAdapter scentAdapter;
-    private List<County> superDataSet;
-    private List<County> scendDataSet;
-    private List<County> currentDataSet;
+    private List<BaseWithCheckBean> superDataSet;
+    private List<BaseWithCheckBean> scendDataSet;
+    private List<BaseWithCheckBean> currentDataSet;
     private int superPosition;
 
     public void setScendPosition(int scendPosition) {
@@ -156,7 +156,7 @@ public class PickListView extends ListView implements AdapterView.OnItemClickLis
         }
 
         /////////////////////////////////////////////////////////
-        
+
     }
 
     public void update(int arg1,int arg2){

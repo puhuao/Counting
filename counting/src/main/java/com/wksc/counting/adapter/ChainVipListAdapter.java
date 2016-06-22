@@ -7,7 +7,6 @@ import android.widget.TextView;
 
 import com.wksc.counting.R;
 import com.wksc.counting.model.ChainVipModel;
-import com.wksc.counting.model.ComparisonModel;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -42,11 +41,11 @@ public class ChainVipListAdapter extends BaseListAdapter<ChainVipModel>{
     class ViewHolder{
         @Bind(R.id.area)
         TextView name;
-        @Bind(R.id.moth_data)
+        @Bind(R.id.old_text1)
         TextView data;
-        @Bind(R.id.month_comparison_relative)
+        @Bind(R.id.old_text2)
         TextView monthRelative;
-        @Bind(R.id.month_comparison_eala)
+        @Bind(R.id.old_text3)
         TextView monthEarlier;
         public ViewHolder(View convertView) {
             ButterKnife.bind(this,convertView);

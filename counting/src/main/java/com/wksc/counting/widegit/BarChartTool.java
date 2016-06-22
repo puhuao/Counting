@@ -11,6 +11,8 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.github.mikephil.charting.utils.ColorTemplate;
+import com.wksc.counting.model.coreDetail.BarChartModel;
 
 import java.util.ArrayList;
 
@@ -29,7 +31,7 @@ public class BarChartTool {
         this.mContext = context;
     }
 
-    public  void initBar(){
+    public  void initBar(BarChartModel coreChart){
 
         horizontalBarChart.setDrawBarShadow(false);
 
@@ -62,6 +64,7 @@ public class BarChartTool {
         xl.setDrawAxisLine(true);
         xl.setDrawGridLines(true);
         xl.setGridLineWidth(0.3f);
+        xl.setSpaceBetweenLabels(10);
 
         YAxis yl = horizontalBarChart.getAxisLeft();
         yl.setTypeface(tf);
@@ -70,45 +73,39 @@ public class BarChartTool {
         yl.setGridLineWidth(0.3f);
         yl.setAxisMinValue(0f); // this replaces setStartAtZero(true)
 //        yl.setInverted(true);
+        yl.setTextSize(6f);
 
         YAxis yr = horizontalBarChart.getAxisRight();
         yr.setTypeface(tf);
         yr.setDrawAxisLine(true);
         yr.setDrawGridLines(false);
         yr.setAxisMinValue(0f); // this replaces setStartAtZero(true)
+        yr.setTextSize(6f);
 
-        setData();
-//        horizontalBarChart.animateY(2500);
+        setData(coreChart);
 
         Legend l = horizontalBarChart.getLegend();
         l.setPosition(Legend.LegendPosition.BELOW_CHART_LEFT);
         l.setFormSize(8f);
-        l.setXEntrySpace(4f);
-
+        l.setXEntrySpace(10f);
     }
 
-    private  void setData() {
+    private  void setData(BarChartModel coreChart) {
 
-        ArrayList<String> xVals = new ArrayList<String>();
-        xVals.add("四川");
-        xVals.add("江苏");
-        xVals.add("云南");
-        xVals.add("贵州");
-        xVals.add("广东");
-        ArrayList<BarEntry> yValues = new ArrayList<BarEntry>();
-        yValues.add(new BarEntry(new float[]{400, 500}, 0));
-        yValues.add(new BarEntry(new float[]{350, 600}, 1));
-        yValues.add(new BarEntry(new float[]{350, 650}, 2));
-        yValues.add(new BarEntry(new float[]{300, 700}, 3));
-        yValues.add(new BarEntry(new float[]{200, 800}, 4));
+        ArrayList<String> xVals = new ArrayList<>();
+        xVals.add(coreChart.chartPoint2);
+        xVals.add(coreChart.chartPoint1);
+        ArrayList<BarEntry> yValues = new ArrayList<>();
+        yValues.add(new BarEntry(Float.valueOf(coreChart.chartValue2), 0));
+        yValues.add(new BarEntry(Float.valueOf(coreChart.chartValue1), 1));
 
-        BarDataSet set1 = new BarDataSet(yValues, "DataSet 1");
-
-        ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
-        dataSets.add(set1);
+        BarDataSet set = new BarDataSet(yValues, coreChart.chartTitle1);
+        set.setColors(ColorTemplate.VORDIPLOM_COLORS);
+        ArrayList<IBarDataSet> dataSets = new ArrayList<>();
+        dataSets.add(set);
 
         BarData data = new BarData(xVals, dataSets);
-        data.setValueTextSize(10f);
+        data.setValueTextSize(6f);
         data.setValueTypeface(tf);
 
         horizontalBarChart.setData(data);

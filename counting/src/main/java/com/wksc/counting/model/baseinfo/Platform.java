@@ -5,7 +5,5 @@ package com.wksc.counting.model.baseinfo;
  *
  * @
  */
-public class Platform {
-    public String name;
-    public String code;
+public class Platform extends BaseWithCheckBean{
 }

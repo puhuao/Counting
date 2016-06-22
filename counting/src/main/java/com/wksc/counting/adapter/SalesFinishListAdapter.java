@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.wksc.counting.R;
-import com.wksc.counting.model.ComparisonModel;
 import com.wksc.counting.model.SalesFinishModel;
 
 import butterknife.Bind;
@@ -51,11 +50,11 @@ public class SalesFinishListAdapter extends BaseListAdapter<SalesFinishModel>{
     class ViewHolder{
         @Bind(R.id.area)
         TextView name;
-        @Bind(R.id.moth_data)
+        @Bind(R.id.old_text1)
         TextView data;
-        @Bind(R.id.month_comparison_relative)
+        @Bind(R.id.old_text2)
         TextView monthRelative;
-        @Bind(R.id.month_comparison_eala)
+        @Bind(R.id.old_text3)
         TextView monthEarlier;
         public ViewHolder(View convertView) {
             ButterKnife.bind(this,convertView);

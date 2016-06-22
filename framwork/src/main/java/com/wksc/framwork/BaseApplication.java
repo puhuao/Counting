@@ -7,13 +7,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.lzy.okhttputils.OkHttpUtils;
+import com.lzy.okhttputils.cookie.store.PersistentCookieStore;
 import com.wksc.framwork.platform.config.IConfig;
 import com.wksc.framwork.platform.config.PreferenceConfig;
 import com.wksc.framwork.platform.config.PropertiesConfig;
 import com.wksc.framwork.util.AppUtil;
-import com.zhy.http.okhttp.OkHttpUtils;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by puhua on 2016/5/26.
@@ -65,11 +64,17 @@ public class BaseApplication extends Application {
 //        startService(new Intent(sContext, ControlCenterService.class));
 
 //        RequestManager.init(this);
-
+//必须调用初始化
+        OkHttpUtils.init(this);
+        //以下都不是必须的，根据需要自行选择
+        OkHttpUtils.getInstance()//
+                .debug("OkHttpUtils")                                              //是否打开调试
+                .setConnectTimeout(OkHttpUtils.DEFAULT_MILLISECONDS)               //全局的连接超时时间
+                .setReadTimeOut(OkHttpUtils.DEFAULT_MILLISECONDS)                  //全局的读取超时时间
+                .setWriteTimeOut(OkHttpUtils.DEFAULT_MILLISECONDS)                 //全局的写入超时时间
+//                .setCookieStore(new MemoryCookieStore())                           //cookie使用内存缓存（app退出后，cookie消失）
+                .setCookieStore(new PersistentCookieStore());                      //cookie持久化存储，如果cookie不过期，则一直有效
         //init DBManger
-        OkHttpUtils.getInstance().debug("OkHttpUtils").setConnectTimeout(100000, TimeUnit.MILLISECONDS);
-        //使用https，但是默认信任全部证书
-        OkHttpUtils.getInstance().setCertificates();
         this.initDB();
     }
 

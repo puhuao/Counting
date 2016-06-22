@@ -7,8 +7,7 @@ import java.util.List;
  *
  * @
  */
-public class Channel {
-    public String name;
-    public String code;
+public class Channel extends BaseWithCheckBean{
+
     public List<Platform> MCU;
 }

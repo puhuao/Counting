@@ -1,9 +1,6 @@
 package com.wksc.counting.adapter;
 
 import android.app.Activity;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.style.TextAppearanceSpan;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -11,7 +8,7 @@ import android.widget.TextView;
 
 import com.wksc.counting.R;
 import com.wksc.counting.model.ComparisonModel;
-import com.wksc.counting.model.CoreIndexModel;
+import com.wksc.counting.model.coreDetail.TabelValueModel;
 import com.wksc.counting.popwindows.StorePopupwindow;
 
 import java.util.ArrayList;
@@ -23,11 +20,27 @@ import butterknife.ButterKnife;
 /**
  * Created by Administrator on 2016/5/29.
  */
-public class SalesCompareListAdapter extends BaseListAdapter<ComparisonModel>{
+public class SalesCompareListAdapter extends BaseListAdapter<ComparisonModel> {
     public SalesCompareListAdapter(Activity context) {
         super(context);
-        setList(ComparisonModel.getData());
     }
+
+    public void TransData(List<TabelValueModel> tableData){
+        if (mList == null){
+            mList = new ArrayList<>();
+        }
+        for (int i =0 ;i <tableData.size();i++){
+            ComparisonModel model = new ComparisonModel();
+            String[] oldValues = tableData.get(i).oldValue.split("\\|");
+            String[] newValues = tableData.get(i).newValue.split("\\|");
+            model.oldDatas = oldValues;
+            model.newDatas = newValues;
+            mList.add(model);
+        }
+        this.notifyDataSetChanged();
+
+    }
+
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -40,36 +53,19 @@ public class SalesCompareListAdapter extends BaseListAdapter<ComparisonModel>{
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         }
-if (position == 0){
-    holder.store.setVisibility(View.INVISIBLE);
-    holder.storeDataNew.setVisibility(View.GONE);
-    holder.monthEarlierNew.setVisibility(View.GONE);
-    holder.monthRelativeNew.setVisibility(View.GONE);
-    holder.dataNew.setVisibility(View.GONE);
-    holder.monthRelative.setTextColor(mContext.getResources().getColor(R.color.text_bold));
-    holder.monthRelativeNew.setTextColor(mContext.getResources().getColor(R.color.text_bold));
-    holder.monthEarlier.setTextColor(mContext.getResources().getColor(R.color.text_bold));
-    holder.monthEarlierNew.setTextColor(mContext.getResources().getColor(R.color.text_bold));
-}else{
-    holder.store.setVisibility(View.VISIBLE);
-    holder.storeDataNew.setVisibility(View.VISIBLE);
-    holder.monthEarlierNew.setVisibility(View.VISIBLE);
-    holder.monthRelativeNew.setVisibility(View.VISIBLE);
-    holder.dataNew.setVisibility(View.VISIBLE);
-    holder.monthRelative.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
-    holder.monthRelativeNew.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
-    holder.monthEarlier.setTextColor(mContext.getResources().getColor(R.color.green));
-    holder.monthEarlierNew.setTextColor(mContext.getResources().getColor(R.color.green));
-}
+        holder.oldText3.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
+        holder.newText3.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
+        holder.oldText4.setTextColor(mContext.getResources().getColor(R.color.green));
+        holder.newText4.setTextColor(mContext.getResources().getColor(R.color.green));
         holder.name.setText(mList.get(position).area);
-        holder.data.setText(mList.get(position).oldStoreMonthData);
-        holder.dataNew.setText(mList.get(position).newStoreData);
-        holder.monthRelative.setText(mList.get(position).oldStoreMonthCompareRelative);
-        holder.monthRelativeNew.setText(mList.get(position).newStoreMonthCompareRelative);
-        holder.storeData.setText(mList.get(position).oldStoreData);
-        holder.storeDataNew.setText(mList.get(position).newStoreData);
-        holder.monthEarlier.setText(mList.get(position).oldStoreMonthCompareEalair);
-        holder.monthEarlierNew.setText(mList.get(position).newStoreMonthCompareEalair);
+        holder.oldText1.setText(mList.get(position).oldDatas[0]);
+        holder.newText1.setText(mList.get(position).newDatas[0]);
+        holder.oldText3.setText(mList.get(position).oldDatas[2]);
+        holder.newText3.setText(mList.get(position).newDatas[2]);
+        holder.oldText2.setText(mList.get(position).oldDatas[1]);
+        holder.newText2.setText(mList.get(position).newDatas[1]);
+        holder.oldText4.setText(mList.get(position).oldDatas[3]);
+        holder.newText4.setText(mList.get(position).newDatas[3]);
         holder.name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,36 +75,37 @@ if (position == 0){
         });
         return convertView;
     }
-    class ViewHolder{
+
+    class ViewHolder {
         @Bind(R.id.area)
         TextView name;
-        @Bind(R.id.moth_data)
-        TextView data;
-        @Bind(R.id.month_comparison_relative)
-        TextView monthRelative;
-        @Bind(R.id.month_comparison_eala)
-        TextView monthEarlier;
-        @Bind(R.id.moth_data_new)
-        TextView dataNew;
-        @Bind(R.id.month_comparison_relative_new)
-        TextView monthRelativeNew;
-        @Bind(R.id.month_comparison_eala_new)
-        TextView monthEarlierNew;
-        @Bind(R.id.store_month_data)
-        TextView storeData;
-        @Bind(R.id.store_month_data_new)
-        TextView storeDataNew;
+        @Bind(R.id.old_text1)
+        TextView oldText1;
+        @Bind(R.id.old_text3)
+        TextView oldText3;
+        @Bind(R.id.old_text4)
+        TextView oldText4;
+        @Bind(R.id.new_text1)
+        TextView newText1;
+        @Bind(R.id.new_text3)
+        TextView newText3;
+        @Bind(R.id.new_text4)
+        TextView newText4;
+        @Bind(R.id.old_text2)
+        TextView oldText2;
+        @Bind(R.id.new_text2)
+        TextView newText2;
         @Bind(R.id.store)
         LinearLayout store;
 
         public ViewHolder(View convertView) {
-            ButterKnife.bind(this,convertView);
+            ButterKnife.bind(this, convertView);
         }
     }
 
-    public void setDownToUp(){
+    public void setDownToUp() {
         List<ComparisonModel> list = new ArrayList<>();
-        for (int i  =mList.size()-1;i>=0;i--) {
+        for (int i = mList.size() - 1; i >= 0; i--) {
             list.add(mList.get(i));
         }
         this.setList(list);

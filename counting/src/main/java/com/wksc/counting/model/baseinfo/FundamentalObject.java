@@ -10,7 +10,7 @@ import java.util.List;
 public class FundamentalObject {
     public List<Region> regions;
     public List<Channel> channel;
-    public List<GoodsClassFrist> GoodsClass;
+    public List<GoodsClassFirst> GoodsClass;
     public List<CoreItem> coreitem;
 
 }
