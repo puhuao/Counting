@@ -22,6 +22,7 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.wksc.counting.R;
 import com.wksc.counting.model.CoreIndexListModel;
+import com.wksc.counting.popwindows.TitleDescribewindow;
 import com.wksc.framwork.util.ToastUtil;
 
 import java.util.ArrayList;
@@ -52,7 +53,9 @@ public class CoreIndexListAdapter extends BaseListAdapter<CoreIndexListModel>{
         holder.name.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                ToastUtil.showShortMessage(mContext,mList.get(pos).titleDesc);
+//                ToastUtil.showShortMessage(mContext,mList.get(pos).titleDesc);
+                TitleDescribewindow titleSelectPopupWindow = new TitleDescribewindow(mContext);
+                titleSelectPopupWindow.showPopupwindow(v,mList.get(pos).titleDesc);
                 return false;
             }
         });

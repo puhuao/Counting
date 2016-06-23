@@ -20,6 +20,7 @@ import com.wksc.counting.model.coreDetail.CoreDetail;
 import com.wksc.counting.popwindows.AreaPopupwindow;
 import com.wksc.counting.popwindows.SupplyChianPopupwindow;
 import com.wksc.counting.popwindows.TimePopupwindow;
+import com.wksc.counting.popwindows.TitleDescribewindow;
 import com.wksc.counting.widegit.BarChartTool;
 import com.wksc.counting.widegit.LineChartTool;
 import com.wksc.counting.widegit.MarqueeText;
@@ -57,6 +58,10 @@ public class SalesComparisonFragment extends CommonFragment {
     HorizontalBarChart barChartNew;
     @Bind(R.id.tv_area)
     MarqueeText tvArea;
+    @Bind(R.id.tx_time)
+    MarqueeText txTime;
+    @Bind(R.id.channel)
+    MarqueeText txChannel;
     @Bind(R.id.titles)
     LinearLayout titles;
 
@@ -114,6 +119,7 @@ public class SalesComparisonFragment extends CommonFragment {
             @Override
             public void onClick(View v) {
                 SupplyChianPopupwindow supplyChianPopupwindow = new SupplyChianPopupwindow(getActivity());
+                supplyChianPopupwindow.bindTextView(txChannel);
                 supplyChianPopupwindow.showPopupwindow(v);
             }
         });
@@ -121,6 +127,7 @@ public class SalesComparisonFragment extends CommonFragment {
             @Override
             public void onClick(View v) {
                 TimePopupwindow timePopupwindow = new TimePopupwindow(getActivity());
+                timePopupwindow.bindTextView(txTime);
                 timePopupwindow.showPopupwindow(v);
             }
         });
@@ -149,10 +156,19 @@ public class SalesComparisonFragment extends CommonFragment {
                         oldBarTool.initBar(c.CoreChart1);
                         newBarTool.initBar(c.CoreChart2);
                         String[] tableTitles = detail.tableTitle.split("\\|");
-
+                        final String[] titleDesc = detail.tableTitleDesc.split("\\|");
                         for (int i =1 ; i<titles.getChildCount();i++){
                             TextView textView = (TextView) titles.getChildAt(i);
                             textView.setText(tableTitles[i-1]);
+                            final int finalI = i;
+                            textView.setOnLongClickListener(new View.OnLongClickListener() {
+                                @Override
+                                public boolean onLongClick(View v) {
+                                    TitleDescribewindow titleSelectPopupWindow = new TitleDescribewindow(getContext());
+                                    titleSelectPopupWindow.showPopupwindow(v,titleDesc[finalI -1]);
+                                    return false;
+                                }
+                            });
                         }
                         adapter.TransData(detail.tableData);
 

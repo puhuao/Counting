@@ -14,8 +14,10 @@ import com.wksc.counting.R;
 import com.wksc.counting.adapter.CheckBoxListAdapter;
 import com.wksc.counting.model.AreaCheckModel;
 import com.wksc.counting.model.AreaModel;
+import com.wksc.counting.model.baseinfo.BaseWithCheckBean;
 import com.wksc.counting.widegit.MarqueeText;
 import com.wksc.counting.widegit.unionPickListView.PickListView;
+import com.wksc.framwork.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,6 +69,7 @@ public class AreaPopupwindow extends PopupWindow {
         sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 StringBuilder sb= new StringBuilder();
                     sb.append(reginListAdapter.sb).append(cityListAdapter.sb).append(countyListAdapter.sb);
                 dissmisPopupwindow();
@@ -76,6 +79,8 @@ public class AreaPopupwindow extends PopupWindow {
                 }else{
                     area.setText("地区");
                 }
+                ToastUtil.showShortMessage(mContext,BaseDataUtil.sbRegion.toString()+"/n"+BaseDataUtil.sbCity.toString()+":"+
+                BaseDataUtil.sbCounty.toString());
 
             }
         });

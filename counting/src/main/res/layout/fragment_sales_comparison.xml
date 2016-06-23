@@ -52,16 +52,22 @@
             android:orientation="horizontal"
             android:gravity="center">
 
-            <TextView
-
+            <com.wksc.counting.widegit.MarqueeText
+                android:id="@+id/tx_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:drawablePadding="5dp"
                 android:drawableLeft="@drawable/time"
                 android:drawableRight="@drawable/rectangle"
-                android:drawablePadding="5dp"
                 android:gravity="center"
-                android:text="时间" />
+                android:text="时间"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:scrollHorizontally="true"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:ellipsize="marquee"
+                android:singleLine="true"
+                />
         </LinearLayout>
 
         <LinearLayout
@@ -73,16 +79,22 @@
             android:orientation="horizontal"
             android:gravity="center">
 
-            <TextView
-
+            <com.wksc.counting.widegit.MarqueeText
+                android:id="@+id/channel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:drawableRight="@drawable/rectangle"
+                android:drawablePadding="5dp"
                 android:drawableLeft="@drawable/channel"
+                android:drawableRight="@drawable/rectangle"
                 android:gravity="center"
                 android:text="渠道"
-                android:drawablePadding="5dp"/>
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:scrollHorizontally="true"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:ellipsize="marquee"
+                android:singleLine="true"
+                />
         </LinearLayout>
 
     </LinearLayout>

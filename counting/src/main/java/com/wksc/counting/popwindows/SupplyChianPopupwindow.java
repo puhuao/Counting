@@ -15,6 +15,7 @@ import com.wksc.counting.Basedata.BaseDataUtil;
 import com.wksc.counting.R;
 import com.wksc.counting.adapter.CheckBoxListAdapter;
 import com.wksc.counting.model.baseinfo.BaseWithCheckBean;
+import com.wksc.counting.widegit.MarqueeText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,11 @@ public class SupplyChianPopupwindow extends PopupWindow {
     Button sure;
     CheckBoxListAdapter channelListAdapter,platformListAdapter;
     Activity mContext;
+
+    public StringBuilder sbChannel = new StringBuilder();
+    public StringBuilder sbPlatform = new StringBuilder();
+    private MarqueeText area;
+
     public SupplyChianPopupwindow(Activity context){
         super();
         mContext = context;
@@ -60,6 +66,28 @@ public class SupplyChianPopupwindow extends PopupWindow {
             @Override
             public void onClick(View v) {
                 dissmisPopupwindow();
+                backgroundAlpha(1f);
+                if (sbChannel.length()>0)
+                sbChannel.delete(0,sbChannel.length());
+                for (BaseWithCheckBean bean:channelListAdapter.getList()){
+                    if (bean.isCheck == CheckBoxListAdapter.ALL){
+                        sbChannel.append(bean.name).append(",");
+                    }
+                }
+                if (sbChannel.length()>0){
+                    sbChannel.deleteCharAt(sbChannel.length()-1);
+                }
+                if (sbPlatform.length()>0)
+                sbPlatform.delete(0,sbPlatform.length());
+                for (BaseWithCheckBean bean:platformListAdapter.getList()){
+                    if (bean.isCheck == CheckBoxListAdapter.ALL){
+                        sbPlatform.append(bean.name).append(",");
+                    }
+                }
+                if (sbPlatform.length()>0){
+                    sbPlatform.deleteCharAt(sbPlatform.length()-1);
+                }
+                area.setText(sbChannel+" "+sbPlatform);
             }
         });
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -76,8 +104,14 @@ public class SupplyChianPopupwindow extends PopupWindow {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 platformListAdapter.moveToNextStatus(position);
                 platformListAdapter.notifyDataSetChanged();
+
             }
         });
+
+    }
+
+    public void bindTextView(MarqueeText area) {
+        this.area = area;
     }
 
     public void showPopupwindow(View view){

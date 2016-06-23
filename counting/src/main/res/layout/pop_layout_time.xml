@@ -18,6 +18,7 @@
         android:layout_height="2dp"
         android:background="@color/colorPrimary"/>
     <RadioGroup
+        android:id="@+id/radio_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -35,6 +36,7 @@
             android:background="@drawable/time_pop_selector"
             android:visibility="gone"/>
         <RadioButton
+            android:id="@+id/for_month"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/main_tab_text_selector"
@@ -79,24 +81,27 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
-    <EditText
+    <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:textColor="@color/black"
-        android:hint="yyyymmdd"
+        android:text="按日期查询"
         android:layout_gravity="center_horizontal"
         android:textSize="16sp"
         android:padding="10dp"
         android:gravity="center"
+        android:id="@+id/input"
         />
 
     <ImageButton
+        android:id="@+id/search"
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:src="@drawable/ic_search"
         android:scaleType="centerCrop"
         android:background="@null"
-        android:layout_margin="5dp"/>
+        android:layout_margin="5dp"
+        android:visibility="gone"/>
 </LinearLayout>
 </LinearLayout>

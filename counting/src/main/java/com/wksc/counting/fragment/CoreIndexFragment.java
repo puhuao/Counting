@@ -60,9 +60,9 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
     @Bind(R.id.goods)
     TextView goods;
     @Bind(R.id.time)
-    TextView time;
+    MarqueeText time;
     @Bind(R.id.channel)
-    TextView channel;
+    MarqueeText channel;
     @Bind(R.id.index)
     TextView index;
     private IConfig config = null;
@@ -189,10 +189,12 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
                 break;
             case R.id.time:
                 TimePopupwindow timePopupwindow = new TimePopupwindow(getActivity());
+                timePopupwindow.bindTextView(time);
                 timePopupwindow.showPopupwindow(v);
                 break;
             case R.id.channel:
                 SupplyChianPopupwindow supplyChianPopupwindow = new SupplyChianPopupwindow(getActivity());
+                supplyChianPopupwindow.bindTextView(channel);
                 supplyChianPopupwindow.showPopupwindow(v);
                 break;
             case R.id.index:

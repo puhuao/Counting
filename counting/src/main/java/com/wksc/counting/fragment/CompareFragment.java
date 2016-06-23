@@ -14,8 +14,10 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.wksc.counting.Basedata.BaseDataUtil;
 import com.wksc.counting.R;
 import com.wksc.counting.event.ChangeChartEvent;
+import com.wksc.counting.model.baseinfo.CoreItem;
 import com.wksc.counting.widegit.CustomViewPager;
 import com.wksc.counting.widegit.PagerSlidingTabStrip;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
@@ -62,30 +64,12 @@ public class CompareFragment extends CommonFragment {
     private void initView() {
         indicatorFragmentEntityList = new ArrayList<>();
 
-        for (int i =0 ;i < 5;i++) {
-            String name = null;
-            Fragment fragment = null;
-            FragmentEntity fragmentEntity = null;
-            if (i == 0){
-                fragment = new SalesComparisonFragment();
-                name = "销售额";
-            }else if(i == 1){
-                fragment = new SalesComparisonFragment();
-                name = "毛利额";
-            }else if(i ==2){
-                fragment = new SalesComparisonFragment();
-                name = "毛利率";
-            }
-            else if(i ==3){
-                fragment = new SalesComparisonFragment();
-                name = "客单数";
-            }
-            else if(i ==4){
-                fragment = new SalesComparisonFragment();
-                name = "客单价";
-            }
+        for (int i = 0; i < BaseDataUtil.coreItems.size(); i++) {
+            CoreItem coreItem = BaseDataUtil.coreItems.get(i);
+            String name = coreItem.name;
+            Fragment fragment = new SalesComparisonFragment();
+            FragmentEntity fragmentEntity = new FragmentEntity(name, fragment);
             if (fragment != null) {
-                fragmentEntity = new FragmentEntity(name, fragment);
                 indicatorFragmentEntityList.add(fragmentEntity);
             }
         }
@@ -101,7 +85,7 @@ public class CompareFragment extends CommonFragment {
                     tab.setGravity(Gravity.CENTER);
                     tab.setTextSize(15);
                     tab.setText(indicatorFragmentEntityList.get(i).name);
-                    tab.setPadding(8, 8, 8, 8);
+                    tab.setPadding(10, 8, 10, 8);
 
                     if (indicatorFragmentEntityList.size() == 2) {
                         if (i == 0) {
