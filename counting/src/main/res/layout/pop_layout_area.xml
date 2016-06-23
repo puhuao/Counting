@@ -9,19 +9,22 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="2"
-        android:orientation="horizontal">
-<LinearLayout
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:layout_weight="1"
-    android:orientation="vertical">
+        android:orientation="horizontal"
+        >
 
-        <com.wksc.counting.widegit.unionPickListView.PickListView
-            android:id="@+id/diriction_area"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
-</LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:background="@color/home_press">
+
+            <com.wksc.counting.widegit.unionPickListView.PickListView
+                android:id="@+id/diriction_area"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
         <com.wksc.counting.widegit.unionPickListView.PickListView
             android:id="@+id/diriction_province"
             android:layout_width="0dp"
@@ -34,25 +37,28 @@
             android:layout_height="wrap_content"
             android:layout_weight="1" />
     </LinearLayout>
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="1"
-    android:orientation="vertical"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp">
-    <EditText
-        android:id="@+id/edit_query"
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="请输入门店关键字"
-        android:gravity="center"
-        />
-    <ListView
-        android:id="@+id/stores"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-</LinearLayout>
+        android:layout_height="0dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/edit_query"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:hint="请输入门店关键字" />
+
+        <ListView
+            android:id="@+id/stores"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
     <Button
         android:id="@+id/sure"
         android:layout_width="match_parent"

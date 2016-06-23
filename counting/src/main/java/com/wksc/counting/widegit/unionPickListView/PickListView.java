@@ -65,6 +65,11 @@ public class PickListView extends ListView implements AdapterView.OnItemClickLis
     }
 
 
+    private void getCurrentData(){
+        currentAdapter = (CheckBoxListAdapter) this.getAdapter();
+        currentDataSet = currentAdapter.getList();
+    }
+
     public void initView(ListView superView, ListView scendView) {
         this.setOnItemClickListener(this);
         currentAdapter = (CheckBoxListAdapter) this.getAdapter();
@@ -91,15 +96,26 @@ public class PickListView extends ListView implements AdapterView.OnItemClickLis
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (!hasSuperLevel && hasScendLevel) {
-            scendListView.superPosition = position;
+            getCurrentData();
             BaseDataUtil.updateDataStatus(position,-1,-1,
                     currentAdapter.moveToNextStatus(position));
-            scendDataSet = BaseDataUtil.citys(position);
-            scentAdapter.setList(scendDataSet);
-            scendListView.update(position,0);
+
             //////////////////////////////////////////////////////////
             int checkecNumber = currentAdapter.getCheckedNumber();
 
+            if (checkecNumber == 1){
+                scendListView.superPosition = currentAdapter.oneCheckPosition;
+                scendDataSet = BaseDataUtil.citys(currentAdapter.oneCheckPosition);
+                scentAdapter.setList(scendDataSet);
+                scendListView.update(currentAdapter.oneCheckPosition,0);
+            }else{
+                scendListView.superPosition = position;
+                scendDataSet = BaseDataUtil.citys(position);
+                scentAdapter.setList(scendDataSet);
+                scendListView.update(position,0);
+            }
+
+            ////////////////////////////////////////////////////////////
             if (checkecNumber == currentDataSet.size()) {
                 if (checkecNumber == 1&& currentDataSet.size()==1){
                     scendListView.show();
@@ -110,25 +126,35 @@ public class PickListView extends ListView implements AdapterView.OnItemClickLis
 //                scentAdapter.setAllNormal();
 //                scendListView.hide();
             }else if(checkecNumber == 1){
-//                scentAdapter.setList(BaseDataUtil.citys(currentAdapter.oneCheckPosition));
-
                 scendListView.show();
             }else if (checkecNumber>1){
                 scendListView.hide();
+                BaseDataUtil.citys();
             }
             currentAdapter.notifyDataSetChanged();
             scentAdapter.notifyDataSetChanged();
         } else if (hasSuperLevel && hasScendLevel) {
-            scendListView.scendPosition = position;
+            getCurrentData();
             scendListView.superPosition = superPosition;
             BaseDataUtil.updateDataStatus(superPosition,position,-1,
                     currentAdapter.moveToNextStatus(position));
             //下级列表重新加载当前position对应的列表
             //判断本级当前位置是否选中，选中将下级
-            scendDataSet = BaseDataUtil.countys(superPosition,position);
-            scentAdapter.setList(scendDataSet);
+
             //////////////////////////////////////////////////////////
             int checkecNumber = currentAdapter.getCheckedNumber();
+            if (checkecNumber == 1){
+                scendListView.scendPosition = currentAdapter.oneCheckPosition;
+                scendDataSet = BaseDataUtil.countys(superPosition,currentAdapter.oneCheckPosition);
+                scentAdapter.setList(scendDataSet);
+//                scendListView.update(currentAdapter.oneCheckPosition,0);
+            }else{
+                scendListView.scendPosition = position;
+                scendDataSet = BaseDataUtil.countys(superPosition,position);
+                scentAdapter.setList(scendDataSet);
+//                scendListView.update(superPosition,0);
+            }
+            ///////////////////////////////////////////////////////////////
             if (checkecNumber == currentDataSet.size()) {
                 if (checkecNumber == 1&& currentDataSet.size()==1){
                     scendListView.show();
@@ -142,11 +168,21 @@ public class PickListView extends ListView implements AdapterView.OnItemClickLis
                 scendListView.show();
             }else if (checkecNumber>1){
                 scendListView.hide();
+                BaseDataUtil.countys();
+            }
+
+            if (checkecNumber<currentDataSet.size()&&checkecNumber!=0){
+                superListView.changeSupperStatus(superPosition,CheckBoxListAdapter.HALF);
+            }else if (checkecNumber==currentDataSet.size()){
+                superListView.changeSupperStatus(superPosition,CheckBoxListAdapter.ALL);
+            }else if(checkecNumber==0){
+                superListView.changeSupperStatus(scendPosition,CheckBoxListAdapter.NORMAL);
             }
             currentAdapter.notifyDataSetChanged();
             scentAdapter.notifyDataSetChanged();
             superAdaper.notifyDataSetChanged();
         }else if (hasSuperLevel && !hasScendLevel){
+            getCurrentData();
             BaseDataUtil.updateDataStatus(superPosition,scendPosition,position,
                     currentAdapter.moveToNextStatus(position));
             /////////////////////////////////////////////////////////////
@@ -155,6 +191,13 @@ public class PickListView extends ListView implements AdapterView.OnItemClickLis
                 //super设置为全选
 
                 }
+            if (checkecNumber<currentDataSet.size()&&checkecNumber!=0){
+                superListView.changeSupperStatus(scendPosition,CheckBoxListAdapter.HALF);
+            }else if (checkecNumber==currentDataSet.size()){
+                superListView.changeSupperStatus(scendPosition,CheckBoxListAdapter.ALL);
+            }else if(checkecNumber==0){
+                superListView.changeSupperStatus(scendPosition,CheckBoxListAdapter.NORMAL);
+            }
             currentAdapter.notifyDataSetChanged();
             superAdaper.notifyDataSetChanged();
         }
@@ -163,13 +206,8 @@ public class PickListView extends ListView implements AdapterView.OnItemClickLis
 
     }
 
-    private void changeSupperStatus(){
-        this.superDataSet.get(scendPosition).isCheck = CheckBoxListAdapter.HALF;
-        if (hasSuperLevel){
-            if (this.currentAdapter.getCheckedNumber() < currentDataSet.size()&&this.currentAdapter.getCheckedNumber()>0){
-
-            }
-        }
+    private void changeSupperStatus(int positon,int status){
+        this.currentDataSet.get(positon).isCheck = status;
     }
 
     public void update(int arg1,int arg2){

@@ -1,9 +1,10 @@
 package com.wksc.counting.Basedata;
 
+import com.wksc.counting.adapter.CheckBoxListAdapter;
 import com.wksc.counting.model.baseinfo.BaseWithCheckBean;
 import com.wksc.counting.model.baseinfo.Channel;
+import com.wksc.counting.model.baseinfo.City;
 import com.wksc.counting.model.baseinfo.CoreItem;
-import com.wksc.counting.model.baseinfo.County;
 import com.wksc.counting.model.baseinfo.Region;
 
 import java.util.ArrayList;
@@ -20,34 +21,57 @@ public class BaseDataUtil {
     public static List<BaseWithCheckBean> regions() {
         List<BaseWithCheckBean> regions = new ArrayList<>();
         for (BaseWithCheckBean reg : region) {
-            BaseWithCheckBean county = new County();
-            county.name = reg.name;
-            county.code = reg.code;
-            county.isCheck = reg.isCheck;
-            regions.add(county);
+            regions.add(reg);
         }
         return regions;
     }
 
     public static List<BaseWithCheckBean> citys(int regPosition) {
         List<BaseWithCheckBean> regions = new ArrayList<>();
-        if (region.size()>0)
-        for (BaseWithCheckBean reg : region.get(regPosition).city) {
-            BaseWithCheckBean county = new County();
-            county.name = reg.name;
-            county.code = reg.code;
-            county.isCheck = reg.isCheck;
-            regions.add(county);
-        }
+        if (region.size() > 0)
+            for (BaseWithCheckBean reg : region.get(regPosition).city) {
+                regions.add(reg);
+            }
+        return regions;
+    }
+
+    public static List<BaseWithCheckBean> citys() {
+        List<BaseWithCheckBean> regions = new ArrayList<>();
+        if (region.size() > 0)
+            for (Region bean :
+                    region) {
+                for (BaseWithCheckBean reg : bean.city) {
+                    reg.isCheck = CheckBoxListAdapter.NORMAL;
+                    regions.add(reg);
+                }
+            }
+
         return regions;
     }
 
     public static List<BaseWithCheckBean> countys(int regPosition, int cityPosition) {
         List<BaseWithCheckBean> regions = new ArrayList<>();
-        if (region.size()>0&&region.get(regPosition).city.size()>0)
-        for (BaseWithCheckBean reg : region.get(regPosition).city.get(cityPosition).county) {
-            regions.add(reg);
-        }
+        if (region.size() > 0 && region.get(regPosition).city.size() > 0)
+            for (BaseWithCheckBean reg : region.get(regPosition).city.get(cityPosition).county) {
+                regions.add(reg);
+            }
+        return regions;
+    }
+
+    public static List<BaseWithCheckBean> countys() {
+        List<BaseWithCheckBean> regions = new ArrayList<>();
+        if (region.size() > 0)
+            for (Region bean :
+                    region) {
+                if (bean.city.size() > 0)
+                    for (City city : bean.city) {
+                        if (city.county.size() > 0)
+                            for (BaseWithCheckBean reg : city.county){
+                                reg.isCheck = CheckBoxListAdapter.NORMAL;
+                                regions.add(reg);
+                            }
+                    }
+            }
         return regions;
     }
 
@@ -84,12 +108,12 @@ public class BaseDataUtil {
 
     public static List<BaseWithCheckBean> platforms(int pos) {
         List<BaseWithCheckBean> list = new ArrayList<>();
-        if (channels.size()>0)
-        if (channels.get(pos).MCU != null)
-            for (BaseWithCheckBean channel :
-                    channels.get(pos).MCU) {
-                list.add(channel);
-            }
+        if (channels.size() > 0)
+            if (channels.get(pos).MCU != null)
+                for (BaseWithCheckBean channel :
+                        channels.get(pos).MCU) {
+                    list.add(channel);
+                }
         return list;
     }
 
