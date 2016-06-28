@@ -12,9 +12,9 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 
 import com.wksc.counting.R;
-import com.wksc.counting.adapter.AreaListAdapter;
 import com.wksc.counting.adapter.GoodsListAdapter;
 import com.wksc.counting.model.AreaModel;
+import com.wksc.counting.widegit.MarqueeText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +29,7 @@ public class GoodsPopupwindow extends PopupWindow {
     Activity mContext;
     ListView list ,lvwineYype,lvwineTaste,lvname;
     Button sure;
+    MarqueeText goods;
     GoodsListAdapter areaListAdapter,scendListTypeAdapter,typeListAdapter,nameListAdapter;
     public GoodsPopupwindow(Activity context){
         super();
@@ -162,6 +163,10 @@ public class GoodsPopupwindow extends PopupWindow {
         lp.alpha = bgAlpha; // 0.0-1.0
 
         mContext.getWindow().setAttributes(lp);
+    }
+
+    public void bindTextView(MarqueeText goods) {
+        this.goods = goods;
     }
 
 }

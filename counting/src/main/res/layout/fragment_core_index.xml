@@ -4,111 +4,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
+    <com.wksc.counting.widegit.ConditionLayout
+        android:id="@+id/condition"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="10dp"
-        android:background="#FBF9FA">
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:padding="10dp">
-        <com.wksc.counting.widegit.MarqueeText
-            android:id="@+id/area"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawablePadding="5dp"
-            android:drawableLeft="@drawable/location"
-            android:gravity="center"
-            android:text="区域"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:scrollHorizontally="true"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:ellipsize="marquee"
-            android:singleLine="true"
-            android:drawableRight="@drawable/rectangle"/>
-</LinearLayout>
-        <TextView
-            android:id="@+id/goods"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawablePadding="5dp"
-            android:drawableTop="@drawable/img_good_normal"
-            android:gravity="center"
-            android:text="商品"
-            android:visibility="gone"/>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:padding="10dp">
-        <com.wksc.counting.widegit.MarqueeText
-            android:id="@+id/time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawablePadding="5dp"
-            android:drawableLeft="@drawable/time"
-            android:drawableRight="@drawable/rectangle"
-            android:gravity="center"
-            android:text="时间"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:scrollHorizontally="true"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:ellipsize="marquee"
-            android:singleLine="true"
-            />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:padding="10dp">
-        <com.wksc.counting.widegit.MarqueeText
-            android:id="@+id/channel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawablePadding="5dp"
-            android:drawableLeft="@drawable/channel"
-            android:drawableRight="@drawable/rectangle"
-            android:gravity="center"
-            android:text="渠道"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:scrollHorizontally="true"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:ellipsize="marquee"
-            android:singleLine="true"
-            />
-            </LinearLayout>
-
-        <TextView
-            android:id="@+id/index"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawablePadding="5dp"
-            android:drawableTop="@drawable/img_index_normal"
-            android:gravity="center"
-            android:text="指标"
-            android:visibility="gone"/>
-
-    </LinearLayout>
+        android:layout_height="wrap_content"/>
 
     <ListView
         android:id="@+id/list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></ListView>
+        android:layout_height="match_parent"/>
 </LinearLayout>

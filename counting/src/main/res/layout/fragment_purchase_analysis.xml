@@ -2,37 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <LinearLayout
+    <com.wksc.counting.widegit.ConditionLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="10dp">
-        <TextView
-            android:id="@+id/area"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="区域"
-            android:drawableRight="@drawable/down"
-            android:gravity="center"/>
-        <TextView
-            android:id="@+id/time"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="时间"
-            android:drawableRight="@drawable/down"
-            android:gravity="center"/>
-        <TextView
-            android:id="@+id/goods"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="商品"
-            android:drawableRight="@drawable/down"
-            android:gravity="center" />
-
-    </LinearLayout>
+        android:id="@+id/condition"/>
 
     <com.wksc.counting.widegit.NestedListView
         android:layout_width="match_parent"

@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.charts.LineChart;
@@ -17,14 +16,11 @@ import com.wksc.counting.adapter.SalesCompareListAdapter;
 import com.wksc.counting.callBack.DialogCallback;
 import com.wksc.counting.event.ChangeChartEvent;
 import com.wksc.counting.model.coreDetail.CoreDetail;
-import com.wksc.counting.popwindows.AreaPopupwindow;
-import com.wksc.counting.popwindows.SupplyChianPopupwindow;
-import com.wksc.counting.popwindows.TimePopupwindow;
-import com.wksc.counting.popwindows.TitleDescribewindow;
 import com.wksc.counting.widegit.BarChartTool;
+import com.wksc.counting.widegit.ConditionLayout;
 import com.wksc.counting.widegit.LineChartTool;
-import com.wksc.counting.widegit.MarqueeText;
 import com.wksc.counting.widegit.NestedListView;
+import com.wksc.counting.widegit.TableTitleLayout;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 
 import org.greenrobot.eventbus.EventBus;
@@ -44,26 +40,16 @@ public class SalesComparisonFragment extends CommonFragment {
     NestedListView list;
     @Bind(R.id.chart)
     LineChart mChart;
-    @Bind(R.id.area)
-    LinearLayout area;
-    @Bind(R.id.all_channel)
-    LinearLayout channel;
-    @Bind(R.id.time)
-    LinearLayout time;
     @Bind(R.id.chart1)
     LinearLayout chart1;
     @Bind(R.id.bar_chart_old)
     HorizontalBarChart barChartOld;
     @Bind(R.id.bar_chart_new)
     HorizontalBarChart barChartNew;
-    @Bind(R.id.tv_area)
-    MarqueeText tvArea;
-    @Bind(R.id.tx_time)
-    MarqueeText txTime;
-    @Bind(R.id.channel)
-    MarqueeText txChannel;
+    @Bind(R.id.condition)
+    ConditionLayout conditionLayout;
     @Bind(R.id.titles)
-    LinearLayout titles;
+    TableTitleLayout titles;
 
     SalesCompareListAdapter adapter;
     CoreDetail detail;
@@ -106,31 +92,7 @@ public class SalesComparisonFragment extends CommonFragment {
     private Boolean down = true;
 
     private void initView() {
-
-        area.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AreaPopupwindow areaPopupwindow = new AreaPopupwindow(getActivity());
-                areaPopupwindow.bindTextView(tvArea);
-                areaPopupwindow.showPopupwindow(v);
-            }
-        });
-        channel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SupplyChianPopupwindow supplyChianPopupwindow = new SupplyChianPopupwindow(getActivity());
-                supplyChianPopupwindow.bindTextView(txChannel);
-                supplyChianPopupwindow.showPopupwindow(v);
-            }
-        });
-        time.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TimePopupwindow timePopupwindow = new TimePopupwindow(getActivity());
-                timePopupwindow.bindTextView(txTime);
-                timePopupwindow.showPopupwindow(v);
-            }
-        });
+        conditionLayout.hideGoods(true);
         adapter = new SalesCompareListAdapter(getActivity());
         list.setAdapter(adapter);
 
@@ -157,19 +119,9 @@ public class SalesComparisonFragment extends CommonFragment {
                         newBarTool.initBar(c.CoreChart2);
                         String[] tableTitles = detail.tableTitle.split("\\|");
                         final String[] titleDesc = detail.tableTitleDesc.split("\\|");
-                        for (int i =1 ; i<titles.getChildCount();i++){
-                            TextView textView = (TextView) titles.getChildAt(i);
-                            textView.setText(tableTitles[i-1]);
-                            final int finalI = i;
-                            textView.setOnLongClickListener(new View.OnLongClickListener() {
-                                @Override
-                                public boolean onLongClick(View v) {
-                                    TitleDescribewindow titleSelectPopupWindow = new TitleDescribewindow(getContext());
-                                    titleSelectPopupWindow.showPopupwindow(v,titleDesc[finalI -1]);
-                                    return false;
-                                }
-                            });
-                        }
+                        titles.initView("地区");
+                        titles.initView(tableTitles,
+                                titleDesc);
                         adapter.TransData(detail.tableData);
 
                     }

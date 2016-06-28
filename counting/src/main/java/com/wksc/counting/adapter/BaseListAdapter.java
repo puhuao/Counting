@@ -22,6 +22,13 @@ public abstract class BaseListAdapter<T> extends BaseAdapter {
 
     protected ListView mListView;
 
+    protected int itemCloums;
+
+
+    public void setItemCloums(int cloums){
+        this.itemCloums = cloums;
+    }
+
     public BaseListAdapter(Activity context) {
         this.mContext = context;
     }

@@ -4,16 +4,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import com.wksc.counting.R;
 import com.wksc.counting.adapter.GoodsSalesAnalysisListAdapter;
-import com.wksc.counting.popwindows.AreaPopupwindow;
-import com.wksc.counting.popwindows.GoodsPopupwindow;
-import com.wksc.counting.popwindows.IndexPopupwindow;
-import com.wksc.counting.popwindows.SupplyChianPopupwindow;
-import com.wksc.counting.popwindows.TimePopupwindow;
+import com.wksc.counting.widegit.ConditionLayout;
 import com.wksc.counting.widegit.NestedListView;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 
@@ -25,19 +19,14 @@ import butterknife.ButterKnife;
  *
  * @
  */
-public class GoodsAnalysisFragment extends CommonFragment implements View.OnClickListener {
+public class GoodsAnalysisFragment extends CommonFragment {
     @Bind(R.id.goods_sale_analysis_list)
     NestedListView lvGoodsSaleAnalysis;
-    @Bind(R.id.area)
-    TextView area;
-    @Bind(R.id.goods)
-    TextView goods;
-    @Bind(R.id.time)
-    TextView time;
-    @Bind(R.id.channel)
-    TextView channel;
+    @Bind(R.id.condition)
+    ConditionLayout conditionLayout;
 
     GoodsSalesAnalysisListAdapter goodsSalesAnalysisListAdapter;
+
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_goods_analysis, null);
@@ -56,35 +45,6 @@ public class GoodsAnalysisFragment extends CommonFragment implements View.OnClic
     private void initView() {
         goodsSalesAnalysisListAdapter = new GoodsSalesAnalysisListAdapter(getActivity());
         lvGoodsSaleAnalysis.setAdapter(goodsSalesAnalysisListAdapter);
-        area.setOnClickListener(this);
-        goods.setOnClickListener(this);
-        time.setOnClickListener(this);
-        channel.setOnClickListener(this);
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.area:
-                AreaPopupwindow areaPopupwindow = new AreaPopupwindow(getActivity());
-                areaPopupwindow.showPopupwindow(v);
-                break;
-            case R.id.goods:
-                GoodsPopupwindow goodsPopupwindow = new GoodsPopupwindow(getActivity());
-                goodsPopupwindow.showPopupwindow(v);
-                break;
-            case R.id.time:
-                TimePopupwindow timePopupwindow = new TimePopupwindow(getActivity());
-                timePopupwindow.showPopupwindow(v);
-                break;
-            case R.id.channel:
-                SupplyChianPopupwindow supplyChianPopupwindow = new SupplyChianPopupwindow(getActivity());
-                supplyChianPopupwindow.showPopupwindow(v);
-                break;
-            case R.id.index:
-                IndexPopupwindow indexPopupwindow = new IndexPopupwindow(getActivity());
-                indexPopupwindow.showPopupwindow(v);
-                break;
-        }
-        }
 }

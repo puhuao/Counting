@@ -1,42 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.wksc.counting.widegit.OverScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="10dp">
-            <TextView
-                android:id="@+id/area"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="区域"
-                android:drawableRight="@drawable/down"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-                android:gravity="center"/>
-            <TextView
-                android:id="@+id/time"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="时间"
-                android:drawableRight="@drawable/down"
-                android:gravity="center"/>
-            <TextView
-                android:id="@+id/goods"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="商品"
-                android:drawableRight="@drawable/down"
-                android:gravity="center" />
+            <com.wksc.counting.widegit.ConditionLayout
+                android:id="@+id/condition"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/pie"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="#FBF9FA"
+                android:layout_marginTop="5dp"/>
+
+            <com.wksc.counting.widegit.TableTitleLayout
+                android:id="@+id/titles"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:background="#FBF9FA"
+                android:layout_marginTop="5dp"/>
+
+            <com.wksc.counting.widegit.NestedListView
+                android:id="@+id/sales_analysis"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#FBF9FA"/>
         </LinearLayout>
-
-        <ListView
-            android:id="@+id/sales_analysis"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+    </com.wksc.counting.widegit.OverScrollView>
 </LinearLayout>

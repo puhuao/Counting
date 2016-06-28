@@ -36,7 +36,7 @@ public class LineChartTool {
         mChart.setNoDataTextDescription("You need to provide data for the chart.");
 
         // enable touch gestures
-        mChart.setTouchEnabled(true);
+        mChart.setTouchEnabled(false);
 
         mChart.setDragDecelerationFrictionCoef(0.9f);
 
@@ -121,10 +121,6 @@ public class LineChartTool {
         set1.setFillColor(ColorTemplate.getHoloBlue());
         set1.setHighLightColor(Color.rgb(244, 117, 117));
         set1.setDrawCircleHole(false);
-        //set1.setFillFormatter(new MyFillFormatter(0f));
-//        set1.setDrawHorizontalHighlightIndicator(false);
-//        set1.setVisible(false);
-//        set1.setCircleHoleColor(Color.WHITE);
 
         ArrayList<Entry> yVals2 = new ArrayList<Entry>();
 

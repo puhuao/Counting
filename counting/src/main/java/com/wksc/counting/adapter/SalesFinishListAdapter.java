@@ -1,15 +1,15 @@
 package com.wksc.counting.adapter;
 
 import android.app.Activity;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.style.TextAppearanceSpan;
+import android.graphics.Color;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.wksc.counting.R;
-import com.wksc.counting.model.SalesFinishModel;
+import com.wksc.counting.model.SaleAnaModel.TableModel;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -17,45 +17,50 @@ import butterknife.ButterKnife;
 /**
  * Created by Administrator on 2016/5/29.
  */
-public class SalesFinishListAdapter extends BaseListAdapter<SalesFinishModel>{
+public class SalesFinishListAdapter extends BaseListAdapter<TableModel>{
+
     public SalesFinishListAdapter(Activity context) {
         super(context);
-        setList(SalesFinishModel.getData());
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
-
+        convertView = null;
         if (convertView != null) {
             holder = (ViewHolder) convertView.getTag();
         } else {
-            convertView = mContext.getLayoutInflater().inflate(R.layout.item_sales_list, parent, false);
+            convertView = mContext.getLayoutInflater().inflate(R.layout.item, parent, false);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         }
+        String[] array = mList.get(position).newValue.split("\\|");
+        String[] colors = mList.get(position).newColor.split("\\|");
+        for (int i=0;i<itemCloums;i ++){
+            TextView textView = new TextView(mContext);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT);
+            params.weight = 1;
+            textView.setLayoutParams(params);
+            textView.setGravity(Gravity.CENTER);
+            textView.setPadding(10,10,10,10);
+            textView.setTextSize(12f);
+            if (i==0){
+                textView.setText(mList.get(position).title);
+            }else{
+                textView.setText(array[i-1]);
+                String[] color = colors[i-1].split(",");
+                textView.setTextColor(Color.rgb(Integer.parseInt(color[0]),
+                        Integer.parseInt(color[1]),
+                        Integer.parseInt(color[2])));
+            }
+            holder.layoutContainer.addView(textView);
+        }
 
-        holder.name.setText(mList.get(position).name);
-        holder.data.setText(mList.get(position).goal);
-        SpannableString styledText = new SpannableString(mList.get(position).acture);
-        if (position!=0)
-        styledText.setSpan(new TextAppearanceSpan(mContext, R.style.style1), 0, styledText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        holder.monthRelative.setText(styledText,TextView.BufferType.SPANNABLE);
-        styledText = new SpannableString(mList.get(position).reachRate);
-        if (position!=0)
-        styledText.setSpan(new TextAppearanceSpan(mContext, R.style.style3), 0, styledText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        holder.monthEarlier.setText(styledText,TextView.BufferType.SPANNABLE);
         return convertView;
     }
     class ViewHolder{
-        @Bind(R.id.area)
-        TextView name;
-        @Bind(R.id.old_text1)
-        TextView data;
-        @Bind(R.id.old_text2)
-        TextView monthRelative;
-        @Bind(R.id.old_text3)
-        TextView monthEarlier;
+       @Bind(R.id.item_layout)
+        LinearLayout layoutContainer;
         public ViewHolder(View convertView) {
             ButterKnife.bind(this,convertView);
         }

@@ -9,4 +9,5 @@ public class BaseBean {
     public String retCode;
     public String sessionId;
     public String retMsg;
+    public String principalInfo;
 }
