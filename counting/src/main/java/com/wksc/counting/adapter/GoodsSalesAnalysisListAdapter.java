@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.wksc.counting.R;
 import com.wksc.counting.model.GoodsAnalysisModel;
-import com.wksc.counting.model.SalesFinishModel;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

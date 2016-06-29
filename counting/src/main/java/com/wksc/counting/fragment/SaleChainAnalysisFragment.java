@@ -69,7 +69,7 @@ public class SaleChainAnalysisFragment extends CommonFragment {
         String url = "http://101.200.131.198:8087/gw?cmd=appTopicIndex&class=10&item=20&level=1";
         OkHttpUtils.post(url)//
                 .tag(this)//
-                .execute(new DialogCallback<SaleChannelModel>(getContext(),SaleChannelModel.class) {
+                .execute(new DialogCallback<SaleChannelModel>(getContext(), SaleChannelModel.class) {
 
                     @Override
                     public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
@@ -88,15 +88,15 @@ public class SaleChainAnalysisFragment extends CommonFragment {
 
                         StringBuilder sb1 = new StringBuilder();
                         StringBuilder sb2 = new StringBuilder();
-                        for (int i =0 ;i < c.tableData.size();i++){
+                        for (int i = 0; i < c.tableData.size(); i++) {
                             String[] array = c.tableData.get(i).newValue.split("\\|");
                             sb1.append(array[1]).append("|");
                             sb2.append(array[0]).append("|");
                         }
 
-                        if (sb1.length()>0){
-                            sb1.deleteCharAt(sb1.length()-1);
-                            sb2.deleteCharAt(sb2.length()-1);
+                        if (sb1.length() > 0) {
+                            sb1.deleteCharAt(sb1.length() - 1);
+                            sb2.deleteCharAt(sb2.length() - 1);
                         }
                         PeiModel peiModel = new PeiModel();
                         peiModel.chartPoint1 = sb2.toString();

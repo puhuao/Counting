@@ -99,11 +99,12 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
                                 first.name = obj.getString("name");
                                 first.code = obj.getString("code");
                                 String classS = obj.getString("class");
-                                List<GoodsClassScend> goodsClassScends = (List<GoodsClassScend>)
-                                        GsonUtil.jsonToList(classS);
+                                List<GoodsClassScend> goodsClassScends = GsonUtil.
+                                        fromJsonList(classS, GoodsClassScend.class);
                                 first.classX = goodsClassScends;
                                 goodsClassFirsts.add(first);
                             }
+                            BaseDataUtil.goodsClassFirst.addAll(goodsClassFirsts);
                             Log.i("TAG", goodsClassFirsts.toString());
                             getListData();
                         } catch (JSONException e) {
@@ -146,7 +147,6 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
         View v = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, v);
         coreIndexListAdapter = new CoreIndexListAdapter(getActivity());
-//        coreIndexListAdapter.setList(CoreIndexModel.getData());
         list.setAdapter(coreIndexListAdapter);
         list.setOnItemClickListener(this);
         conditionLayout.hideGoods(true);

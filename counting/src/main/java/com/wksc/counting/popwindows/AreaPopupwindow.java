@@ -13,8 +13,6 @@ import com.wksc.counting.Basedata.BaseDataUtil;
 import com.wksc.counting.R;
 import com.wksc.counting.adapter.CheckBoxListAdapter;
 import com.wksc.counting.model.AreaCheckModel;
-import com.wksc.counting.model.AreaModel;
-import com.wksc.counting.model.baseinfo.BaseWithCheckBean;
 import com.wksc.counting.widegit.MarqueeText;
 import com.wksc.counting.widegit.unionPickListView.PickListView;
 import com.wksc.framwork.util.ToastUtil;
@@ -26,15 +24,11 @@ import java.util.List;
  * Created by Administrator on 2016/5/29.
  */
 public class AreaPopupwindow extends PopupWindow {
-    List<AreaCheckModel> provinces = new ArrayList<>();
-    List<AreaCheckModel> city = new ArrayList<>();
-    List<AreaModel> temp = new ArrayList<>();
-    List<AreaModel> cTemp = new ArrayList<>();
     Activity mContext;
     PickListView regionListView, cityListView,countyListView ;
     Button sure;
 //    CheckBoxListAdapter areaListAdapter,provinceListAdapter,cityListAdapter;
-    CheckBoxListAdapter reginListAdapter;
+    CheckBoxListAdapter regionListAdapter;
     CheckBoxListAdapter cityListAdapter;
     CheckBoxListAdapter countyListAdapter;
 
@@ -62,16 +56,16 @@ public class AreaPopupwindow extends PopupWindow {
                 dismiss();
             }
         });
-        reginListAdapter = new CheckBoxListAdapter(context);
-        reginListAdapter.isAll = true;
-        reginListAdapter.setList(BaseDataUtil.regions());
-        regionListView.setAdapter(reginListAdapter);
+        regionListAdapter = new CheckBoxListAdapter(context);
+        regionListAdapter.isAll = true;
+        regionListAdapter.setList(BaseDataUtil.regions());
+        regionListView.setAdapter(regionListAdapter);
         sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 StringBuilder sb= new StringBuilder();
-                    sb.append(reginListAdapter.sb).append(cityListAdapter.sb).append(countyListAdapter.sb);
+                    sb.append(regionListAdapter.sb).append(cityListAdapter.sb).append(countyListAdapter.sb);
                 dissmisPopupwindow();
                 if (area!=null)
                 if (sb.length()>0){

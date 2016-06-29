@@ -3,10 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-<com.wksc.counting.widegit.ConditionLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:id="@+id/condition"/>
+
+    <com.wksc.counting.widegit.ConditionLayout
+        android:id="@+id/condition"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <com.wksc.counting.widegit.OverScrollView
         android:layout_width="match_parent"
@@ -16,45 +17,35 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-
-            <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="会员购买情况" />
-            <com.github.mikephil.charting.charts.PieChart
-                android:id="@+id/pie1"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"/>
             <com.wksc.counting.widegit.NestedListView
-                android:id="@+id/lv_vip_purchase"
+                android:id="@+id/lv1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="会员/非会员订单对比" />
+                android:divider="@null"/>
 
-            <com.github.mikephil.charting.charts.PieChart
-                android:id="@+id/pie2"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"/>
-            <com.wksc.counting.widegit.NestedListView
-                android:id="@+id/lv_vip_compare"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
             <TextView
+                android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:text="渠道会员新增数" />
+
             <com.github.mikephil.charting.charts.PieChart
-                android:id="@+id/pie3"
+                android:id="@+id/pie"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"/>
+                android:layout_height="200dp" />
+
+            <com.wksc.counting.widegit.TableTitleLayout
+                android:id="@+id/table_titles"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="#FBF9FA"
+                android:orientation="horizontal"
+                android:padding="10dp" />
+
             <com.wksc.counting.widegit.NestedListView
-                android:id="@+id/lv_chain_vip_grow"
+                android:id="@+id/lv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>

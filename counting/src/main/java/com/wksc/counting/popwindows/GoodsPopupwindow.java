@@ -11,9 +11,10 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 
+import com.wksc.counting.Basedata.BaseDataUtil;
 import com.wksc.counting.R;
-import com.wksc.counting.adapter.GoodsListAdapter;
-import com.wksc.counting.model.AreaModel;
+import com.wksc.counting.adapter.CheckBoxListAdapter;
+import com.wksc.counting.model.baseinfo.BaseWithCheckBean;
 import com.wksc.counting.widegit.MarqueeText;
 
 import java.util.ArrayList;
@@ -22,23 +23,24 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/5/29.
  */
-public class GoodsPopupwindow extends PopupWindow {
-    List<AreaModel> scendTyep = new ArrayList<>();
-    List<AreaModel> type = new ArrayList<>();
-    List<AreaModel> names = new ArrayList<>();
+public class GoodsPopupWindow extends PopupWindow {
+
+    public StringBuilder sbChannel = new StringBuilder();
+    public StringBuilder sbPlatform = new StringBuilder();
+    List<BaseWithCheckBean> type = new ArrayList<>();
+    List<BaseWithCheckBean> names = new ArrayList<>();
     Activity mContext;
-    ListView list ,lvwineYype,lvwineTaste,lvname;
+    ListView lvGoodsType,lvGoodsName;
     Button sure;
     MarqueeText goods;
-    GoodsListAdapter areaListAdapter,scendListTypeAdapter,typeListAdapter,nameListAdapter;
-    public GoodsPopupwindow(Activity context){
+    CheckBoxListAdapter typeListAdapter,nameListAdapter;
+    public int superPosition;
+    public GoodsPopupWindow(Activity context){
         super();
         mContext = context;
         View view = LayoutInflater.from(context).inflate(R.layout.pop_layout_goods,null);
-        list = (ListView) view.findViewById(R.id.wine_condition);
-        lvwineYype = (ListView) view.findViewById(R.id.wine_type);
-        lvwineTaste = (ListView) view.findViewById(R.id.wine_taste);
-        lvname = (ListView) view.findViewById(R.id.wine_name);
+        lvGoodsType = (ListView) view.findViewById(R.id.wine_type);
+        lvGoodsName = (ListView) view.findViewById(R.id.wine_name);
         sure = (Button) view.findViewById(R.id.sure);
         this.setContentView(view);
         this.setOutsideTouchable(true);
@@ -53,97 +55,69 @@ public class GoodsPopupwindow extends PopupWindow {
                 dismiss();
             }
         });
-//        areaListAdapter = new GoodsListAdapter(context);
-//        reginListView.setAdapter(areaListAdapter);
-//        reginListView.setVisibility(View.GONE);
         sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dissmisPopupwindow();
+                backgroundAlpha(1f);
+
+                if (sbChannel.length()>0)
+                    sbChannel.delete(0,sbChannel.length());
+                for (BaseWithCheckBean bean:typeListAdapter.getList()){
+                    if (bean.isCheck == CheckBoxListAdapter.ALL){
+                        sbChannel.append(bean.name).append(",");
+                    }
+                }
+                if (sbChannel.length()>0){
+                    sbChannel.deleteCharAt(sbChannel.length()-1);
+                }
+                if (sbPlatform.length()>0)
+                    sbPlatform.delete(0,sbPlatform.length());
+                for (BaseWithCheckBean bean:nameListAdapter.getList()){
+                    if (bean.isCheck == CheckBoxListAdapter.ALL){
+                        sbPlatform.append(bean.name).append(",");
+                    }
+                }
+                if (sbPlatform.length()>0){
+                    sbPlatform.deleteCharAt(sbPlatform.length()-1);
+                }
+                goods.setText(sbChannel+" "+sbPlatform);
             }
         });
-        scendTyep.add(new AreaModel("全部"));
-        scendTyep.add(new AreaModel("白酒"));
-        scendTyep.add(new AreaModel("黄酒"));
-        scendTyep.add(new AreaModel("进口葡萄酒"));
-        scendTyep.add(new AreaModel("国产葡萄酒"));
-        scendTyep.add(new AreaModel("啤酒"));
-        scendTyep.add(new AreaModel("器具"));
-        type.add(new AreaModel("酱香型"));
-        type.add(new AreaModel("浓香型"));
-        names.add(new AreaModel("五粮液"));
-        names.add(new AreaModel("泸州老窖"));
-        names.add(new AreaModel("茅台"));
-        names.add(new AreaModel("贡酒"));
-        scendListTypeAdapter = new GoodsListAdapter(context);
-        scendListTypeAdapter.setList(scendTyep);
-        lvwineYype.setAdapter(scendListTypeAdapter);
 
-        typeListAdapter = new GoodsListAdapter(context);
+        typeListAdapter = new CheckBoxListAdapter(context);
+        type = BaseDataUtil.goodsClassFirst();
         typeListAdapter.setList(type);
-        lvwineTaste.setAdapter(typeListAdapter);
+        lvGoodsType.setAdapter(typeListAdapter);
 
-        nameListAdapter = new GoodsListAdapter(context);
+        nameListAdapter = new CheckBoxListAdapter(context);
+        names = BaseDataUtil.goodsClassScend(0);
         nameListAdapter.setList(names);
-        lvname.setAdapter(nameListAdapter);
+        lvGoodsName.setAdapter(nameListAdapter);
 
-        lvwineTaste.setVisibility(View.GONE);
-        lvname.setVisibility(View.GONE);
-        lvwineYype.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lvGoodsType.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0){
-                    scendListTypeAdapter.setAllCheck(!scendTyep.get(position).isCheck);
-                    scendListTypeAdapter.notifyDataSetChanged();
-                    lvwineTaste.setVisibility(View.GONE);
-                    lvname.setVisibility(View.GONE);
-                }else{
-                    scendTyep.get(0).isCheck = false;
-                    scendTyep.get(position).isCheck = !scendTyep.get(position).isCheck;
-                    scendListTypeAdapter.notifyDataSetChanged();
-                    int checkecNumber =  scendListTypeAdapter.getCheckedNumber();
-                    if (checkecNumber >1){
-                        lvwineTaste.setVisibility(View.GONE);
-                        typeListAdapter.setAllCheck(false);
-                        typeListAdapter.notifyDataSetChanged();
-                        lvname.setVisibility(View.GONE);
-                        nameListAdapter.setAllCheck(false);
-                        nameListAdapter.notifyDataSetChanged();
-//                        lvCity.setVisibility(View.GONE);
-                    }else if(checkecNumber==1){
-                        typeListAdapter.setAllCheck(true);
-                        typeListAdapter.notifyDataSetChanged();
-                        lvwineTaste.setVisibility(View.VISIBLE);
-//                        lvCity.setVisibility(View.GONE);
-                    }
-                    if(checkecNumber == scendTyep.size()-1){
-                        scendTyep.get(0).isCheck = true;
-                    }
-                }
-            }
-        });
-
-        lvwineTaste.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                type.get(position).isCheck = !type.get(position).isCheck;
-                int checkedNumber = typeListAdapter.getCheckedNumber();
-                if (checkedNumber>1){
-                    nameListAdapter.setAllCheck(false);
-                    nameListAdapter.notifyDataSetChanged();
-                    lvname.setVisibility(View.GONE);
-                }else{
-                    nameListAdapter.setAllCheck(true);
-                    nameListAdapter.notifyDataSetChanged();
-                    lvname.setVisibility(View.VISIBLE);
-                }
+                BaseDataUtil.updateGoodsStatus(position,-1,
+                        typeListAdapter.moveToNextStatus(position));
                 typeListAdapter.notifyDataSetChanged();
+                superPosition = position;
+                nameListAdapter.setList(BaseDataUtil.goodsClassScend(position));
+                nameListAdapter.notifyDataSetChanged();
+                if (typeListAdapter.getCheckedNumber()>1){
+                    lvGoodsName.setVisibility(View.INVISIBLE);
+                }else if(typeListAdapter.getCheckedNumber()==1){
+                    lvGoodsName.setVisibility(View.VISIBLE);
+                }
+
             }
         });
-        lvname.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+        lvGoodsName.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                names.get(position).isCheck = !names.get(position).isCheck;
+                BaseDataUtil.updateGoodsStatus(superPosition,position,
+                        nameListAdapter.moveToNextStatus(position));
                 nameListAdapter.notifyDataSetChanged();
             }
         });

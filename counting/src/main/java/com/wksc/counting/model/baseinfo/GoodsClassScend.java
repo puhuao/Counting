@@ -5,7 +5,5 @@ package com.wksc.counting.model.baseinfo;
  *
  * @
  */
-public class GoodsClassScend {
-    public String name;
-    public String code;
+public class GoodsClassScend extends BaseWithCheckBean{
 }

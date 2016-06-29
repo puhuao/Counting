@@ -6,15 +6,12 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.wksc.counting.R;
 import com.wksc.counting.popwindows.AreaPopupwindow;
-import com.wksc.counting.popwindows.GoodsPopupwindow;
+import com.wksc.counting.popwindows.GoodsPopupWindow;
 import com.wksc.counting.popwindows.SupplyChianPopupwindow;
 import com.wksc.counting.popwindows.TimePopupwindow;
-
-import butterknife.Bind;
 
 /**
  * Created by puhua on 2016/6/28.
@@ -23,17 +20,11 @@ import butterknife.Bind;
  */
 public class ConditionLayout extends LinearLayout implements View.OnClickListener {
     MarqueeText area;
-    TextView goods;
-    @Bind(R.id.time)
+    MarqueeText goods;
     MarqueeText time;
-    @Bind(R.id.channel)
     MarqueeText channel;
-    @Bind(R.id.layout_goods)
     LinearLayout layoutGoods;
-    @Bind(R.id.layout_channel)
     LinearLayout layoutChannel;
-//    @Bind(R.id.index)
-//    TextView index;
     public ConditionLayout(Context context) {
         super(context);
     }
@@ -77,8 +68,9 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
                 areaPopupwindow.showPopupwindow(v);
                 break;
             case R.id.goods:
-                GoodsPopupwindow goodsPopupwindow = new GoodsPopupwindow((Activity) getContext());
-                goodsPopupwindow.showPopupwindow(v);
+                GoodsPopupWindow goodsPopupWindow = new GoodsPopupWindow((Activity) getContext());
+                goodsPopupWindow.bindTextView(goods);
+                goodsPopupWindow.showPopupwindow(v);
                 break;
             case R.id.time:
                 TimePopupwindow timePopupwindow = new TimePopupwindow((Activity) getContext());

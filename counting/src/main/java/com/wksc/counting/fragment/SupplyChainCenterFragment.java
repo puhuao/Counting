@@ -10,17 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.wksc.counting.R;
-import com.wksc.counting.adapter.SalesFinishListAdapter;
-import com.wksc.counting.adapter.SalesSupplyListAdapter;
-import com.wksc.counting.popwindows.AreaPopupwindow;
-import com.wksc.counting.popwindows.GoodsPopupwindow;
-import com.wksc.counting.popwindows.IndexPopupwindow;
-import com.wksc.counting.popwindows.SupplyChianPopupwindow;
-import com.wksc.counting.popwindows.TimePopupwindow;
 import com.wksc.counting.widegit.CustomViewPager;
 import com.wksc.counting.widegit.PagerSlidingTabStrip;
 import com.wksc.framwork.baseui.fragment.CommonFragment;

@@ -3,9 +3,6 @@ package com.wksc.counting.adapter;
 import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.style.TextAppearanceSpan;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -23,7 +20,7 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import com.wksc.counting.R;
 import com.wksc.counting.model.CoreIndexListModel;
 import com.wksc.counting.popwindows.TitleDescribewindow;
-import com.wksc.framwork.util.ToastUtil;
+import com.wksc.framwork.util.StringUtils;
 
 import java.util.ArrayList;
 
@@ -72,11 +69,18 @@ public class CoreIndexListAdapter extends BaseListAdapter<CoreIndexListModel>{
         holder.text2.setTextColor(Color.rgb(red,green,blue));
 //        holder.monthData.setText("月累计: "+mList.get(position).mounthData);
         holder.name3.setText(mList.get(position).item3);
+        color = mList.get(position).itemColor3.split(",");
         holder.text3.setText(mList.get(position).itemValue3);
+        holder.text3.setTextColor(Color.rgb(Integer.valueOf(color[0]),
+                Integer.valueOf(color[1]),Integer.valueOf(color[2])));
         holder.text4.setText(mList.get(position).itemValue4);
         holder.name4.setText(mList.get(position).item4);
-        color = mList.get(position).itemColor4.split(",");
-        holder.text4.setTextColor(Color.rgb(Integer.valueOf(color[0]),Integer.valueOf(color[1]),Integer.valueOf(color[2])));
+        if (!StringUtils.isBlank(mList.get(position).itemColor4)){
+
+            color = mList.get(position).itemColor4.split(",");
+            holder.text4.setTextColor(Color.rgb(Integer.valueOf(color[0]),
+                    Integer.valueOf(color[1]),Integer.valueOf(color[2])));
+        }
         holder.chart.setDescription("");
         holder.chart.setNoDataTextDescription("You need to provide data for the chart.");
 

@@ -5,6 +5,7 @@ import com.wksc.counting.model.baseinfo.BaseWithCheckBean;
 import com.wksc.counting.model.baseinfo.Channel;
 import com.wksc.counting.model.baseinfo.City;
 import com.wksc.counting.model.baseinfo.CoreItem;
+import com.wksc.counting.model.baseinfo.GoodsClassFirst;
 import com.wksc.counting.model.baseinfo.Region;
 
 import java.util.ArrayList;
@@ -20,6 +21,25 @@ public class BaseDataUtil {
     public static StringBuilder sbRegion= new StringBuilder();
     public static StringBuilder sbCity= new StringBuilder();
     public static StringBuilder sbCounty= new StringBuilder();
+    public static List<GoodsClassFirst> goodsClassFirst = new ArrayList<>();
+
+    public static List<BaseWithCheckBean> goodsClassFirst() {
+        List<BaseWithCheckBean> regions = new ArrayList<>();
+        for (BaseWithCheckBean reg : goodsClassFirst) {
+            regions.add(reg);
+        }
+        return regions;
+    }
+
+    public static List<BaseWithCheckBean> goodsClassScend(int position) {
+        List<BaseWithCheckBean> regions = new ArrayList<>();
+        if (goodsClassFirst.size() > 0)
+            for (BaseWithCheckBean reg : goodsClassFirst.get(position).classX) {
+                regions.add(reg);
+            }
+        return regions;
+    }
+
     public static List<BaseWithCheckBean> regions() {
         List<BaseWithCheckBean> regions = new ArrayList<>();
         for (BaseWithCheckBean reg : region) {
@@ -143,6 +163,18 @@ public class BaseDataUtil {
 
         if (arg1 != -1 && arg2 != -1 && arg3 != -1) {
             region.get(arg1).city.get(arg2).county.get(arg3).isCheck = isCheck;
+            return;
+        }
+
+    }
+
+    public static void updateGoodsStatus(int arg1, int arg2, int isCheck) {
+        if (arg1 != -1 && arg2 == -1) {
+            goodsClassFirst.get(arg1).isCheck = isCheck;
+            return;
+        }
+        if (arg1 != -1 && arg2 != -1) {
+            goodsClassFirst.get(arg1).classX.get(arg2).isCheck = isCheck;
             return;
         }
 

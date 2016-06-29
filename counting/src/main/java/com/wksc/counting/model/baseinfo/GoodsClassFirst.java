@@ -7,9 +7,7 @@ import java.util.List;
  *
  * @
  */
-public class GoodsClassFirst {
-    public String name;
-    public String code;
+public class GoodsClassFirst extends BaseWithCheckBean{
 //    @SerializedName("class")
     public List<GoodsClassScend> classX;
 }
