@@ -81,6 +81,7 @@ public class GoodsPopupWindow extends PopupWindow {
                 if (sbPlatform.length()>0){
                     sbPlatform.deleteCharAt(sbPlatform.length()-1);
                 }
+                if(sbChannel.length()>0||sbPlatform.length()>0)
                 goods.setText(sbChannel+" "+sbPlatform);
             }
         });
