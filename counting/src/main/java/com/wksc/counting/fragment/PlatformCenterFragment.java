@@ -79,7 +79,8 @@ public class PlatformCenterFragment extends CommonFragment {
     }
 
     private void getListData() {
-        String url = "http://101.200.131.198:8087/gw?cmd=appTopicIndex&class=10&item=30&level=1";
+//        String url = "http://101.200.131.198:8087/gw?cmd=appTopicIndex&class=10&item=30&level=1";
+        String url = "http://10.1.100.6/ea/gw?cmd=appTopicIndex&class=10&item=30&level=1";
         OkHttpUtils.post(url)//
                 .tag(this)//
                 .execute(new DialogCallback<PlatFormModel>(getContext(), PlatFormModel.class) {

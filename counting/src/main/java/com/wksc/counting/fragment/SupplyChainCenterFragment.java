@@ -86,7 +86,7 @@ public class SupplyChainCenterFragment extends CommonFragment {
                     LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                     params.setMargins(10,0,10,0);
                     tab.setLayoutParams(params);
-                    tab.setBackground(getResources().getDrawable(R.drawable.tab_text_selector));
+//                    tab.setBackground(getResources().getDrawable(R.drawable.tab_text_selector));
                     if (indicatorFragmentEntityList.size() == 2) {
                         if (i == 0) {
                             tab.setTextColor(getResources().getColor(R.color.bg_color));

@@ -35,9 +35,9 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 /**
- * Created by Administrator on 2016/5/29.
+ * Created by Administrator on 2016/7/1.
  */
-public class SalesComparisonFragment extends CommonFragment {
+public class TogleFragment extends CommonFragment {
     @Bind(R.id.list_view)
     NestedListView list;
     @Bind(R.id.chart)
@@ -59,6 +59,7 @@ public class SalesComparisonFragment extends CommonFragment {
     BarChartTool newBarTool;
     LineChartTool lineChartTool;
     private String param;
+    private String provice;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +69,12 @@ public class SalesComparisonFragment extends CommonFragment {
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_sales_comparison, null);
-        hideTitleBar();
+        getTitleHeaderBar().setLeftOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goBack();
+            }
+        });
         return v;
     }
 
@@ -82,8 +88,9 @@ public class SalesComparisonFragment extends CommonFragment {
 
         lineChartTool = new LineChartTool(mChart, getContext());
         lineChartTool.initLinChart();
-        Bundle bundle = getArguments();
+        Bundle bundle = (Bundle) getmDataIn();
         param = bundle.getString("param");
+        provice = bundle.getString("provice");
         initView();
         return v;
     }
@@ -103,13 +110,10 @@ public class SalesComparisonFragment extends CommonFragment {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Bundle bundle = new Bundle();
-                bundle.putString("param",param);
-                bundle.putString("provice",adapter.getList().get(position).code);
-                getContext().pushFragmentToBackStack(TogleFragment.class, bundle);
+//                getData("423");
             }
         });
-        getData(null);
+        getData(provice);
     }
 
     private void getData(String provice) {
@@ -133,7 +137,7 @@ public class SalesComparisonFragment extends CommonFragment {
 
                     @Override
                     public void onResponse(boolean isFromCache, CoreDetail c, Request request, @Nullable Response response) {
-                            Log.i("TAG",c.toString());
+                        Log.i("TAG",c.toString());
                         detail = c;
                         oldBarTool.initBar(c.CoreChart1);
                         newBarTool.initBar(c.CoreChart2);
@@ -166,3 +170,4 @@ public class SalesComparisonFragment extends CommonFragment {
         EventBus.getDefault().unregister(this);
     }
 }
+

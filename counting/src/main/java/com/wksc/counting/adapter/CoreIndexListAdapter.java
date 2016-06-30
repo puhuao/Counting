@@ -99,7 +99,7 @@ public class CoreIndexListAdapter extends BaseListAdapter<CoreIndexListModel>{
         holder.chart.setPinchZoom(true);
 
         // set an alternative background color
-        holder.chart.setBackgroundColor(Color.LTGRAY);
+        holder.chart.setBackgroundColor(Color.WHITE);
 
         // add data
         setData(6, mList.get(position).chartData,holder.chart,position);
@@ -171,6 +171,7 @@ public class CoreIndexListAdapter extends BaseListAdapter<CoreIndexListModel>{
         set1.setFillColor(ColorTemplate.getHoloBlue());
         set1.setHighLightColor(Color.rgb(244, 117, 117));
         set1.setDrawCircleHole(false);
+        set1.setDrawFilled(true);
         ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
         dataSets.add(set1); // add the datasets
 

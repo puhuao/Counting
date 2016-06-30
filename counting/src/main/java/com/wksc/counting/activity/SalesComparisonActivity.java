@@ -15,7 +15,9 @@ public class SalesComparisonActivity extends CommonActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_container);
-        pushFragmentToBackStack(CompareFragment.class, null);
+
+
+        pushFragmentToBackStack(CompareFragment.class, getIntent().getExtras());
     }
 
     @Override

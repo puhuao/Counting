@@ -22,6 +22,6 @@ public class TabelValueModel implements Serializable {
     public String oldColor;
     public String oldValue;
     public String newColor;
-
+    public String code;
 
 }

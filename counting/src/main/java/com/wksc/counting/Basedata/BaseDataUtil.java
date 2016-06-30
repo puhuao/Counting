@@ -23,6 +23,17 @@ public class BaseDataUtil {
     public static StringBuilder sbCounty= new StringBuilder();
     public static List<GoodsClassFirst> goodsClassFirst = new ArrayList<>();
 
+    public static List<CoreItem> coreItems = new ArrayList<>();
+
+    public static List<Channel> channels = new ArrayList<>();
+
+    public static void clearData(){
+        region.clear();
+        goodsClassFirst.clear();
+        coreItems.clear();
+        channels.clear();
+    }
+
     public static List<BaseWithCheckBean> goodsClassFirst() {
         List<BaseWithCheckBean> regions = new ArrayList<>();
         for (BaseWithCheckBean reg : goodsClassFirst) {
@@ -180,9 +191,6 @@ public class BaseDataUtil {
 
     }
 
-    public static List<CoreItem> coreItems = new ArrayList<>();
-
-    public static List<Channel> channels = new ArrayList<>();
 
     public static List<BaseWithCheckBean> channels() {
         List<BaseWithCheckBean> list = new ArrayList<>();

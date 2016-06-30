@@ -45,6 +45,7 @@ public class CompareFragment extends CommonFragment {
 
     private ArrayList<FragmentEntity> indicatorFragmentEntityList;
     private MyPagerAdapter adapter;
+    private String param;
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -57,22 +58,36 @@ public class CompareFragment extends CommonFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, v);
+        Bundle bundle = (Bundle) getmDataIn();
+        param = bundle.getString("param");
         initView();
         return v;
     }
-
+private int pos;
     private void initView() {
         indicatorFragmentEntityList = new ArrayList<>();
 
         for (int i = 0; i < BaseDataUtil.coreItems.size(); i++) {
             CoreItem coreItem = BaseDataUtil.coreItems.get(i);
+            if (param.equals(coreItem.code)){
+                pos = i;
+            }
             String name = coreItem.name;
-            Fragment fragment = new SalesComparisonFragment();
+            Fragment fragment ;
+            if (coreItem.code.equals("60")||coreItem.code.equals("70")){
+                fragment = new VipComparisonFragment();
+            }else {
+              fragment  = new SalesComparisonFragment();
+            }
+            Bundle bundle = new Bundle();
+            bundle.putString("param",coreItem.code);
+            fragment.setArguments(bundle);
             FragmentEntity fragmentEntity = new FragmentEntity(name, fragment);
             if (fragment != null) {
                 indicatorFragmentEntityList.add(fragmentEntity);
             }
         }
+
         Drawable drawable = getResources().getDrawable(R.drawable.slide_block_shape);
         mIndicator.setSlidingBlockDrawable(drawable);
 
@@ -114,7 +129,6 @@ public class CompareFragment extends CommonFragment {
         mViewPager.setPagingEnabled(false);
         mViewPager.setOffscreenPageLimit(3);
         mIndicator.setViewPager(mViewPager);
-
         mIndicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -151,7 +165,7 @@ public class CompareFragment extends CommonFragment {
             public void onPageScrollStateChanged(int state) {
             }
         });
-
+        mIndicator.selectedTab(pos);
         btnRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

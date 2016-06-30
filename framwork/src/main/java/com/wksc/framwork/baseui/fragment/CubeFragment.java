@@ -26,6 +26,10 @@ public abstract class CubeFragment extends Fragment implements ICubeFragment,ICo
 
     private static final boolean DEBUG = AppDebug.DEBUG_LIFE_CYCLE;
 
+    public Object getmDataIn() {
+        return mDataIn;
+    }
+
     protected Object mDataIn;
 
     private boolean mFirstResume = true;

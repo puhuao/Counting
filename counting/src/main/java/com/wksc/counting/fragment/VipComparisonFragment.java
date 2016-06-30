@@ -14,6 +14,7 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.lzy.okhttputils.OkHttpUtils;
 import com.wksc.counting.R;
 import com.wksc.counting.adapter.SalesCompareListAdapter;
+import com.wksc.counting.adapter.VipCompareAdapter;
 import com.wksc.counting.callBack.DialogCallback;
 import com.wksc.counting.event.ChangeChartEvent;
 import com.wksc.counting.model.coreDetail.CoreDetail;
@@ -37,7 +38,7 @@ import okhttp3.Response;
 /**
  * Created by Administrator on 2016/5/29.
  */
-public class SalesComparisonFragment extends CommonFragment {
+public class VipComparisonFragment extends CommonFragment {
     @Bind(R.id.list_view)
     NestedListView list;
     @Bind(R.id.chart)
@@ -53,7 +54,7 @@ public class SalesComparisonFragment extends CommonFragment {
     @Bind(R.id.titles)
     TableTitleLayout titles;
 
-    SalesCompareListAdapter adapter;
+    VipCompareAdapter adapter;
     CoreDetail detail;
     BarChartTool oldBarTool;
     BarChartTool newBarTool;
@@ -98,7 +99,7 @@ public class SalesComparisonFragment extends CommonFragment {
 
     private void initView() {
         conditionLayout.hideGoods(true);
-        adapter = new SalesCompareListAdapter(getActivity());
+        adapter = new VipCompareAdapter(getActivity());
         list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -106,7 +107,7 @@ public class SalesComparisonFragment extends CommonFragment {
                 Bundle bundle = new Bundle();
                 bundle.putString("param",param);
                 bundle.putString("provice",adapter.getList().get(position).code);
-                getContext().pushFragmentToBackStack(TogleFragment.class, bundle);
+                getContext().pushFragmentToBackStack(TogleVipComparisonFragment.class, bundle);
             }
         });
         getData(null);
@@ -142,8 +143,8 @@ public class SalesComparisonFragment extends CommonFragment {
                         titles.initView("地区");
                         titles.initView(tableTitles,
                                 titleDesc);
-                        adapter.TransData(detail.tableData);
-
+//                        adapter.TransData(detail.tableData);
+                        adapter.setList(c.tableData);
                     }
 
                 });

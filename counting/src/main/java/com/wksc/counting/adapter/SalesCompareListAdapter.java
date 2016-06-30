@@ -35,6 +35,7 @@ public class SalesCompareListAdapter extends BaseListAdapter<ComparisonModel> {
             String[] newValues = tableData.get(i).newValue.split("\\|");
             model.oldDatas = oldValues;
             model.newDatas = newValues;
+            model.code = tableData.get(i).code;
             model.area = tableData.get(i).title;
             mList.add(model);
         }

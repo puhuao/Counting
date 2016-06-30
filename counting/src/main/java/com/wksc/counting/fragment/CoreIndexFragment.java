@@ -65,7 +65,8 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
     }
 
     private void getBaseData() {
-        String url = "http://101.200.131.198:8087/gw?cmd=appGetBaseInfo";
+//        String url = "http://101.200.131.198:8087/gw?cmd=appGetBaseInfo";
+        String url = "http://10.1.100.6/ea/gw?cmd=appGetBaseInfo";
         OkHttpUtils.post(url)//
                 .tag(this)//
 //                .headers("header1", "headerValue1")//
@@ -87,6 +88,7 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
                             String channel = object.getString("channel");
                             String items = object.getString("coreitem");
                             JSONArray array = object.getJSONArray("GoodsClass");
+                            BaseDataUtil.clearData();
                             BaseDataUtil.region.addAll(
                                     GsonUtil.fromJsonList(region, Region.class));
                             BaseDataUtil.channels.addAll(GsonUtil.fromJsonList(channel, Channel.class));
@@ -116,7 +118,8 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
     }
 
     private void getListData() {
-        String url = "http://101.200.131.198:8087/gw?cmd=appCoreIndex";
+//        String url = "http://101.200.131.198:8087/gw?cmd=appCoreIndex";
+        String url = "http://10.1.100.6/ea/gw?cmd=appCoreIndex&year=2016&month=06";
         OkHttpUtils.post(url)//
                 .tag(this)//
                 .execute(new DialogCallback<String>(getContext(), String.class) {
@@ -156,7 +159,9 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //        getContext().pushFragmentToBackStack(RegisterFragment.class, null);
-        startActivity(SalesComparisonActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("param",coreIndexListAdapter.getList().get(position).coreCode);
+        startActivity(SalesComparisonActivity.class,bundle);
     }
 
 
