@@ -19,6 +19,7 @@ public class NewsFragment extends CommonFragment {
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_news, null);
+        hideLeftButton();
         return v;
     }
 
@@ -26,7 +27,6 @@ public class NewsFragment extends CommonFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, v);
-
         return v;
     }
 }

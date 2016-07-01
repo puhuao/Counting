@@ -2,16 +2,85 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="more"/>
-    <TextView
-        android:id="@+id/loc"
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="设置手势密码"
-        android:gravity="left|center_vertical"
-        android:padding="10dp"
-        />
+        android:layout_height="0dip"
+        android:layout_weight="2"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:background="@color/colorPrimary">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableTop="@drawable/default_header" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/textView"
+            android:layout_gravity="center_horizontal" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="3"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:background="@color/list_divider_color"
+        android:layout_marginTop="2dp">
+        <TextView
+            android:id="@+id/modify_pass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="修改密码"
+            android:gravity="left|center_vertical"
+            android:padding="12dp"
+            android:drawableRight="@drawable/ic_more"
+            android:background="@color/white"/>
+        <TextView
+            android:id="@+id/loc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="设置手势密码"
+            android:gravity="left|center_vertical"
+            android:padding="12dp"
+            android:drawableRight="@drawable/ic_more"
+            android:background="@color/white"
+            android:layout_marginTop="0.5dp"/>
+        <TextView
+            android:id="@+id/index_choice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="指标选择"
+            android:gravity="left|center_vertical"
+            android:padding="12dp"
+            android:drawableRight="@drawable/ic_more"
+            android:background="@color/white"
+            android:layout_marginTop="0.5dp"/>
+        <TextView
+            android:id="@+id/clear_catch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="清空缓存"
+            android:gravity="left|center_vertical"
+            android:padding="12dp"
+            android:drawableRight="@drawable/ic_more"
+            android:background="@color/white"
+            android:layout_marginTop="10dp"/>
+        <TextView
+            android:id="@+id/logout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="退出登录"
+            android:gravity="center_horizontal"
+            android:padding="12dp"
+            android:background="@color/white"
+            android:layout_marginTop="0.5dp"
+            android:textColor="@color/text_color_abnormal"/>
+    </LinearLayout>
+
 </LinearLayout>

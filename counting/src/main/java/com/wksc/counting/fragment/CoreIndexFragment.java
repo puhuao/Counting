@@ -67,82 +67,92 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
     private void getBaseData() {
 //        String url = "http://101.200.131.198:8087/gw?cmd=appGetBaseInfo";
         String url = "http://10.1.100.6/ea/gw?cmd=appGetBaseInfo";
-        OkHttpUtils.post(url)//
-                .tag(this)//
-//                .headers("header1", "headerValue1")//
-//                .params("param1", "paramValue1")//
-                .execute(new DialogCallback<String>(getContext(), String.class) {
+//        try {
+            OkHttpUtils.post(url)//
+                    .tag(this)//
+//                    .setCertificates(getContext().getAssets().open("bijia.cer"))
+    //                .headers("header1", "headerValue1")//
+    //                .params("param1", "paramValue1")//
+                    .execute(new DialogCallback<String>(getContext(), String.class) {
 
-                    @Override
-                    public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
-                        super.onError(isFromCache, call, response, e);
-                    }
-
-                    @Override
-                    public void onResponse(boolean isFromCache, String c, Request request, @Nullable Response response) {
-                        config = BaseApplication.getInstance().getPreferenceConfig();
-                        try {
-                            JSONObject object = new JSONObject(c);
-//                            JSONObject retObject = object.getJSONObject("retObj");
-                            String region = object.getString("regions");
-                            String channel = object.getString("channel");
-                            String items = object.getString("coreitem");
-                            JSONArray array = object.getJSONArray("GoodsClass");
-                            BaseDataUtil.clearData();
-                            BaseDataUtil.region.addAll(
-                                    GsonUtil.fromJsonList(region, Region.class));
-                            BaseDataUtil.channels.addAll(GsonUtil.fromJsonList(channel, Channel.class));
-                            List<GoodsClassFirst> goodsClassFirsts = new ArrayList<>();
-                            coreItems = GsonUtil.fromJsonList(items, CoreItem.class);
-                            BaseDataUtil.coreItems.addAll(coreItems);
-                            for (int i = 0; i < array.length(); i++) {
-                                JSONObject obj = array.getJSONObject(i);
-                                GoodsClassFirst first = new GoodsClassFirst();
-                                first.name = obj.getString("name");
-                                first.code = obj.getString("code");
-                                String classS = obj.getString("class");
-                                List<GoodsClassScend> goodsClassScends = GsonUtil.
-                                        fromJsonList(classS, GoodsClassScend.class);
-                                first.classX = goodsClassScends;
-                                goodsClassFirsts.add(first);
-                            }
-                            BaseDataUtil.goodsClassFirst.addAll(goodsClassFirsts);
-                            Log.i("TAG", goodsClassFirsts.toString());
-                            getListData();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        @Override
+                        public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
+                            super.onError(isFromCache, call, response, e);
                         }
-                    }
 
-                });
+                        @Override
+                        public void onResponse(boolean isFromCache, String c, Request request, @Nullable Response response) {
+                            config = BaseApplication.getInstance().getPreferenceConfig();
+                            try {
+                                JSONObject object = new JSONObject(c);
+    //                            JSONObject retObject = object.getJSONObject("retObj");
+                                String region = object.getString("regions");
+                                String channel = object.getString("channel");
+                                String items = object.getString("coreitem");
+                                JSONArray array = object.getJSONArray("GoodsClass");
+                                BaseDataUtil.clearData();
+                                BaseDataUtil.region.addAll(
+                                        GsonUtil.fromJsonList(region, Region.class));
+                                BaseDataUtil.channels.addAll(GsonUtil.fromJsonList(channel, Channel.class));
+                                List<GoodsClassFirst> goodsClassFirsts = new ArrayList<>();
+                                coreItems = GsonUtil.fromJsonList(items, CoreItem.class);
+                                BaseDataUtil.coreItems.addAll(coreItems);
+                                for (int i = 0; i < array.length(); i++) {
+                                    JSONObject obj = array.getJSONObject(i);
+                                    GoodsClassFirst first = new GoodsClassFirst();
+                                    first.name = obj.getString("name");
+                                    first.code = obj.getString("code");
+                                    String classS = obj.getString("class");
+                                    List<GoodsClassScend> goodsClassScends = GsonUtil.
+                                            fromJsonList(classS, GoodsClassScend.class);
+                                    first.classX = goodsClassScends;
+                                    goodsClassFirsts.add(first);
+                                }
+                                BaseDataUtil.goodsClassFirst.addAll(goodsClassFirsts);
+                                Log.i("TAG", goodsClassFirsts.toString());
+                                getListData();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                    });
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     private void getListData() {
 //        String url = "http://101.200.131.198:8087/gw?cmd=appCoreIndex";
         String url = "http://10.1.100.6/ea/gw?cmd=appCoreIndex&year=2016&month=06";
-        OkHttpUtils.post(url)//
-                .tag(this)//
-                .execute(new DialogCallback<String>(getContext(), String.class) {
+//        try {
+            OkHttpUtils.post(url)//
+                    .tag(this)//
+//                    .setCertificates(getContext().getAssets().open("bijia.cer"))
+                    .execute(new DialogCallback<String>(getContext(), String.class) {
 
-                    @Override
-                    public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
-                        super.onError(isFromCache, call, response, e);
-                    }
-
-                    @Override
-                    public void onResponse(boolean isFromCache, String c, Request request, @Nullable Response response) {
-                        try {
-                            JSONObject object = new JSONObject(c);
-                            String item = object.getString("CoreIndex");
-                            List<CoreIndexListModel> coreIndexListModels = GsonUtil.fromJsonList(item, CoreIndexListModel.class);
-                            coreIndexListAdapter.setList(coreIndexListModels);
-                            Log.i("TAG", coreIndexListModels.toString());
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        @Override
+                        public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
+                            super.onError(isFromCache, call, response, e);
                         }
-                    }
 
-                });
+                        @Override
+                        public void onResponse(boolean isFromCache, String c, Request request, @Nullable Response response) {
+                            try {
+                                JSONObject object = new JSONObject(c);
+                                String item = object.getString("CoreIndex");
+                                List<CoreIndexListModel> coreIndexListModels = GsonUtil.fromJsonList(item, CoreIndexListModel.class);
+                                coreIndexListAdapter.setList(coreIndexListModels);
+                                Log.i("TAG", coreIndexListModels.toString());
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                    });
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     @Override

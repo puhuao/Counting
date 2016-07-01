@@ -74,9 +74,9 @@
     </style>
 
 
-    <style name="RegCheckboxTheme" parent="@android:style/Widget.CompoundButton.CheckBox">
+    <!--<style name="RegCheckboxTheme" parent="@android:style/Widget.CompoundButton.CheckBox">
         <item name="android:button">@drawable/selector_reg_checkbox_bg</item>
-	</style>
+	</style>-->
 
     <style name="CustomDialog" parent="android:style/Theme.Dialog">
         <!-- 背景颜色及透明程度 -->

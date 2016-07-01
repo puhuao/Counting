@@ -12,9 +12,8 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
-import com.github.mikephil.charting.utils.ColorTemplate;
-import com.wksc.counting.R;
 import com.wksc.counting.model.coreDetail.BarChartModel;
+import com.wksc.framwork.util.StringUtils;
 
 import java.util.ArrayList;
 
@@ -96,7 +95,9 @@ public class BarChartTool {
     private  void setData(BarChartModel coreChart) {
 
         ArrayList<String> xVals = new ArrayList<>();
+        if (StringUtils.isBlank(coreChart.chartPoint2))
         xVals.add(coreChart.chartPoint2);
+        if (StringUtils.isBlank(coreChart.chartPoint1))
         xVals.add(coreChart.chartPoint1);
         ArrayList<BarEntry> yValues = new ArrayList<>();
         yValues.add(new BarEntry(Float.valueOf(coreChart.chartValue2), 0));

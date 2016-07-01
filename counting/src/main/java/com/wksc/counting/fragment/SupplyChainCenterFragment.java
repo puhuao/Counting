@@ -57,9 +57,11 @@ public class SupplyChainCenterFragment extends CommonFragment {
             FragmentEntity fragmentEntity = null;
             if (i == 0){
                 fragment = new GoodsAnalysisFragment();
+//                fragment = new ExpectingFragment();
                 name = "商品销售分析";
             }else if(i == 1){
                 fragment = new SaveAnalysisFragment();
+
                 name = "库存分析";
             }else if(i ==2){
                 fragment = new PurchaseAnalysisFragment();

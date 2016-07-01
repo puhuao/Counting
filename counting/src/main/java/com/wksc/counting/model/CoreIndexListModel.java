@@ -22,4 +22,6 @@ public class CoreIndexListModel {
     public String item4;
     public String itemValue4;
     public String itemColor4;
+    public String maxY;
+    public String minY;
 }

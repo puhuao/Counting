@@ -38,7 +38,7 @@ public class CoreIndexListAdapter extends BaseListAdapter<CoreIndexListModel>{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
-
+        convertView = null;
         if (convertView != null) {
             holder = (ViewHolder) convertView.getTag();
         } else {
@@ -105,6 +105,8 @@ public class CoreIndexListAdapter extends BaseListAdapter<CoreIndexListModel>{
         setData(6, mList.get(position).chartData,holder.chart,position);
 
 //        holder.chart.animateX(2500);
+        String[] strArray = mList.get(position).chartData.split(",");
+
 
         Typeface tf = Typeface.createFromAsset(mContext.getAssets(), "OpenSans-Regular.ttf");
 
@@ -129,17 +131,13 @@ public class CoreIndexListAdapter extends BaseListAdapter<CoreIndexListModel>{
         xAxis.setSpaceBetweenLabels(1);
 
         YAxis leftAxis = holder.chart.getAxisLeft();
-        leftAxis.setTypeface(tf);
-        leftAxis.setTextColor(ColorTemplate.getHoloBlue());
-        leftAxis.setAxisMaxValue(10f);
-        leftAxis.setAxisMinValue(0f);
-        leftAxis.setDrawGridLines(true);
+        leftAxis.setEnabled(false);
 
         YAxis rightAxis = holder.chart.getAxisRight();
         rightAxis.setTypeface(tf);
         rightAxis.setTextColor(ColorTemplate.getHoloBlue());
-        rightAxis.setAxisMaxValue(10f);
-        rightAxis.setAxisMinValue(0f);
+        rightAxis.setAxisMaxValue(Float.parseFloat(mList.get(position).maxY));
+        rightAxis.setAxisMinValue(Float.parseFloat(mList.get(position).minY));
         rightAxis.setDrawGridLines(false);
         return convertView;
     }

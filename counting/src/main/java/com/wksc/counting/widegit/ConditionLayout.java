@@ -3,15 +3,17 @@ package com.wksc.counting.widegit;
 import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import com.wksc.counting.R;
 import com.wksc.counting.popwindows.AreaPopupwindow;
+import com.wksc.counting.popwindows.DateSelectPopupWindow;
 import com.wksc.counting.popwindows.GoodsPopupWindow;
 import com.wksc.counting.popwindows.SupplyChianPopupwindow;
-import com.wksc.counting.popwindows.TimePopupwindow;
+import com.wksc.counting.tools.DateTool;
 
 /**
  * Created by puhua on 2016/6/28.
@@ -25,6 +27,8 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
     MarqueeText channel;
     LinearLayout layoutGoods;
     LinearLayout layoutChannel;
+
+    private String data = "";
     public ConditionLayout(Context context) {
         super(context);
     }
@@ -73,9 +77,25 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
                 goodsPopupWindow.showPopupwindow(v);
                 break;
             case R.id.time:
-                TimePopupwindow timePopupwindow = new TimePopupwindow((Activity) getContext());
-                timePopupwindow.bindTextView(time);
-                timePopupwindow.showPopupwindow(v);
+//                TimePopupwindow timePopupwindow = new TimePopupwindow((Activity) getContext());
+//                timePopupwindow.bindTextView(time);
+//                timePopupwindow.showPopupwindow(v);
+                DateSelectPopupWindow myPopupwindow=new DateSelectPopupWindow(getContext(),data);
+                myPopupwindow.showAtLocation(v, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL,0,0);
+                myPopupwindow.setOnDateSelectListener(new DateSelectPopupWindow.OnDateSelectListener() {
+                    @Override
+                    public void onDateSelect(int year, int monthOfYear, int dayOfMonth) {
+                        // SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+                        if (year==0&&monthOfYear==0&&dayOfMonth==0){
+                            if (data.equals("")) {
+                                data = DateTool.getChinaDate();
+                            }
+                        }else{
+                            data=DateTool.getChinaDateFromCalendar(year,monthOfYear,dayOfMonth);
+                        }
+                        (time).setText(data);
+                    }
+                });
                 break;
             case R.id.channel:
                 SupplyChianPopupwindow supplyChianPopupwindow = new SupplyChianPopupwindow((Activity) getContext());

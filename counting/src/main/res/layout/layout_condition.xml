@@ -11,7 +11,7 @@
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
         <com.wksc.counting.widegit.MarqueeText
             android:id="@+id/area"

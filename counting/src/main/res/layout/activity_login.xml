@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/login_background">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,7 +15,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableTop="@drawable/default_header_icon" />
+            android:drawableTop="@drawable/logo" />
     </LinearLayout>
 
     <LinearLayout
@@ -24,9 +25,9 @@
         android:layout_weight="3"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:paddingLeft="64dp"
-        android:paddingRight="64dp"
-        android:background="@color/white">
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -38,8 +39,8 @@
                 android:id="@+id/et_username"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                android:background="@color/bg_color"
+                android:layout_marginTop="10dp"
+                android:background="@null"
                 android:ellipsize="end"
                 android:gravity="center_vertical"
                 android:hint="用户名"
@@ -47,29 +48,51 @@
                 android:singleLine="true"
                 android:textSize="15sp"
                 android:textColor="@color/white"
-                android:textColorHint="@color/light_gray"/>
+                android:textColorHint="@color/white"
+                android:drawableLeft="@drawable/name"/>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"/>
+                android:layout_height="2dp"
+                android:layout_marginBottom="20dp"
+                android:background="@color/white"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/et_password"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                android:background="@color/bg_color"
+                android:layout_marginTop="10dp"
+                android:background="@null"
                 android:ellipsize="end"
                 android:gravity="center_vertical"
-                android:hint="密码"
+                android:hint="验证码"
                 android:inputType="textPassword"
                 android:padding="5dp"
                 android:singleLine="true"
                 android:textSize="15sp"
                 android:textColor="@color/white"
-                android:textColorHint="@color/light_gray"/>
+                android:textColorHint="@color/white"
+                android:drawableLeft="@drawable/yz"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/selector_btn_yz"
+                    android:text="验证码"
+                    android:textColor="@color/white"
+                    android:layout_marginBottom="5dp"/>
+
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/white"/>
         </LinearLayout>
 
         <RelativeLayout
@@ -88,7 +111,7 @@
                 android:text="忘记密码？"
                 android:textColor="@color/bg_color"
                 android:textSize="12sp"
-                android:visibility="visible" />
+                android:visibility="gone" />
         </RelativeLayout>
 
         <Button
@@ -99,7 +122,16 @@
             android:gravity="center"
             android:text="登录"
             android:textColor="@color/white"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:background="@drawable/selector_btn_yz"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="接收不到验证码? 尝试一下语音验证码吧"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:layout_marginTop="20dp"/>
     </LinearLayout>
 
 </LinearLayout>
