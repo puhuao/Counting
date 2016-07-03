@@ -16,6 +16,7 @@ import com.wksc.counting.R;
 import com.wksc.counting.adapter.CheckBoxListAdapter;
 import com.wksc.counting.model.baseinfo.BaseWithCheckBean;
 import com.wksc.counting.widegit.MarqueeText;
+import com.wksc.framwork.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/5/29.
  */
-public class SupplyChianPopupwindow extends PopupWindow {
+public class ChannelPopupWindow extends BasePopupWindow {
     List<BaseWithCheckBean> listChains = new ArrayList<>();
 
     ListView list ,platform;
@@ -33,9 +34,11 @@ public class SupplyChianPopupwindow extends PopupWindow {
 
     public StringBuilder sbChannel = new StringBuilder();
     public StringBuilder sbPlatform = new StringBuilder();
-    private MarqueeText area;
+    public StringBuilder sbChannelCode = new StringBuilder();
+    public StringBuilder sbPlatformCode = new StringBuilder();
+//    private MarqueeText area;
 
-    public SupplyChianPopupwindow(Activity context){
+    public ChannelPopupWindow(Activity context){
         super();
         mContext = context;
         View view = LayoutInflater.from(context).inflate(R.layout.pop_layout_supply,null);
@@ -48,6 +51,7 @@ public class SupplyChianPopupwindow extends PopupWindow {
         this.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
         this.setBackgroundDrawable(new BitmapDrawable());
         this.setFocusable(true);
+        this.setAnimationStyle(R.style.channelAnimation);
         this.setOnDismissListener(new OnDismissListener() {
             @Override
             public void onDismiss() {
@@ -67,27 +71,57 @@ public class SupplyChianPopupwindow extends PopupWindow {
             public void onClick(View v) {
                 dissmisPopupwindow();
                 backgroundAlpha(1f);
+                int i = 0,j=0;
+
+
                 if (sbChannel.length()>0)
                 sbChannel.delete(0,sbChannel.length());
+                if (sbChannelCode.length()>0)
+                    sbChannelCode.delete(0,sbChannelCode.length());
                 for (BaseWithCheckBean bean:channelListAdapter.getList()){
                     if (bean.isCheck == CheckBoxListAdapter.ALL){
                         sbChannel.append(bean.name).append(",");
+                        sbChannelCode.append(bean.code).append(",");
+                        i++;
                     }
                 }
                 if (sbChannel.length()>0){
                     sbChannel.deleteCharAt(sbChannel.length()-1);
                 }
+                if (sbChannelCode.length()>0){
+                    sbChannelCode.deleteCharAt(sbChannelCode.length()-1);
+                }
+
                 if (sbPlatform.length()>0)
                 sbPlatform.delete(0,sbPlatform.length());
+                if (sbPlatformCode.length()>0)
+                    sbPlatformCode.delete(0,sbPlatformCode.length());
                 for (BaseWithCheckBean bean:platformListAdapter.getList()){
                     if (bean.isCheck == CheckBoxListAdapter.ALL){
                         sbPlatform.append(bean.name).append(",");
+                        sbPlatformCode.append(bean.code).append(",");
+                        j++;
                     }
                 }
                 if (sbPlatform.length()>0){
                     sbPlatform.deleteCharAt(sbPlatform.length()-1);
                 }
-                area.setText(sbChannel+" "+sbPlatform);
+                if (sbPlatformCode.length()>0){
+                    sbPlatformCode.deleteCharAt(sbPlatformCode.length()-1);
+                }
+
+                if (i>=1&&j==0){
+                    mListener.conditionSelect(sbChannelCode.toString(),sbChannel.toString(),0);
+                }else if(i == 0&&j>=1){
+                    mListener.conditionSelect(sbPlatformCode.toString(),sbPlatform.toString(),1);
+                }else if(i == 0&&j==0){
+                    mListener.conditionSelect(sbPlatformCode.toString(),sbPlatform.toString(),-1);
+                }else{
+                    ToastUtil.showShortMessage(mContext,"筛选条件的格式不正确" );
+                }
+
+
+//                area.setText(sbChannel+" "+sbPlatform);
             }
         });
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -111,7 +145,7 @@ public class SupplyChianPopupwindow extends PopupWindow {
     }
 
     public void bindTextView(MarqueeText area) {
-        this.area = area;
+//        this.area = area;
     }
 
     public void showPopupwindow(View view){

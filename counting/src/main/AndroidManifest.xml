@@ -30,6 +30,8 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.LocusPassActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".activity.TogleActivity"
+            android:screenOrientation="portrait"/>
 
     </application>
 

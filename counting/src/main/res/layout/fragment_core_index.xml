@@ -7,8 +7,12 @@
     <com.wksc.counting.widegit.ConditionLayout
         android:id="@+id/condition"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
+        android:layout_height="wrap_content"
+        android:background="#FBF9FA"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#DEE0DF"/>
     <ListView
         android:id="@+id/list"
         android:layout_width="match_parent"

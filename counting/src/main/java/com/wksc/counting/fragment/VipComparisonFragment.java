@@ -16,14 +16,19 @@ import com.wksc.counting.R;
 import com.wksc.counting.adapter.SalesCompareListAdapter;
 import com.wksc.counting.adapter.VipCompareAdapter;
 import com.wksc.counting.callBack.DialogCallback;
+import com.wksc.counting.config.Urls;
 import com.wksc.counting.event.ChangeChartEvent;
+import com.wksc.counting.event.VipComparisonLoadDataEvent;
 import com.wksc.counting.model.coreDetail.CoreDetail;
+import com.wksc.counting.tools.UrlUtils;
 import com.wksc.counting.widegit.BarChartTool;
 import com.wksc.counting.widegit.ConditionLayout;
 import com.wksc.counting.widegit.LineChartTool;
 import com.wksc.counting.widegit.NestedListView;
 import com.wksc.counting.widegit.TableTitleLayout;
+import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
+import com.wksc.framwork.platform.config.IConfig;
 import com.wksc.framwork.util.StringUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -60,6 +65,9 @@ public class VipComparisonFragment extends CommonFragment {
     BarChartTool newBarTool;
     LineChartTool lineChartTool;
     private String param;
+    private IConfig config;
+    private boolean isFirstShow;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +93,7 @@ public class VipComparisonFragment extends CommonFragment {
         lineChartTool.initLinChart();
         Bundle bundle = getArguments();
         param = bundle.getString("param");
+        isFirstShow = bundle.getBoolean("isFirstShow");
         initView();
         return v;
     }
@@ -99,33 +108,41 @@ public class VipComparisonFragment extends CommonFragment {
 
     private void initView() {
         conditionLayout.hideGoods(true);
+        conditionLayout.setConditionSelect(new ConditionLayout.OnConditionSelect() {
+            @Override
+            public void postParams() {
+                conditionLayout.getAllConditions();
+                extraParam = conditionLayout.prams.toString();
+                getData();
+            }
+        });
         adapter = new VipCompareAdapter(getActivity());
         list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Bundle bundle = new Bundle();
-                bundle.putString("param",param);
-                bundle.putString("provice",adapter.getList().get(position).code);
+                bundle.putString("param", param);
+                bundle.putString("provice", adapter.getList().get(position).code);
+                bundle.putString("extra", extraParam);
                 getContext().pushFragmentToBackStack(TogleVipComparisonFragment.class, bundle);
             }
         });
-        getData(null);
+        if (isFirstShow) {
+            getData();
+        }
+
     }
 
-    private void getData(String provice) {
-//        String url = "http://101.200.131.198:8087/gw?cmd=appCoreDetails";
-        String url;
-        if (StringUtils.isBlank(provice)){
-            url = "http://10.1.100.6/ea/gw?cmd=appCoreDetails&item="+param+
-                    "&level=1&year=2016&month=06";
-        }else{
-            url = "http://10.1.100.6/ea/gw?cmd=appCoreDetails&item="+param+
-                    "&level=2&year=2016&month=06&province="+provice;
-        }
-        OkHttpUtils.post(url)//
+    private void getData() {
+        StringBuilder sb = new StringBuilder(Urls.COREDETAIL);
+        config = BaseApplication.getInstance().getCurrentConfig();
+        UrlUtils.getInstance().addSession(sb, config).praseToUrl(sb, "item", param)
+                .praseToUrl(sb, "level", "1");/*.praseToUrl(sb,"year","2016").praseToUrl(sb,"month","06");*/
+        sb.append(extraParam);
+        OkHttpUtils.post(sb.toString())//
                 .tag(this)//
-                .execute(new DialogCallback<CoreDetail>(getContext(),CoreDetail.class) {
+                .execute(new DialogCallback<CoreDetail>(getContext(), CoreDetail.class) {
 
                     @Override
                     public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
@@ -134,19 +151,23 @@ public class VipComparisonFragment extends CommonFragment {
 
                     @Override
                     public void onResponse(boolean isFromCache, CoreDetail c, Request request, @Nullable Response response) {
-                            Log.i("TAG",c.toString());
-                        detail = c;
-                        oldBarTool.initBar(c.CoreChart1);
-                        newBarTool.initBar(c.CoreChart2);
-                        String[] tableTitles = detail.tableTitle.split("\\|");
-                        final String[] titleDesc = detail.tableTitleDesc.split("\\|");
-                        titles.initView("地区");
-                        titles.initView(tableTitles,
-                                titleDesc);
-//                        adapter.TransData(detail.tableData);
-                        adapter.setList(c.tableData);
-                    }
 
+                        if (c.tableData.size() > 0) {
+                            Log.i("TAG", c.toString());
+                            titles.clearAllViews();
+                            detail = c;
+                            oldBarTool.setData(c.CoreChart1);
+                            newBarTool.setData(c.CoreChart2);
+                            String[] tableTitles = detail.tableTitle.split("\\|");
+                            final String[] titleDesc = detail.tableTitleDesc.split("\\|");
+                            titles.initView("地区");
+                            titles.initView(tableTitles,
+                                    titleDesc);
+//                        adapter.TransData(detail.tableData);
+                            adapter.setItemCloums(tableTitles.length + 1);
+                            adapter.setList(c.tableData);
+                        }
+                    }
                 });
     }
 
@@ -166,4 +187,17 @@ public class VipComparisonFragment extends CommonFragment {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
+
+    @Override
+    protected void lazyLoad() {
+//        getData(null);
+    }
+
+    @Subscribe
+    public void LoadData(VipComparisonLoadDataEvent event) {
+        if (event.item.equals(param))
+            getData();
+    }
+
+
 }

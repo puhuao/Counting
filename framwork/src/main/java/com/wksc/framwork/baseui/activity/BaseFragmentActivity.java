@@ -1,5 +1,8 @@
 package com.wksc.framwork.baseui.activity;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Window;
 
@@ -31,7 +34,22 @@ public class BaseFragmentActivity extends CubeFragmentActivity {
 		super.finish();
 		overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
 	}
-	
+
+	public void  startActivity(Class<? extends Activity> activityClass) {
+		startActivity(getLocalIntent(activityClass, null));
+		overridePendingTransition(R.anim.push_left_in,
+				R.anim.push_left_out);
+	}
+
+
+	public Intent getLocalIntent(Class<? extends Context> localIntent, Bundle bd) {
+		Intent intent = new Intent(this, localIntent);
+		if (null != bd) {
+			intent.putExtras(bd);
+		}
+
+		return intent;
+	}
 	public void defaultFinish()
 	{
 		super.finish();

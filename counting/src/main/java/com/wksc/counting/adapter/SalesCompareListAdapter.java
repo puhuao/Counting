@@ -28,6 +28,8 @@ public class SalesCompareListAdapter extends BaseListAdapter<ComparisonModel> {
     public void TransData(List<TabelValueModel> tableData){
         if (mList == null){
             mList = new ArrayList<>();
+        }else{
+            mList.clear();
         }
         for (int i =0 ;i <tableData.size();i++){
             ComparisonModel model = new ComparisonModel();

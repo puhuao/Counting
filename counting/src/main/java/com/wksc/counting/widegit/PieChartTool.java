@@ -105,7 +105,7 @@ public class PieChartTool {
         PieData data = new PieData(xVals, dataSet);
         data.setValueFormatter(new PercentFormatter());
         data.setValueTextSize(10f);
-        data.setValueTextColor(Color.WHITE);
+        data.setValueTextColor(Color.BLACK);
         pieChart1.setData(data);
         pieChart1.setDrawSliceText(!pieChart1.isDrawSliceTextEnabled());
         // undo all highlights

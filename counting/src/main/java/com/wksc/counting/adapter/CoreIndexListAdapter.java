@@ -19,7 +19,7 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.wksc.counting.R;
 import com.wksc.counting.model.CoreIndexListModel;
-import com.wksc.counting.popwindows.TitleDescribewindow;
+import com.wksc.counting.popwindows.TitleDescribeWindow;
 import com.wksc.framwork.util.StringUtils;
 
 import java.util.ArrayList;
@@ -51,7 +51,7 @@ public class CoreIndexListAdapter extends BaseListAdapter<CoreIndexListModel>{
             @Override
             public boolean onLongClick(View v) {
 //                ToastUtil.showShortMessage(mContext,mList.get(pos).titleDesc);
-                TitleDescribewindow titleSelectPopupWindow = new TitleDescribewindow(mContext);
+                TitleDescribeWindow titleSelectPopupWindow = new TitleDescribeWindow(mContext);
                 titleSelectPopupWindow.showPopupwindow(v,mList.get(pos).titleDesc);
                 return false;
             }
@@ -118,7 +118,7 @@ public class CoreIndexListAdapter extends BaseListAdapter<CoreIndexListModel>{
         l.setForm(Legend.LegendForm.LINE);
         l.setTypeface(tf);
         l.setTextSize(11f);
-        l.setTextColor(Color.WHITE);
+        l.setTextColor(Color.BLACK);
         l.setPosition(Legend.LegendPosition.BELOW_CHART_LEFT);
 //        l.setYOffset(11f);
 
@@ -175,7 +175,7 @@ public class CoreIndexListAdapter extends BaseListAdapter<CoreIndexListModel>{
 
         // create a data object with the datasets
         LineData data = new LineData(xVals, dataSets);
-        data.setValueTextColor(Color.WHITE);
+        data.setValueTextColor(Color.BLACK);
         data.setValueTextSize(9f);
 
         // set data

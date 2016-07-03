@@ -65,7 +65,7 @@ public class ThematicAnalysisFragment extends CommonFragment {
                 titleSelectPopupWindow.getIndicatorList());
         mViewPager.setAdapter(adapter);
         mViewPager.setPagingEnabled(false);
-        mViewPager.setOffscreenPageLimit(3);
+        mViewPager.setOffscreenPageLimit(1);
         titleSelectPopupWindow.setViewPager(mViewPager);
         titleSelectPopupWindow.initListener();
         titleSelectPopupWindow.setTitleView(getTitleHeaderBar().getTitleTextView());
@@ -75,6 +75,11 @@ public class ThematicAnalysisFragment extends CommonFragment {
                 titleSelectPopupWindow.showPopupwindow(v);
             }
         });
+    }
+
+    @Override
+    protected void lazyLoad() {
+
     }
 
     public class MyPagerAdapter extends FragmentPagerAdapter {

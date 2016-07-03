@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
@@ -14,13 +15,22 @@ import com.wksc.counting.R;
 import com.wksc.counting.adapter.PlatFormLastItemAdapter;
 import com.wksc.counting.adapter.PlatFormListAdapter;
 import com.wksc.counting.callBack.DialogCallback;
+import com.wksc.counting.config.Urls;
+import com.wksc.counting.event.PlatFormAnaEvent;
+import com.wksc.counting.event.SaleGoalAnaEvent;
 import com.wksc.counting.model.SaleAnaModel.PeiModel;
 import com.wksc.counting.model.platFormModel.PlatFormModel;
+import com.wksc.counting.tools.UrlUtils;
 import com.wksc.counting.widegit.ConditionLayout;
 import com.wksc.counting.widegit.NestedListView;
 import com.wksc.counting.widegit.PieChartTool;
 import com.wksc.counting.widegit.TableTitleLayout;
+import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
+import com.wksc.framwork.platform.config.IConfig;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -52,11 +62,19 @@ public class PlatformCenterFragment extends CommonFragment {
 
     PlatFormListAdapter platFormListAdapter;
     PlatFormLastItemAdapter platFormLastItemAdapter;
+    private IConfig config;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_platform, null);
         hideTitleBar();
+
         return v;
     }
 
@@ -75,13 +93,31 @@ public class PlatformCenterFragment extends CommonFragment {
         lv1.setAdapter(platFormListAdapter);
         conditionLayout.hideGoods(false);
         pieChartTool = new PieChartTool(pieChart);
-        getListData();
+//        getListData();
+//        extraParam = "&month=06";
+        conditionLayout.setConditionSelect(new ConditionLayout.OnConditionSelect() {
+            @Override
+            public void postParams() {
+                conditionLayout.getAllConditions();
+                extraParam = conditionLayout.prams.toString();
+                getListData();
+            }
+        });
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+        });
     }
 
     private void getListData() {
-//        String url = "http://101.200.131.198:8087/gw?cmd=appTopicIndex&class=10&item=30&level=1";
-        String url = "http://10.1.100.6/ea/gw?cmd=appTopicIndex&class=10&item=30&level=1";
-        OkHttpUtils.post(url)//
+        StringBuilder sb = new StringBuilder(Urls.TOPICINDEX);
+        config = BaseApplication.getInstance().getCurrentConfig();
+        UrlUtils.getInstance().addSession(sb,config).praseToUrl(sb,"class","10")
+                .praseToUrl(sb,"level","1").praseToUrl(sb,"item","30");
+        sb.append(extraParam);
+        OkHttpUtils.post(sb.toString())//
                 .tag(this)//
                 .execute(new DialogCallback<PlatFormModel>(getContext(), PlatFormModel.class) {
 
@@ -92,36 +128,55 @@ public class PlatformCenterFragment extends CommonFragment {
 
                     @Override
                     public void onResponse(boolean isFromCache, PlatFormModel c, Request request, @Nullable Response response) {
-                        Log.i("TAG", c.tableData.toString());
-                        platFormListAdapter.setList(c.tableData);
+//                       if (c.tableData.size()>0){
+                           Log.i("TAG", c.tableData.toString());
+                           tableTitle.clearAllViews();
+                           platFormListAdapter.setList(c.tableData);
 
-                        String[] titles = c.memberData.tableTitle.split("\\|");
-                        String[] desc = c.memberData.tableTitleDesc.split("\\|");
-                        tableTitle.initView(titles, desc);
-                        platFormLastItemAdapter.setItemCloums(titles.length);
-                        platFormLastItemAdapter.setList(c.memberData.tableData);
-                        title.setText(c.memberData.title);
-                        StringBuilder sb1 = new StringBuilder();
-                        StringBuilder sb2 = new StringBuilder();
-                        for (int i = 0; i < c.memberData.tableData.size(); i++) {
-                            String[] array = c.memberData.tableData.get(i).split("\\|");
-                            sb1.append(array[1]).append("|");
-                            sb2.append(array[0]).append("|");
-                        }
+                           String[] titles = c.memberData.tableTitle.split("\\|");
+                           String[] desc = c.memberData.tableTitleDesc.split("\\|");
+                           tableTitle.initView(titles, desc);
+                           platFormLastItemAdapter.setItemCloums(titles.length);
+                           platFormLastItemAdapter.setList(c.memberData.tableData);
+                           title.setText(c.memberData.title);
+                           StringBuilder sb1 = new StringBuilder();
+                           StringBuilder sb2 = new StringBuilder();
+                           for (int i = 0; i < c.memberData.tableData.size(); i++) {
+                               String[] array = c.memberData.tableData.get(i).split("\\|");
+                               sb1.append(array[1]).append("|");
+                               sb2.append(array[0]).append("|");
+                           }
 
-                        if (sb1.length() > 0) {
-                            sb1.deleteCharAt(sb1.length() - 1);
-                            sb2.deleteCharAt(sb2.length() - 1);
-                        }
-                        PeiModel peiModel = new PeiModel();
-                        peiModel.chartPoint1 = sb2.toString();
-                        peiModel.chartValue1 = sb1.toString();
-                        peiModel.chartTitle1 = c.memberData.title;
-                        pieChartTool.setData(peiModel);
-                        pieChartTool.setPiechart();
+                           if (sb1.length() > 0) {
+                               sb1.deleteCharAt(sb1.length() - 1);
+                               sb2.deleteCharAt(sb2.length() - 1);
+                           }
+                           PeiModel peiModel = new PeiModel();
+                           peiModel.chartPoint1 = sb2.toString();
+                           peiModel.chartValue1 = sb1.toString();
+                           peiModel.chartTitle1 = c.memberData.title;
+                           pieChartTool.setData(peiModel);
+                           pieChartTool.setPiechart();
+//                       }
+
                     }
 
                 });
     }
 
+    @Override
+    protected void lazyLoad() {
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe
+    public void changeChart(PlatFormAnaEvent event) {
+        getListData();
+    }
 }

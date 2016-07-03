@@ -17,6 +17,8 @@ import android.widget.TextView;
 import com.wksc.counting.Basedata.BaseDataUtil;
 import com.wksc.counting.R;
 import com.wksc.counting.event.ChangeChartEvent;
+import com.wksc.counting.event.SaleComparisonLoadDataEvent;
+import com.wksc.counting.event.VipComparisonLoadDataEvent;
 import com.wksc.counting.model.baseinfo.CoreItem;
 import com.wksc.counting.widegit.CustomViewPager;
 import com.wksc.counting.widegit.PagerSlidingTabStrip;
@@ -63,24 +65,31 @@ public class CompareFragment extends CommonFragment {
         initView();
         return v;
     }
-private int pos;
+
+    private int pos;
+
     private void initView() {
         indicatorFragmentEntityList = new ArrayList<>();
 
         for (int i = 0; i < BaseDataUtil.coreItems.size(); i++) {
             CoreItem coreItem = BaseDataUtil.coreItems.get(i);
-            if (param.equals(coreItem.code)){
+            Bundle bundle = new Bundle();
+            if (param.equals(coreItem.code)) {
                 pos = i;
+                bundle.putBoolean("isFirstShow",true);
+            }else{
+                bundle.putBoolean("isFirstShow",false);
             }
             String name = coreItem.name;
-            Fragment fragment ;
-            if (coreItem.code.equals("60")||coreItem.code.equals("70")){
+            Fragment fragment;
+            if (coreItem.code.equals("60") || coreItem.code.equals("70")) {
                 fragment = new VipComparisonFragment();
-            }else {
-              fragment  = new SalesComparisonFragment();
+            } else {
+                fragment = new SalesComparisonFragment();
             }
-            Bundle bundle = new Bundle();
-            bundle.putString("param",coreItem.code);
+
+            bundle.putString("param", coreItem.code);
+
             fragment.setArguments(bundle);
             FragmentEntity fragmentEntity = new FragmentEntity(name, fragment);
             if (fragment != null) {
@@ -120,14 +129,14 @@ private int pos;
             }
         });
         FragmentManager fm = getChildFragmentManager();
-        List<Fragment> fragments =  fm.getFragments();
-        if(fragments!=null)fragments.clear();
+        List<Fragment> fragments = fm.getFragments();
+        if (fragments != null) fragments.clear();
 
         adapter = new MyPagerAdapter(fm,
                 indicatorFragmentEntityList);
         mViewPager.setAdapter(adapter);
         mViewPager.setPagingEnabled(false);
-        mViewPager.setOffscreenPageLimit(3);
+        mViewPager.setOffscreenPageLimit(1);
         mIndicator.setViewPager(mViewPager);
         mIndicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -165,7 +174,7 @@ private int pos;
             public void onPageScrollStateChanged(int state) {
             }
         });
-        mIndicator.selectedTab(pos);
+
         btnRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -173,12 +182,45 @@ private int pos;
 
             }
         });
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                SaleComparisonLoadDataEvent event = new SaleComparisonLoadDataEvent();
+                event.item = BaseDataUtil.coreItems.get(position).code;
+                if (event.item.equals("60")||event.item.equals("70")){
+                    VipComparisonLoadDataEvent vipComparisonLoadDataEvent = new VipComparisonLoadDataEvent();
+                    vipComparisonLoadDataEvent.item = BaseDataUtil.coreItems.get(position).code;
+                    EventBus.getDefault().post(vipComparisonLoadDataEvent);
+                }else{
+                    EventBus.getDefault().post(event);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+        if (pos!=0){
+            mViewPager.setCurrentItem(pos);
+            mIndicator.selectedTab(pos);
+        }
         barLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getActivity().finish();
             }
         });
+    }
+
+    @Override
+    protected void lazyLoad() {
+
     }
 
     public class MyPagerAdapter extends FragmentPagerAdapter {
@@ -212,7 +254,7 @@ private int pos;
         public String name;
         public Fragment fragment;
 
-        public FragmentEntity( String name, Fragment fragment) {
+        public FragmentEntity(String name, Fragment fragment) {
             this.name = name;
             this.fragment = fragment;
         }

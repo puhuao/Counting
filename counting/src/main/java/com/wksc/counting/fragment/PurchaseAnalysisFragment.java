@@ -47,4 +47,8 @@ public class PurchaseAnalysisFragment extends CommonFragment {
     }
 
 
+    @Override
+    protected void lazyLoad() {
+
+    }
 }

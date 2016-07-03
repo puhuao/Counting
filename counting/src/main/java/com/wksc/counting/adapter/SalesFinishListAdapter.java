@@ -44,15 +44,15 @@ public class SalesFinishListAdapter extends BaseListAdapter<TableModel>{
             textView.setGravity(Gravity.CENTER);
             textView.setPadding(10,10,10,10);
             textView.setTextSize(12f);
-            if (i==0){
-                textView.setText(mList.get(position).title);
-            }else{
-                textView.setText(array[i-1]);
-                String[] color = colors[i-1].split(",");
+//            if (i==0){
+//                textView.setText(mList.get(position).title);
+//            }else{
+                textView.setText(array[i]);
+                String[] color = colors[i].split(",");
                 textView.setTextColor(Color.rgb(Integer.parseInt(color[0]),
                         Integer.parseInt(color[1]),
                         Integer.parseInt(color[2])));
-            }
+//            }
             holder.layoutContainer.addView(textView);
         }
 

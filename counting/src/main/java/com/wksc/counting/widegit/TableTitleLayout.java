@@ -8,7 +8,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import com.wksc.counting.popwindows.TitleDescribewindow;
+import com.wksc.counting.popwindows.TitleDescribeWindow;
 
 /**
  * Created by puhua on 2016/6/28.
@@ -69,7 +69,7 @@ public class TableTitleLayout extends LinearLayout {
             textView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    TitleDescribewindow titleSelectPopupWindow = new TitleDescribewindow((Activity) TableTitleLayout.this.getContext());
+                    TitleDescribeWindow titleSelectPopupWindow = new TitleDescribeWindow((Activity) TableTitleLayout.this.getContext());
                     titleSelectPopupWindow.showPopupwindow(v, titleDesc[finalI]);
                     return false;
                 }
@@ -78,5 +78,9 @@ public class TableTitleLayout extends LinearLayout {
         }
         this.invalidate();
 
+    }
+
+    public void clearAllViews(){
+        this.removeAllViews();
     }
 }

@@ -15,14 +15,18 @@ import com.lzy.okhttputils.OkHttpUtils;
 import com.wksc.counting.R;
 import com.wksc.counting.adapter.SalesCompareListAdapter;
 import com.wksc.counting.callBack.DialogCallback;
+import com.wksc.counting.config.Urls;
 import com.wksc.counting.event.ChangeChartEvent;
 import com.wksc.counting.model.coreDetail.CoreDetail;
+import com.wksc.counting.tools.UrlUtils;
 import com.wksc.counting.widegit.BarChartTool;
 import com.wksc.counting.widegit.ConditionLayout;
 import com.wksc.counting.widegit.LineChartTool;
 import com.wksc.counting.widegit.NestedListView;
 import com.wksc.counting.widegit.TableTitleLayout;
+import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
+import com.wksc.framwork.platform.config.IConfig;
 import com.wksc.framwork.util.StringUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -60,6 +64,10 @@ public class TogleFragment extends CommonFragment {
     LineChartTool lineChartTool;
     private String param;
     private String provice;
+    private IConfig config;
+
+    String extraParam;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +90,7 @@ public class TogleFragment extends CommonFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, v);
+        config = BaseApplication.getInstance().getCurrentConfig();
         oldBarTool = new BarChartTool(barChartOld, getContext());
 
         newBarTool = new BarChartTool(barChartNew, getContext());
@@ -91,6 +100,7 @@ public class TogleFragment extends CommonFragment {
         Bundle bundle = (Bundle) getmDataIn();
         param = bundle.getString("param");
         provice = bundle.getString("provice");
+        extraParam = bundle.getString("extra");
         initView();
         return v;
     }
@@ -114,21 +124,27 @@ public class TogleFragment extends CommonFragment {
             }
         });
         getData(provice);
+
     }
 
     private void getData(String provice) {
 //        String url = "http://101.200.131.198:8087/gw?cmd=appCoreDetails";
         String url;
-        if (StringUtils.isBlank(provice)){
-            url = "http://10.1.100.6/ea/gw?cmd=appCoreDetails&item="+param+
+        if (StringUtils.isBlank(provice)) {
+            url = "http://10.1.100.6/ea/gw?cmd=appCoreDetails&item=" + param +
                     "&level=1&year=2016&month=06";
-        }else{
-            url = "http://10.1.100.6/ea/gw?cmd=appCoreDetails&item="+param+
-                    "&level=2&year=2016&month=06&province="+provice;
+        } else {
+            url = "http://10.1.100.6/ea/gw?cmd=appCoreDetails&item=" + param +
+                    "&level=2&year=2016&month=06&province=" + provice;
         }
-        OkHttpUtils.post(url)//
+        StringBuilder sb = new StringBuilder(Urls.COREDETAIL);
+        UrlUtils.getInstance().addSession(sb, config).praseToUrl(sb, "item", param)
+                .praseToUrl(sb, "level", "2").praseToUrl(sb, "province", provice)
+        .praseToUrl(sb, "code", provice);
+        sb.append(extraParam);
+        OkHttpUtils.post(sb.toString())//
                 .tag(this)//
-                .execute(new DialogCallback<CoreDetail>(getContext(),CoreDetail.class) {
+                .execute(new DialogCallback<CoreDetail>(getContext(), CoreDetail.class) {
 
                     @Override
                     public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
@@ -137,19 +153,22 @@ public class TogleFragment extends CommonFragment {
 
                     @Override
                     public void onResponse(boolean isFromCache, CoreDetail c, Request request, @Nullable Response response) {
-                        Log.i("TAG",c.toString());
-                        detail = c;
-                        oldBarTool.initBar(c.CoreChart1);
-                        newBarTool.initBar(c.CoreChart2);
-                        String[] tableTitles = detail.tableTitle.split("\\|");
-                        final String[] titleDesc = detail.tableTitleDesc.split("\\|");
-                        titles.initView("地区");
-                        titles.initView(tableTitles,
-                                titleDesc);
-                        adapter.TransData(detail.tableData);
+//                        if (c.tableData.size() > 0) {
+                            Log.i("TAG", c.toString());
+                            titles.clearAllViews();
+                            detail = c;
+                            oldBarTool.setData(c.CoreChart1);
+                            newBarTool.setData(c.CoreChart2);
+                            String[] tableTitles = detail.tableTitle.split("\\|");
+                            final String[] titleDesc = detail.tableTitleDesc.split("\\|");
+                            titles.initView("地区");
+                            titles.initView(tableTitles,
+                                    titleDesc);
+                            adapter.TransData(detail.tableData);
+
+//                        }
 
                     }
-
                 });
     }
 
@@ -168,6 +187,11 @@ public class TogleFragment extends CommonFragment {
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    protected void lazyLoad() {
+//        getData(provice);
     }
 }
 

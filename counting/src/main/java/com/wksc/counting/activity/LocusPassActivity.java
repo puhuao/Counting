@@ -14,7 +14,7 @@ public class LocusPassActivity extends CommonActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_container);
-        pushFragmentToBackStack(LocusPassFragment.class, null);
+        pushFragmentToBackStack(LocusPassFragment.class, false);
     }
 
     @Override

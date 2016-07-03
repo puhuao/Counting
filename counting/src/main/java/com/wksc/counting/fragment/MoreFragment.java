@@ -1,7 +1,9 @@
 package com.wksc.counting.fragment;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,8 +11,12 @@ import android.widget.TextView;
 
 import com.wksc.counting.R;
 import com.wksc.counting.activity.LocusPassActivity;
+import com.wksc.counting.activity.LoginActivity;
+import com.wksc.counting.popwindows.IndexPopupWindow;
 import com.wksc.counting.widegit.CustomDialog;
+import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
+import com.wksc.framwork.platform.config.IConfig;
 import com.wksc.framwork.util.ToastUtil;
 
 import butterknife.Bind;
@@ -26,6 +32,12 @@ public class MoreFragment extends CommonFragment implements View.OnClickListener
     TextView loc;
     @Bind(R.id.clear_catch)
     TextView clearCache;
+    @Bind(R.id.index_choice)
+    TextView indexChoice;
+    @Bind(R.id.logout)
+    TextView logout;
+    private IConfig config;
+
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_more, null);
@@ -39,6 +51,8 @@ public class MoreFragment extends CommonFragment implements View.OnClickListener
         ButterKnife.bind(this, v);
         loc.setOnClickListener(this);
         clearCache.setOnClickListener(this);
+        indexChoice.setOnClickListener(this);
+        logout.setOnClickListener(this);
         return v;
     }
 
@@ -49,6 +63,7 @@ public class MoreFragment extends CommonFragment implements View.OnClickListener
         switch (v.getId()){
             case R.id.loc:
                 startActivity(LocusPassActivity.class);
+//                getContext().pushFragmentToBackStack(LocusPassFragment.class,false);
                 break;
             case R.id.clear_catch:
                 CustomDialog.Builder builder = new CustomDialog.Builder(getActivity());
@@ -74,6 +89,23 @@ public class MoreFragment extends CommonFragment implements View.OnClickListener
                 });
                 builder.create().show();
                 break;
+            case R.id.index_choice:
+                IndexPopupWindow indexPopupwindow = new IndexPopupWindow( getContext());
+                indexPopupwindow.showPopupwindow(v);
+                break;
+            case R.id.logout:
+                /*在退出登录时将存在本地的手势密码清空，将设置手势密码的标志位设为未设置*/
+                config = BaseApplication.getInstance().getCurrentConfig();
+                config.setBoolean("setLocusPassword", false);
+                config.setString("locusPassword","");
+                startActivity(LoginActivity.class,null);
+                getActivity().finish();
+                break;
         }
+    }
+
+    @Override
+    protected void lazyLoad() {
+
     }
 }

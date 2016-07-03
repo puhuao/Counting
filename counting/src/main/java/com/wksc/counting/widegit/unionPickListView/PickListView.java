@@ -130,6 +130,7 @@ public class PickListView extends ListView implements AdapterView.OnItemClickLis
             }else if (checkecNumber>1){
                 scendListView.hide();
                 BaseDataUtil.citys();
+                BaseDataUtil.countys();
             }
             currentAdapter.notifyDataSetChanged();
             scentAdapter.notifyDataSetChanged();

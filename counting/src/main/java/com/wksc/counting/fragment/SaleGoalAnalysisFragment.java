@@ -1,23 +1,35 @@
 package com.wksc.counting.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.lzy.okhttputils.OkHttpUtils;
 import com.wksc.counting.R;
+import com.wksc.counting.activity.TogleActivity;
 import com.wksc.counting.adapter.SalesFinishListAdapter;
 import com.wksc.counting.callBack.DialogCallback;
+import com.wksc.counting.config.Urls;
+import com.wksc.counting.event.ChangeChartEvent;
+import com.wksc.counting.event.SaleGoalAnaEvent;
 import com.wksc.counting.model.SaleAnaModel.SaleAnaModel;
+import com.wksc.counting.tools.UrlUtils;
 import com.wksc.counting.widegit.ConditionLayout;
 import com.wksc.counting.widegit.NestedListView;
 import com.wksc.counting.widegit.PieChartTool;
 import com.wksc.counting.widegit.TableTitleLayout;
+import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
+import com.wksc.framwork.platform.config.IConfig;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -41,6 +53,13 @@ public class SaleGoalAnalysisFragment extends CommonFragment {
     PieChart pieChart;
     SalesFinishListAdapter salesFinishListAdapter;
     PieChartTool pieChartTool;
+    private IConfig config;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -61,14 +80,39 @@ public class SaleGoalAnalysisFragment extends CommonFragment {
         salesFinishListAdapter = new SalesFinishListAdapter(getActivity());
         lvSalesAnalysis.setAdapter(salesFinishListAdapter);
         pieChartTool = new PieChartTool(pieChart);
+//        extraParam = "&month=06";
         getListData();
         conditionLayout.hideGoods(false);
+        conditionLayout.setConditionSelect(new ConditionLayout.OnConditionSelect() {
+            @Override
+            public void postParams() {
+                conditionLayout.getAllConditions();
+                extraParam = conditionLayout.prams.toString();
+                getListData();
+            }
+        });
+        lvSalesAnalysis.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Bundle bundle = new Bundle();
+                bundle.putString("code", salesFinishListAdapter.getList().get(position).code);
+                bundle.putString("extra", extraParam);
+                bundle.putInt("flag",1);
+//                getContext().pushFragmentToBackStack(ToglSaleGoalAnalysisFragment.class, bundle);
+                Intent intent = new Intent(getActivity(),TogleActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
     }
 
     private void getListData() {
-//        String url = "http://101.200.131.198:8087/gw?cmd=appTopicIndex&class=10&item=10&level=1";
-        String url = "http://10.1.100.6/ea/gw?cmd=appTopicIndex&class=10&item=10&level=1";
-        OkHttpUtils.post(url)//
+        StringBuilder sb = new StringBuilder(Urls.TOPICINDEX);
+        config = BaseApplication.getInstance().getCurrentConfig();
+        UrlUtils.getInstance().addSession(sb,config).praseToUrl(sb,"class","10")
+                .praseToUrl(sb,"level","1").praseToUrl(sb,"item","10");
+        sb.append(extraParam);
+        OkHttpUtils.post(sb.toString())//
                 .tag(this)//
                 .execute(new DialogCallback<SaleAnaModel>(getContext(), SaleAnaModel.class) {
 
@@ -79,18 +123,36 @@ public class SaleGoalAnalysisFragment extends CommonFragment {
 
                     @Override
                     public void onResponse(boolean isFromCache, SaleAnaModel c, Request request, @Nullable Response response) {
-                        Log.i("TAG", c.tableTitle);
-                        String[] titles = c.tableTitle.split("\\|");
-                        String[] desc = c.tableTitleDesc.split("\\|");
-                        titleLayout.initView(titles, desc);
-                        salesFinishListAdapter.setItemCloums(titles.length);
-                        salesFinishListAdapter.setList(c.tableData);
-                        pieChartTool.setData(c.chartData);
-                        pieChartTool.setPiechart();
+//                       if (c.tableData.size()>0){
+                           Log.i("TAG", c.tableTitle);
+                           String[] titles = c.tableTitle.split("\\|");
+                           String[] desc = c.tableTitleDesc.split("\\|");
+                           titleLayout.clearAllViews();
+                           titleLayout.initView(titles, desc);
+                           salesFinishListAdapter.setItemCloums(titles.length);
+                           salesFinishListAdapter.setList(c.tableData);
+                           pieChartTool.setData(c.chartData);
+                           pieChartTool.setPiechart();
+//                       }
+
 
                     }
 
                 });
     }
 
+    @Override
+    protected void lazyLoad() {
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe
+    public void changeChart(SaleGoalAnaEvent event) {
+       getListData();
+    }
 }

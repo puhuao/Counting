@@ -32,4 +32,9 @@ public class CustomerServiceFragment extends CommonFragment {
     private void initView() {
 
     }
+
+    @Override
+    protected void lazyLoad() {
+
+    }
 }

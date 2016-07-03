@@ -71,10 +71,6 @@ public class TitleSelectPopupWindow extends PopupWindow{
                 fragment = new CustomerServiceFragment();
                 name = "客服中心";
             }
-//            else if(i ==3){
-//                fragment = new PlatformCenterFragment();
-//                name = "平台中心";
-//            }
             if (fragment != null) {
                 fragmentEntity = new FragmentEntity(name, fragment);
                 indicatorFragmentEntityList.add(fragmentEntity);

@@ -20,7 +20,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp">
+                android:layout_height="150dp">
 
                 <LinearLayout
                     android:id="@+id/chart1"
@@ -31,14 +31,14 @@
                     <com.github.mikephil.charting.charts.HorizontalBarChart
                         android:id="@+id/bar_chart_old"
                         android:layout_width="0dp"
-                        android:layout_height="200dp"
+                        android:layout_height="150dp"
                         android:layout_weight="1"
                         android:background="@android:color/white" />
 
                     <com.github.mikephil.charting.charts.HorizontalBarChart
                         android:id="@+id/bar_chart_new"
                         android:layout_width="0dp"
-                        android:layout_height="200dp"
+                        android:layout_height="150dp"
                         android:layout_weight="1"
                         android:background="@android:color/white" />
                 </LinearLayout>
@@ -54,7 +54,8 @@
                 android:id="@+id/titles"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"/>
+                android:orientation="horizontal"
+                android:layout_marginTop="12dp"/>
             <com.wksc.counting.widegit.NestedListView
                 android:id="@+id/list_view"
                 android:layout_width="match_parent"

@@ -5,6 +5,9 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.lzy.okhttputils.OkHttpUtils;
+import com.wksc.framwork.BaseApplication;
+import com.wksc.framwork.platform.config.IConfig;
+import com.wksc.framwork.util.StringUtils;
 
 import org.json.JSONObject;
 
@@ -48,6 +51,11 @@ public abstract class JsonCallback<T> extends EncryptCallback<T> {
         final String msg = jsonObject.optString("retMsg", "");
         final int code = jsonObject.optInt("retCode", 0);
         String data = jsonObject.optString("retObj", "");
+        String sessionId = jsonObject.optString("sessionId","");
+        IConfig config =  BaseApplication.getInstance().getCurrentConfig();
+        if (!StringUtils.isBlank(sessionId)){
+            config.setString("sessionId",sessionId);
+        }
         switch (code) {
             case 0:
                 /**
@@ -57,6 +65,22 @@ public abstract class JsonCallback<T> extends EncryptCallback<T> {
                 if (clazz == String.class) return (T) data;
                 if (clazz != null) return new Gson().fromJson(data, clazz);
                 if (type != null) return new Gson().fromJson(data, type);
+                break;
+            case 1:
+                OkHttpUtils.getInstance().getDelivery().post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(OkHttpUtils.getContext(), "错误信息：" + msg, Toast.LENGTH_SHORT).show();
+                    }
+                });
+                break;
+            case -2:
+                OkHttpUtils.getInstance().getDelivery().post(new Runnable() {
+                    @Override
+                    public void run() {
+
+                    }
+                });
                 break;
             case 104:
                 //比如：用户授权信息无效，在此实现相应的逻辑，弹出对话或者跳转到其他页面等,该抛出错误，会在onError中回调。

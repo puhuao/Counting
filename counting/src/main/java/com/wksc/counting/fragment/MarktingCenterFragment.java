@@ -14,10 +14,18 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.wksc.counting.Basedata.BaseDataUtil;
 import com.wksc.counting.R;
+import com.wksc.counting.event.PlatFormAnaEvent;
+import com.wksc.counting.event.SaleChannelAnaEvent;
+import com.wksc.counting.event.SaleComparisonLoadDataEvent;
+import com.wksc.counting.event.SaleGoalAnaEvent;
+import com.wksc.counting.event.VipComparisonLoadDataEvent;
 import com.wksc.counting.widegit.CustomViewPager;
 import com.wksc.counting.widegit.PagerSlidingTabStrip;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,7 +96,12 @@ public class MarktingCenterFragment extends CommonFragment {
                     LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                     params.setMargins(10,0,10,0);
                     tab.setLayoutParams(params);
-//                    tab.setBackground(getContext().getResources().getDrawable(R.drawable.tab_text_selector));
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                        tab.setBackground(getContext().getResources().getDrawable(R.drawable.tab_text_selector));
+                    }else{
+                        tab.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.tab_text_selector));
+                    }
                     if (indicatorFragmentEntityList.size() == 2) {
                         if (i == 0) {
                             tab.setTextColor(getResources().getColor(R.color.bg_color));
@@ -114,7 +127,7 @@ public class MarktingCenterFragment extends CommonFragment {
                 indicatorFragmentEntityList);
         mViewPager.setAdapter(adapter);
         mViewPager.setPagingEnabled(false);
-        mViewPager.setOffscreenPageLimit(3);
+        mViewPager.setOffscreenPageLimit(1);
         mIndicator.setViewPager(mViewPager);
 
         mIndicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -153,6 +166,38 @@ public class MarktingCenterFragment extends CommonFragment {
             public void onPageScrollStateChanged(int state) {
             }
         });
+
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                switch (position){
+                    case 0:
+                        EventBus.getDefault().post(new SaleGoalAnaEvent());
+                        break;
+                    case 1:
+                        EventBus.getDefault().post(new SaleChannelAnaEvent());
+                        break;
+                    case 2:
+                        EventBus.getDefault().post(new PlatFormAnaEvent());
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+    }
+
+    @Override
+    protected void lazyLoad() {
+
     }
 
     class FragmentEntity {

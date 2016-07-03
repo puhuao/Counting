@@ -16,6 +16,7 @@ import com.wksc.counting.R;
 import com.wksc.counting.adapter.CheckBoxListAdapter;
 import com.wksc.counting.model.baseinfo.BaseWithCheckBean;
 import com.wksc.counting.widegit.MarqueeText;
+import com.wksc.framwork.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/5/29.
  */
-public class GoodsPopupWindow extends PopupWindow {
+public class GoodsPopupWindow extends BasePopupWindow {
 
     public StringBuilder sbChannel = new StringBuilder();
     public StringBuilder sbPlatform = new StringBuilder();
@@ -32,7 +33,7 @@ public class GoodsPopupWindow extends PopupWindow {
     Activity mContext;
     ListView lvGoodsType,lvGoodsName;
     Button sure;
-    MarqueeText goods;
+//    MarqueeText goods;
     CheckBoxListAdapter typeListAdapter,nameListAdapter;
     public int superPosition;
     public GoodsPopupWindow(Activity context){
@@ -48,6 +49,7 @@ public class GoodsPopupWindow extends PopupWindow {
         this.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
         this.setBackgroundDrawable(new BitmapDrawable());
         this.setFocusable(true);
+        this.setAnimationStyle(R.style.channelAnimation);
         this.setOnDismissListener(new OnDismissListener() {
             @Override
             public void onDismiss() {
@@ -61,11 +63,27 @@ public class GoodsPopupWindow extends PopupWindow {
                 dissmisPopupwindow();
                 backgroundAlpha(1f);
 
+                List<BaseWithCheckBean> scend = BaseDataUtil.checkGoodsClassScend();
+                List<BaseWithCheckBean> first = BaseDataUtil.checkGoodsClassFirst();
+            if (first.size()>=1&&scend.size()==0){
+                mListener.conditionSelect(BaseDataUtil.sbGoodsClassFirstCode.toString(),
+                        BaseDataUtil.sbGoodsClassFirst.toString(),0);
+            }else if(first.size()==0&&scend.size()>=1){
+                mListener.conditionSelect(BaseDataUtil.sbGoodsClassFirstCode.toString(),
+                        BaseDataUtil.sbGoodsClassScend.toString(),1);
+            }else if (first.size()==0&&scend.size()==0){
+                mListener.conditionSelect(BaseDataUtil.sbGoodsClassFirstCode.toString(),
+                        BaseDataUtil.sbGoodsClassScend.toString(),-1);
+            }else {
+                ToastUtil.showShortMessage(mContext,"筛选条件的格式不正确" );
+            }
+
                 if (sbChannel.length()>0)
                     sbChannel.delete(0,sbChannel.length());
                 for (BaseWithCheckBean bean:typeListAdapter.getList()){
                     if (bean.isCheck == CheckBoxListAdapter.ALL){
-                        sbChannel.append(bean.name).append(",");
+                        sbChannel.append(bean.code).append(",");
+
                     }
                 }
                 if (sbChannel.length()>0){
@@ -75,14 +93,14 @@ public class GoodsPopupWindow extends PopupWindow {
                     sbPlatform.delete(0,sbPlatform.length());
                 for (BaseWithCheckBean bean:nameListAdapter.getList()){
                     if (bean.isCheck == CheckBoxListAdapter.ALL){
-                        sbPlatform.append(bean.name).append(",");
+                        sbPlatform.append(bean.code).append(",");
                     }
                 }
                 if (sbPlatform.length()>0){
                     sbPlatform.deleteCharAt(sbPlatform.length()-1);
                 }
-                if(sbChannel.length()>0||sbPlatform.length()>0)
-                goods.setText(sbChannel+" "+sbPlatform);
+//                if(sbChannel.length()>0||sbPlatform.length()>0)
+//                goods.setText(sbChannel+" "+sbPlatform);
             }
         });
 
@@ -141,7 +159,7 @@ public class GoodsPopupWindow extends PopupWindow {
     }
 
     public void bindTextView(MarqueeText goods) {
-        this.goods = goods;
+//        this.goods = goods;
     }
 
 }

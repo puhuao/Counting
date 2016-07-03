@@ -29,4 +29,9 @@ public class TelescopeFragment extends CommonFragment {
         ButterKnife.bind(this, v);
         return v;
     }
+
+    @Override
+    protected void lazyLoad() {
+
+    }
 }

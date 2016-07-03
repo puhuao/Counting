@@ -8,5 +8,6 @@ package com.wksc.counting.model.saleChannelModel;
 public class TableModel {
     public String newValue;
     public String newColor;
+    public String code;
 
 }

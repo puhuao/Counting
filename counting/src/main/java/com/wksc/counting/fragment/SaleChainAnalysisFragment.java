@@ -1,23 +1,35 @@
 package com.wksc.counting.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.lzy.okhttputils.OkHttpUtils;
 import com.wksc.counting.R;
+import com.wksc.counting.activity.TogleActivity;
 import com.wksc.counting.adapter.SalesSupplyListAdapter;
 import com.wksc.counting.callBack.DialogCallback;
+import com.wksc.counting.config.Urls;
+import com.wksc.counting.event.SaleChannelAnaEvent;
+import com.wksc.counting.event.SaleGoalAnaEvent;
 import com.wksc.counting.model.SaleAnaModel.PeiModel;
 import com.wksc.counting.model.saleChannelModel.SaleChannelModel;
+import com.wksc.counting.tools.UrlUtils;
 import com.wksc.counting.widegit.ConditionLayout;
 import com.wksc.counting.widegit.NestedListView;
 import com.wksc.counting.widegit.PieChartTool;
 import com.wksc.counting.widegit.TableTitleLayout;
+import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
+import com.wksc.framwork.platform.config.IConfig;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -41,6 +53,13 @@ public class SaleChainAnalysisFragment extends CommonFragment {
     PieChart pieChart;
     SalesSupplyListAdapter salesSupplyListAdapter;
     private PieChartTool pieChartTool;
+    private IConfig config;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -62,13 +81,39 @@ public class SaleChainAnalysisFragment extends CommonFragment {
         lvSupplyAnalysis.setAdapter(salesSupplyListAdapter);
         conditionLayout.hideGoods(false);
         pieChartTool = new PieChartTool(pieChart);
-        getListData();
+//        getListData();
+//        extraParam = "&month=06";
+        conditionLayout.setConditionSelect(new ConditionLayout.OnConditionSelect() {
+            @Override
+            public void postParams() {
+                conditionLayout.getAllConditions();
+                extraParam = conditionLayout.prams.toString();
+                getListData();
+            }
+        });
+        lvSupplyAnalysis.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Bundle bundle = new Bundle();
+                bundle.putString("code", salesSupplyListAdapter.getList().get(position).code);
+                bundle.putString("extra", extraParam);
+                bundle.putInt("flag",2);
+//                getContext().pushFragmentToBackStack(ToglSaleGoalAnalysisFragment.class, bundle);
+                Intent intent = new Intent(getActivity(),TogleActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
+//                getContext().pushFragmentToBackStack(TogleSaleChainAnalysisFragment.class, bundle);
+            }
+        });
     }
 
     private void getListData() {
-        //        String url = "http://101.200.131.198:8087/gw?cmd=appTopicIndex&class=10&item=10&level=1";
-        String url = "http://10.1.100.6/ea/gw?cmd=appTopicIndex&class=10&item=20&level=1";
-        OkHttpUtils.post(url)//
+        StringBuilder sb = new StringBuilder(Urls.TOPICINDEX);
+        config = BaseApplication.getInstance().getCurrentConfig();
+        UrlUtils.getInstance().addSession(sb,config).praseToUrl(sb,"class","10")
+                .praseToUrl(sb,"level","1").praseToUrl(sb,"item","20");
+        sb.append(extraParam);
+        OkHttpUtils.post(sb.toString())//
                 .tag(this)//
                 .execute(new DialogCallback<SaleChannelModel>(getContext(), SaleChannelModel.class) {
 
@@ -80,33 +125,50 @@ public class SaleChainAnalysisFragment extends CommonFragment {
                     @Override
                     public void onResponse(boolean isFromCache, SaleChannelModel c, Request request, @Nullable Response response) {
 //                        Log.i("TAG",c.tableTitle);
+//                        if (c.tableData.size() > 0) {
+                            titleLayout.clearAllViews();
+                            String[] titles = c.table.tableTitle.split("\\|");
+                            String[] desc = c.table.tableTitleDesc.split("\\|");
+                            titleLayout.initView(titles, desc);
+                            salesSupplyListAdapter.setItemCloums(titles.length);
+                            salesSupplyListAdapter.setList(c.tableData);
 
-                        String[] titles = c.table.tableTitle.split("\\|");
-                        String[] desc = c.table.tableTitleDesc.split("\\|");
-                        titleLayout.initView(titles, desc);
-                        salesSupplyListAdapter.setItemCloums(titles.length);
-                        salesSupplyListAdapter.setList(c.tableData);
+                            StringBuilder sb1 = new StringBuilder();
+                            StringBuilder sb2 = new StringBuilder();
+                            for (int i = 0; i < c.tableData.size(); i++) {
+                                String[] array = c.tableData.get(i).newValue.split("\\|");
+                                sb1.append(array[1]).append("|");
+                                sb2.append(array[0]).append("|");
+                            }
 
-                        StringBuilder sb1 = new StringBuilder();
-                        StringBuilder sb2 = new StringBuilder();
-                        for (int i = 0; i < c.tableData.size(); i++) {
-                            String[] array = c.tableData.get(i).newValue.split("\\|");
-                            sb1.append(array[1]).append("|");
-                            sb2.append(array[0]).append("|");
-                        }
+                            if (sb1.length() > 0) {
+                                sb1.deleteCharAt(sb1.length() - 1);
+                                sb2.deleteCharAt(sb2.length() - 1);
+                            }
+                            PeiModel peiModel = new PeiModel();
+                            peiModel.chartPoint1 = sb2.toString();
+                            peiModel.chartValue1 = sb1.toString();
+                            peiModel.chartTitle1 = c.table.title;
+                            pieChartTool.setData(peiModel);
+                            pieChartTool.setPiechart();
+//                        }
 
-                        if (sb1.length() > 0) {
-                            sb1.deleteCharAt(sb1.length() - 1);
-                            sb2.deleteCharAt(sb2.length() - 1);
-                        }
-                        PeiModel peiModel = new PeiModel();
-                        peiModel.chartPoint1 = sb2.toString();
-                        peiModel.chartValue1 = sb1.toString();
-                        peiModel.chartTitle1 = c.table.title;
-                        pieChartTool.setData(peiModel);
-                        pieChartTool.setPiechart();
                     }
                 });
     }
 
+    @Override
+    protected void lazyLoad() {
+
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe
+    public void changeChart(SaleChannelAnaEvent event) {
+        getListData();
+    }
 }

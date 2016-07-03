@@ -16,5 +16,6 @@ public class TableModel {
     public String title;
     public String newValue;
     public String newColor;
+    public String code;
 
 }

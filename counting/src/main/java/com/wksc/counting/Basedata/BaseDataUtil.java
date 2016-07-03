@@ -21,11 +21,23 @@ public class BaseDataUtil {
     public static StringBuilder sbRegion= new StringBuilder();
     public static StringBuilder sbCity= new StringBuilder();
     public static StringBuilder sbCounty= new StringBuilder();
+    public static StringBuilder sbRegionCode= new StringBuilder();
+    public static StringBuilder sbCityCode= new StringBuilder();
+    public static StringBuilder sbCountyCode= new StringBuilder();
     public static List<GoodsClassFirst> goodsClassFirst = new ArrayList<>();
 
     public static List<CoreItem> coreItems = new ArrayList<>();
 
     public static List<Channel> channels = new ArrayList<>();
+
+    public static List<BaseWithCheckBean> coreItems(){
+        List<BaseWithCheckBean> regions = new ArrayList<>();
+        for (BaseWithCheckBean reg : coreItems) {
+            regions.add(reg);
+        }
+        return regions;
+    }
+
 
     public static void clearData(){
         region.clear();
@@ -33,11 +45,36 @@ public class BaseDataUtil {
         coreItems.clear();
         channels.clear();
     }
+    public static StringBuilder sbGoodsClassFirst= new StringBuilder();
+    public static StringBuilder sbGoodsClassFirstCode = new StringBuilder();
 
     public static List<BaseWithCheckBean> goodsClassFirst() {
         List<BaseWithCheckBean> regions = new ArrayList<>();
         for (BaseWithCheckBean reg : goodsClassFirst) {
             regions.add(reg);
+        }
+        return regions;
+    }
+    public static List<BaseWithCheckBean> checkGoodsClassFirst() {
+        if (sbGoodsClassFirst.length()>0){
+            sbGoodsClassFirst.delete(0,sbGoodsClassFirst.length());
+        }
+        if (sbGoodsClassFirstCode.length()>0){
+            sbGoodsClassFirstCode.delete(0,sbGoodsClassFirstCode.length());
+        }
+        List<BaseWithCheckBean> regions = new ArrayList<>();
+        for (BaseWithCheckBean reg : goodsClassFirst) {
+            if (reg.isCheck == CheckBoxListAdapter.ALL){
+                regions.add(reg);
+                sbGoodsClassFirst.append(reg.name).append(",");
+                sbGoodsClassFirstCode.append(reg.code).append(",");
+            }
+        }
+        if (sbGoodsClassFirst.length()>0){
+            sbGoodsClassFirst.deleteCharAt(sbGoodsClassFirst.length()-1);
+        }
+        if (sbGoodsClassFirstCode.length()>0){
+            sbGoodsClassFirstCode.deleteCharAt(sbGoodsClassFirstCode.length()-1);
         }
         return regions;
     }
@@ -50,6 +87,39 @@ public class BaseDataUtil {
             }
         return regions;
     }
+public static StringBuilder sbGoodsClassScend = new StringBuilder();
+    public static StringBuilder sbGoodsClassScendCode = new StringBuilder();
+
+    public static List<BaseWithCheckBean> checkGoodsClassScend() {
+        if (sbGoodsClassScend.length()>0){
+            sbGoodsClassScend.delete(0,sbGoodsClassScend.length());
+        }
+        if (sbGoodsClassScendCode.length()>0){
+            sbGoodsClassScendCode.delete(0,sbGoodsClassScendCode.length());
+        }
+        List<BaseWithCheckBean> regions = new ArrayList<>();
+        if (goodsClassFirst.size() > 0)
+            for (GoodsClassFirst reg : goodsClassFirst) {
+                for (BaseWithCheckBean bean:
+                     reg.classX) {
+                    if (bean.isCheck == CheckBoxListAdapter.ALL){
+                        regions.add(bean);
+                        sbGoodsClassScend.append(bean.name).append(",");
+                        sbGoodsClassScendCode.append(bean.code).append(",");
+                    }
+                }
+
+            }
+
+        if (sbGoodsClassScend.length()>0){
+            sbGoodsClassScend.deleteCharAt(sbGoodsClassScend.length()-1);
+        }
+        if (sbGoodsClassScendCode.length()>0){
+            sbGoodsClassScendCode.deleteCharAt(sbGoodsClassScendCode.length()-1);
+        }
+        return regions;
+    }
+
 
     public static List<BaseWithCheckBean> regions() {
         List<BaseWithCheckBean> regions = new ArrayList<>();
@@ -60,15 +130,21 @@ public class BaseDataUtil {
     }
 
     public static List<BaseWithCheckBean> checkedRagions(){
+        sbRegion.delete(0,sbRegion.length());
+        sbRegionCode.delete(0,sbRegionCode.length());
         List<BaseWithCheckBean> regions = new ArrayList<>();
         for (BaseWithCheckBean reg : region) {
             if (reg.isCheck == CheckBoxListAdapter.ALL){
                 regions.add(reg);
                 sbRegion.append(reg.name).append(",");
+                sbRegionCode.append(reg.code).append(",");
             }
         }
         if (sbRegion.length()>0){
-            sbRegion.deleteCharAt(sbRegion.length());
+            sbRegion.deleteCharAt(sbRegion.length()-1);
+        }
+        if (sbRegionCode.length()>0){
+            sbRegionCode.deleteCharAt(sbRegionCode.length()-1);
         }
         return regions;
     }
@@ -97,6 +173,8 @@ public class BaseDataUtil {
     }
 
     public static List<BaseWithCheckBean> checkedCitys() {
+        sbCity.delete(0,sbCity.length());
+        sbCityCode.delete(0,sbCityCode.length());
         List<BaseWithCheckBean> regions = new ArrayList<>();
         if (region.size() > 0)
             for (Region bean :
@@ -105,10 +183,14 @@ public class BaseDataUtil {
                     if (reg.isCheck == CheckBoxListAdapter.ALL) {
                         regions.add(reg);
                         sbCity.append(reg.name).append(",");
+                        sbCityCode.append(reg.code).append(",");
                     }
                 }
                 if (sbCity.length() > 0) {
-                    sbCity.deleteCharAt(sbCity.length());
+                    sbCity.deleteCharAt(sbCity.length()-1);
+                }
+                if (sbCityCode.length()>0){
+                    sbCityCode.deleteCharAt(sbCityCode.length()-1);
                 }
             }
                 return regions;
@@ -141,6 +223,8 @@ public class BaseDataUtil {
     }
 
     public static List<BaseWithCheckBean> checkedCountys() {
+        sbCounty.delete(0,sbCounty.length());
+        sbCountyCode.delete(0,sbCounty.length());
         List<BaseWithCheckBean> regions = new ArrayList<>();
         if (region.size() > 0)
             for (Region bean :
@@ -149,13 +233,19 @@ public class BaseDataUtil {
                     for (City city : bean.city) {
                         if (city.county.size() > 0)
                             for (BaseWithCheckBean reg : city.county){
-                                if (reg.isCheck == CheckBoxListAdapter.ALL)
+                                if (reg.isCheck == CheckBoxListAdapter.ALL){
                                     regions.add(reg);
-                                sbCounty.append(reg.name).append(",");
+                                    sbCounty.append(reg.name).append(",");
+                                    sbCountyCode.append(reg.code).append(",");
+                                }
+
                             }
                     }
                 if (sbCounty.length() > 0) {
-                    sbCounty.deleteCharAt(sbCounty.length());
+                    sbCounty.deleteCharAt(sbCounty.length()-1);
+                }
+                if (sbCountyCode.length() > 0) {
+                    sbCountyCode.deleteCharAt(sbCountyCode.length()-1);
                 }
             }
         return regions;
@@ -189,6 +279,13 @@ public class BaseDataUtil {
             return;
         }
 
+    }
+
+    public static void updateCoreItemsStatus(int arg1, int isCheck) {
+        if (arg1 != -1) {
+            coreItems.get(arg1).isCheck = isCheck;
+            return;
+        }
     }
 
 

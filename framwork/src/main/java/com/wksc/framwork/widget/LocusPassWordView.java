@@ -502,7 +502,7 @@ public class LocusPassWordView extends View {
 		if (isFinish) {
 			if (this.sPoints.size() == 1) {
 				this.reset();
-			} else if (this.sPoints.size() < passwordMinLength
+			} else if (this.sPoints.size() <= passwordMinLength
 					&& this.sPoints.size() > 0) {
 				// mCompleteListener.onPasswordTooMin(sPoints.size());
 				error();

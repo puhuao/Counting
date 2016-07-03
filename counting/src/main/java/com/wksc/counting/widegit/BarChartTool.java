@@ -23,16 +23,17 @@ import java.util.ArrayList;
  * @
  */
 public class BarChartTool {
-    private  HorizontalBarChart horizontalBarChart;
-    private  Typeface tf;
-    private  Context mContext;
+    private HorizontalBarChart horizontalBarChart;
+    private Typeface tf;
+    private Context mContext;
 
-    public BarChartTool(HorizontalBarChart barChart,Context context){
+    public BarChartTool(HorizontalBarChart barChart, Context context) {
         this.horizontalBarChart = barChart;
         this.mContext = context;
+        initBar();
     }
 
-    public  void initBar(BarChartModel coreChart){
+    public void initBar() {
 
         horizontalBarChart.setDrawBarShadow(false);
 
@@ -83,31 +84,35 @@ public class BarChartTool {
         yr.setAxisMinValue(0f); // this replaces setStartAtZero(true)
         yr.setTextSize(6f);
 
-        setData(coreChart);
+//        setData(coreChart);
 
-        Legend l = horizontalBarChart.getLegend();
-        l.setPosition(Legend.LegendPosition.BELOW_CHART_LEFT);
-        l.setFormSize(8f);
-        l.setXEntrySpace(10f);
         horizontalBarChart.invalidate();
     }
 
-    private  void setData(BarChartModel coreChart) {
+    public void setData(BarChartModel coreChart) {
 
         ArrayList<String> xVals = new ArrayList<>();
-        if (StringUtils.isBlank(coreChart.chartPoint2))
-        xVals.add(coreChart.chartPoint2);
-        if (StringUtils.isBlank(coreChart.chartPoint1))
-        xVals.add(coreChart.chartPoint1);
+        if (!StringUtils.isBlank(coreChart.chartPoint2))
+            xVals.add(coreChart.chartPoint2);
+        else {
+            xVals.add("");
+        }
+        if (!StringUtils.isBlank(coreChart.chartPoint1))
+            xVals.add(coreChart.chartPoint1);
+        else {
+            xVals.add("");
+        }
         ArrayList<BarEntry> yValues = new ArrayList<>();
-        yValues.add(new BarEntry(Float.valueOf(coreChart.chartValue2), 0));
-        yValues.add(new BarEntry(Float.valueOf(coreChart.chartValue1), 1));
+        if (!StringUtils.isBlank(coreChart.chartValue2))
+            yValues.add(new BarEntry(Float.valueOf(coreChart.chartValue2), 0));
+        if (!StringUtils.isBlank(coreChart.chartValue1))
+            yValues.add(new BarEntry(Float.valueOf(coreChart.chartValue1), 1));
 
         BarDataSet set = new BarDataSet(yValues, coreChart.chartTitle1);
         set.setBarSpacePercent(50f);
         int color1 = Color.parseColor("#70AD47");
         int color2 = Color.parseColor("#BE364B");
-        int[] colors = new int[]{color2,color1};
+        int[] colors = new int[]{color2, color1};
         set.setColors(colors);
         ArrayList<IBarDataSet> dataSets = new ArrayList<>();
         dataSets.add(set);
@@ -115,7 +120,14 @@ public class BarChartTool {
         BarData data = new BarData(xVals, dataSets);
         data.setValueTextSize(6f);
         data.setValueTypeface(tf);
+        if (horizontalBarChart != null) {
+            Legend l = horizontalBarChart.getLegend();
+            l.setPosition(Legend.LegendPosition.BELOW_CHART_LEFT);
+            l.setFormSize(8f);
+            l.setXEntrySpace(10f);
+            horizontalBarChart.setData(data);
+            horizontalBarChart.invalidate();
+        }
 
-        horizontalBarChart.setData(data);
     }
 }

@@ -26,4 +26,9 @@ public class ExpectingFragment extends CommonFragment {
         View v = super.onCreateView(inflater, container, savedInstanceState);
         return v;
     }
+
+    @Override
+    protected void lazyLoad() {
+
+    }
 }

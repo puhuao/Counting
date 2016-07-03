@@ -27,12 +27,12 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/5/29.
  */
-public class TitleDescribewindow extends PopupWindow {
+public class TitleDescribeWindow extends PopupWindow {
 
     private TextView area;
     private Activity mContext;
 
-    public TitleDescribewindow(Activity context){
+    public TitleDescribeWindow(Activity context){
         super();
         mContext = context;
         View view = LayoutInflater.from(context).inflate(R.layout.pop_layout_describl,null);

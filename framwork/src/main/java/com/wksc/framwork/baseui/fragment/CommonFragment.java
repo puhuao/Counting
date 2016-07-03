@@ -18,7 +18,8 @@ import com.wksc.framwork.widget.ProgressHUD;
 public abstract class CommonFragment extends TitleBaseFragment {
 
     public ProgressHUD mProgressHUD;
-
+    protected boolean isVisible;
+    public String extraParam = "";
 
     /**
      * 显示消息提示，避免重复提示
@@ -144,4 +145,41 @@ public abstract class CommonFragment extends TitleBaseFragment {
                 Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
     }
+
+
+    /*设置fragment为可见时加载数据*/
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(getUserVisibleHint()) {
+            isVisible = true;
+            onVisible();
+        } else {
+            isVisible = false;
+            onInvisible();
+        }
+    }
+
+    /**
+     * 可见
+     */
+    protected void onVisible() {
+        lazyLoad();
+    }
+
+
+    /**
+     * 不可见
+     */
+    protected void onInvisible() {
+
+
+    }
+
+
+    /**
+     * 延迟加载
+     * 子类必须重写此方法
+     */
+    protected abstract void lazyLoad();
 }
