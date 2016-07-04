@@ -19,7 +19,7 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.wksc.counting.R;
 import com.wksc.counting.model.CoreIndexListModel;
-import com.wksc.counting.popwindows.TitleDescribeWindow;
+import com.wksc.counting.popwindows.TitleDescribewindow;
 import com.wksc.framwork.util.StringUtils;
 
 import java.util.ArrayList;
@@ -51,7 +51,7 @@ public class CoreIndexListAdapter extends BaseListAdapter<CoreIndexListModel>{
             @Override
             public boolean onLongClick(View v) {
 //                ToastUtil.showShortMessage(mContext,mList.get(pos).titleDesc);
-                TitleDescribeWindow titleSelectPopupWindow = new TitleDescribeWindow(mContext);
+                TitleDescribewindow titleSelectPopupWindow = new TitleDescribewindow(mContext);
                 titleSelectPopupWindow.showPopupwindow(v,mList.get(pos).titleDesc);
                 return false;
             }
@@ -145,14 +145,15 @@ public class CoreIndexListAdapter extends BaseListAdapter<CoreIndexListModel>{
     private void setData(int count, String range, Chart chart,int pos) {
 
         ArrayList<String> xVals = new ArrayList<String>();
-        for (int i = 0; i < count; i++) {
-            xVals.add((i) + "");
-        }
+
 
         ArrayList<Entry> yVals1 = new ArrayList<Entry>();
 
         String[] strArray = range.split(",");
-        for (int i = 0; i < count; i++) {
+        for (int i = 0; i < strArray.length; i++) {
+            xVals.add((i) + "");
+        }
+        for (int i = 0; i < strArray.length; i++) {
             String s = strArray[i];
             float f = Float.valueOf(s);
             yVals1.add(new Entry(f, i));

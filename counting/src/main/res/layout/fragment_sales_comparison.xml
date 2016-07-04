@@ -43,11 +43,7 @@
                         android:background="@android:color/white" />
                 </LinearLayout>
 
-                <com.github.mikephil.charting.charts.LineChart
-                    android:id="@+id/chart"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:visibility="gone" />
+
             </RelativeLayout>
 
             <com.wksc.counting.widegit.TableTitleLayout

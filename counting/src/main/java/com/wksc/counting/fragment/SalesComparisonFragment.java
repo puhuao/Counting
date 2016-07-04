@@ -10,26 +10,21 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 
 import com.github.mikephil.charting.charts.HorizontalBarChart;
-import com.github.mikephil.charting.charts.LineChart;
 import com.lzy.okhttputils.OkHttpUtils;
 import com.wksc.counting.R;
 import com.wksc.counting.adapter.SalesCompareListAdapter;
 import com.wksc.counting.callBack.DialogCallback;
 import com.wksc.counting.config.Urls;
-import com.wksc.counting.event.ChangeChartEvent;
 import com.wksc.counting.event.SaleComparisonLoadDataEvent;
 import com.wksc.counting.model.coreDetail.CoreDetail;
 import com.wksc.counting.tools.UrlUtils;
 import com.wksc.counting.widegit.BarChartTool;
 import com.wksc.counting.widegit.ConditionLayout;
-import com.wksc.counting.widegit.LineChartTool;
 import com.wksc.counting.widegit.NestedListView;
 import com.wksc.counting.widegit.TableTitleLayout;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 import com.wksc.framwork.platform.config.IConfig;
-import com.wksc.framwork.util.StringUtils;
-import com.wksc.framwork.util.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -46,8 +41,8 @@ import okhttp3.Response;
 public class SalesComparisonFragment extends CommonFragment {
     @Bind(R.id.list_view)
     NestedListView list;
-    @Bind(R.id.chart)
-    LineChart mChart;
+//    @Bind(R.id.chart)
+//    LineChart mChart;
     @Bind(R.id.chart1)
     LinearLayout chart1;
     @Bind(R.id.bar_chart_old)
@@ -63,7 +58,7 @@ public class SalesComparisonFragment extends CommonFragment {
     CoreDetail detail;
     BarChartTool oldBarTool;
     BarChartTool newBarTool;
-    LineChartTool lineChartTool;
+//    LineChartTool lineChartTool;
     private String param;
     //////////////////////////////////
     private boolean isPrepared;
@@ -96,8 +91,8 @@ public class SalesComparisonFragment extends CommonFragment {
 
         newBarTool = new BarChartTool(barChartNew, getContext());
 
-        lineChartTool = new LineChartTool(mChart, getContext());
-        lineChartTool.initLinChart();
+//        lineChartTool = new LineChartTool(mChart, getContext());
+//        lineChartTool.initLinChart();
         Bundle bundle = getArguments();
         param = bundle.getString("param");
         isFirstShow = bundle.getBoolean("isFirstShow");
@@ -185,16 +180,16 @@ public class SalesComparisonFragment extends CommonFragment {
                 });
     }
 
-    @Subscribe
-    public void changeChart(ChangeChartEvent event) {
-        if (!mChart.isShown()) {
-            chart1.setVisibility(View.GONE);
-            mChart.setVisibility(View.VISIBLE);
-        } else {
-            chart1.setVisibility(View.VISIBLE);
-            mChart.setVisibility(View.GONE);
-        }
-    }
+//    @Subscribe
+//    public void changeChart(ChangeChartEvent event) {
+//        if (!mChart.isShown()) {
+//            chart1.setVisibility(View.GONE);
+//            mChart.setVisibility(View.VISIBLE);
+//        } else {
+//            chart1.setVisibility(View.VISIBLE);
+//            mChart.setVisibility(View.GONE);
+//        }
+//    }
 
     @Override
     public void onDestroy() {

@@ -3,26 +3,18 @@ package com.wksc.counting.widegit;
 import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import com.wksc.counting.R;
-import com.wksc.counting.model.baseinfo.BaseWithCheckBean;
-import com.wksc.counting.popwindows.AreaPopupWindow;
+import com.wksc.counting.popwindows.AreaPopupwindow;
 import com.wksc.counting.popwindows.BasePopupWindow;
+import com.wksc.counting.popwindows.ChannelPopupWindow;
 import com.wksc.counting.popwindows.DateSelectPopupWindow;
 import com.wksc.counting.popwindows.GoodsPopupWindow;
-import com.wksc.counting.popwindows.ChannelPopupWindow;
-import com.wksc.counting.tools.DateTool;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-
-import butterknife.OnClick;
 
 /**
  * Created by puhua on 2016/6/28.
@@ -101,9 +93,9 @@ int y,m,d;
         if (y!=0)
             years.append("&year=").append(y);
         if (m<10){
-            month.append("&month=").append("0"+m);
+            month.append("&month=").append("0"+(m+1));
         }else{
-            month.append("&month=").append(m);
+            month.append("&month=").append((m+1));
         }
         if (d<10){
             day.append("&day=").append("0"+d);
@@ -124,7 +116,7 @@ int y,m,d;
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.area:
-                AreaPopupWindow areaPopupWindow = new AreaPopupWindow((Activity) getContext());
+                AreaPopupwindow areaPopupWindow = new AreaPopupwindow((Activity) getContext());
                 areaPopupWindow.bindTextView(area);
 
                 areaPopupWindow.setOnConditionSelectListener(new BasePopupWindow.OnConditionSelectListener() {
@@ -191,7 +183,7 @@ int y,m,d;
                 myPopupwindow.showPopupwindow(v);
                 myPopupwindow.setOnDateSelectListener(new DateSelectPopupWindow.OnDateSelectListener() {
                     @Override
-                    public void onDateSelect(String date,int f) {
+                    public void onDateSelect(String y,String m,String date,int f) {
                         if (years.length()>0){
                             years.delete(0,years.length());
                         }
@@ -200,17 +192,21 @@ int y,m,d;
                         }if (day.length()>0){
                             day.delete(0,day.length());
                         }
-                        if (f==1)
-                            years.append("&year=").append(date);
-                        else if(f==2){
-                            month.append("&month=").append(date);
+                        if (f==1){
+                            years.append("&year=").append(y);
+
+                        }else if(f==2){
+                            month.append("&month=").append(m);
+                            (time1).setText(y+"-"+m);
                         }else{
+                            month.append("&month=").append(m);
                             day.append("&day=").append(date);
+                            (time1).setText(y+"-"+m+"-"+date);
                         }
 
 //                            time.setText(data);
                         conditionSelect.postParams();
-//                        // SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+//                         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
 //                        if (year==0&&monthOfYear==0&&dayOfMonth==0){
 //                            if (data.equals("")) {
 //                                data = DateTool.getChinaDate();
@@ -219,7 +215,6 @@ int y,m,d;
 //                            data=DateTool.getChinaDateFromCalendar(year,monthOfYear,dayOfMonth);
 //                        }
                         layout.setVisibility(VISIBLE);
-                        (time1).setText(date);
                     }
                 });
                 break;

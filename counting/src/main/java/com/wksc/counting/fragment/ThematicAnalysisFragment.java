@@ -1,7 +1,6 @@
 package com.wksc.counting.fragment;
 
-import android.annotation.TargetApi;
-import android.os.Build;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -40,8 +39,9 @@ public class ThematicAnalysisFragment extends CommonFragment {
         View v = inflater.inflate(R.layout.fragment_thematic_analysis, null);
         hideLeftButton();
         setHeaderTitle("专题分析");
-        getTitleHeaderBar().getTitleTextView().setCompoundDrawables(null,null,
-                getContext().getResources().getDrawable(R.drawable.rectangle),null);
+        Drawable drawable = getContext().getResources().getDrawable(R.drawable.rectangle);
+        drawable.setBounds(0,0,drawable.getMinimumWidth(),drawable.getMinimumHeight());
+        getTitleHeaderBar().getTitleTextView().setCompoundDrawables(null,null,drawable,null);
         return v;
     }
 

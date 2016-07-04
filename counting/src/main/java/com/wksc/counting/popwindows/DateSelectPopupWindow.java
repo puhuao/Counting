@@ -66,23 +66,32 @@ public class DateSelectPopupWindow extends PopupWindow {
                 dissmisPopupwindow();
                 backgroundAlpha(1f);
                 String date = "";
+                String y = "";
+                String m = "";
                 if (flag ==1){
-                    date = String.valueOf(mYear);
+                    y = String.valueOf(mYear);
                 }else if (flag ==2){
+                    y = String.valueOf(mYear);
                     if (mMonthOfYear<10){
-                        date ="0"+mMonthOfYear;
+                        m ="0"+(mMonthOfYear+1);
                     }else{
-                        date = String.valueOf(mMonthOfYear);
+                        m = String.valueOf(mMonthOfYear+1);
                     }
 
                 }else if (flag ==3){
+                    y = String.valueOf(mYear);
+                    if (mMonthOfYear<10){
+                        m ="0"+(mMonthOfYear+1);
+                    }else{
+                        m = String.valueOf(mMonthOfYear+1);
+                    }
                     if (mDayOfMonth<10){
-                        date = "0"+(mDayOfMonth+1);
+                        date = "0"+(mDayOfMonth);
                     }else{
                         date =String.valueOf(mDayOfMonth);
                     }
                 }
-                mOnDateSelectListener.onDateSelect(date,flag);
+                mOnDateSelectListener.onDateSelect(y,m,date,flag);
             }
         });
 
@@ -95,9 +104,12 @@ public class DateSelectPopupWindow extends PopupWindow {
                         break;
                     case R.id.rb2:
                         flag = 2;
+                        hide(2);
                         break;
                     case R.id.rb3:
                         flag = 3;
+                        show(1);
+                        show(2);
                         break;
 
                 }
@@ -149,12 +161,13 @@ public class DateSelectPopupWindow extends PopupWindow {
                 mDayOfMonth=dayOfMonth;
             }
         };
+        hide(0);
         datePick1.init(mYear,mMonthOfYear,mDayOfMonth,dcl);
     }
 
 
     public interface OnDateSelectListener {
-        void onDateSelect(String date,int flag);
+        void onDateSelect(String year,String month,String date,int flag);
     }
 
     public void setOnDateSelectListener(OnDateSelectListener onDateSelectListener) {
@@ -179,4 +192,12 @@ public class DateSelectPopupWindow extends PopupWindow {
         mContext.getWindow().setAttributes(lp);
     }
 
+    private void hide(int i){
+        ((ViewGroup)((ViewGroup)datePick1.getChildAt(0)).
+                getChildAt(0)).getChildAt(i).setVisibility(View.GONE);
+    }
+    private void show(int i){
+        ((ViewGroup)((ViewGroup)datePick1.getChildAt(0)).
+                getChildAt(0)).getChildAt(i).setVisibility(View.VISIBLE);
+    }
 }

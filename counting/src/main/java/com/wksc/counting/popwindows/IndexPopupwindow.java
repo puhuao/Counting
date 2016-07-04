@@ -14,24 +14,18 @@ import android.widget.PopupWindow;
 
 import com.wksc.counting.Basedata.BaseDataUtil;
 import com.wksc.counting.R;
-import com.wksc.counting.adapter.AreaListAdapter;
 import com.wksc.counting.adapter.CheckBoxListAdapter;
-import com.wksc.counting.adapter.IndexListAdapter;
-import com.wksc.counting.model.AreaModel;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Administrator on 2016/5/29.
  */
-public class IndexPopupWindow extends PopupWindow {
+public class IndexPopupwindow extends PopupWindow {
     ListView list ;
     Button sure;
     CheckBoxListAdapter areaListAdapter;
     Activity mContext;
 
-    public IndexPopupWindow(Activity context){
+    public IndexPopupwindow(Activity context){
         super();
         mContext = context;
         View view = LayoutInflater.from(context).inflate(R.layout.pop_layout_index,null);

@@ -10,13 +10,10 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.wksc.counting.Basedata.BaseDataUtil;
 import com.wksc.counting.R;
-import com.wksc.counting.event.ChangeChartEvent;
 import com.wksc.counting.event.SaleComparisonLoadDataEvent;
 import com.wksc.counting.event.VipComparisonLoadDataEvent;
 import com.wksc.counting.model.baseinfo.CoreItem;
@@ -40,10 +37,10 @@ public class CompareFragment extends CommonFragment {
     PagerSlidingTabStrip mIndicator;
     @Bind(R.id.viewPager_history)
     CustomViewPager mViewPager;
-    @Bind(R.id.ib_right)
-    ImageButton btnRight;
-    @Bind(R.id.bar_left)
-    ImageView barLeft;
+//    @Bind(R.id.ib_right)
+//    ImageButton btnRight;
+//    @Bind(R.id.bar_left)
+//    ImageView barLeft;
 
     private ArrayList<FragmentEntity> indicatorFragmentEntityList;
     private MyPagerAdapter adapter;
@@ -52,7 +49,8 @@ public class CompareFragment extends CommonFragment {
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_comparison, null);
-        hideTitleBar();
+//        hideTitleBar();
+        setHeaderTitle("销售额对比");
         return v;
     }
 
@@ -145,6 +143,7 @@ public class CompareFragment extends CommonFragment {
 
             @Override
             public void onPageSelected(int position) {
+                setHeaderTitle(indicatorFragmentEntityList.get(position).name+"对比");
                 if (indicatorFragmentEntityList.size() == 2) {
                     if (position == 0) {
                         TextView tvTab0 = (TextView) mIndicator.getTab(0);
@@ -175,13 +174,13 @@ public class CompareFragment extends CommonFragment {
             }
         });
 
-        btnRight.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                EventBus.getDefault().post(new ChangeChartEvent());
-
-            }
-        });
+//        btnRight.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                EventBus.getDefault().post(new ChangeChartEvent());
+//
+//            }
+//        });
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -210,12 +209,12 @@ public class CompareFragment extends CommonFragment {
             mViewPager.setCurrentItem(pos);
             mIndicator.selectedTab(pos);
         }
-        barLeft.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().finish();
-            }
-        });
+//        barLeft.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                getActivity().finish();
+//            }
+//        });
     }
 
     @Override

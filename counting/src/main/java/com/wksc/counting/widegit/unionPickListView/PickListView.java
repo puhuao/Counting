@@ -10,6 +10,7 @@ import com.wksc.counting.Basedata.BaseDataUtil;
 import com.wksc.counting.adapter.CheckBoxListAdapter;
 import com.wksc.counting.model.BaseInfo;
 import com.wksc.counting.model.baseinfo.BaseWithCheckBean;
+import com.wksc.counting.widegit.NestedListView;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ import java.util.List;
  *
  * @
  */
-public class PickListView extends ListView implements AdapterView.OnItemClickListener {
+public class PickListView extends NestedListView implements AdapterView.OnItemClickListener {
     CheckBoxListAdapter currentAdapter;
     private Boolean hasSuperLevel = false;
     private Boolean hasScendLevel = false;

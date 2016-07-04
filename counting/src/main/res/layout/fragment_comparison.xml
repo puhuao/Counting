@@ -5,68 +5,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/ui_header_height"
-        android:background="@color/bg_color">
-
-        <RelativeLayout
-            android:id="@+id/ly_title_bar_left"
-            android:layout_width="100dp"
-            android:layout_height="@dimen/ui_header_height"
-            android:layout_alignParentLeft="true"
-            android:clickable="true"
-            android:gravity="center_vertical"
-            android:paddingLeft="12dp">
-
-            <ImageView
-                android:id="@+id/bar_left"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="10dp"
-                android:focusable="false"
-                android:src="@drawable/selector_btn_back" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/ly_title"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:layout_centerHorizontal="true">
-
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:singleLine="true"
-                android:text="销售额对比"
-                android:textColor="#ffffff"
-                android:textSize="16sp" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/ly_title_bar_right"
-            android:layout_width="100dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:paddingRight="10dp">
-
-
-            <ImageButton
-                android:id="@+id/ib_right"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:clickable="true"
-                android:src="@drawable/chart" />
-
-        </RelativeLayout>
-    </RelativeLayout>
-
     <RelativeLayout
         android:id="@+id/view_main_nav"
         android:layout_width="match_parent"

@@ -1,9 +1,7 @@
 package com.wksc.counting.fragment;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +10,7 @@ import android.widget.TextView;
 import com.wksc.counting.R;
 import com.wksc.counting.activity.LocusPassActivity;
 import com.wksc.counting.activity.LoginActivity;
-import com.wksc.counting.popwindows.IndexPopupWindow;
+import com.wksc.counting.popwindows.IndexPopupwindow;
 import com.wksc.counting.widegit.CustomDialog;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
@@ -90,7 +88,7 @@ public class MoreFragment extends CommonFragment implements View.OnClickListener
                 builder.create().show();
                 break;
             case R.id.index_choice:
-                IndexPopupWindow indexPopupwindow = new IndexPopupWindow( getContext());
+                IndexPopupwindow indexPopupwindow = new IndexPopupwindow( getContext());
                 indexPopupwindow.showPopupwindow(v);
                 break;
             case R.id.logout:

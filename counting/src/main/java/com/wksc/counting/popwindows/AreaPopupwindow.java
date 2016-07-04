@@ -3,7 +3,6 @@ package com.wksc.counting.popwindows;
 import android.app.Activity;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +11,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.PopupWindow;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -26,9 +23,9 @@ import com.wksc.counting.config.Urls;
 import com.wksc.counting.model.AreaCheckModel;
 import com.wksc.counting.model.MCU;
 import com.wksc.counting.model.baseinfo.BaseWithCheckBean;
-import com.wksc.counting.model.coreDetail.CoreDetail;
 import com.wksc.counting.tools.UrlUtils;
 import com.wksc.counting.widegit.MarqueeText;
+import com.wksc.counting.widegit.NestedListView;
 import com.wksc.counting.widegit.unionPickListView.PickListView;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.platform.config.IConfig;
@@ -45,7 +42,7 @@ import okhttp3.Response;
 /**
  * Created by Administrator on 2016/5/29.
  */
-public class AreaPopupWindow extends BasePopupWindow {
+public class AreaPopupwindow extends BasePopupWindow {
     Activity mContext;
     PickListView regionListView, cityListView, countyListView;
     Button sure;
@@ -55,15 +52,15 @@ public class AreaPopupWindow extends BasePopupWindow {
     CheckBoxListAdapter storsAdapter;
     RadioGroup radioGroup;
     ImageView search;
-EditText edit_query;
-ListView stores;
+    EditText edit_query;
+    NestedListView stores;
     TextView empty;
     List<AreaCheckModel> areas = new ArrayList<>();
-//    private MarqueeText area;
-int flag;
+    //    private MarqueeText area;
+    int flag;
     private IConfig config;
 
-    public AreaPopupWindow(Activity context) {
+    public AreaPopupwindow(Activity context) {
         super();
         mContext = context;
         View view = LayoutInflater.from(context).inflate(R.layout.pop_layout_area, null);
@@ -74,7 +71,7 @@ int flag;
         radioGroup = (RadioGroup) view.findViewById(R.id.rg);
         search = (ImageView) view.findViewById(R.id.search);
         edit_query = (EditText) view.findViewById(R.id.edit_query);
-        stores = (ListView) view.findViewById(R.id.stores);
+        stores = (NestedListView) view.findViewById(R.id.stores);
         empty = (TextView) view.findViewById(R.id.empty);
         this.setContentView(view);
         this.setOutsideTouchable(true);
@@ -99,7 +96,7 @@ int flag;
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId){
+                switch (checkedId) {
                     case R.id.rb1:
                         flag = 1;
                         break;
@@ -126,17 +123,17 @@ int flag;
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 storsAdapter.moveToNextStatus(position);
                 storsAdapter.notifyDataSetChanged();
-                if (store.length()>0){
-                    store.delete(0,store.length());
+                if (store.length() > 0) {
+                    store.delete(0, store.length());
                 }
-                if (storsAdapter.getCheckedNumber()>0)
-                for (int i =0;i<storsAdapter.getList().size();i++){
-                    BaseWithCheckBean bean = storsAdapter.getList().get(i);
-                    if (bean.isCheck==CheckBoxListAdapter.ALL)
-                    store.append(bean.code).append(",");
-                }
-                if (store.length()>0)
-                    store.deleteCharAt(store.length()-1);
+                if (storsAdapter.getCheckedNumber() > 0)
+                    for (int i = 0; i < storsAdapter.getList().size(); i++) {
+                        BaseWithCheckBean bean = storsAdapter.getList().get(i);
+                        if (bean.isCheck == CheckBoxListAdapter.ALL)
+                            store.append(bean.code).append(",");
+                    }
+                if (store.length() > 0)
+                    store.deleteCharAt(store.length() - 1);
             }
         });
         sure.setOnClickListener(new View.OnClickListener() {
@@ -151,27 +148,27 @@ int flag;
                 List<BaseWithCheckBean> checkBeenRagion = BaseDataUtil.checkedRagions();
                 List<BaseWithCheckBean> checkBeenCity = BaseDataUtil.checkedCitys();
                 List<BaseWithCheckBean> checkBeenCountys = BaseDataUtil.checkedCountys();
-                if (flag ==0) {
+                if (flag == 0) {
                     dissmisPopupwindow();
-                    if (mListener!=null)
-                    mListener.conditionSelect(BaseDataUtil.sbRegionCode.toString(),BaseDataUtil.sbRegion.toString(),0);
-                }else if(flag==1){
+                    if (mListener != null)
+                        mListener.conditionSelect(BaseDataUtil.sbRegionCode.toString(), BaseDataUtil.sbRegion.toString(), 0);
+                } else if (flag == 1) {
                     dissmisPopupwindow();
 //                    radioGroup.check(1);
-                    if (mListener!=null)
-                        mListener.conditionSelect(BaseDataUtil.sbCityCode.toString(),BaseDataUtil.sbCity.toString(),1);
-                }else if(flag==3){
+                    if (mListener != null)
+                        mListener.conditionSelect(BaseDataUtil.sbCityCode.toString(), BaseDataUtil.sbCity.toString(), 1);
+                } else if (flag == 3) {
                     dissmisPopupwindow();
 //                    radioGroup.check(2);
-                    if (mListener!=null)
-                        mListener.conditionSelect(BaseDataUtil.sbCountyCode.toString(),BaseDataUtil.sbCounty.toString(),2);
-                }else if(flag==4){
+                    if (mListener != null)
+                        mListener.conditionSelect(BaseDataUtil.sbCountyCode.toString(), BaseDataUtil.sbCounty.toString(), 2);
+                } else if (flag == 4) {
                     dissmisPopupwindow();
 //                    radioGroup.check(2);
-                    if (mListener!=null)
-                        mListener.conditionSelect(store.toString(),storsAdapter.sb.toString(),4);
-                }else{
-                    ToastUtil.showShortMessage(mContext,"筛选条件的格式不正确" );
+                    if (mListener != null)
+                        mListener.conditionSelect(store.toString(), storsAdapter.sb.toString(), 4);
+                } else {
+                    ToastUtil.showShortMessage(mContext, "筛选条件的格式不正确");
                 }
 
             }
@@ -186,12 +183,14 @@ int flag;
         cityListView.initView(regionListView, countyListView);
         countyListView.initView(cityListView, null);
     }
-StringBuilder store = new StringBuilder();
+
+    StringBuilder store = new StringBuilder();
+
     private void getData() {
         String param = edit_query.getText().toString();
 
-        if (StringUtils.isBlank(param)){
-            ToastUtil.showShortMessage(mContext,"请输入要查询门店所在的地区名");
+        if (StringUtils.isBlank(param)) {
+            ToastUtil.showShortMessage(mContext, "请输入要查询门店所在的地区名");
             return;
         }
         config = BaseApplication.getInstance().getCurrentConfig();
@@ -212,7 +211,7 @@ StringBuilder store = new StringBuilder();
                             storsAdapter.setList(c.MCU);
                             empty.setVisibility(View.GONE);
                             stores.setVisibility(View.VISIBLE);
-                        }else{
+                        } else {
                             empty.setVisibility(View.VISIBLE);
                             stores.setVisibility(View.GONE);
                         }

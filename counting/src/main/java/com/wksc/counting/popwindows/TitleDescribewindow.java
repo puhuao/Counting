@@ -6,33 +6,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.wksc.counting.Basedata.BaseDataUtil;
 import com.wksc.counting.R;
-import com.wksc.counting.adapter.CheckBoxListAdapter;
-import com.wksc.counting.model.AreaCheckModel;
-import com.wksc.counting.model.AreaModel;
-import com.wksc.counting.widegit.MarqueeText;
-import com.wksc.counting.widegit.unionPickListView.PickListView;
-import com.wksc.framwork.util.ToastUtil;
-
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Administrator on 2016/5/29.
  */
-public class TitleDescribeWindow extends PopupWindow {
+public class TitleDescribewindow extends PopupWindow {
 
     private TextView area;
     private Activity mContext;
 
-    public TitleDescribeWindow(Activity context){
+    public TitleDescribewindow(Activity context){
         super();
         mContext = context;
         View view = LayoutInflater.from(context).inflate(R.layout.pop_layout_describl,null);
