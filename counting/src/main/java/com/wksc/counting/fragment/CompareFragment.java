@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.wksc.counting.Basedata.BaseDataUtil;
 import com.wksc.counting.R;
 import com.wksc.counting.event.SaleComparisonLoadDataEvent;
+import com.wksc.counting.event.TurnToMoreFragmentEvent;
 import com.wksc.counting.event.VipComparisonLoadDataEvent;
 import com.wksc.counting.model.baseinfo.CoreItem;
 import com.wksc.counting.widegit.CustomViewPager;
@@ -51,6 +52,14 @@ public class CompareFragment extends CommonFragment {
         View v = inflater.inflate(R.layout.fragment_comparison, null);
 //        hideTitleBar();
         setHeaderTitle("销售额对比");
+        showRightButton();
+        getRightButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                getContext().pushFragmentToBackStack(MoreFragment.class,"");
+            }
+        });
         return v;
     }
 

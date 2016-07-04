@@ -4,9 +4,11 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.Window;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.wksc.counting.R;
+import com.wksc.counting.event.TurnToMoreFragmentEvent;
 import com.wksc.counting.fragment.CoreIndexFragment;
 import com.wksc.counting.fragment.LocusPassFragment;
 import com.wksc.counting.fragment.MoreFragment;
@@ -19,6 +21,9 @@ import com.wksc.framwork.baseui.ActivityManager;
 import com.wksc.framwork.baseui.activity.BaseFragmentActivity;
 import com.wksc.framwork.platform.config.IConfig;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -30,6 +35,8 @@ import butterknife.ButterKnife;
 public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnCheckedChangeListener {
     @Bind(R.id.radio_group)
     RadioGroup radioGroup;
+    @Bind(R.id.btn_more)
+    RadioButton btn_more;
 
     private Fragment mContent;
 
@@ -39,7 +46,7 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActivityManager.getInstance().addActivity(this);
+        EventBus.getDefault().register(this);
         // 删除窗口背景
         getWindow().setBackgroundDrawable(null);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -105,5 +112,15 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
                 break;
         }
         transFragment();
+    }
+
+    @Subscribe
+    public void changeChart(TurnToMoreFragmentEvent event) {
+        mContent=new MoreFragment();
+        transFragment();
+        btn_more.setChecked(true);
+        if (event.isDestroyAll()){
+            ActivityManager.getInstance().finishAllActivity();
+        }
     }
 }

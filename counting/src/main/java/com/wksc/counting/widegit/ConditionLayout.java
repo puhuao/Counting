@@ -22,7 +22,9 @@ import java.util.Calendar;
  * @
  */
 public class ConditionLayout extends LinearLayout implements View.OnClickListener {
-     Calendar calendar;
+    LinearLayout layout_channel1;
+    LinearLayout layout_goods1;
+    Calendar calendar;
     MarqueeText channel1;
       MarqueeText time1;
       MarqueeText area1;
@@ -81,6 +83,8 @@ int y,m,d;
         layoutGoods = (LinearLayout) findViewById(R.id.layout_goods);
         layoutChannel = (LinearLayout) findViewById(R.id.layout_channel);
         layout = (LinearLayout) findViewById(R.id.layout);
+        layout_goods1 = (LinearLayout) findViewById(R.id.layout_goods1);
+        layout_channel1 = (LinearLayout) findViewById(R.id.layout_channel1);
         area.setOnClickListener(this);
         goods.setOnClickListener(this);
         time.setOnClickListener(this);
@@ -94,22 +98,33 @@ int y,m,d;
             years.append("&year=").append(y);
         if (m<10){
             month.append("&month=").append("0"+(m+1));
-        }else{
+        }else if(m==12){
+            month.append("&month=").append("01");
+        }else {
             month.append("&month=").append((m+1));
         }
+//        calendar.set(y,m+1);
         if (d<10){
-            day.append("&day=").append("0"+d);
-        }else{
-            day.append("&day=").append(d);
+            day.append("&day=").append("0"+(d-1));
+        }else if(d==1){
+
         }
-        time1.setText(y+"-"+m+"-"+d);
+        else{
+            day.append("&day=").append(d-1);
+        }
+        time1.setText(y+"-"+(m+1)+"-"+(d-1));
+        area1.setText("全国");
+        channel1.setText("全部");
+        goods1.setText("全部");
     }
 
     public void hideGoods(Boolean hide){
         if (hide){
             layoutGoods.setVisibility(GONE);
+            layout_goods1.setVisibility(GONE);
         }else{
             layoutChannel.setVisibility(GONE);
+            layout_channel1.setVisibility(GONE);
         }
     }
 

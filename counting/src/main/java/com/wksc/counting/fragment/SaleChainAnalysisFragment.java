@@ -86,8 +86,6 @@ public class SaleChainAnalysisFragment extends CommonFragment {
         conditionLayout.setConditionSelect(new ConditionLayout.OnConditionSelect() {
             @Override
             public void postParams() {
-                conditionLayout.getAllConditions();
-                extraParam = conditionLayout.prams.toString();
                 getListData();
             }
         });
@@ -108,6 +106,8 @@ public class SaleChainAnalysisFragment extends CommonFragment {
     }
 
     private void getListData() {
+        conditionLayout.getAllConditions();
+        extraParam = conditionLayout.prams.toString();
         StringBuilder sb = new StringBuilder(Urls.TOPICINDEX);
         config = BaseApplication.getInstance().getCurrentConfig();
         UrlUtils.getInstance().addSession(sb,config).praseToUrl(sb,"class","10")

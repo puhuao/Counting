@@ -13,6 +13,7 @@ import com.wksc.counting.adapter.GoodsSalesAnalysisListAdapter;
 import com.wksc.counting.callBack.DialogCallback;
 import com.wksc.counting.config.Urls;
 import com.wksc.counting.event.GoodsAnaEvent;
+import com.wksc.counting.event.TurnToMoreFragmentEvent;
 import com.wksc.counting.model.SaleAnaModel.PeiModel;
 import com.wksc.counting.model.goodsSaleAnaModle.GoodSaleModle;
 import com.wksc.counting.tools.UrlUtils;
@@ -62,6 +63,13 @@ public class TogleGoodsAnalysisFragment extends CommonFragment {
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_goods_analysis, null);
 //        hideTitleBar();
+        showRightButton();
+        getRightButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getContext().pushFragmentToBackStack(MoreFragment.class,"");
+            }
+        });
         return v;
     }
 
@@ -86,14 +94,16 @@ public class TogleGoodsAnalysisFragment extends CommonFragment {
         conditionLayout.setConditionSelect(new ConditionLayout.OnConditionSelect() {
             @Override
             public void postParams() {
-                conditionLayout.getAllConditions();
-                extraParam = conditionLayout.prams.toString();
                 getListData();
             }
         });
     }
 
     private void getListData() {
+        if (flag>0){
+            conditionLayout.getAllConditions();
+            extraParam = conditionLayout.prams.toString();
+        }
         StringBuilder sb = new StringBuilder(Urls.TOPICINDEX);
         config = BaseApplication.getInstance().getCurrentConfig();
         UrlUtils.getInstance().addSession(sb, config).praseToUrl(sb, "class", "20")
@@ -110,8 +120,8 @@ public class TogleGoodsAnalysisFragment extends CommonFragment {
 
                     @Override
                     public void onResponse(boolean isFromCache, GoodSaleModle c, Request request, @Nullable Response response) {
-
-//                        String[] titles = c.table.tableTitle.split("\\|");
+flag++;
+//                        String[] titles = c.ftable.tableTitle.split("\\|");
 //                        String[] desc = c.table.tableTitleDesc.split("\\|");
 //                        titleLayout.clearAllViews();
 //                        titleLayout.initView(titles, desc);

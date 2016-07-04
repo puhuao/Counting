@@ -17,6 +17,7 @@ import com.wksc.counting.adapter.VipCompareAdapter;
 import com.wksc.counting.callBack.DialogCallback;
 import com.wksc.counting.config.Urls;
 import com.wksc.counting.event.ChangeChartEvent;
+import com.wksc.counting.event.TurnToMoreFragmentEvent;
 import com.wksc.counting.model.coreDetail.CoreDetail;
 import com.wksc.counting.tools.UrlUtils;
 import com.wksc.counting.widegit.BarChartTool;
@@ -44,8 +45,6 @@ import okhttp3.Response;
 public class TogleVipComparisonFragment extends CommonFragment {
     @Bind(R.id.list_view)
     NestedListView list;
-    @Bind(R.id.chart)
-    LineChart mChart;
     @Bind(R.id.chart1)
     LinearLayout chart1;
     @Bind(R.id.bar_chart_old)
@@ -61,7 +60,6 @@ public class TogleVipComparisonFragment extends CommonFragment {
     CoreDetail detail;
     BarChartTool oldBarTool;
     BarChartTool newBarTool;
-    LineChartTool lineChartTool;
     private String param;
     private IConfig config;
     private String provice;
@@ -69,7 +67,6 @@ public class TogleVipComparisonFragment extends CommonFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -79,6 +76,13 @@ public class TogleVipComparisonFragment extends CommonFragment {
             @Override
             public void onClick(View v) {
                 goBack();
+            }
+        });
+        showRightButton();
+        getRightButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getContext().pushFragmentToBackStack(MoreFragment.class,"");
             }
         });
         return v;
@@ -93,8 +97,6 @@ public class TogleVipComparisonFragment extends CommonFragment {
 
         newBarTool = new BarChartTool(barChartNew, getContext());
 
-        lineChartTool = new LineChartTool(mChart, getContext());
-        lineChartTool.initLinChart();
         Bundle bundle = (Bundle) getmDataIn();
         param = bundle.getString("param");
         provice = bundle.getString("provice");
@@ -138,6 +140,11 @@ public class TogleVipComparisonFragment extends CommonFragment {
             url = "http://10.1.100.6/ea/gw?cmd=appCoreDetails&item=" + param +
                     "&level=2&year=2016&month=06&province=" + provice;
         }
+        if (flag>0){
+            conditionLayout.getAllConditions();
+            extraParam = conditionLayout.prams.toString();
+        }
+
         StringBuilder sb = new StringBuilder(Urls.COREDETAIL);
         UrlUtils.getInstance().addSession(sb, config).praseToUrl(sb, "item", param)
                 .praseToUrl(sb, "level", "2").praseToUrl(sb, "year", "2016")
@@ -155,7 +162,8 @@ public class TogleVipComparisonFragment extends CommonFragment {
 
                     @Override
                     public void onResponse(boolean isFromCache, CoreDetail c, Request request, @Nullable Response response) {
-                        if (c.tableData.size() > 0) {
+flag++;
+//                        if (c.tableData.size() > 0) {
                             Log.i("TAG", c.toString());
                             titles.clearAllViews();
                             detail = c;
@@ -169,20 +177,9 @@ public class TogleVipComparisonFragment extends CommonFragment {
 //                        adapter.TransData(detail.tableData);
                             adapter.setItemCloums(tableTitles.length + 1);
                             adapter.setList(c.tableData);
-                        }
+//                        }
                     }
                 });
-    }
-
-    @Subscribe
-    public void changeChart(ChangeChartEvent event) {
-        if (!mChart.isShown()) {
-            chart1.setVisibility(View.GONE);
-            mChart.setVisibility(View.VISIBLE);
-        } else {
-            chart1.setVisibility(View.VISIBLE);
-            mChart.setVisibility(View.GONE);
-        }
     }
 
     @Override

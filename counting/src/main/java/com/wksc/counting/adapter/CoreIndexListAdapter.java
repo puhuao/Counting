@@ -171,6 +171,7 @@ public class CoreIndexListAdapter extends BaseListAdapter<CoreIndexListModel>{
         set1.setHighLightColor(Color.rgb(244, 117, 117));
         set1.setDrawCircleHole(false);
         set1.setDrawFilled(true);
+        set1.setDrawValues(false);
         ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
         dataSets.add(set1); // add the datasets
 

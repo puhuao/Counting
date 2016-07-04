@@ -15,6 +15,7 @@ import com.wksc.counting.adapter.SalesFinishListAdapter;
 import com.wksc.counting.callBack.DialogCallback;
 import com.wksc.counting.config.Urls;
 import com.wksc.counting.event.SaleGoalAnaEvent;
+import com.wksc.counting.event.TurnToMoreFragmentEvent;
 import com.wksc.counting.model.SaleAnaModel.SaleAnaModel;
 import com.wksc.counting.tools.UrlUtils;
 import com.wksc.counting.widegit.ConditionLayout;
@@ -63,6 +64,13 @@ public class ToglSaleGoalAnalysisFragment extends CommonFragment {
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_sale_goal_analysis, null);
+        showRightButton();
+        getRightButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getContext().pushFragmentToBackStack(MoreFragment.class,"");
+            }
+        });
         return v;
     }
 
@@ -88,8 +96,6 @@ public class ToglSaleGoalAnalysisFragment extends CommonFragment {
         conditionLayout.setConditionSelect(new ConditionLayout.OnConditionSelect() {
             @Override
             public void postParams() {
-                conditionLayout.getAllConditions();
-                extraParam = conditionLayout.prams.toString();
                 getListData();
             }
         });
@@ -106,6 +112,11 @@ public class ToglSaleGoalAnalysisFragment extends CommonFragment {
     }
 
     private void getListData() {
+        if (flag>0){
+            conditionLayout.getAllConditions();
+            extraParam = conditionLayout.prams.toString();
+        }
+
         StringBuilder sb = new StringBuilder(Urls.TOPICINDEX);
         config = BaseApplication.getInstance().getCurrentConfig();
         UrlUtils.getInstance().addSession(sb,config).praseToUrl(sb,"class","10")
@@ -122,7 +133,7 @@ public class ToglSaleGoalAnalysisFragment extends CommonFragment {
 
                     @Override
                     public void onResponse(boolean isFromCache, SaleAnaModel c, Request request, @Nullable Response response) {
-                       if (c.tableData.size()>0){
+//                       if (c.tableData.size()>0){
                            Log.i("TAG", c.tableTitle);
                            String[] titles = c.tableTitle.split("\\|");
                            String[] desc = c.tableTitleDesc.split("\\|");
@@ -132,8 +143,8 @@ public class ToglSaleGoalAnalysisFragment extends CommonFragment {
                            salesFinishListAdapter.setList(c.tableData);
                            pieChartTool.setData(c.chartData);
                            pieChartTool.setPiechart();
-                       }
-
+//                       }
+flag++;
 
                     }
 

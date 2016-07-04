@@ -89,8 +89,6 @@ public class GoodsAnalysisFragment extends CommonFragment {
         conditionLayout.setConditionSelect(new ConditionLayout.OnConditionSelect() {
             @Override
             public void postParams() {
-                conditionLayout.getAllConditions();
-                extraParam = conditionLayout.prams.toString();
                 getListData();
             }
         });
@@ -110,6 +108,8 @@ public class GoodsAnalysisFragment extends CommonFragment {
     }
 
     private void getListData() {
+        conditionLayout.getAllConditions();
+        extraParam = conditionLayout.prams.toString();
         StringBuilder sb = new StringBuilder(Urls.TOPICINDEX);
         config = BaseApplication.getInstance().getCurrentConfig();
         UrlUtils.getInstance().addSession(sb, config).praseToUrl(sb, "class", "20")
@@ -136,6 +136,7 @@ public class GoodsAnalysisFragment extends CommonFragment {
 ////                        pieChartTool.setData(c.chartData);
 ////                        pieChartTool.setPiechart();
 //                        if (c.tableData.size() > 0) {
+                        if (getUserVisibleHint()){
                             titleLayout.clearAllViews();
                             String[] titles = c.table.tableTitle.split("\\|");
                             String[] desc = c.table.tableTitleDesc.split("\\|");
@@ -162,8 +163,7 @@ public class GoodsAnalysisFragment extends CommonFragment {
                             pieChartTool.setData(peiModel);
                             pieChartTool.setPiechart();
 //                        }
-
-
+                        }
                     }
 
                 });

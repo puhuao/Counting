@@ -161,7 +161,7 @@ public class DateSelectPopupWindow extends PopupWindow {
                 mDayOfMonth=dayOfMonth;
             }
         };
-        hide(0);
+//        hide(0);
         datePick1.init(mYear,mMonthOfYear,mDayOfMonth,dcl);
     }
 

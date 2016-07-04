@@ -106,8 +106,7 @@ public class VipComparisonFragment extends CommonFragment {
         conditionLayout.setConditionSelect(new ConditionLayout.OnConditionSelect() {
             @Override
             public void postParams() {
-                conditionLayout.getAllConditions();
-                extraParam = conditionLayout.prams.toString();
+
                 getData();
             }
         });
@@ -130,6 +129,8 @@ public class VipComparisonFragment extends CommonFragment {
     }
 
     private void getData() {
+        conditionLayout.getAllConditions();
+        extraParam = conditionLayout.prams.toString();
         StringBuilder sb = new StringBuilder(Urls.COREDETAIL);
         config = BaseApplication.getInstance().getCurrentConfig();
         UrlUtils.getInstance().addSession(sb, config).praseToUrl(sb, "item", param)

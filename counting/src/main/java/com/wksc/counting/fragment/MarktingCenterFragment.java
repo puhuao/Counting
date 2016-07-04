@@ -20,6 +20,7 @@ import com.wksc.counting.event.PlatFormAnaEvent;
 import com.wksc.counting.event.SaleChannelAnaEvent;
 import com.wksc.counting.event.SaleComparisonLoadDataEvent;
 import com.wksc.counting.event.SaleGoalAnaEvent;
+import com.wksc.counting.event.TurnToMoreFragmentEvent;
 import com.wksc.counting.event.VipComparisonLoadDataEvent;
 import com.wksc.counting.widegit.CustomViewPager;
 import com.wksc.counting.widegit.PagerSlidingTabStrip;
@@ -48,6 +49,7 @@ public class MarktingCenterFragment extends CommonFragment {
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_marketing_center, null);
         hideTitleBar();
+
         return v;
     }
     @Override

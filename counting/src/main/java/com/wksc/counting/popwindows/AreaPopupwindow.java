@@ -3,6 +3,8 @@ package com.wksc.counting.popwindows;
 import android.app.Activity;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.Nullable;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,6 +75,7 @@ public class AreaPopupwindow extends BasePopupWindow {
         edit_query = (EditText) view.findViewById(R.id.edit_query);
         stores = (NestedListView) view.findViewById(R.id.stores);
         empty = (TextView) view.findViewById(R.id.empty);
+        search.setVisibility(View.GONE);
         this.setContentView(view);
         this.setOutsideTouchable(true);
         this.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
@@ -110,6 +113,22 @@ public class AreaPopupwindow extends BasePopupWindow {
                         flag = 4;
                         break;
                 }
+            }
+        });
+        edit_query.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+getData();
             }
         });
         search.setOnClickListener(new View.OnClickListener() {

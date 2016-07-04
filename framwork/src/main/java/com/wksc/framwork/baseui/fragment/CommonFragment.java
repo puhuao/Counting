@@ -6,8 +6,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.wksc.framwork.R;
+import com.wksc.framwork.baseui.ActivityManager;
 import com.wksc.framwork.util.ToastUtil;
 import com.wksc.framwork.widget.ProgressHUD;
 
@@ -20,6 +23,7 @@ public abstract class CommonFragment extends TitleBaseFragment {
     public ProgressHUD mProgressHUD;
     protected boolean isVisible;
     public String extraParam = "";
+    public int flag=0;
 
     /**
      * 显示消息提示，避免重复提示
@@ -138,6 +142,10 @@ public abstract class CommonFragment extends TitleBaseFragment {
 
     protected void showRightButton(){
         mTitleHeaderBar.getRightViewContainer().setVisibility(View.VISIBLE);
+    }
+
+    protected ImageView getRightButton(){
+        return mTitleHeaderBar.getRightImageView();
     }
 
     protected void hideSoftInput(View v){

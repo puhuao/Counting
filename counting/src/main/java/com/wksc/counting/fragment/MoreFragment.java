@@ -10,12 +10,18 @@ import android.widget.TextView;
 import com.wksc.counting.R;
 import com.wksc.counting.activity.LocusPassActivity;
 import com.wksc.counting.activity.LoginActivity;
+import com.wksc.counting.event.SaleChannelAnaEvent;
+import com.wksc.counting.event.TurnToMoreFragmentEvent;
 import com.wksc.counting.popwindows.IndexPopupwindow;
 import com.wksc.counting.widegit.CustomDialog;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 import com.wksc.framwork.platform.config.IConfig;
+import com.wksc.framwork.util.StringUtils;
 import com.wksc.framwork.util.ToastUtil;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -36,10 +42,13 @@ public class MoreFragment extends CommonFragment implements View.OnClickListener
     TextView logout;
     private IConfig config;
 
+
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_more, null);
-        hideLeftButton();
+        String showLeft = (String) getmDataIn();
+        if (StringUtils.isBlank(showLeft))
+            hideLeftButton();
         return v;
     }
 
@@ -106,4 +115,6 @@ public class MoreFragment extends CommonFragment implements View.OnClickListener
     protected void lazyLoad() {
 
     }
+
+
 }

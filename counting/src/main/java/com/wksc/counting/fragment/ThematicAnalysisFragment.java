@@ -1,5 +1,6 @@
 package com.wksc.counting.fragment;
 
+import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,9 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.wksc.counting.R;
+import com.wksc.counting.event.TurnToMoreFragmentEvent;
 import com.wksc.counting.popwindows.TitleSelectPopupWindow;
 import com.wksc.counting.widegit.CustomViewPager;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,10 +42,20 @@ public class ThematicAnalysisFragment extends CommonFragment {
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_thematic_analysis, null);
         hideLeftButton();
+        showRightButton();
+        getRightButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EventBus.getDefault().post(new TurnToMoreFragmentEvent(false));
+            }
+        });
         setHeaderTitle("专题分析");
         Drawable drawable = getContext().getResources().getDrawable(R.drawable.rectangle);
         drawable.setBounds(0,0,drawable.getMinimumWidth(),drawable.getMinimumHeight());
         getTitleHeaderBar().getTitleTextView().setCompoundDrawables(null,null,drawable,null);
+        getTitleHeaderBar().getTitleTextView().getPaint().setFlags(Paint. UNDERLINE_TEXT_FLAG ); //下划线
+        getTitleHeaderBar().getTitleTextView().getPaint().setAntiAlias(true);
+        getTitleHeaderBar().getTitleTextView().setCompoundDrawablePadding(5);
         return v;
     }
 

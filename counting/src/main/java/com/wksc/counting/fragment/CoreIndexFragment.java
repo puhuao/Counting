@@ -16,6 +16,7 @@ import com.wksc.counting.activity.SalesComparisonActivity;
 import com.wksc.counting.adapter.CoreIndexListAdapter;
 import com.wksc.counting.callBack.DialogCallback;
 import com.wksc.counting.config.Urls;
+import com.wksc.counting.event.TurnToMoreFragmentEvent;
 import com.wksc.counting.model.CoreIndexListModel;
 import com.wksc.counting.model.baseinfo.Channel;
 import com.wksc.counting.model.baseinfo.CoreItem;
@@ -31,6 +32,7 @@ import com.wksc.framwork.util.GsonUtil;
 import com.wksc.framwork.util.StringUtils;
 import com.wksc.framwork.util.ToastUtil;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -63,9 +65,57 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_core_index, null);
         hideLeftButton();
+        showRightButton();
+        getRightButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EventBus.getDefault().post(new TurnToMoreFragmentEvent(false));
+            }
+        });
         setHeaderTitle("核心指标");
 
         return v;
+    }
+
+    /**
+     * 标志位，标志已经初始化完成
+     */
+    private boolean isPrepared;
+    /**
+     * 是否已被加载过一次，第二次就不再去请求数据了
+     */
+    private boolean mHasLoadedOnce;
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View v = super.onCreateView(inflater, container, savedInstanceState);
+        ButterKnife.bind(this, v);
+
+        config = BaseApplication.getInstance().getCurrentConfig();
+        coreIndexListAdapter = new CoreIndexListAdapter(getActivity());
+        list.setAdapter(coreIndexListAdapter);
+        list.setOnItemClickListener(this);
+        conditionLayout.hideGoods(true);
+        conditionLayout.setConditionSelect(new ConditionLayout.OnConditionSelect() {
+            @Override
+            public void postParams() {
+//                conditionLayout.getAllConditions();
+//                extraParam = conditionLayout.prams.toString();
+                getListData();
+            }
+        });
+        isPrepared = true;
+        lazyLoad();
+        return v;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//        getContext().pushFragmentToBackStack(RegisterFragment.class, null);
+        Bundle bundle = new Bundle();
+        bundle.putString("param", coreIndexListAdapter.getList().get(position).coreCode);
+        startActivity(SalesComparisonActivity.class, bundle);
     }
 
     private void getBaseData() {
@@ -128,6 +178,7 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
 
     private void getListData() {
         conditionLayout.getAllConditions();
+        extraParam = conditionLayout.prams.toString();
         StringBuilder sb = new StringBuilder(Urls.COREINDEX);
         UrlUtils.getInstance().addSession(sb, config);
         sb.append(extraParam);
@@ -139,6 +190,7 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
                     @Override
                     public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
                         super.onError(isFromCache, call, response, e);
+                        ToastUtil.showShortMessage(getContext(),"系统错误");
                     }
 
                     @Override
@@ -165,45 +217,7 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
 //        }
     }
 
-    /**
-     * 标志位，标志已经初始化完成
-     */
-    private boolean isPrepared;
-    /**
-     * 是否已被加载过一次，第二次就不再去请求数据了
-     */
-    private boolean mHasLoadedOnce;
 
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = super.onCreateView(inflater, container, savedInstanceState);
-        ButterKnife.bind(this, v);
-        config = BaseApplication.getInstance().getCurrentConfig();
-        coreIndexListAdapter = new CoreIndexListAdapter(getActivity());
-        list.setAdapter(coreIndexListAdapter);
-        list.setOnItemClickListener(this);
-        conditionLayout.hideGoods(true);
-        conditionLayout.setConditionSelect(new ConditionLayout.OnConditionSelect() {
-            @Override
-            public void postParams() {
-                conditionLayout.getAllConditions();
-                extraParam = conditionLayout.prams.toString();
-                getListData();
-            }
-        });
-        isPrepared = true;
-        lazyLoad();
-        return v;
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//        getContext().pushFragmentToBackStack(RegisterFragment.class, null);
-        Bundle bundle = new Bundle();
-        bundle.putString("param", coreIndexListAdapter.getList().get(position).coreCode);
-        startActivity(SalesComparisonActivity.class, bundle);
-    }
 
 
     @Override
