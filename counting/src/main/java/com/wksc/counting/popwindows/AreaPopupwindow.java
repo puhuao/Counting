@@ -128,7 +128,7 @@ public class AreaPopupwindow extends BasePopupWindow {
 
             @Override
             public void afterTextChanged(Editable s) {
-getData();
+                getData();
             }
         });
         search.setOnClickListener(new View.OnClickListener() {
@@ -167,11 +167,11 @@ getData();
                 List<BaseWithCheckBean> checkBeenRagion = BaseDataUtil.checkedRagions();
                 List<BaseWithCheckBean> checkBeenCity = BaseDataUtil.checkedCitys();
                 List<BaseWithCheckBean> checkBeenCountys = BaseDataUtil.checkedCountys();
-                if (flag == 0) {
+                if (flag == 1) {
                     dissmisPopupwindow();
                     if (mListener != null)
                         mListener.conditionSelect(BaseDataUtil.sbRegionCode.toString(), BaseDataUtil.sbRegion.toString(), 0);
-                } else if (flag == 1) {
+                } else if (flag == 2) {
                     dissmisPopupwindow();
 //                    radioGroup.check(1);
                     if (mListener != null)
@@ -215,27 +215,28 @@ getData();
         config = BaseApplication.getInstance().getCurrentConfig();
         StringBuilder sb = new StringBuilder(Urls.STORS);
         UrlUtils.getInstance().addSession(sb, config).praseToUrl(sb, "name", param);
+        DialogCallback<MCU> callback = new DialogCallback<MCU>(mContext,MCU.class) {
+            @Override
+            public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
+                super.onError(isFromCache, call, response, e);
+            }
+
+            @Override
+            public void onResponse(boolean isFromCache, MCU c, Request request, @Nullable Response response) {
+                if (c.MCU.size() > 0) {
+                    storsAdapter.setList(c.MCU);
+                    empty.setVisibility(View.GONE);
+                    stores.setVisibility(View.VISIBLE);
+                } else {
+                    empty.setVisibility(View.VISIBLE);
+                    stores.setVisibility(View.GONE);
+                }
+            }
+        };
+        callback.setDialogHide();
         OkHttpUtils.post(sb.toString())//
                 .tag(this)//
-                .execute(new DialogCallback<MCU>(mContext, MCU.class) {
-
-                    @Override
-                    public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
-                        super.onError(isFromCache, call, response, e);
-                    }
-
-                    @Override
-                    public void onResponse(boolean isFromCache, MCU c, Request request, @Nullable Response response) {
-                        if (c.MCU.size() > 0) {
-                            storsAdapter.setList(c.MCU);
-                            empty.setVisibility(View.GONE);
-                            stores.setVisibility(View.VISIBLE);
-                        } else {
-                            empty.setVisibility(View.VISIBLE);
-                            stores.setVisibility(View.GONE);
-                        }
-                    }
-                });
+                .execute(callback);
     }
 
     public void showPopupwindow(View view) {

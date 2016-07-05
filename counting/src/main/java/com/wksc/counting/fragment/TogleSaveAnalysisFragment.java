@@ -91,10 +91,10 @@ public class TogleSaveAnalysisFragment extends CommonFragment {
 
 //        extraParam = "&month=06";
         conditionLayout.hideGoods(false);
+        conditionLayout.setView(false);
         conditionLayout.setConditionSelect(new ConditionLayout.OnConditionSelect() {
             @Override
             public void postParams() {
-                conditionLayout.getAllConditions();
                 extraParam = conditionLayout.prams.toString();
                 getListData();
             }
@@ -104,7 +104,7 @@ public class TogleSaveAnalysisFragment extends CommonFragment {
 
     private void getListData() {
         if (flag>0){
-            conditionLayout.getAllConditions();
+            conditionLayout.getAllConditions(true);
             extraParam = conditionLayout.prams.toString();
         }
 

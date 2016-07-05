@@ -103,6 +103,8 @@ public class VipComparisonFragment extends CommonFragment {
 
     private void initView() {
         conditionLayout.hideGoods(true);
+        conditionLayout.paramsDeliver = true;
+        conditionLayout.setView(false);
         conditionLayout.setConditionSelect(new ConditionLayout.OnConditionSelect() {
             @Override
             public void postParams() {
@@ -123,13 +125,14 @@ public class VipComparisonFragment extends CommonFragment {
             }
         });
         if (isFirstShow) {
+
             getData();
         }
 
     }
 
     private void getData() {
-        conditionLayout.getAllConditions();
+        conditionLayout.getAllConditions(true);
         extraParam = conditionLayout.prams.toString();
         StringBuilder sb = new StringBuilder(Urls.COREDETAIL);
         config = BaseApplication.getInstance().getCurrentConfig();
@@ -192,6 +195,7 @@ public class VipComparisonFragment extends CommonFragment {
     @Subscribe
     public void LoadData(VipComparisonLoadDataEvent event) {
         if (event.item.equals(param))
+            conditionLayout.setView(false);
             getData();
     }
 

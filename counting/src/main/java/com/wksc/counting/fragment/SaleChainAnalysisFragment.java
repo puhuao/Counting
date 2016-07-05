@@ -80,6 +80,8 @@ public class SaleChainAnalysisFragment extends CommonFragment {
         salesSupplyListAdapter = new SalesSupplyListAdapter(getActivity());
         lvSupplyAnalysis.setAdapter(salesSupplyListAdapter);
         conditionLayout.hideGoods(false);
+        conditionLayout.paramsDeliver = true;
+        conditionLayout.setView(false);
         pieChartTool = new PieChartTool(pieChart);
 //        getListData();
 //        extraParam = "&month=06";
@@ -106,7 +108,8 @@ public class SaleChainAnalysisFragment extends CommonFragment {
     }
 
     private void getListData() {
-        conditionLayout.getAllConditions();
+        conditionLayout.getAllConditions(true);
+        conditionLayout.setView(false);
         extraParam = conditionLayout.prams.toString();
         StringBuilder sb = new StringBuilder(Urls.TOPICINDEX);
         config = BaseApplication.getInstance().getCurrentConfig();

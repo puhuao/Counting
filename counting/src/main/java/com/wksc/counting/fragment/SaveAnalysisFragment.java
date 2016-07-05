@@ -84,6 +84,8 @@ public class SaveAnalysisFragment extends CommonFragment {
 //        getListData();
 //        extraParam = "&month=06";
         conditionLayout.hideGoods(false);
+        conditionLayout.paramsDeliver = true;
+        conditionLayout.setView(false);
         conditionLayout.setConditionSelect(new ConditionLayout.OnConditionSelect() {
             @Override
             public void postParams() {
@@ -106,7 +108,8 @@ public class SaveAnalysisFragment extends CommonFragment {
     }
 
     private void getListData() {
-        conditionLayout.getAllConditions();
+        conditionLayout.getAllConditions(true);
+        conditionLayout.setView(false);
         extraParam = conditionLayout.prams.toString();
         StringBuilder sb = new StringBuilder(Urls.TOPICINDEX);
         config = BaseApplication.getInstance().getCurrentConfig();

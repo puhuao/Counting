@@ -97,6 +97,8 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
         list.setAdapter(coreIndexListAdapter);
         list.setOnItemClickListener(this);
         conditionLayout.hideGoods(true);
+        conditionLayout.setView(true);
+        conditionLayout.paramsDeliver = true;
         conditionLayout.setConditionSelect(new ConditionLayout.OnConditionSelect() {
             @Override
             public void postParams() {
@@ -115,6 +117,7 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
 //        getContext().pushFragmentToBackStack(RegisterFragment.class, null);
         Bundle bundle = new Bundle();
         bundle.putString("param", coreIndexListAdapter.getList().get(position).coreCode);
+        bundle.putString("extraParam",extraParam);
         startActivity(SalesComparisonActivity.class, bundle);
     }
 
@@ -177,7 +180,7 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
     }
 
     private void getListData() {
-        conditionLayout.getAllConditions();
+        conditionLayout.getAllConditions(false);
         extraParam = conditionLayout.prams.toString();
         StringBuilder sb = new StringBuilder(Urls.COREINDEX);
         UrlUtils.getInstance().addSession(sb, config);

@@ -26,6 +26,7 @@ public abstract class DialogCallback<T> extends JsonCallback<T> {
     private ProgressDialog dialog;
 
     private void initDialog(Activity activity) {
+
         dialog = new ProgressDialog(activity);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCanceledOnTouchOutside(false);
@@ -47,6 +48,7 @@ public abstract class DialogCallback<T> extends JsonCallback<T> {
     public void onBefore(BaseRequest request) {
         super.onBefore(request);
         //网络请求前显示对话框
+        if (show)
         if (dialog != null && !dialog.isShowing()) {
             dialog.show();
         }
@@ -59,5 +61,9 @@ public abstract class DialogCallback<T> extends JsonCallback<T> {
         if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
         }
+    }
+private Boolean show = true;
+    public void setDialogHide() {
+        show = false;
     }
 }

@@ -90,6 +90,8 @@ public class TogalPlatformCenterFragment extends CommonFragment {
         platFormListAdapter = new PlatFormListAdapter(getContext());
         lv1.setAdapter(platFormListAdapter);
         conditionLayout.hideGoods(false);
+        conditionLayout.paramsDeliver = true;
+        conditionLayout.setView(false);
         pieChartTool = new PieChartTool(pieChart);
 //        getListData();
         conditionLayout.setConditionSelect(new ConditionLayout.OnConditionSelect() {
@@ -101,7 +103,7 @@ public class TogalPlatformCenterFragment extends CommonFragment {
     }
 
     private void getListData() {
-        conditionLayout.getAllConditions();
+        conditionLayout.getAllConditions(true);
         extraParam = conditionLayout.prams.toString();
         StringBuilder sb = new StringBuilder(Urls.TOPICINDEX);
         config = BaseApplication.getInstance().getCurrentConfig();

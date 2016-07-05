@@ -85,7 +85,7 @@ public class CoreIndexListAdapter extends BaseListAdapter<CoreIndexListModel>{
         holder.chart.setNoDataTextDescription("You need to provide data for the chart.");
 
         // enable touch gestures
-        holder.chart.setTouchEnabled(false);
+        holder.chart.setTouchEnabled(true);
 
         holder.chart.setDragDecelerationFrictionCoef(0.9f);
 
@@ -125,20 +125,20 @@ public class CoreIndexListAdapter extends BaseListAdapter<CoreIndexListModel>{
         XAxis xAxis = holder.chart.getXAxis();
         xAxis.setTypeface(tf);
         xAxis.setTextSize(12f);
-        xAxis.setTextColor(Color.WHITE);
+        xAxis.setTextColor(Color.BLUE);
         xAxis.setDrawGridLines(false);
         xAxis.setDrawAxisLine(false);
         xAxis.setSpaceBetweenLabels(1);
 
         YAxis leftAxis = holder.chart.getAxisLeft();
-        leftAxis.setEnabled(false);
+        leftAxis.setTypeface(tf);
+        leftAxis.setTextColor(ColorTemplate.getHoloBlue());
+        leftAxis.setAxisMaxValue(Float.parseFloat(mList.get(position).maxY));
+        leftAxis.setAxisMinValue(Float.parseFloat(mList.get(position).minY));
+        leftAxis.setDrawGridLines(true);
 
         YAxis rightAxis = holder.chart.getAxisRight();
-        rightAxis.setTypeface(tf);
-        rightAxis.setTextColor(ColorTemplate.getHoloBlue());
-        rightAxis.setAxisMaxValue(Float.parseFloat(mList.get(position).maxY));
-        rightAxis.setAxisMinValue(Float.parseFloat(mList.get(position).minY));
-        rightAxis.setDrawGridLines(false);
+        rightAxis.setEnabled(false);
         return convertView;
     }
 

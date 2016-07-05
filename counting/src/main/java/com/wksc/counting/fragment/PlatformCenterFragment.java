@@ -92,6 +92,8 @@ public class PlatformCenterFragment extends CommonFragment {
         platFormListAdapter = new PlatFormListAdapter(getContext());
         lv1.setAdapter(platFormListAdapter);
         conditionLayout.hideGoods(false);
+        conditionLayout.paramsDeliver = true;
+        conditionLayout.setView(false);
         pieChartTool = new PieChartTool(pieChart);
 //        getListData();
 //        extraParam = "&month=06";
@@ -110,7 +112,8 @@ public class PlatformCenterFragment extends CommonFragment {
     }
 
     private void getListData() {
-        conditionLayout.getAllConditions();
+        conditionLayout.getAllConditions(true);
+        conditionLayout.setView(false);
         extraParam = conditionLayout.prams.toString();
         StringBuilder sb = new StringBuilder(Urls.TOPICINDEX);
         config = BaseApplication.getInstance().getCurrentConfig();

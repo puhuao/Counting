@@ -118,6 +118,8 @@ public class TogleFragment extends CommonFragment {
 
     private void initView() {
         conditionLayout.hideGoods(true);
+        conditionLayout.paramsDeliver = true;
+        conditionLayout.setView(false);
         conditionLayout.setConditionSelect(new ConditionLayout.OnConditionSelect() {
             @Override
             public void postParams() {
@@ -147,7 +149,7 @@ public class TogleFragment extends CommonFragment {
                     "&level=2&year=2016&month=06&province=" + provice;
         }
         if (flag>0){
-            conditionLayout.getAllConditions();
+            conditionLayout.getAllConditions(true);
             extraParam = conditionLayout.prams.toString();
         }
         StringBuilder sb = new StringBuilder(Urls.COREDETAIL);

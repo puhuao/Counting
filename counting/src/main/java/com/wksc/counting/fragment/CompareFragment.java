@@ -69,6 +69,7 @@ public class CompareFragment extends CommonFragment {
         ButterKnife.bind(this, v);
         Bundle bundle = (Bundle) getmDataIn();
         param = bundle.getString("param");
+        extraParam = bundle.getString("extraParam");
         initView();
         return v;
     }
@@ -96,7 +97,7 @@ public class CompareFragment extends CommonFragment {
             }
 
             bundle.putString("param", coreItem.code);
-
+            bundle.putString("extraParam",extraParam);
             fragment.setArguments(bundle);
             FragmentEntity fragmentEntity = new FragmentEntity(name, fragment);
             if (fragment != null) {

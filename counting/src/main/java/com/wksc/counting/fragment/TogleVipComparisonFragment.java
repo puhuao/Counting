@@ -115,6 +115,7 @@ public class TogleVipComparisonFragment extends CommonFragment {
 
     private void initView() {
         conditionLayout.hideGoods(true);
+        conditionLayout.setView(false);
         adapter = new VipCompareAdapter(getActivity());
         list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -141,14 +142,13 @@ public class TogleVipComparisonFragment extends CommonFragment {
                     "&level=2&year=2016&month=06&province=" + provice;
         }
         if (flag>0){
-            conditionLayout.getAllConditions();
+            conditionLayout.getAllConditions(true);
             extraParam = conditionLayout.prams.toString();
         }
 
         StringBuilder sb = new StringBuilder(Urls.COREDETAIL);
         UrlUtils.getInstance().addSession(sb, config).praseToUrl(sb, "item", param)
-                .praseToUrl(sb, "level", "2").praseToUrl(sb, "year", "2016")
-                .praseToUrl(sb, "month", "06").praseToUrl(sb, "province", provice)
+                .praseToUrl(sb, "level", "2").praseToUrl(sb, "province", provice)
                 .praseToUrl(sb, "code", provice);
         sb.append(extraParam);
         OkHttpUtils.post(sb.toString())//

@@ -96,7 +96,7 @@ public class SalesComparisonFragment extends CommonFragment {
         Bundle bundle = getArguments();
         param = bundle.getString("param");
         isFirstShow = bundle.getBoolean("isFirstShow");
-
+        extraParam = bundle.getString("extraParam");
         initView();
         return v;
     }
@@ -111,6 +111,8 @@ public class SalesComparisonFragment extends CommonFragment {
 
     private void initView() {
         conditionLayout.hideGoods(true);
+        conditionLayout.setView(false);
+        conditionLayout.paramsDeliver = true;
         conditionLayout.setConditionSelect(new ConditionLayout.OnConditionSelect() {
             @Override
             public void postParams() {
@@ -136,7 +138,7 @@ public class SalesComparisonFragment extends CommonFragment {
 
 
     private void getData() {
-        conditionLayout.getAllConditions();
+        conditionLayout.getAllConditions(true);
         extraParam = conditionLayout.prams.toString();
         StringBuilder sb = new StringBuilder(Urls.COREDETAIL);
         config = BaseApplication.getInstance().getCurrentConfig();
@@ -204,6 +206,7 @@ public class SalesComparisonFragment extends CommonFragment {
     @Subscribe
     public void lodaData(SaleComparisonLoadDataEvent event) {
         if (event.item.equals(param))
+            conditionLayout.setView(false);
             getData();
     }
 

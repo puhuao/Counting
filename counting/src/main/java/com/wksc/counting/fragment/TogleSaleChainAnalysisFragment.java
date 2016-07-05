@@ -87,6 +87,8 @@ public class TogleSaleChainAnalysisFragment extends CommonFragment {
         salesSupplyListAdapter = new SalesSupplyListAdapter(getActivity());
         lvSupplyAnalysis.setAdapter(salesSupplyListAdapter);
         conditionLayout.hideGoods(false);
+        conditionLayout.paramsDeliver = true;
+        conditionLayout.setView(false);
         pieChartTool = new PieChartTool(pieChart);
 
 //        extraParam = "&month=06";
@@ -101,7 +103,7 @@ public class TogleSaleChainAnalysisFragment extends CommonFragment {
 
     private void getListData() {
         if (flag>0){
-            conditionLayout.getAllConditions();
+            conditionLayout.getAllConditions(true);
             extraParam = conditionLayout.prams.toString();
         }
 

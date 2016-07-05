@@ -38,7 +38,7 @@ public class DateSelectPopupWindow extends PopupWindow {
 
 
     private String mNowDateTextInner;
-    private int flag;
+    public int flag=3;
 
     public DateSelectPopupWindow(Activity context, String nowDateTextInner) {
         super(context);
@@ -163,6 +163,11 @@ public class DateSelectPopupWindow extends PopupWindow {
         };
 //        hide(0);
         datePick1.init(mYear,mMonthOfYear,mDayOfMonth,dcl);
+    }
+
+    public void hideDay(Boolean hideDay) {
+        radioGroup.findViewById(R.id.rb3).setVisibility(View.GONE);
+        hide(2);
     }
 
 
