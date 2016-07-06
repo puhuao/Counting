@@ -109,7 +109,7 @@ public class VipComparisonFragment extends CommonFragment {
         conditionLayout.setConditionSelect(new ConditionLayout.OnConditionSelect() {
             @Override
             public void postParams() {
-
+                extraParam = conditionLayout.getAllConditions();
                 getData();
             }
         });
@@ -126,7 +126,7 @@ public class VipComparisonFragment extends CommonFragment {
             }
         });
         if (isFirstShow) {
-
+            extraParam = bundle.getString("extraParam");
             getData();
         }
         if (FragmentDataUtil.map.get("key" + param).tableData != null) {
@@ -148,11 +148,6 @@ public class VipComparisonFragment extends CommonFragment {
     }
 
     private void getData() {
-        if (isFirstShow) {
-            extraParam = bundle.getString("extraParam");
-        } else {
-            extraParam = conditionLayout.getAllConditions();
-        }
         StringBuilder sb = new StringBuilder(Urls.COREDETAIL);
         config = BaseApplication.getInstance().getCurrentConfig();
         UrlUtils.getInstance().addSession(sb, config).praseToUrl(sb, "item", param)

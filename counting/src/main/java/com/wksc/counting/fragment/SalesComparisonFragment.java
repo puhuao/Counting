@@ -114,6 +114,7 @@ public class SalesComparisonFragment extends CommonFragment {
         conditionLayout.setConditionSelect(new ConditionLayout.OnConditionSelect() {
             @Override
             public void postParams() {
+                extraParam = conditionLayout.getAllConditions();
                 getData();
             }
         });
@@ -131,6 +132,7 @@ public class SalesComparisonFragment extends CommonFragment {
         });
         if (isFirstShow) {
             conditionLayout.initViewByParam();
+            extraParam = bundle.getString("extraParam");
             getData();
         }
         if (FragmentDataUtil.map.get("key"+param).tableData!=null){
@@ -154,11 +156,11 @@ public class SalesComparisonFragment extends CommonFragment {
 
 
     private void getData() {
-        if (isFirstShow){
+//        if (isFirstShow){
             extraParam = bundle.getString("extraParam");
-        }else{
-            extraParam = conditionLayout.getAllConditions();
-        }
+//        }else{
+//            extraParam = conditionLayout.getAllConditions();
+//        }
         StringBuilder sb = new StringBuilder(Urls.COREDETAIL);
         config = BaseApplication.getInstance().getCurrentConfig();
         UrlUtils.getInstance().addSession(sb, config).praseToUrl(sb, "item", param)
