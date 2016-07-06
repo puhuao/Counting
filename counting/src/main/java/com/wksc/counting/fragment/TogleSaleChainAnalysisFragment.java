@@ -13,7 +13,6 @@ import com.wksc.counting.adapter.SalesSupplyListAdapter;
 import com.wksc.counting.callBack.DialogCallback;
 import com.wksc.counting.config.Urls;
 import com.wksc.counting.event.SaleChannelAnaEvent;
-import com.wksc.counting.event.TurnToMoreFragmentEvent;
 import com.wksc.counting.model.SaleAnaModel.PeiModel;
 import com.wksc.counting.model.saleChannelModel.SaleChannelModel;
 import com.wksc.counting.tools.UrlUtils;
@@ -87,8 +86,7 @@ public class TogleSaleChainAnalysisFragment extends CommonFragment {
         salesSupplyListAdapter = new SalesSupplyListAdapter(getActivity());
         lvSupplyAnalysis.setAdapter(salesSupplyListAdapter);
         conditionLayout.hideGoods(false);
-        conditionLayout.paramsDeliver = true;
-        conditionLayout.setView(false);
+        conditionLayout.initViewByParam();
         pieChartTool = new PieChartTool(pieChart);
 
 //        extraParam = "&month=06";
@@ -103,8 +101,8 @@ public class TogleSaleChainAnalysisFragment extends CommonFragment {
 
     private void getListData() {
         if (flag>0){
-            conditionLayout.getAllConditions(true);
-            extraParam = conditionLayout.prams.toString();
+
+            extraParam = conditionLayout.getAllConditions();
         }
 
         StringBuilder sb = new StringBuilder(Urls.TOPICINDEX);

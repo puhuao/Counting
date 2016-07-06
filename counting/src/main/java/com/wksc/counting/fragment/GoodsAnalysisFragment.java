@@ -3,7 +3,6 @@ package com.wksc.counting.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,13 +13,10 @@ import com.lzy.okhttputils.OkHttpUtils;
 import com.wksc.counting.R;
 import com.wksc.counting.activity.TogleActivity;
 import com.wksc.counting.adapter.GoodsSalesAnalysisListAdapter;
-import com.wksc.counting.adapter.SalesFinishListAdapter;
 import com.wksc.counting.callBack.DialogCallback;
 import com.wksc.counting.config.Urls;
 import com.wksc.counting.event.GoodsAnaEvent;
-import com.wksc.counting.event.SaleGoalAnaEvent;
 import com.wksc.counting.model.SaleAnaModel.PeiModel;
-import com.wksc.counting.model.SaleAnaModel.SaleAnaModel;
 import com.wksc.counting.model.goodsSaleAnaModle.GoodSaleModle;
 import com.wksc.counting.tools.UrlUtils;
 import com.wksc.counting.widegit.ConditionLayout;
@@ -86,8 +82,6 @@ public class GoodsAnalysisFragment extends CommonFragment {
 //        extraParam = "&month=06";
         getListData();
         conditionLayout.hideGoods(false);
-        conditionLayout.paramsDeliver = true;
-        conditionLayout.setView(true);
         conditionLayout.setConditionSelect(new ConditionLayout.OnConditionSelect() {
             @Override
             public void postParams() {
@@ -110,9 +104,9 @@ public class GoodsAnalysisFragment extends CommonFragment {
     }
 
     private void getListData() {
-        conditionLayout.getAllConditions(false);
+
 //        conditionLayout.setView(false);
-        extraParam = conditionLayout.prams.toString();
+        extraParam = conditionLayout.getAllConditions();
         StringBuilder sb = new StringBuilder(Urls.TOPICINDEX);
         config = BaseApplication.getInstance().getCurrentConfig();
         UrlUtils.getInstance().addSession(sb, config).praseToUrl(sb, "class", "20")
@@ -184,7 +178,7 @@ public class GoodsAnalysisFragment extends CommonFragment {
 
     @Subscribe
     public void changeChart(GoodsAnaEvent event) {
-        conditionLayout.setView(false);
+        conditionLayout.initViewByParam();
         getListData();
     }
 }

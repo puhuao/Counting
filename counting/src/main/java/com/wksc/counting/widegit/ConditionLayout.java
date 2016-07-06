@@ -39,76 +39,10 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
     LinearLayout layoutChannel;
     LinearLayout layout;
     int y, m, d;
-    public StringBuilder prams = new StringBuilder();
-    public StringBuilder channels = new StringBuilder();
-    public StringBuilder wchannel = new StringBuilder();
-    public StringBuilder years = new StringBuilder();
-    public StringBuilder month = new StringBuilder();
-    public StringBuilder day = new StringBuilder();
-    public StringBuilder city = new StringBuilder();
-    public StringBuilder county = new StringBuilder();
-    public StringBuilder mcu = new StringBuilder();
-    public StringBuilder goodsclass = new StringBuilder();
-    public StringBuilder goodssubclass = new StringBuilder();
-    public StringBuilder province = new StringBuilder();
     private String data = "";
-    public boolean paramsDeliver = true;
 
-
-    public void getAllConditions(boolean isFromDelevir) {
-        if (prams.length() > 0) {
-            prams.delete(0, prams.length());
-        }
-
-            prams.append(province).append(channels).append(wchannel).append(years).append(month).append(day)
-                    .append(city).append(county).append(goodsclass).append(goodssubclass).append(mcu);
-
-//        if (paramsDeliver) {
-//            if (Params.province.length()>0){
-//                Params.province.delete(0,Params.province.length()-1);
-//            }
-//            Params.province.append(province);
-//            if (Params.channels.length()>0){
-//                Params.channels.delete(0,Params.channels.length()-1);
-//            }
-//            Params.channels.append(channels);
-//            if (Params.wchannel.length()>0){
-//                Params.wchannel.delete(0,Params.wchannel.length()-1);
-//            }
-//            Params.wchannel.append(wchannel);
-//            if (Params.years.length()>0){
-//                Params.years.delete(0,Params.years.length()-1);
-//            }
-//            Params.years.append(years);
-//            if (Params.month.length()>0){
-//                Params.month.delete(0,Params.month.length()-1);
-//            }
-//            Params.month.append(month);
-//            if (Params.day.length()>0){
-//                Params.day.delete(0,Params.day.length()-1);
-//            }
-//            Params.day.append(day);
-//            if (Params.city.length()>0){
-//                Params.city.delete(0,Params.city.length()-1);
-//            }
-//            Params.city.append(city);
-//            if (Params.county.length()>0){
-//                Params.county.delete(0,Params.county.length()-1);
-//            }
-//            Params.county.append(county);
-//            if (Params.goodsclass.length()>0){
-//                Params.goodsclass.delete(0,Params.goodsclass.length()-1);
-//            }
-//            Params.goodsclass.append(goodsclass);
-//            if (Params.goodssubclass.length()>0){
-//                Params.goodssubclass.delete(0,Params.goodssubclass.length()-1);
-//            }
-//            Params.goodssubclass.append(goodssubclass);
-//            if (Params.mcu.length()>0){
-//                Params.mcu.delete(0,Params.mcu.length()-1);
-//            }
-//            Params.mcu.append(mcu);
-//        }/
+    public String getAllConditions() {
+        return Params.getParam();
     }
 
     public ConditionLayout(Context context) {
@@ -142,62 +76,77 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
         time.setOnClickListener(this);
         channel.setOnClickListener(this);
 //        index.setOnClickListener(this);
+        init();
+    }
 
+    public void init() {
+        if (Params.years.length() > 0) {
+            Params.years.delete(0, Params.years.length());
+        }
+        if (Params.month.length() > 0) {
+            Params.month.delete(0, Params.month.length());
+        }
+        if (Params.day.length() > 0) {
+            Params.day.delete(0, Params.day.length());
+        }
         y = calendar.get(Calendar.YEAR);
         m = calendar.get(Calendar.MONTH);
         d = calendar.get(Calendar.DAY_OF_MONTH);
         if (y != 0)
-            years.append("&year=").append(y);
+            if(Params.years.length()==0)
+            Params.years.append("&year=").append(y);
         if (m < 10) {
-            month.append("&month=").append("0" + (m + 1));
+            if (Params.month.length()==0)
+            Params.month.append("&month=").append("0" + (m + 1));
         } else if (m == 12) {
-            month.append("&month=").append("01");
+            if (Params.month.length()==0)
+            Params.month.append("&month=").append("01");
         } else {
-            month.append("&month=").append((m + 1));
+            if (Params.month.length()==0)
+            Params.month.append("&month=").append((m + 1));
         }
-//        calendar.set(y,m+1);
         if (d < 10) {
-            day.append("&day=").append("0" + (d - 1));
+            if (Params.day.length()==0)
+            Params.day.append("&day=").append("0" + (d - 1));
         } else if (d == 1) {
 
         } else {
-            day.append("&day=").append(d - 1);
+            if (Params.day.length()==0)
+            Params.day.append("&day=").append(d - 1);
         }
+        initViewBySelf();
 
     }
+
 
     /**
-     * @param b true为初始化false为从上一页传过来
+     * @param
      */
-    public void setView(boolean b) {
-        if (b) {
-            time1.setText(y + "-" + (m + 1) + "-" + (d - 1));
-            area1.setText("全国");
-            channel1.setText("全部");
-            goods1.setText("全部");
-        } else {
-            if (StringUtils.isBlank(Params.time)) {
-                time1.setText(y + "-" + (m + 1) + "-" + (d - 1));
-            } else {
-                time1.setText(Params.time);
-            }
-            if (StringUtils.isBlank(Params.areal)) {
-                area1.setText("全国");
-            } else
-                area1.setText(Params.areal);
-            if (StringUtils.isBlank(Params.channel)) {
-                area1.setText("全国");
-            } else
-                channel1.setText(Params.channel);
-            if (StringUtils.isBlank(Params.goods)) {
-                area1.setText("全国");
-            } else
-                goods1.setText(Params.goods);
-        }
+    public void initViewBySelf() {
+        time1.setText(y + "-" + (m + 1) + "-" + (d - 1));
+        area1.setText("全国");
+        channel1.setText("全部");
+        goods1.setText("全部");
     }
 
-    public void initParam() {
-
+    public void initViewByParam() {
+        if (StringUtils.isBlank(Params.time.toString())) {
+            time1.setText(y + "-" + (m + 1) + "-" + (d - 1));
+        } else {
+            time1.setText(Params.time.toString());
+        }
+        if (StringUtils.isBlank(Params.areal.toString())) {
+            area1.setText("全国");
+        } else
+            area1.setText(Params.areal.toString());
+        if (StringUtils.isBlank(Params.channel.toString())) {
+            channel1.setText("全部");
+        } else
+            channel1.setText(Params.channel.toString());
+        if (StringUtils.isBlank(Params.goods.toString())) {
+            goods1.setText("全部");
+        } else
+            goods1.setText(Params.goods.toString());
     }
 
     public void hideGoods(Boolean hide) {
@@ -219,31 +168,28 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
                 areaPopupWindow.setOnConditionSelectListener(new BasePopupWindow.OnConditionSelectListener() {
                     @Override
                     public void conditionSelect(String checkBeenRagion, String name, int tag) {
-                        if (province.length() > 0) {
-                            province.delete(0, province.length());
+                        if (Params.province.length() > 0) {
+                            Params.province.delete(0, Params.province.length());
                         }
-                        if (city.length() > 0) {
-                            city.delete(0, city.length());
+                        if (Params.city.length() > 0) {
+                            Params.city.delete(0, Params.city.length());
                         }
-                        if (county.length() > 0) {
-                            county.delete(0, county.length());
+                        if (Params.county.length() > 0) {
+                            Params.county.delete(0, Params.county.length());
                         }
 
                         if (tag == 0) {
-                            province.append("&province=").append(checkBeenRagion);
+                            Params.province.append("&province=").append(checkBeenRagion);
                         } else if (tag == 1) {
-                            city.append("&city=").append(checkBeenRagion);
+                            Params.city.append("&city=").append(checkBeenRagion);
                         } else if (tag == 2) {
-                            county.append("&county=").append(checkBeenRagion);
+                            Params.county.append("&county=").append(checkBeenRagion);
                         } else if (tag == 4) {
-                            mcu.append("&mcu=").append(checkBeenRagion);
+                            Params.mcu.append("&mcu=").append(checkBeenRagion);
                         }
-//                        getAllConditions(true);
-//                        if (prams.length() > 0) {
-//                            layout.setVisibility(VISIBLE);
-                            area1.setText(name);
-                            Params.areal = name;
-//                        }
+                        area1.setText(name);
+                        Params.changeAreal(name);
+
                         conditionSelect.postParams();
                     }
                 });
@@ -255,23 +201,23 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
                 goodsPopupWindow.setOnConditionSelectListener(new BasePopupWindow.OnConditionSelectListener() {
                     @Override
                     public void conditionSelect(String ragions, String name, int tag) {
-                        if (goodsclass.length() > 0) {
-                            goodsclass.delete(0, goodsclass.length());
+                        if (Params.goodsclass.length() > 0) {
+                            Params.goodsclass.delete(0, Params.goodsclass.length());
                         }
-                        if (goodssubclass.length() > 0) {
-                            goodssubclass.delete(0, goodssubclass.length());
+                        if (Params.goodssubclass.length() > 0) {
+                            Params.goodssubclass.delete(0, Params.goodssubclass.length());
                         }
                         if (tag == 0) {
-                            goodsclass.append("&goodsclass=").append(ragions);
+                            Params.goodsclass.append("&goodsclass=").append(ragions);
                         } else if (tag == 1) {
-                            goodssubclass.append("&goodssubclass=").append(ragions);
+                            Params.goodssubclass.append("&goodssubclass=").append(ragions);
                         } else if (tag == -1) {
-                            goodsclass.delete(0, goodsclass.length());
-                            goodssubclass.delete(0, goodssubclass.length());
+                            Params.goodsclass.delete(0, Params.goodsclass.length());
+                            Params.goodssubclass.delete(0, Params.goodssubclass.length());
                         }
                         layout.setVisibility(VISIBLE);
                         goods1.setText(name);
-                        Params.goods = name;
+                        Params.changeGoods(name);
 
                         conditionSelect.postParams();
                     }
@@ -280,45 +226,35 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
                 break;
             case R.id.time:
                 DateSelectPopupWindow myPopupwindow = new DateSelectPopupWindow((Activity) getContext(), data);
-               if (hideDay)
-                myPopupwindow.hideDay(hideDay);
+                if (hideDay)
+                    myPopupwindow.hideDay(hideDay);
                 myPopupwindow.showPopupwindow(v);
                 myPopupwindow.setOnDateSelectListener(new DateSelectPopupWindow.OnDateSelectListener() {
                     @Override
                     public void onDateSelect(String y, String m, String date, int f) {
-                        if (years.length() > 0) {
-                            years.delete(0, years.length());
+                        if (Params.years.length() > 0) {
+                            Params.years.delete(0, Params.years.length());
                         }
-                        if (month.length() > 0) {
-                            month.delete(0, month.length());
+                        if (Params.month.length() > 0) {
+                            Params.month.delete(0, Params.month.length());
                         }
-                        if (day.length() > 0) {
-                            day.delete(0, day.length());
+                        if (Params.day.length() > 0) {
+                            Params.day.delete(0, Params.day.length());
                         }
                         if (f == 1) {
-                            years.append("&year=").append(y);
+                            Params.years.append("&year=").append(y);
 
                         } else if (f == 2) {
-                            month.append("&month=").append(m);
+                            Params.month.append("&month=").append(m);
                             (time1).setText(y + "-" + m);
+                            Params.changeTime(y + "-" + m);
                         } else {
-                            month.append("&month=").append(m);
-                            day.append("&day=").append(date);
+                            Params.month.append("&month=").append(m);
+                            Params.day.append("&day=").append(date);
                             (time1).setText(y + "-" + m + "-" + date);
-                            Params.time = y + "-" + m + "-" + date;
+                            Params.changeTime(y + "-" + m + "-" + date);
                         }
-
-//                            time.setText(data);
                         conditionSelect.postParams();
-//                         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-//                        if (year==0&&monthOfYear==0&&dayOfMonth==0){
-//                            if (data.equals("")) {
-//                                data = DateTool.getChinaDate();
-//                            }
-//                        }else{
-//                            data=DateTool.getChinaDateFromCalendar(year,monthOfYear,dayOfMonth);
-//                        }
-                        layout.setVisibility(VISIBLE);
                     }
                 });
                 break;
@@ -328,23 +264,23 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
                 channelPopupWindow.setOnConditionSelectListener(new BasePopupWindow.OnConditionSelectListener() {
                     @Override
                     public void conditionSelect(String ragions, String name, int tag) {
-                        if (channels.length() > 0) {
-                            channels.delete(0, channels.length());
+                        if (Params.channels.length() > 0) {
+                            Params.channels.delete(0, Params.channels.length());
                         }
-                        if (wchannel.length() > 0) {
-                            wchannel.delete(0, wchannel.length());
+                        if (Params.wchannel.length() > 0) {
+                            Params.wchannel.delete(0, Params.wchannel.length());
                         }
                         if (tag == 0) {
-                            channels.append("&channel=").append(ragions);
+                            Params.channels.append("&channel=").append(ragions);
                         } else if (tag == 1) {
-                            wchannel.append("&wchannel=").append(ragions);
+                            Params.wchannel.append("&wchannel=").append(ragions);
                         } else if (tag == -1) {
-                            channels.delete(0, channels.length());
-                            wchannel.delete(0, wchannel.length());
+                            Params.channels.delete(0, Params.channels.length());
+                            Params.wchannel.delete(0, Params.wchannel.length());
                         }
                         layout.setVisibility(VISIBLE);
                         channel1.setText(name);
-                        Params.channel = name;
+                        Params.changeChannel(name);
                         conditionSelect.postParams();
                     }
                 });
@@ -365,6 +301,7 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
     private OnConditionSelect conditionSelect;
 
     private Boolean hideDay = false;
+
     public void hideDay() {
         hideDay = true;
     }

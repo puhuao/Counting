@@ -16,7 +16,6 @@ import com.wksc.counting.activity.TogleActivity;
 import com.wksc.counting.adapter.SalesFinishListAdapter;
 import com.wksc.counting.callBack.DialogCallback;
 import com.wksc.counting.config.Urls;
-import com.wksc.counting.event.ChangeChartEvent;
 import com.wksc.counting.event.SaleGoalAnaEvent;
 import com.wksc.counting.model.SaleAnaModel.SaleAnaModel;
 import com.wksc.counting.tools.UrlUtils;
@@ -81,11 +80,10 @@ public class SaleGoalAnalysisFragment extends CommonFragment {
         lvSalesAnalysis.setAdapter(salesFinishListAdapter);
         pieChartTool = new PieChartTool(pieChart);
 //        extraParam = "&month=06";
+        conditionLayout.initViewByParam();
         getListData();
         conditionLayout.hideGoods(false);
-        conditionLayout.paramsDeliver = true;
         conditionLayout.hideDay();
-        conditionLayout.setView(true);
         conditionLayout.setConditionSelect(new ConditionLayout.OnConditionSelect() {
             @Override
             public void postParams() {
@@ -108,8 +106,8 @@ public class SaleGoalAnalysisFragment extends CommonFragment {
     }
 
     private void getListData() {
-        conditionLayout.getAllConditions(false);
-        extraParam = conditionLayout.prams.toString();
+
+        extraParam = conditionLayout.getAllConditions();
         StringBuilder sb = new StringBuilder(Urls.TOPICINDEX);
         config = BaseApplication.getInstance().getCurrentConfig();
         UrlUtils.getInstance().addSession(sb,config).praseToUrl(sb,"class","10")
@@ -156,6 +154,7 @@ public class SaleGoalAnalysisFragment extends CommonFragment {
 
     @Subscribe
     public void changeChart(SaleGoalAnaEvent event) {
+        conditionLayout.initViewByParam();
        getListData();
     }
 }

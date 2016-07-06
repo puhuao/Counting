@@ -15,7 +15,6 @@ import com.wksc.counting.adapter.SalesFinishListAdapter;
 import com.wksc.counting.callBack.DialogCallback;
 import com.wksc.counting.config.Urls;
 import com.wksc.counting.event.SaleGoalAnaEvent;
-import com.wksc.counting.event.TurnToMoreFragmentEvent;
 import com.wksc.counting.model.SaleAnaModel.SaleAnaModel;
 import com.wksc.counting.tools.UrlUtils;
 import com.wksc.counting.widegit.ConditionLayout;
@@ -91,9 +90,9 @@ public class ToglSaleGoalAnalysisFragment extends CommonFragment {
         lvSalesAnalysis.setAdapter(salesFinishListAdapter);
         pieChartTool = new PieChartTool(pieChart);
 //        extraParam = "&month=06";
-        getListData();
+
         conditionLayout.hideGoods(false);
-        conditionLayout.setView(false);
+        conditionLayout.initViewByParam();
         conditionLayout.setConditionSelect(new ConditionLayout.OnConditionSelect() {
             @Override
             public void postParams() {
@@ -110,12 +109,13 @@ public class ToglSaleGoalAnalysisFragment extends CommonFragment {
 //                getContext().pushFragmentToBackStack(TogleVipComparisonFragment.class, bundle);
             }
         });
+        getListData();
     }
 
     private void getListData() {
         if (flag>0){
-            conditionLayout.getAllConditions(true);
-            extraParam = conditionLayout.prams.toString();
+
+            extraParam = conditionLayout.getAllConditions();
         }
 
         StringBuilder sb = new StringBuilder(Urls.TOPICINDEX);

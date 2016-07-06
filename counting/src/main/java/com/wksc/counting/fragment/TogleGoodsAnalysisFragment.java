@@ -13,7 +13,6 @@ import com.wksc.counting.adapter.GoodsSalesAnalysisListAdapter;
 import com.wksc.counting.callBack.DialogCallback;
 import com.wksc.counting.config.Urls;
 import com.wksc.counting.event.GoodsAnaEvent;
-import com.wksc.counting.event.TurnToMoreFragmentEvent;
 import com.wksc.counting.model.SaleAnaModel.PeiModel;
 import com.wksc.counting.model.goodsSaleAnaModle.GoodSaleModle;
 import com.wksc.counting.tools.UrlUtils;
@@ -91,8 +90,7 @@ public class TogleGoodsAnalysisFragment extends CommonFragment {
 //        extraParam = "&month=06";
         getListData();
         conditionLayout.hideGoods(false);
-        conditionLayout.paramsDeliver = true;
-        conditionLayout.setView(false);
+        conditionLayout.initViewByParam();
         conditionLayout.setConditionSelect(new ConditionLayout.OnConditionSelect() {
             @Override
             public void postParams() {
@@ -103,8 +101,8 @@ public class TogleGoodsAnalysisFragment extends CommonFragment {
 
     private void getListData() {
         if (flag>0){
-            conditionLayout.getAllConditions(true);
-            extraParam = conditionLayout.prams.toString();
+
+            extraParam = conditionLayout.getAllConditions();
         }
         StringBuilder sb = new StringBuilder(Urls.TOPICINDEX);
         config = BaseApplication.getInstance().getCurrentConfig();

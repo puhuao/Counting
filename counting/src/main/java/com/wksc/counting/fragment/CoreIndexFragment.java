@@ -97,13 +97,9 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
         list.setAdapter(coreIndexListAdapter);
         list.setOnItemClickListener(this);
         conditionLayout.hideGoods(true);
-        conditionLayout.setView(true);
-        conditionLayout.paramsDeliver = true;
         conditionLayout.setConditionSelect(new ConditionLayout.OnConditionSelect() {
             @Override
             public void postParams() {
-//                conditionLayout.getAllConditions();
-//                extraParam = conditionLayout.prams.toString();
                 getListData();
             }
         });
@@ -122,8 +118,6 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
     }
 
     private void getBaseData() {
-//        String url = "http://101.200.131.198:8087/gw?cmd=appGetBaseInfo";
-        String url = "http://10.1.100.6/ea/gw?cmd=appGetBaseInfo";
         StringBuilder sb = new StringBuilder(Urls.BASE_INFO);
         UrlUtils.getInstance().addSession(sb, config);
         OkHttpUtils.post(sb.toString())//
@@ -180,8 +174,7 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
     }
 
     private void getListData() {
-        conditionLayout.getAllConditions(false);
-        extraParam = conditionLayout.prams.toString();
+        extraParam = conditionLayout.getAllConditions();
         StringBuilder sb = new StringBuilder(Urls.COREINDEX);
         UrlUtils.getInstance().addSession(sb, config);
         sb.append(extraParam);

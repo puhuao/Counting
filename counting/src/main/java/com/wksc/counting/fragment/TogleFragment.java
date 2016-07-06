@@ -7,22 +7,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
 
 import com.github.mikephil.charting.charts.HorizontalBarChart;
-import com.github.mikephil.charting.charts.LineChart;
 import com.lzy.okhttputils.OkHttpUtils;
 import com.wksc.counting.R;
 import com.wksc.counting.adapter.SalesCompareListAdapter;
 import com.wksc.counting.callBack.DialogCallback;
 import com.wksc.counting.config.Urls;
-import com.wksc.counting.event.ChangeChartEvent;
-import com.wksc.counting.event.TurnToMoreFragmentEvent;
 import com.wksc.counting.model.coreDetail.CoreDetail;
 import com.wksc.counting.tools.UrlUtils;
 import com.wksc.counting.widegit.BarChartTool;
 import com.wksc.counting.widegit.ConditionLayout;
-import com.wksc.counting.widegit.LineChartTool;
 import com.wksc.counting.widegit.NestedListView;
 import com.wksc.counting.widegit.TableTitleLayout;
 import com.wksc.framwork.BaseApplication;
@@ -31,7 +26,6 @@ import com.wksc.framwork.platform.config.IConfig;
 import com.wksc.framwork.util.StringUtils;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -118,8 +112,7 @@ public class TogleFragment extends CommonFragment {
 
     private void initView() {
         conditionLayout.hideGoods(true);
-        conditionLayout.paramsDeliver = true;
-        conditionLayout.setView(false);
+        conditionLayout.initViewByParam();
         conditionLayout.setConditionSelect(new ConditionLayout.OnConditionSelect() {
             @Override
             public void postParams() {
@@ -149,8 +142,8 @@ public class TogleFragment extends CommonFragment {
                     "&level=2&year=2016&month=06&province=" + provice;
         }
         if (flag>0){
-            conditionLayout.getAllConditions(true);
-            extraParam = conditionLayout.prams.toString();
+
+            extraParam = conditionLayout.getAllConditions();
         }
         StringBuilder sb = new StringBuilder(Urls.COREDETAIL);
         UrlUtils.getInstance().addSession(sb, config).praseToUrl(sb, "item", param)

@@ -13,10 +13,8 @@ import com.lzy.okhttputils.OkHttpUtils;
 import com.wksc.counting.R;
 import com.wksc.counting.activity.TogleActivity;
 import com.wksc.counting.adapter.GoodsSalesAnalysisListAdapter;
-import com.wksc.counting.adapter.SaveAnalysisListAdapter;
 import com.wksc.counting.callBack.DialogCallback;
 import com.wksc.counting.config.Urls;
-import com.wksc.counting.event.SaleGoalAnaEvent;
 import com.wksc.counting.event.SaveAnaEvent;
 import com.wksc.counting.model.SaleAnaModel.PeiModel;
 import com.wksc.counting.model.goodsSaleAnaModle.GoodSaleModle;
@@ -84,8 +82,6 @@ public class SaveAnalysisFragment extends CommonFragment {
 //        getListData();
 //        extraParam = "&month=06";
         conditionLayout.hideGoods(false);
-        conditionLayout.paramsDeliver = true;
-        conditionLayout.setView(false);
         conditionLayout.setConditionSelect(new ConditionLayout.OnConditionSelect() {
             @Override
             public void postParams() {
@@ -108,9 +104,7 @@ public class SaveAnalysisFragment extends CommonFragment {
     }
 
     private void getListData() {
-        conditionLayout.getAllConditions(true);
-        conditionLayout.setView(false);
-        extraParam = conditionLayout.prams.toString();
+        extraParam = conditionLayout.getAllConditions();
         StringBuilder sb = new StringBuilder(Urls.TOPICINDEX);
         config = BaseApplication.getInstance().getCurrentConfig();
         UrlUtils.getInstance().addSession(sb,config).praseToUrl(sb,"class","20")
@@ -181,6 +175,7 @@ public class SaveAnalysisFragment extends CommonFragment {
 
     @Subscribe
     public void changeChart(SaveAnaEvent event) {
+        conditionLayout.initViewByParam();
         getListData();
     }
 }

@@ -17,7 +17,6 @@ import com.wksc.counting.adapter.PlatFormListAdapter;
 import com.wksc.counting.callBack.DialogCallback;
 import com.wksc.counting.config.Urls;
 import com.wksc.counting.event.PlatFormAnaEvent;
-import com.wksc.counting.event.SaleGoalAnaEvent;
 import com.wksc.counting.model.SaleAnaModel.PeiModel;
 import com.wksc.counting.model.platFormModel.PlatFormModel;
 import com.wksc.counting.tools.UrlUtils;
@@ -92,8 +91,6 @@ public class PlatformCenterFragment extends CommonFragment {
         platFormListAdapter = new PlatFormListAdapter(getContext());
         lv1.setAdapter(platFormListAdapter);
         conditionLayout.hideGoods(false);
-        conditionLayout.paramsDeliver = true;
-        conditionLayout.setView(false);
         pieChartTool = new PieChartTool(pieChart);
 //        getListData();
 //        extraParam = "&month=06";
@@ -112,9 +109,7 @@ public class PlatformCenterFragment extends CommonFragment {
     }
 
     private void getListData() {
-        conditionLayout.getAllConditions(true);
-        conditionLayout.setView(false);
-        extraParam = conditionLayout.prams.toString();
+        extraParam = conditionLayout.getAllConditions();
         StringBuilder sb = new StringBuilder(Urls.TOPICINDEX);
         config = BaseApplication.getInstance().getCurrentConfig();
         UrlUtils.getInstance().addSession(sb,config).praseToUrl(sb,"class","10")
@@ -180,6 +175,7 @@ public class PlatformCenterFragment extends CommonFragment {
 
     @Subscribe
     public void changeChart(PlatFormAnaEvent event) {
+        conditionLayout.initViewByParam();
         getListData();
     }
 }

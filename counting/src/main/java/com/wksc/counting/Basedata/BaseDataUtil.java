@@ -186,13 +186,14 @@ public static StringBuilder sbGoodsClassScend = new StringBuilder();
                         sbCityCode.append(reg.code).append(",");
                     }
                 }
-                if (sbCity.length() > 0) {
-                    sbCity.deleteCharAt(sbCity.length()-1);
-                }
-                if (sbCityCode.length()>0){
-                    sbCityCode.deleteCharAt(sbCityCode.length()-1);
-                }
+
             }
+        if (sbCity.length() > 0) {
+            sbCity.deleteCharAt(sbCity.length()-1);
+        }
+        if (sbCityCode.length()>0){
+            sbCityCode.deleteCharAt(sbCityCode.length()-1);
+        }
                 return regions;
             }
 
@@ -241,13 +242,14 @@ public static StringBuilder sbGoodsClassScend = new StringBuilder();
 
                             }
                     }
-                if (sbCounty.length() > 0) {
-                    sbCounty.deleteCharAt(sbCounty.length()-1);
-                }
-                if (sbCountyCode.length() > 0) {
-                    sbCountyCode.deleteCharAt(sbCountyCode.length()-1);
-                }
+
             }
+        if (sbCounty.length() > 0) {
+            sbCounty.deleteCharAt(sbCounty.length()-1);
+        }
+        if (sbCountyCode.length() > 0) {
+            sbCountyCode.deleteCharAt(sbCountyCode.length()-1);
+        }
         return regions;
     }
 

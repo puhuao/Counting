@@ -91,8 +91,6 @@ public class SalesComparisonFragment extends CommonFragment {
 
         newBarTool = new BarChartTool(barChartNew, getContext());
 
-//        lineChartTool = new LineChartTool(mChart, getContext());
-//        lineChartTool.initLinChart();
         Bundle bundle = getArguments();
         param = bundle.getString("param");
         isFirstShow = bundle.getBoolean("isFirstShow");
@@ -111,8 +109,7 @@ public class SalesComparisonFragment extends CommonFragment {
 
     private void initView() {
         conditionLayout.hideGoods(true);
-        conditionLayout.setView(false);
-        conditionLayout.paramsDeliver = true;
+        conditionLayout.initViewByParam();
         conditionLayout.setConditionSelect(new ConditionLayout.OnConditionSelect() {
             @Override
             public void postParams() {
@@ -132,14 +129,14 @@ public class SalesComparisonFragment extends CommonFragment {
             }
         });
         if (isFirstShow) {
+            conditionLayout.initViewByParam();
             getData();
         }
     }
 
 
     private void getData() {
-        conditionLayout.getAllConditions(true);
-        extraParam = conditionLayout.prams.toString();
+        extraParam = conditionLayout.getAllConditions();
         StringBuilder sb = new StringBuilder(Urls.COREDETAIL);
         config = BaseApplication.getInstance().getCurrentConfig();
         UrlUtils.getInstance().addSession(sb, config).praseToUrl(sb, "item", param)
@@ -206,7 +203,7 @@ public class SalesComparisonFragment extends CommonFragment {
     @Subscribe
     public void lodaData(SaleComparisonLoadDataEvent event) {
         if (event.item.equals(param))
-            conditionLayout.setView(false);
+            conditionLayout.initViewByParam();
             getData();
     }
 

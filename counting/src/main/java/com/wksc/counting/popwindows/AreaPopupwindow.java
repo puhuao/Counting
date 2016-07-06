@@ -59,7 +59,7 @@ public class AreaPopupwindow extends BasePopupWindow {
     TextView empty;
     List<AreaCheckModel> areas = new ArrayList<>();
     //    private MarqueeText area;
-    int flag;
+    int flag =1;
     private IConfig config;
 
     public AreaPopupwindow(Activity context) {
