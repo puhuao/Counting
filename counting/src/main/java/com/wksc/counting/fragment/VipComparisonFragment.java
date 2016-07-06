@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.lzy.okhttputils.OkHttpUtils;
+import com.wksc.counting.Basedata.FragmentDataUtil;
 import com.wksc.counting.R;
 import com.wksc.counting.adapter.VipCompareAdapter;
 import com.wksc.counting.callBack.DialogCallback;
@@ -41,7 +42,7 @@ import okhttp3.Response;
 public class VipComparisonFragment extends CommonFragment {
     @Bind(R.id.list_view)
     NestedListView list;
-//    @Bind(R.id.chart)
+    //    @Bind(R.id.chart)
 //    LineChart mChart;
     @Bind(R.id.chart1)
     LinearLayout chart1;
@@ -58,10 +59,11 @@ public class VipComparisonFragment extends CommonFragment {
     CoreDetail detail;
     BarChartTool oldBarTool;
     BarChartTool newBarTool;
-//    LineChartTool lineChartTool;
+    //    LineChartTool lineChartTool;
     private String param;
     private IConfig config;
     private boolean isFirstShow;
+    Bundle bundle;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -86,7 +88,7 @@ public class VipComparisonFragment extends CommonFragment {
 
 //        lineChartTool = new LineChartTool(mChart, getContext());
 //        lineChartTool.initLinChart();
-        Bundle bundle = getArguments();
+        bundle = getArguments();
         param = bundle.getString("param");
         isFirstShow = bundle.getBoolean("isFirstShow");
         initView();
@@ -127,12 +129,30 @@ public class VipComparisonFragment extends CommonFragment {
 
             getData();
         }
+        if (FragmentDataUtil.map.get("key" + param).tableData != null) {
+            detail = FragmentDataUtil.map.get("key" + param);
+            Log.i("TAG", detail.toString());
+            titles.clearAllViews();
+            oldBarTool.setData(detail.CoreChart1);
+            newBarTool.setData(detail.CoreChart2);
+            String[] tableTitles = detail.tableTitle.split("\\|");
+            final String[] titleDesc = detail.tableTitleDesc.split("\\|");
+            titles.initView("地区");
+            titles.initView(tableTitles,
+                    titleDesc);
+//                        adapter.TransData(detail.tableData);
+            adapter.setItemCloums(tableTitles.length + 1);
+            adapter.setList(detail.tableData);
+        }
 
     }
 
     private void getData() {
-
-        extraParam = conditionLayout.getAllConditions();
+        if (isFirstShow) {
+            extraParam = bundle.getString("extraParam");
+        } else {
+            extraParam = conditionLayout.getAllConditions();
+        }
         StringBuilder sb = new StringBuilder(Urls.COREDETAIL);
         config = BaseApplication.getInstance().getCurrentConfig();
         UrlUtils.getInstance().addSession(sb, config).praseToUrl(sb, "item", param)
@@ -151,6 +171,7 @@ public class VipComparisonFragment extends CommonFragment {
                     public void onResponse(boolean isFromCache, CoreDetail c, Request request, @Nullable Response response) {
 
                         if (c.tableData.size() > 0) {
+                            FragmentDataUtil.map.put("key" + param, c);
                             Log.i("TAG", c.toString());
                             titles.clearAllViews();
                             detail = c;
@@ -194,8 +215,8 @@ public class VipComparisonFragment extends CommonFragment {
     @Subscribe
     public void LoadData(VipComparisonLoadDataEvent event) {
         if (event.item.equals(param))
-
-            getData();
+//            if (FragmentDataUtil.map.get("key" + param).tableData == null)
+                getData();
     }
 
 

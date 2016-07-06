@@ -6,11 +6,14 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.wksc.counting.R;
+import com.wksc.counting.event.GoodsAnaEvent;
+import com.wksc.counting.event.SaleGoalAnaEvent;
 import com.wksc.counting.event.TurnToMoreFragmentEvent;
 import com.wksc.counting.popwindows.TitleSelectPopupWindow;
 import com.wksc.counting.widegit.CustomViewPager;
@@ -80,6 +83,30 @@ public class ThematicAnalysisFragment extends CommonFragment {
         mViewPager.setAdapter(adapter);
         mViewPager.setPagingEnabled(false);
         mViewPager.setOffscreenPageLimit(1);
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position==0){
+                    EventBus.getDefault().post(new SaleGoalAnaEvent());
+                    isFirst = false;
+                }else if(position == 1){
+                    EventBus.getDefault().post(new GoodsAnaEvent());
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+        if (isFirst){
+            mViewPager.setCurrentItem(0);
+        }
         titleSelectPopupWindow.setViewPager(mViewPager);
         titleSelectPopupWindow.initListener();
         titleSelectPopupWindow.setTitleView(getTitleHeaderBar().getTitleTextView());

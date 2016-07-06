@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.lzy.okhttputils.OkHttpUtils;
+import com.wksc.counting.Basedata.FragmentDataUtil;
 import com.wksc.counting.R;
 import com.wksc.counting.activity.TogleActivity;
 import com.wksc.counting.adapter.GoodsSalesAnalysisListAdapter;
@@ -80,7 +81,8 @@ public class GoodsAnalysisFragment extends CommonFragment {
         lvSalesAnalysis.setAdapter(goodsSalesAnalysisListAdapter);
         pieChartTool = new PieChartTool(pieChart);
 //        extraParam = "&month=06";
-        getListData();
+//        if (FragmentDataUtil.goodSaleModle==null)
+//        getListData();
         conditionLayout.hideGoods(false);
         conditionLayout.setConditionSelect(new ConditionLayout.OnConditionSelect() {
             @Override
@@ -101,6 +103,33 @@ public class GoodsAnalysisFragment extends CommonFragment {
                 startActivity(intent);
             }
         });
+        if (FragmentDataUtil.goodSaleModle!=null){
+            titleLayout.clearAllViews();
+            String[] titles = FragmentDataUtil.goodSaleModle.table.tableTitle.split("\\|");
+            String[] desc =FragmentDataUtil.goodSaleModle.table.tableTitleDesc.split("\\|");
+            titleLayout.initView(titles, desc);
+            goodsSalesAnalysisListAdapter.setItemCloums(titles.length);
+            goodsSalesAnalysisListAdapter.setList(FragmentDataUtil.goodSaleModle.tableData);
+
+            StringBuilder sb1 = new StringBuilder();
+            StringBuilder sb2 = new StringBuilder();
+            for (int i = 0; i <FragmentDataUtil.goodSaleModle.tableData.size(); i++) {
+                String[] array = FragmentDataUtil.goodSaleModle.tableData.get(i).newValue.split("\\|");
+                sb1.append(array[1]).append("|");
+                sb2.append(array[0]).append("|");
+            }
+
+            if (sb1.length() > 0) {
+                sb1.deleteCharAt(sb1.length() - 1);
+                sb2.deleteCharAt(sb2.length() - 1);
+            }
+            PeiModel peiModel = new PeiModel();
+            peiModel.chartPoint1 = sb2.toString();
+            peiModel.chartValue1 = sb1.toString();
+            peiModel.chartTitle1 = FragmentDataUtil.goodSaleModle.table.title;
+            pieChartTool.setData(peiModel);
+            pieChartTool.setPiechart();
+        }
     }
 
     private void getListData() {
@@ -123,17 +152,7 @@ public class GoodsAnalysisFragment extends CommonFragment {
 
                     @Override
                     public void onResponse(boolean isFromCache, GoodSaleModle c, Request request, @Nullable Response response) {
-
-//                        String[] titles = c.table.tableTitle.split("\\|");
-//                        String[] desc = c.table.tableTitleDesc.split("\\|");
-//                        titleLayout.clearAllViews();
-//                        titleLayout.initView(titles, desc);
-//                        goodsSalesAnalysisListAdapter.setItemCloums(titles.length);
-//                        goodsSalesAnalysisListAdapter.setList(c.tableData);
-////                        pieChartTool.setData(c.chartData);
-////                        pieChartTool.setPiechart();
-//                        if (c.tableData.size() > 0) {
-                        if (getUserVisibleHint()){
+                        FragmentDataUtil.goodSaleModle = c;
                             titleLayout.clearAllViews();
                             String[] titles = c.table.tableTitle.split("\\|");
                             String[] desc = c.table.tableTitleDesc.split("\\|");
@@ -160,7 +179,7 @@ public class GoodsAnalysisFragment extends CommonFragment {
                             pieChartTool.setData(peiModel);
                             pieChartTool.setPiechart();
 //                        }
-                        }
+//                        }
                     }
 
                 });
@@ -178,7 +197,10 @@ public class GoodsAnalysisFragment extends CommonFragment {
 
     @Subscribe
     public void changeChart(GoodsAnaEvent event) {
-        conditionLayout.initViewByParam();
-        getListData();
+        if (FragmentDataUtil.goodSaleModle==null){
+            conditionLayout.initViewByParam();
+            getListData();
+        }
+
     }
 }

@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.lzy.okhttputils.OkHttpUtils;
+import com.wksc.counting.Basedata.FragmentDataUtil;
 import com.wksc.counting.R;
 import com.wksc.counting.adapter.SalesCompareListAdapter;
 import com.wksc.counting.callBack.DialogCallback;
@@ -67,8 +68,8 @@ public class SalesComparisonFragment extends CommonFragment {
      */
     private boolean mHasLoadedOnce;
     private IConfig config;
-    private Boolean isFirstShow;
-
+    private Boolean isFirstShow = true;
+    Bundle bundle;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,10 +92,10 @@ public class SalesComparisonFragment extends CommonFragment {
 
         newBarTool = new BarChartTool(barChartNew, getContext());
 
-        Bundle bundle = getArguments();
+        bundle = getArguments();
         param = bundle.getString("param");
         isFirstShow = bundle.getBoolean("isFirstShow");
-        extraParam = bundle.getString("extraParam");
+//        extraParam = bundle.getString("extraParam");
         initView();
         return v;
     }
@@ -132,11 +133,32 @@ public class SalesComparisonFragment extends CommonFragment {
             conditionLayout.initViewByParam();
             getData();
         }
+        if (FragmentDataUtil.map.get("key"+param).tableData!=null){
+            detail = FragmentDataUtil.map.get("key"+param);
+            titles.clearAllViews();
+            if (oldBarTool != null)
+                oldBarTool.setData(detail.CoreChart1);
+            if (newBarTool != null)
+                newBarTool.setData(detail.CoreChart2);
+            String[] tableTitles = detail.tableTitle.split("\\|");
+            final String[] titleDesc = detail.tableTitleDesc.split("\\|");
+            if (titles != null) {
+                titles.initView("地区");
+                titles.initView(tableTitles,
+                        titleDesc);
+            }
+            if (adapter != null)
+                adapter.TransData(detail.tableData);
+        }
     }
 
 
     private void getData() {
-        extraParam = conditionLayout.getAllConditions();
+        if (isFirstShow){
+            extraParam = bundle.getString("extraParam");
+        }else{
+            extraParam = conditionLayout.getAllConditions();
+        }
         StringBuilder sb = new StringBuilder(Urls.COREDETAIL);
         config = BaseApplication.getInstance().getCurrentConfig();
         UrlUtils.getInstance().addSession(sb, config).praseToUrl(sb, "item", param)
@@ -155,6 +177,7 @@ public class SalesComparisonFragment extends CommonFragment {
                     public void onResponse(boolean isFromCache, CoreDetail c, Request request, @Nullable Response response) {
                         Log.i("TAG", c.toString());
                         detail = c;
+                        FragmentDataUtil.map.put("key"+param,c);
 //                        if (c.tableData.size()>0){
                             titles.clearAllViews();
                             if (oldBarTool != null)
@@ -170,24 +193,10 @@ public class SalesComparisonFragment extends CommonFragment {
                             }
                             if (adapter != null)
                                 adapter.TransData(detail.tableData);
-//                        }else{
-////                            ToastUtil.showShortMessage(getContext(),"数据为空");
-//                        }
                     }
 
                 });
     }
-
-//    @Subscribe
-//    public void changeChart(ChangeChartEvent event) {
-//        if (!mChart.isShown()) {
-//            chart1.setVisibility(View.GONE);
-//            mChart.setVisibility(View.VISIBLE);
-//        } else {
-//            chart1.setVisibility(View.VISIBLE);
-//            mChart.setVisibility(View.GONE);
-//        }
-//    }
 
     @Override
     public void onDestroy() {
@@ -204,6 +213,7 @@ public class SalesComparisonFragment extends CommonFragment {
     public void lodaData(SaleComparisonLoadDataEvent event) {
         if (event.item.equals(param))
             conditionLayout.initViewByParam();
+        if (FragmentDataUtil.map.get("key"+param).tableData==null)
             getData();
     }
 

@@ -13,11 +13,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.wksc.counting.Basedata.BaseDataUtil;
+import com.wksc.counting.Basedata.FragmentDataUtil;
 import com.wksc.counting.R;
 import com.wksc.counting.event.SaleComparisonLoadDataEvent;
 import com.wksc.counting.event.TurnToMoreFragmentEvent;
 import com.wksc.counting.event.VipComparisonLoadDataEvent;
 import com.wksc.counting.model.baseinfo.CoreItem;
+import com.wksc.counting.model.coreDetail.CoreDetail;
 import com.wksc.counting.widegit.CustomViewPager;
 import com.wksc.counting.widegit.PagerSlidingTabStrip;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
@@ -81,6 +83,7 @@ public class CompareFragment extends CommonFragment {
 
         for (int i = 0; i < BaseDataUtil.coreItems.size(); i++) {
             CoreItem coreItem = BaseDataUtil.coreItems.get(i);
+            FragmentDataUtil.map.put("key"+coreItem.code,new CoreDetail());
             Bundle bundle = new Bundle();
             if (param.equals(coreItem.code)) {
                 pos = i;
@@ -201,9 +204,11 @@ public class CompareFragment extends CommonFragment {
             public void onPageSelected(int position) {
                 SaleComparisonLoadDataEvent event = new SaleComparisonLoadDataEvent();
                 event.item = BaseDataUtil.coreItems.get(position).code;
+                event.position = position;
                 if (event.item.equals("60")||event.item.equals("70")){
                     VipComparisonLoadDataEvent vipComparisonLoadDataEvent = new VipComparisonLoadDataEvent();
                     vipComparisonLoadDataEvent.item = BaseDataUtil.coreItems.get(position).code;
+                    vipComparisonLoadDataEvent.position = position;
                     EventBus.getDefault().post(vipComparisonLoadDataEvent);
                 }else{
                     EventBus.getDefault().post(event);
@@ -218,6 +223,13 @@ public class CompareFragment extends CommonFragment {
         if (pos!=0){
             mViewPager.setCurrentItem(pos);
             mIndicator.selectedTab(pos);
+        }else{
+            mViewPager.setCurrentItem(0);
+            mIndicator.selectedTab(0);
+//            VipComparisonLoadDataEvent vipComparisonLoadDataEvent = new VipComparisonLoadDataEvent();
+//            vipComparisonLoadDataEvent.item = BaseDataUtil.coreItems.get(0).code;
+//            vipComparisonLoadDataEvent.position = 0;
+//            EventBus.getDefault().post(vipComparisonLoadDataEvent);
         }
 //        barLeft.setOnClickListener(new View.OnClickListener() {
 //            @Override

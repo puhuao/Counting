@@ -189,12 +189,12 @@ public class MarktingCenterFragment extends CommonFragment {
                         break;
                 }
             }
-
             @Override
             public void onPageScrollStateChanged(int state) {
 
             }
         });
+        mViewPager.setCurrentItem(0);
     }
 
     @Override

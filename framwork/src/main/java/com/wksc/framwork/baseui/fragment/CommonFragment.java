@@ -24,6 +24,7 @@ public abstract class CommonFragment extends TitleBaseFragment {
     protected boolean isVisible;
     public String extraParam = "";
     public int flag=0;
+    public boolean isFirst = true;
 
     /**
      * 显示消息提示，避免重复提示

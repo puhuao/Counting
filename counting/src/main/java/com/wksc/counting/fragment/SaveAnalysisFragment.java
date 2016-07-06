@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.lzy.okhttputils.OkHttpUtils;
+import com.wksc.counting.Basedata.FragmentDataUtil;
 import com.wksc.counting.R;
 import com.wksc.counting.activity.TogleActivity;
 import com.wksc.counting.adapter.GoodsSalesAnalysisListAdapter;
@@ -79,6 +80,7 @@ public class SaveAnalysisFragment extends CommonFragment {
         goodsSalesAnalysisListAdapter = new GoodsSalesAnalysisListAdapter(getActivity());
         lvSalesAnalysis.setAdapter(goodsSalesAnalysisListAdapter);
         pieChartTool = new PieChartTool(pieChart);
+//        if (FragmentDataUtil.saveModel==null)
 //        getListData();
 //        extraParam = "&month=06";
         conditionLayout.hideGoods(false);
@@ -101,6 +103,34 @@ public class SaveAnalysisFragment extends CommonFragment {
                 startActivity(intent);
             }
         });
+        if (FragmentDataUtil.saveModel!=null){
+            titleLayout.clearAllViews();
+            String[] titles = FragmentDataUtil.saveModel.table.tableTitle.split("\\|");
+            String[] desc = FragmentDataUtil.saveModel.table.tableTitleDesc.split("\\|");
+            titleLayout.initView(titles, desc);
+            goodsSalesAnalysisListAdapter.setItemCloums(titles.length);
+            goodsSalesAnalysisListAdapter.setList(FragmentDataUtil.saveModel.tableData);
+
+            StringBuilder sb1 = new StringBuilder();
+            StringBuilder sb2 = new StringBuilder();
+            for (int i = 0; i < FragmentDataUtil.saveModel.tableData.size(); i++) {
+                String[] array = FragmentDataUtil.saveModel.tableData.get(i).newValue.split("\\|");
+                sb1.append(array[1]).append("|");
+                sb2.append(array[0]).append("|");
+            }
+
+            if (sb1.length() > 0) {
+                sb1.deleteCharAt(sb1.length() - 1);
+                sb2.deleteCharAt(sb2.length() - 1);
+            }
+            PeiModel peiModel = new PeiModel();
+            peiModel.chartPoint1 = sb2.toString();
+            peiModel.chartValue1 = sb1.toString();
+            peiModel.chartTitle1 = FragmentDataUtil.saveModel.table.title;
+            pieChartTool.setData(peiModel);
+            pieChartTool.setPiechart();
+
+        }
     }
 
     private void getListData() {
@@ -130,7 +160,7 @@ public class SaveAnalysisFragment extends CommonFragment {
 //                        goodsSalesAnalysisListAdapter.setList(c.tableData);
 ////                        pieChartTool.setData(c.chartData);
 ////                        pieChartTool.setPiechart();
-
+                        FragmentDataUtil.saveModel = c;
                         titleLayout.clearAllViews();
                         String[] titles = c.table.tableTitle.split("\\|");
                         String[] desc = c.table.tableTitleDesc.split("\\|");
@@ -175,7 +205,10 @@ public class SaveAnalysisFragment extends CommonFragment {
 
     @Subscribe
     public void changeChart(SaveAnaEvent event) {
-        conditionLayout.initViewByParam();
-        getListData();
+        if (FragmentDataUtil.saveModel==null){
+            conditionLayout.initViewByParam();
+            getListData();
+        }
+
     }
 }

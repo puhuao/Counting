@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.lzy.okhttputils.OkHttpUtils;
+import com.wksc.counting.Basedata.FragmentDataUtil;
 import com.wksc.counting.R;
 import com.wksc.counting.activity.TogleActivity;
 import com.wksc.counting.adapter.SalesSupplyListAdapter;
@@ -53,6 +54,7 @@ public class SaleChainAnalysisFragment extends CommonFragment {
     SalesSupplyListAdapter salesSupplyListAdapter;
     private PieChartTool pieChartTool;
     private IConfig config;
+//    private SaleChannelModel model;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -80,6 +82,7 @@ public class SaleChainAnalysisFragment extends CommonFragment {
         lvSupplyAnalysis.setAdapter(salesSupplyListAdapter);
         conditionLayout.hideGoods(false);
         pieChartTool = new PieChartTool(pieChart);
+//        if (FragmentDataUtil.saleChannelModel==null)
 //        getListData();
 //        extraParam = "&month=06";
         conditionLayout.setConditionSelect(new ConditionLayout.OnConditionSelect() {
@@ -102,6 +105,34 @@ public class SaleChainAnalysisFragment extends CommonFragment {
 //                getContext().pushFragmentToBackStack(TogleSaleChainAnalysisFragment.class, bundle);
             }
         });
+        if (FragmentDataUtil.saleChannelModel!=null){
+            titleLayout.clearAllViews();
+            String[] titles = FragmentDataUtil.saleChannelModel.table.tableTitle.split("\\|");
+            String[] desc = FragmentDataUtil.saleChannelModel.table.tableTitleDesc.split("\\|");
+            titleLayout.initView(titles, desc);
+            salesSupplyListAdapter.setItemCloums(titles.length);
+            salesSupplyListAdapter.setList(FragmentDataUtil.saleChannelModel.tableData);
+
+            StringBuilder sb1 = new StringBuilder();
+            StringBuilder sb2 = new StringBuilder();
+            for (int i = 0; i < FragmentDataUtil.saleChannelModel.tableData.size(); i++) {
+                String[] array = FragmentDataUtil.saleChannelModel.tableData.get(i).newValue.split("\\|");
+                sb1.append(array[1]).append("|");
+                sb2.append(array[0]).append("|");
+            }
+
+            if (sb1.length() > 0) {
+                sb1.deleteCharAt(sb1.length() - 1);
+                sb2.deleteCharAt(sb2.length() - 1);
+            }
+            PeiModel peiModel = new PeiModel();
+            peiModel.chartPoint1 = sb2.toString();
+            peiModel.chartValue1 = sb1.toString();
+            peiModel.chartTitle1 = FragmentDataUtil.saleChannelModel.table.title;
+            pieChartTool.setData(peiModel);
+            pieChartTool.setPiechart();
+//                        }
+        }
     }
 
     private void getListData() {
@@ -125,17 +156,18 @@ public class SaleChainAnalysisFragment extends CommonFragment {
                     public void onResponse(boolean isFromCache, SaleChannelModel c, Request request, @Nullable Response response) {
 //                        Log.i("TAG",c.tableTitle);
 //                        if (c.tableData.size() > 0) {
+                        FragmentDataUtil.saleChannelModel = c;
                             titleLayout.clearAllViews();
-                            String[] titles = c.table.tableTitle.split("\\|");
-                            String[] desc = c.table.tableTitleDesc.split("\\|");
+                            String[] titles = FragmentDataUtil.saleChannelModel.table.tableTitle.split("\\|");
+                            String[] desc = FragmentDataUtil.saleChannelModel.table.tableTitleDesc.split("\\|");
                             titleLayout.initView(titles, desc);
                             salesSupplyListAdapter.setItemCloums(titles.length);
-                            salesSupplyListAdapter.setList(c.tableData);
+                            salesSupplyListAdapter.setList(FragmentDataUtil.saleChannelModel.tableData);
 
                             StringBuilder sb1 = new StringBuilder();
                             StringBuilder sb2 = new StringBuilder();
-                            for (int i = 0; i < c.tableData.size(); i++) {
-                                String[] array = c.tableData.get(i).newValue.split("\\|");
+                            for (int i = 0; i < FragmentDataUtil.saleChannelModel.tableData.size(); i++) {
+                                String[] array = FragmentDataUtil.saleChannelModel.tableData.get(i).newValue.split("\\|");
                                 sb1.append(array[1]).append("|");
                                 sb2.append(array[0]).append("|");
                             }
@@ -147,7 +179,7 @@ public class SaleChainAnalysisFragment extends CommonFragment {
                             PeiModel peiModel = new PeiModel();
                             peiModel.chartPoint1 = sb2.toString();
                             peiModel.chartValue1 = sb1.toString();
-                            peiModel.chartTitle1 = c.table.title;
+                            peiModel.chartTitle1 = FragmentDataUtil.saleChannelModel.table.title;
                             pieChartTool.setData(peiModel);
                             pieChartTool.setPiechart();
 //                        }
@@ -169,6 +201,7 @@ public class SaleChainAnalysisFragment extends CommonFragment {
     @Subscribe
     public void changeChart(SaleChannelAnaEvent event) {
         conditionLayout.initViewByParam();
+        if (FragmentDataUtil.saleChannelModel==null)
         getListData();
     }
 }

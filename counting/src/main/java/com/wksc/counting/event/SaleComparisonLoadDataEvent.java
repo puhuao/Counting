@@ -5,5 +5,6 @@ package com.wksc.counting.event;
  */
 public class SaleComparisonLoadDataEvent {
     public String item;
+    public int position = 0;
 
 }

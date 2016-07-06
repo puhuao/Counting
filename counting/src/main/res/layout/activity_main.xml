@@ -5,14 +5,19 @@
     android:background="#eff0f5"
     android:clipChildren="false"
     android:orientation="vertical">
-
-    <FrameLayout
+    <com.wksc.counting.widegit.CustomViewPager
+        android:id="@+id/viewPager_history"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#eff0f5"/>
+    <!--<FrameLayout
         android:id="@+id/content_frame"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:background="#eff0f5"
-        />
+        />-->
         <RadioGroup
             android:id="@+id/radio_group"
             android:layout_width="match_parent"

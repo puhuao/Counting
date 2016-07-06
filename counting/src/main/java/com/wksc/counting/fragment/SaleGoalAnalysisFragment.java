@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.lzy.okhttputils.OkHttpUtils;
+import com.wksc.counting.Basedata.FragmentDataUtil;
 import com.wksc.counting.R;
 import com.wksc.counting.activity.TogleActivity;
 import com.wksc.counting.adapter.SalesFinishListAdapter;
@@ -81,6 +82,7 @@ public class SaleGoalAnalysisFragment extends CommonFragment {
         pieChartTool = new PieChartTool(pieChart);
 //        extraParam = "&month=06";
         conditionLayout.initViewByParam();
+        if (FragmentDataUtil.saleAnaModel==null)
         getListData();
         conditionLayout.hideGoods(false);
         conditionLayout.hideDay();
@@ -103,6 +105,17 @@ public class SaleGoalAnalysisFragment extends CommonFragment {
                 startActivity(intent);
             }
         });
+        if (FragmentDataUtil.saleAnaModel!=null){
+            Log.i("TAG", FragmentDataUtil.saleAnaModel.tableTitle);
+            String[] titles = FragmentDataUtil.saleAnaModel.tableTitle.split("\\|");
+            String[] desc = FragmentDataUtil.saleAnaModel.tableTitleDesc.split("\\|");
+            titleLayout.clearAllViews();
+            titleLayout.initView(titles, desc);
+            salesFinishListAdapter.setItemCloums(titles.length);
+            salesFinishListAdapter.setList(FragmentDataUtil.saleAnaModel.tableData);
+            pieChartTool.setData(FragmentDataUtil.saleAnaModel.chartData);
+            pieChartTool.setPiechart();
+        }
     }
 
     private void getListData() {
@@ -125,14 +138,15 @@ public class SaleGoalAnalysisFragment extends CommonFragment {
                     @Override
                     public void onResponse(boolean isFromCache, SaleAnaModel c, Request request, @Nullable Response response) {
 //                       if (c.tableData.size()>0){
-                           Log.i("TAG", c.tableTitle);
-                           String[] titles = c.tableTitle.split("\\|");
-                           String[] desc = c.tableTitleDesc.split("\\|");
+                        FragmentDataUtil.saleAnaModel =c;
+                           Log.i("TAG", FragmentDataUtil.saleAnaModel.tableTitle);
+                           String[] titles = FragmentDataUtil.saleAnaModel.tableTitle.split("\\|");
+                           String[] desc = FragmentDataUtil.saleAnaModel.tableTitleDesc.split("\\|");
                            titleLayout.clearAllViews();
                            titleLayout.initView(titles, desc);
                            salesFinishListAdapter.setItemCloums(titles.length);
-                           salesFinishListAdapter.setList(c.tableData);
-                           pieChartTool.setData(c.chartData);
+                           salesFinishListAdapter.setList(FragmentDataUtil.saleAnaModel.tableData);
+                           pieChartTool.setData(FragmentDataUtil.saleAnaModel.chartData);
                            pieChartTool.setPiechart();
 //                       }
 
@@ -154,7 +168,10 @@ public class SaleGoalAnalysisFragment extends CommonFragment {
 
     @Subscribe
     public void changeChart(SaleGoalAnaEvent event) {
-        conditionLayout.initViewByParam();
-       getListData();
+
+        if (FragmentDataUtil.saleAnaModel==null){
+            conditionLayout.initViewByParam();
+            getListData();
+        }
     }
 }

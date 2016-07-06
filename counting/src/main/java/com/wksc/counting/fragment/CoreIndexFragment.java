@@ -11,11 +11,14 @@ import android.widget.ListView;
 
 import com.lzy.okhttputils.OkHttpUtils;
 import com.wksc.counting.Basedata.BaseDataUtil;
+import com.wksc.counting.Basedata.FragmentDataUtil;
 import com.wksc.counting.R;
 import com.wksc.counting.activity.SalesComparisonActivity;
 import com.wksc.counting.adapter.CoreIndexListAdapter;
 import com.wksc.counting.callBack.DialogCallback;
 import com.wksc.counting.config.Urls;
+import com.wksc.counting.event.CoreIndextLoadDataEvent;
+import com.wksc.counting.event.SaleComparisonLoadDataEvent;
 import com.wksc.counting.event.TurnToMoreFragmentEvent;
 import com.wksc.counting.model.CoreIndexListModel;
 import com.wksc.counting.model.baseinfo.Channel;
@@ -33,6 +36,7 @@ import com.wksc.framwork.util.StringUtils;
 import com.wksc.framwork.util.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -60,6 +64,12 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
 
     CoreIndexListAdapter coreIndexListAdapter;
     List<CoreItem> coreItems;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -91,9 +101,11 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, v);
-
+        if (!EventBus.getDefault().isRegistered(this))
+            EventBus.getDefault().register(this);
         config = BaseApplication.getInstance().getCurrentConfig();
         coreIndexListAdapter = new CoreIndexListAdapter(getActivity());
+        coreIndexListAdapter.setList(FragmentDataUtil.coreIndexListModels);
         list.setAdapter(coreIndexListAdapter);
         list.setOnItemClickListener(this);
         conditionLayout.hideGoods(true);
@@ -104,7 +116,10 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
             }
         });
         isPrepared = true;
-        lazyLoad();
+//        lazyLoad();
+        if (FragmentDataUtil.coreIndexListModels.size()==0){
+            getBaseData();
+        }
         return v;
     }
 
@@ -113,7 +128,7 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
 //        getContext().pushFragmentToBackStack(RegisterFragment.class, null);
         Bundle bundle = new Bundle();
         bundle.putString("param", coreIndexListAdapter.getList().get(position).coreCode);
-        bundle.putString("extraParam",extraParam);
+        bundle.putString("extraParam", extraParam);
         startActivity(SalesComparisonActivity.class, bundle);
     }
 
@@ -133,9 +148,8 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
                     public void onResponse(boolean isFromCache, String c, Request request, @Nullable Response response) {
                         config = BaseApplication.getInstance().getPreferenceConfig();
                         try {
-                            if(!StringUtils.isBlank(c)){
+                            if (!StringUtils.isBlank(c)) {
                                 JSONObject object = new JSONObject(c);
-                                //                            JSONObject retObject = object.getJSONObject("retObj");
                                 String region = object.getString("regions");
                                 String channel = object.getString("channel");
                                 String items = object.getString("coreitem");
@@ -162,8 +176,8 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
                                 Log.i("TAG", goodsClassFirsts.toString());
                                 mHasLoadedOnce = true;
                                 getListData();
-                            }else{
-                                ToastUtil.showShortMessage(getContext(),"数据为空");
+                            } else {
+                                ToastUtil.showShortMessage(getContext(), "数据为空");
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -186,20 +200,21 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
                     @Override
                     public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
                         super.onError(isFromCache, call, response, e);
-                        ToastUtil.showShortMessage(getContext(),"系统错误");
+                        ToastUtil.showShortMessage(getContext(), "系统错误");
                     }
 
                     @Override
                     public void onResponse(boolean isFromCache, String c, Request request, @Nullable Response response) {
                         try {
-                            if (!StringUtils.isBlank(c)){
+                            if (!StringUtils.isBlank(c)) {
                                 JSONObject object = new JSONObject(c);
                                 String item = object.getString("CoreIndex");
-                                List<CoreIndexListModel> coreIndexListModels = GsonUtil.fromJsonList(item, CoreIndexListModel.class);
-                                coreIndexListAdapter.setList(coreIndexListModels);
-                                Log.i("TAG", coreIndexListModels.toString());
-                            }else{
-                                ToastUtil.showShortMessage(getContext(),"数据为空");
+                                FragmentDataUtil.coreIndexListModels.clear();
+                                FragmentDataUtil.coreIndexListModels.addAll(GsonUtil.fromJsonList(item, CoreIndexListModel.class));
+                                coreIndexListAdapter.setList(FragmentDataUtil.coreIndexListModels);
+                                Log.i("TAG", FragmentDataUtil.coreIndexListModels.toString());
+                            } else {
+                                ToastUtil.showShortMessage(getContext(), "数据为空");
                             }
 
                         } catch (JSONException e) {
@@ -208,19 +223,27 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
                     }
 
                 });
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
     }
-
-
 
 
     @Override
     protected void lazyLoad() {
-        if (!isPrepared || mHasLoadedOnce) {
-            return;
-        }
-        getBaseData();
+//        if (!isPrepared || mHasLoadedOnce) {
+//            return;
+//        }
+//        if (coreIndexListModels.size() == 0)
+//            getBaseData();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe
+    public void lodaData(CoreIndextLoadDataEvent event) {
+//        if (coreIndexListModels.size() == 0)
+//            getListData();
     }
 }

@@ -22,7 +22,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:divider="@null"/>
-
+<LinearLayout
+    android:id="@+id/lastItem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
             <TextView
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
@@ -48,7 +52,9 @@
                 android:id="@+id/lv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+</LinearLayout>
         </LinearLayout>
+
     </com.wksc.counting.widegit.OverScrollView>
 
 </LinearLayout>

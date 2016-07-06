@@ -1,5 +1,6 @@
 package com.wksc.counting.fragment;
 
+import android.content.pm.FeatureGroupInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -7,10 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.lzy.okhttputils.OkHttpUtils;
+import com.wksc.counting.Basedata.FragmentDataUtil;
 import com.wksc.counting.R;
 import com.wksc.counting.adapter.PlatFormLastItemAdapter;
 import com.wksc.counting.adapter.PlatFormListAdapter;
@@ -57,11 +60,14 @@ public class PlatformCenterFragment extends CommonFragment {
 
     @Bind(R.id.title)
     TextView title;
+    @Bind(R.id.lastItem)
+    LinearLayout lastLayout;
     PieChartTool pieChartTool;
 
     PlatFormListAdapter platFormListAdapter;
     PlatFormLastItemAdapter platFormLastItemAdapter;
     private IConfig config;
+//    private PlatFormModel model;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -92,8 +98,6 @@ public class PlatformCenterFragment extends CommonFragment {
         lv1.setAdapter(platFormListAdapter);
         conditionLayout.hideGoods(false);
         pieChartTool = new PieChartTool(pieChart);
-//        getListData();
-//        extraParam = "&month=06";
         conditionLayout.setConditionSelect(new ConditionLayout.OnConditionSelect() {
             @Override
             public void postParams() {
@@ -106,6 +110,49 @@ public class PlatformCenterFragment extends CommonFragment {
 
             }
         });
+        lastLayout.setVisibility(View.GONE);
+//        if (FragmentDataUtil.platFormModel==null){
+//            getListData();
+//        }
+        if ( FragmentDataUtil.platFormModel!=null){
+            Log.i("TAG", FragmentDataUtil.platFormModel.tableData.toString());
+            tableTitle.clearAllViews();
+            FragmentDataUtil.platFormModel.tableData.remove(0);
+            platFormListAdapter.setList(FragmentDataUtil.platFormModel.tableData);
+
+            String[] titles =FragmentDataUtil.platFormModel.memberData.tableTitle.split("\\|");
+            String[] desc =FragmentDataUtil.platFormModel.memberData.tableTitleDesc.split("\\|");
+
+            if(FragmentDataUtil.platFormModel.memberData!=null){
+                tableTitle.initView(titles, desc);
+                platFormLastItemAdapter.setItemCloums(titles.length);
+                platFormLastItemAdapter.setList(FragmentDataUtil.platFormModel.memberData.tableData);
+                title.setText(FragmentDataUtil.platFormModel.memberData.title);
+                StringBuilder sb1 = new StringBuilder();
+                StringBuilder sb2 = new StringBuilder();
+                for (int i = 0; i < FragmentDataUtil.platFormModel.memberData.tableData.size(); i++) {
+                    String[] array = FragmentDataUtil.platFormModel.memberData.tableData.get(i).split("\\|");
+                    sb1.append(array[1]).append("|");
+                    sb2.append(array[0]).append("|");
+                }
+
+                if (sb1.length() > 0) {
+                    sb1.deleteCharAt(sb1.length() - 1);
+                    sb2.deleteCharAt(sb2.length() - 1);
+                }
+                PeiModel peiModel = new PeiModel();
+                peiModel.chartPoint1 = sb2.toString();
+                peiModel.chartValue1 = sb1.toString();
+                peiModel.chartTitle1 = FragmentDataUtil.platFormModel.memberData.title;
+                pieChartTool.setData(peiModel);
+                pieChartTool.setPiechart();
+            }else{
+//                            title.setVisibility(View.GONE);
+//                            pieChart.setVisibility(View.GONE);
+//                            tableTitle.setVisibility(View.GONE);
+//                            lv.setVisibility(View.GONE);
+            }
+        }
     }
 
     private void getListData() {
@@ -127,36 +174,44 @@ public class PlatformCenterFragment extends CommonFragment {
                     @Override
                     public void onResponse(boolean isFromCache, PlatFormModel c, Request request, @Nullable Response response) {
 //                       if (c.tableData.size()>0){
+                        FragmentDataUtil.platFormModel= c;
                            Log.i("TAG", c.tableData.toString());
                            tableTitle.clearAllViews();
+                            c.tableData.remove(0);
                            platFormListAdapter.setList(c.tableData);
 
                            String[] titles = c.memberData.tableTitle.split("\\|");
                            String[] desc = c.memberData.tableTitleDesc.split("\\|");
-                           tableTitle.initView(titles, desc);
-                           platFormLastItemAdapter.setItemCloums(titles.length);
-                           platFormLastItemAdapter.setList(c.memberData.tableData);
-                           title.setText(c.memberData.title);
-                           StringBuilder sb1 = new StringBuilder();
-                           StringBuilder sb2 = new StringBuilder();
-                           for (int i = 0; i < c.memberData.tableData.size(); i++) {
-                               String[] array = c.memberData.tableData.get(i).split("\\|");
-                               sb1.append(array[1]).append("|");
-                               sb2.append(array[0]).append("|");
-                           }
 
-                           if (sb1.length() > 0) {
-                               sb1.deleteCharAt(sb1.length() - 1);
-                               sb2.deleteCharAt(sb2.length() - 1);
-                           }
-                           PeiModel peiModel = new PeiModel();
-                           peiModel.chartPoint1 = sb2.toString();
-                           peiModel.chartValue1 = sb1.toString();
-                           peiModel.chartTitle1 = c.memberData.title;
-                           pieChartTool.setData(peiModel);
-                           pieChartTool.setPiechart();
-//                       }
+                        if(c.memberData!=null){
+                            tableTitle.initView(titles, desc);
+                            platFormLastItemAdapter.setItemCloums(titles.length);
+                            platFormLastItemAdapter.setList(c.memberData.tableData);
+                            title.setText(c.memberData.title);
+                            StringBuilder sb1 = new StringBuilder();
+                            StringBuilder sb2 = new StringBuilder();
+                            for (int i = 0; i < c.memberData.tableData.size(); i++) {
+                                String[] array = c.memberData.tableData.get(i).split("\\|");
+                                sb1.append(array[1]).append("|");
+                                sb2.append(array[0]).append("|");
+                            }
 
+                            if (sb1.length() > 0) {
+                                sb1.deleteCharAt(sb1.length() - 1);
+                                sb2.deleteCharAt(sb2.length() - 1);
+                            }
+                            PeiModel peiModel = new PeiModel();
+                            peiModel.chartPoint1 = sb2.toString();
+                            peiModel.chartValue1 = sb1.toString();
+                            peiModel.chartTitle1 = c.memberData.title;
+                            pieChartTool.setData(peiModel);
+                            pieChartTool.setPiechart();
+                        }else{
+//                            title.setVisibility(View.GONE);
+//                            pieChart.setVisibility(View.GONE);
+//                            tableTitle.setVisibility(View.GONE);
+//                            lv.setVisibility(View.GONE);
+                        }
                     }
 
                 });
@@ -175,7 +230,9 @@ public class PlatformCenterFragment extends CommonFragment {
 
     @Subscribe
     public void changeChart(PlatFormAnaEvent event) {
-        conditionLayout.initViewByParam();
-        getListData();
+        if (FragmentDataUtil.platFormModel==null){
+            conditionLayout.initViewByParam();
+            getListData();
+        }
     }
 }
