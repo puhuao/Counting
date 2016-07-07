@@ -284,4 +284,8 @@ public class AreaPopupwindow2 extends BasePopupWindow {
         countyListView.setVisibility(View.GONE);
         citysLayout.setVisibility(View.GONE);
     }
+
+    public void hideStores() {
+        edit_query.setVisibility(View.GONE);
+    }
 }

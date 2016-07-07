@@ -221,6 +221,10 @@ private Boolean hideCity = false;
                 if (hideCounty){
                     areaPopupWindow.hideCounty();
                 }
+
+                if (hideStores){
+                    areaPopupWindow.hideStores();
+                }
                 areaPopupWindow.bindTextView(area);
 
                 areaPopupWindow.setOnConditionSelectListener(new BasePopupWindow.OnConditionSelectListener() {
@@ -373,6 +377,10 @@ private Boolean hideCity = false;
             area_layout.setVisibility(GONE);
             area1_layout.setVisibility(GONE);
         }
+    }
+private Boolean hideStores = false;
+    public void hideStores() {
+        hideStores = true;
     }
 
 

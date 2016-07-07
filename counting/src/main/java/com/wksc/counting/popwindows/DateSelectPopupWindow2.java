@@ -158,6 +158,7 @@ public class DateSelectPopupWindow2 extends PopupWindow {
     public void hideDay(Boolean hideDay) {
         radioGroup.findViewById(R.id.rb3).setVisibility(View.GONE);
         hide(2);
+        radioGroup.check(R.id.rb2);
     }
 
 

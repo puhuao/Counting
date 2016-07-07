@@ -94,6 +94,7 @@ public class SaleGoalAnalysisFragment extends CommonFragment {
         conditionLayout.initParams();
         conditionLayout.hideCity();
         conditionLayout.hideCounty();
+        conditionLayout.hideStores();
         if (FragmentDataUtil.saleAnaModel==null){
             extraParam = conditionLayout.getAllConditions();
             getListData();

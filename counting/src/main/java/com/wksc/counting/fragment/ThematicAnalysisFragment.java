@@ -104,9 +104,9 @@ public class ThematicAnalysisFragment extends CommonFragment {
 
             }
         });
-        if (isFirst){
-            mViewPager.setCurrentItem(0);
-        }
+//        if (isFirst){
+//            mViewPager.setCurrentItem(0);
+//        }
         titleSelectPopupWindow.setViewPager(mViewPager);
         titleSelectPopupWindow.initListener();
         titleSelectPopupWindow.setTitleView(getTitleHeaderBar().getTitleTextView());
