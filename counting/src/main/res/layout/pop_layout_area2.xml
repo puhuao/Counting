@@ -91,7 +91,7 @@
                     android:background="@color/home_press"
                     android:orientation="vertical">
 
-                    <com.wksc.counting.widegit.unionPickListView.PickListView
+                    <com.wksc.counting.widegit.unionPickListView.PickListView2
                         android:id="@+id/diriction_area"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent" />
@@ -102,13 +102,13 @@
     android:layout_weight="2"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
-                <com.wksc.counting.widegit.unionPickListView.PickListView
+                <com.wksc.counting.widegit.unionPickListView.PickListView2
                     android:id="@+id/diriction_province"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
 
-                <com.wksc.counting.widegit.unionPickListView.PickListView
+                <com.wksc.counting.widegit.unionPickListView.PickListView2
                     android:id="@+id/diriction_city"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

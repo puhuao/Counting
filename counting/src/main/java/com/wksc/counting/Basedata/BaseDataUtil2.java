@@ -16,11 +16,11 @@ import java.util.List;
  *
  * @
  */
-public class BaseDataUtil {
+public class BaseDataUtil2 {
 
-    public static int lastCoreRagionPos;
-    public static int lastCoreCityPos;
-    public static int lastCoreCountyPos;
+    public static int lastAnaRagionPos;
+    public static int lastAnaCityPos;
+    public static int lastAnaCountyPos;
     public static List<Region> region = new ArrayList<>();
     public static StringBuilder sbRegion= new StringBuilder();
     public static StringBuilder sbCity= new StringBuilder();

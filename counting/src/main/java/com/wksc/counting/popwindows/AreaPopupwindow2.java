@@ -13,11 +13,12 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.lzy.okhttputils.OkHttpUtils;
-import com.wksc.counting.Basedata.BaseDataUtil;
+import com.wksc.counting.Basedata.BaseDataUtil2;
 import com.wksc.counting.R;
 import com.wksc.counting.adapter.CheckBoxListAdapter;
 import com.wksc.counting.callBack.DialogCallback;
@@ -29,6 +30,7 @@ import com.wksc.counting.tools.UrlUtils;
 import com.wksc.counting.widegit.MarqueeText;
 import com.wksc.counting.widegit.NestedListView;
 import com.wksc.counting.widegit.unionPickListView.PickListView;
+import com.wksc.counting.widegit.unionPickListView.PickListView2;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.platform.config.IConfig;
 import com.wksc.framwork.util.StringUtils;
@@ -44,9 +46,9 @@ import okhttp3.Response;
 /**
  * Created by Administrator on 2016/5/29.
  */
-public class AreaPopupwindow extends BasePopupWindow {
+public class AreaPopupwindow2 extends BasePopupWindow {
     Activity mContext;
-    PickListView regionListView, cityListView, countyListView;
+    PickListView2 regionListView, cityListView, countyListView;
     Button sure;
     CheckBoxListAdapter regionListAdapter;
     CheckBoxListAdapter cityListAdapter;
@@ -56,25 +58,27 @@ public class AreaPopupwindow extends BasePopupWindow {
     ImageView search;
     EditText edit_query;
     NestedListView stores;
+    LinearLayout citysLayout;
     TextView empty;
     List<AreaCheckModel> areas = new ArrayList<>();
     //    private MarqueeText area;
     int flag =1;
     private IConfig config;
 
-    public AreaPopupwindow(Activity context) {
+    public AreaPopupwindow2(Activity context) {
         super();
         mContext = context;
-        View view = LayoutInflater.from(context).inflate(R.layout.pop_layout_area, null);
-        regionListView = (PickListView) view.findViewById(R.id.diriction_area);
-        cityListView = (PickListView) view.findViewById(R.id.diriction_province);
-        countyListView = (PickListView) view.findViewById(R.id.diriction_city);
+        View view = LayoutInflater.from(context).inflate(R.layout.pop_layout_area2, null);
+        regionListView = (PickListView2) view.findViewById(R.id.diriction_area);
+        cityListView = (PickListView2) view.findViewById(R.id.diriction_province);
+        countyListView = (PickListView2) view.findViewById(R.id.diriction_city);
         sure = (Button) view.findViewById(R.id.sure);
         radioGroup = (RadioGroup) view.findViewById(R.id.rg);
         search = (ImageView) view.findViewById(R.id.search);
         edit_query = (EditText) view.findViewById(R.id.edit_query);
         stores = (NestedListView) view.findViewById(R.id.stores);
         empty = (TextView) view.findViewById(R.id.empty);
+        citysLayout = (LinearLayout) view.findViewById(R.id.citys);
         search.setVisibility(View.GONE);
         this.setContentView(view);
         this.setOutsideTouchable(true);
@@ -92,30 +96,30 @@ public class AreaPopupwindow extends BasePopupWindow {
         });
         regionListAdapter = new CheckBoxListAdapter(context);
         regionListAdapter.isAll = true;
-        regionListAdapter.setList(BaseDataUtil.regions());
+        regionListAdapter.setList(BaseDataUtil2.regions());
         regionListView.setAdapter(regionListAdapter);
         storsAdapter = new CheckBoxListAdapter(mContext);
         stores.setAdapter(storsAdapter);
         radioGroup.setVisibility(View.GONE);
-//        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(RadioGroup group, int checkedId) {
-//                switch (checkedId) {
-//                    case R.id.rb1:
-//                        flag = 1;
-//                        break;
-//                    case R.id.rb2:
-//                        flag = 2;
-//                        break;
-//                    case R.id.rb3:
-//                        flag = 3;
-//                        break;
-//                    case R.id.rb4:
-//                        flag = 4;
-//                        break;
-//                }
-//            }
-//        });
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.rb1:
+                        flag = 1;
+                        break;
+                    case R.id.rb2:
+                        flag = 2;
+                        break;
+                    case R.id.rb3:
+                        flag = 3;
+                        break;
+                    case R.id.rb4:
+                        flag = 4;
+                        break;
+                }
+            }
+        });
         edit_query.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -165,9 +169,9 @@ public class AreaPopupwindow extends BasePopupWindow {
 
                 /*根据选中的数量来判断到底选中的是省还是市，区*/
 
-                List<BaseWithCheckBean> checkBeenRagion = BaseDataUtil.checkedRagions();
-                List<BaseWithCheckBean> checkBeenCity = BaseDataUtil.checkedCitys();
-                List<BaseWithCheckBean> checkBeenCountys = BaseDataUtil.checkedCountys();
+                List<BaseWithCheckBean> checkBeenRagion = BaseDataUtil2.checkedRagions();
+                List<BaseWithCheckBean> checkBeenCity = BaseDataUtil2.checkedCitys();
+                List<BaseWithCheckBean> checkBeenCountys = BaseDataUtil2.checkedCountys();
                 if (store.length()>0){
                     flag = 4;
                 }else if(checkBeenCountys.size()>0&&store.length()==0){
@@ -181,17 +185,17 @@ public class AreaPopupwindow extends BasePopupWindow {
                 if (flag == 1) {
                     dissmisPopupwindow();
                     if (mListener != null)
-                        mListener.conditionSelect(BaseDataUtil.sbRegionCode.toString(), BaseDataUtil.sbRegion.toString(), 0);
+                        mListener.conditionSelect(BaseDataUtil2.sbRegionCode.toString(), BaseDataUtil2.sbRegion.toString(), 0);
                 } else if (flag == 2) {
                     dissmisPopupwindow();
 //                    radioGroup.check(1);
                     if (mListener != null)
-                        mListener.conditionSelect(BaseDataUtil.sbCityCode.toString(), BaseDataUtil.sbCity.toString(), 1);
+                        mListener.conditionSelect(BaseDataUtil2.sbCityCode.toString(), BaseDataUtil2.sbCity.toString(), 1);
                 } else if (flag == 3) {
                     dissmisPopupwindow();
 //                    radioGroup.check(2);
                     if (mListener != null)
-                        mListener.conditionSelect(BaseDataUtil.sbCountyCode.toString(), BaseDataUtil.sbCounty.toString(), 2);
+                        mListener.conditionSelect(BaseDataUtil2.sbCountyCode.toString(), BaseDataUtil2.sbCounty.toString(), 2);
                 } else if (flag == 4) {
                     dissmisPopupwindow();
 //                    radioGroup.check(2);
@@ -205,10 +209,10 @@ public class AreaPopupwindow extends BasePopupWindow {
         });
         cityListAdapter = new CheckBoxListAdapter(context);
 
-        cityListAdapter.setList(BaseDataUtil.citys(BaseDataUtil.lastCoreRagionPos));
+        cityListAdapter.setList(BaseDataUtil2.citys(BaseDataUtil2.lastAnaRagionPos));
         cityListView.setAdapter(cityListAdapter);
         countyListAdapter = new CheckBoxListAdapter(context);
-        countyListAdapter.setList(BaseDataUtil.countys(BaseDataUtil.lastCoreRagionPos, BaseDataUtil.lastCoreCityPos));
+        countyListAdapter.setList(BaseDataUtil2.countys(BaseDataUtil2.lastAnaRagionPos, BaseDataUtil2.lastAnaCityPos));
         countyListView.setAdapter(countyListAdapter);
         regionListView.initView(null, cityListView);
         cityListView.initView(regionListView, countyListView);
@@ -271,5 +275,13 @@ public class AreaPopupwindow extends BasePopupWindow {
 //        this.area = area;
     }
 
+    public void hideCity() {
+        cityListView.setVisibility(View.GONE);
+        citysLayout.setVisibility(View.GONE);
+    }
 
+    public void hideCounty() {
+        countyListView.setVisibility(View.GONE);
+        citysLayout.setVisibility(View.GONE);
+    }
 }

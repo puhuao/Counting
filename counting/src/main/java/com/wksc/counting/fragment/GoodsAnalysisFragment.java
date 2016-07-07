@@ -19,8 +19,9 @@ import com.wksc.counting.config.Urls;
 import com.wksc.counting.event.GoodsAnaEvent;
 import com.wksc.counting.model.SaleAnaModel.PeiModel;
 import com.wksc.counting.model.goodsSaleAnaModle.GoodSaleModle;
+import com.wksc.counting.tools.Params2;
 import com.wksc.counting.tools.UrlUtils;
-import com.wksc.counting.widegit.ConditionLayout;
+import com.wksc.counting.widegit.ConditionLayout2;
 import com.wksc.counting.widegit.NestedListView;
 import com.wksc.counting.widegit.PieChartTool;
 import com.wksc.counting.widegit.TableTitleLayout;
@@ -46,7 +47,7 @@ public class GoodsAnalysisFragment extends CommonFragment {
     @Bind(R.id.sales_analysis)
     NestedListView lvSalesAnalysis;
     @Bind(R.id.condition)
-    ConditionLayout conditionLayout;
+    ConditionLayout2 conditionLayout;
     @Bind(R.id.titles)
     TableTitleLayout titleLayout;
     @Bind(R.id.pie)
@@ -84,9 +85,13 @@ public class GoodsAnalysisFragment extends CommonFragment {
 //        if (FragmentDataUtil.goodSaleModle==null)
 //        getListData();
         conditionLayout.hideGoods(false);
-        conditionLayout.setConditionSelect(new ConditionLayout.OnConditionSelect() {
+        conditionLayout.init(3);
+        conditionLayout.initViewByParam();
+        conditionLayout.initParams();
+        conditionLayout.setConditionSelect(new ConditionLayout2.OnConditionSelect() {
             @Override
             public void postParams() {
+                extraParam = conditionLayout.getAllConditions();
                 getListData();
             }
         });
@@ -135,7 +140,7 @@ public class GoodsAnalysisFragment extends CommonFragment {
     private void getListData() {
 
 //        conditionLayout.setView(false);
-        extraParam = conditionLayout.getAllConditions();
+//        extraParam = conditionLayout.getAllConditions();
         StringBuilder sb = new StringBuilder(Urls.TOPICINDEX);
         config = BaseApplication.getInstance().getCurrentConfig();
         UrlUtils.getInstance().addSession(sb, config).praseToUrl(sb, "class", "20")
@@ -198,7 +203,14 @@ public class GoodsAnalysisFragment extends CommonFragment {
     @Subscribe
     public void changeChart(GoodsAnaEvent event) {
         if (FragmentDataUtil.goodSaleModle==null){
-            conditionLayout.initViewByParam();
+
+//            if (Params2.extraParams!=null){
+//                conditionLayout.initViewByParam();
+//                extraParam = Params2.extraParams;
+//            }else{
+//                extraParam = Params2.extraParams;
+                extraParam = conditionLayout.getAllConditions();
+//            }
             getListData();
         }
 

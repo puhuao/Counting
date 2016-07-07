@@ -11,8 +11,10 @@ import android.widget.EditText;
 
 import com.lzy.okhttputils.OkHttpUtils;
 import com.lzy.okhttputils.callback.StringCallback;
+import com.wksc.counting.Basedata.BaseDataUtil;
 import com.wksc.counting.R;
 import com.wksc.counting.activity.MainActivity;
+import com.wksc.counting.callBack.BaseInfo;
 import com.wksc.counting.callBack.DialogCallback;
 import com.wksc.counting.config.Urls;
 import com.wksc.counting.tools.UrlUtils;
@@ -50,8 +52,8 @@ public class LoginFragment extends CommonFragment {
         final View view = inflater.inflate(R.layout.activity_login, null);
         ButterKnife.bind(this, view);
         config = BaseApplication.getInstance().getCurrentConfig();
-        userName.setText(config.getString("username",""));
-        passWord.setText(config.getString("password",""));
+        userName.setText(config.getString("username", ""));
+        passWord.setText(config.getString("password", ""));
         return view;
     }
 
@@ -67,12 +69,12 @@ public class LoginFragment extends CommonFragment {
             case R.id.fab:
                 String url = "http://bpb.1919.cn/ea/gw?cmd=memberLogin";
 
-                if (StringUtils.isBlank(userName.getText().toString())){
-                    ToastUtil.showShortMessage(getContext(),"请输入用户名");
+                if (StringUtils.isBlank(userName.getText().toString())) {
+                    ToastUtil.showShortMessage(getContext(), "请输入用户名");
                     break;
                 }
-                if (StringUtils.isBlank(passWord.getText().toString())){
-                    ToastUtil.showShortMessage(getContext(),"请输入密码");
+                if (StringUtils.isBlank(passWord.getText().toString())) {
+                    ToastUtil.showShortMessage(getContext(), "请输入密码");
                     break;
                 }
 
@@ -80,7 +82,7 @@ public class LoginFragment extends CommonFragment {
                 final String password = passWord.getText().toString();
 
                 StringBuilder sb = new StringBuilder(Urls.LOGIN);
-                UrlUtils.getInstance().praseToUrl(sb,"username",username).praseToUrl(sb,"password",password);
+                UrlUtils.getInstance().praseToUrl(sb, "username", username).praseToUrl(sb, "password", password);
                 OkHttpUtils.post(sb.toString())//
                         .tag(this)//
                         .execute(new DialogCallback<Object>(getContext(), Object.class) {
@@ -93,10 +95,15 @@ public class LoginFragment extends CommonFragment {
                             @Override
                             public void onResponse(boolean isFromCache, Object o, Request request, @Nullable Response response) {
 //                                ToastUtil.showShortMessage(getContext(),"成功");
-                                config.setString("username",username);
-                                config.setString("password",password);
-                                startActivity(MainActivity.class);
-                                getActivity().finish();
+                                if (BaseInfo.code == 1) {
+                                    ToastUtil.showShortMessage(getContext(), "密码错误");
+                                } else {
+                                    config.setString("username", username);
+                                    config.setString("password", password);
+                                    startActivity(MainActivity.class);
+                                    getActivity().finish();
+                                }
+
                             }
                         });
                 break;

@@ -64,6 +64,7 @@ public class VipComparisonFragment extends CommonFragment {
     private IConfig config;
     private boolean isFirstShow;
     Bundle bundle;
+    private int currentPos;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -85,12 +86,10 @@ public class VipComparisonFragment extends CommonFragment {
         oldBarTool = new BarChartTool(barChartOld, getContext());
 
         newBarTool = new BarChartTool(barChartNew, getContext());
-
-//        lineChartTool = new LineChartTool(mChart, getContext());
-//        lineChartTool.initLinChart();
         bundle = getArguments();
         param = bundle.getString("param");
         isFirstShow = bundle.getBoolean("isFirstShow");
+        currentPos = bundle.getInt("position");
         initView();
         return v;
     }
@@ -126,6 +125,7 @@ public class VipComparisonFragment extends CommonFragment {
             }
         });
         if (isFirstShow) {
+            conditionLayout.initViewByParam();
             extraParam = bundle.getString("extraParam");
             getData();
         }
@@ -209,10 +209,11 @@ public class VipComparisonFragment extends CommonFragment {
 
     @Subscribe
     public void LoadData(VipComparisonLoadDataEvent event) {
-        if (event.item.equals(param))
-//            if (FragmentDataUtil.map.get("key" + param).tableData == null)
-                getData();
+        if (event.position == currentPos) {
+            conditionLayout.initViewByParam();
+            extraParam = bundle.getString("extraParam");
+            getData();
+        }
     }
-
 
 }

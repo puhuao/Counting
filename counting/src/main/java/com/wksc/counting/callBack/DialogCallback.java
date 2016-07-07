@@ -35,7 +35,7 @@ public abstract class DialogCallback<T> extends JsonCallback<T> {
     }
 
     public DialogCallback(Activity activity, Class<T> clazz) {
-        super(clazz);
+        super(activity,clazz);
         initDialog(activity);
     }
 

@@ -72,7 +72,7 @@ public class MarktingCenterFragment extends CommonFragment {
                 name = "销售达成分析";
             }else if(i == 1){
                 fragment = new SaleChainAnalysisFragment();
-                name = "分销渠道分析";
+                name = "销售渠道分析";
             }else if(i ==2){
                 fragment = new PlatformCenterFragment();
                 name = "会员分析";

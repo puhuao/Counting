@@ -19,8 +19,10 @@ import com.wksc.counting.callBack.DialogCallback;
 import com.wksc.counting.config.Urls;
 import com.wksc.counting.event.SaleGoalAnaEvent;
 import com.wksc.counting.model.SaleAnaModel.SaleAnaModel;
+import com.wksc.counting.tools.Params2;
 import com.wksc.counting.tools.UrlUtils;
 import com.wksc.counting.widegit.ConditionLayout;
+import com.wksc.counting.widegit.ConditionLayout2;
 import com.wksc.counting.widegit.NestedListView;
 import com.wksc.counting.widegit.PieChartTool;
 import com.wksc.counting.widegit.TableTitleLayout;
@@ -46,7 +48,7 @@ public class SaleGoalAnalysisFragment extends CommonFragment {
     @Bind(R.id.sales_analysis)
     NestedListView lvSalesAnalysis;
     @Bind(R.id.condition)
-    ConditionLayout conditionLayout;
+    ConditionLayout2 conditionLayout;
     @Bind(R.id.titles)
     TableTitleLayout titleLayout;
     @Bind(R.id.pie)
@@ -76,19 +78,33 @@ public class SaleGoalAnalysisFragment extends CommonFragment {
         return v;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.e("tag","onrums");
+    }
+
     private void initView() {
         salesFinishListAdapter = new SalesFinishListAdapter(getActivity());
         lvSalesAnalysis.setAdapter(salesFinishListAdapter);
         pieChartTool = new PieChartTool(pieChart);
-//        extraParam = "&month=06";
-        conditionLayout.initViewByParam();
-        if (FragmentDataUtil.saleAnaModel==null)
-        getListData();
-        conditionLayout.hideGoods(false);
+        conditionLayout.init(0);
         conditionLayout.hideDay();
-        conditionLayout.setConditionSelect(new ConditionLayout.OnConditionSelect() {
+        conditionLayout.initViewByParam();
+        conditionLayout.initParams();
+        conditionLayout.hideCity();
+        conditionLayout.hideCounty();
+        if (FragmentDataUtil.saleAnaModel==null){
+            extraParam = conditionLayout.getAllConditions();
+            getListData();
+        }
+        conditionLayout.hideBothGoodsAndChannel(true);
+
+        conditionLayout.setConditionSelect(new ConditionLayout2.OnConditionSelect() {
             @Override
             public void postParams() {
+                extraParam = conditionLayout.getAllConditions();
+//                Params2.extraParams = extraParam;
                 getListData();
             }
         });
@@ -99,7 +115,6 @@ public class SaleGoalAnalysisFragment extends CommonFragment {
                 bundle.putString("code", salesFinishListAdapter.getList().get(position).code);
                 bundle.putString("extra", extraParam);
                 bundle.putInt("flag",1);
-//                getContext().pushFragmentToBackStack(ToglSaleGoalAnalysisFragment.class, bundle);
                 Intent intent = new Intent(getActivity(),TogleActivity.class);
                 intent.putExtras(bundle);
                 startActivity(intent);
@@ -120,7 +135,7 @@ public class SaleGoalAnalysisFragment extends CommonFragment {
 
     private void getListData() {
 
-        extraParam = conditionLayout.getAllConditions();
+//        extraParam = conditionLayout.getAllConditions();
         StringBuilder sb = new StringBuilder(Urls.TOPICINDEX);
         config = BaseApplication.getInstance().getCurrentConfig();
         UrlUtils.getInstance().addSession(sb,config).praseToUrl(sb,"class","10")
@@ -148,8 +163,6 @@ public class SaleGoalAnalysisFragment extends CommonFragment {
                            salesFinishListAdapter.setList(FragmentDataUtil.saleAnaModel.tableData);
                            pieChartTool.setData(FragmentDataUtil.saleAnaModel.chartData);
                            pieChartTool.setPiechart();
-//                       }
-
 
                     }
 
@@ -170,7 +183,13 @@ public class SaleGoalAnalysisFragment extends CommonFragment {
     public void changeChart(SaleGoalAnaEvent event) {
 
         if (FragmentDataUtil.saleAnaModel==null){
-            conditionLayout.initViewByParam();
+//            conditionLayout.initViewByParam();
+//            if (Params2.extraParams!=null){
+//                extraParam = Params2.extraParams;
+//            }else{
+//                extraParam = Params2.extraParams;
+                extraParam = conditionLayout.getAllConditions();
+//            }
             getListData();
         }
     }

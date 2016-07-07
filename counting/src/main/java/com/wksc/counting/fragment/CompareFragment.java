@@ -83,7 +83,7 @@ public class CompareFragment extends CommonFragment {
 
         for (int i = 0; i < BaseDataUtil.coreItems.size(); i++) {
             CoreItem coreItem = BaseDataUtil.coreItems.get(i);
-            FragmentDataUtil.map.put("key"+coreItem.code,new CoreDetail());
+            FragmentDataUtil.map.put("key"+coreItem.code,null);
             Bundle bundle = new Bundle();
             if (param.equals(coreItem.code)) {
                 pos = i;
@@ -92,15 +92,17 @@ public class CompareFragment extends CommonFragment {
                 bundle.putBoolean("isFirstShow",false);
             }
             String name = coreItem.name;
-            Fragment fragment;
+            Fragment fragment = null;
             if (coreItem.code.equals("60") || coreItem.code.equals("70")) {
-                fragment = new VipComparisonFragment();
+//                fragment = new VipComparisonFragment();
+                break;
             } else {
                 fragment = new SalesComparisonFragment();
             }
 
             bundle.putString("param", coreItem.code);
             bundle.putString("extraParam",extraParam);
+            bundle.putInt("position",i);
             fragment.setArguments(bundle);
             FragmentEntity fragmentEntity = new FragmentEntity(name, fragment);
             if (fragment != null) {

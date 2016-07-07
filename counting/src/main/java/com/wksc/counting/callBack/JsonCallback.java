@@ -1,10 +1,13 @@
 package com.wksc.counting.callBack;
 
+import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.lzy.okhttputils.OkHttpUtils;
+import com.wksc.counting.activity.LoginActivity;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.platform.config.IConfig;
 import com.wksc.framwork.util.StringUtils;
@@ -28,9 +31,11 @@ public abstract class JsonCallback<T> extends EncryptCallback<T> {
 
     private Class<T> clazz;
     private Type type;
+    private Context mConext;
 
-    public JsonCallback(Class<T> clazz) {
+    public JsonCallback(Context context,Class<T> clazz) {
         this.clazz = clazz;
+        this.mConext = context;
     }
 
     public JsonCallback(Type type) {
@@ -62,19 +67,23 @@ public abstract class JsonCallback<T> extends EncryptCallback<T> {
                  * code = 0 代表成功，默认实现了Gson解析成相应的实体Bean返回，可以自己替换成fastjson等
                  * 对于返回参数，先支持 String，然后优先支持class类型的字节码，最后支持type类型的参数
                  */
+                BaseInfo.code = 0;
                 if (clazz == String.class) return (T) data;
                 if (clazz != null) return new Gson().fromJson(data, clazz);
                 if (type != null) return new Gson().fromJson(data, type);
                 break;
             case 1:
+                    BaseInfo.code = 1;
                 OkHttpUtils.getInstance().getDelivery().post(new Runnable() {
                     @Override
                     public void run() {
                         Toast.makeText(OkHttpUtils.getContext(), "错误信息：" + msg, Toast.LENGTH_SHORT).show();
+
                     }
                 });
                 break;
             case -2:
+                mConext.startActivity(new Intent(mConext, LoginActivity.class));
                 OkHttpUtils.getInstance().getDelivery().post(new Runnable() {
                     @Override
                     public void run() {

@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.PopupWindow;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 
 import com.wksc.counting.R;
 import com.wksc.counting.tools.DateTool;
@@ -23,12 +22,12 @@ import java.util.Date;
 /**
  * Created by puhua on 2016/6/5.
  */
-public class DateSelectPopupWindow extends PopupWindow {
+public class DateSelectPopupWindow2 extends PopupWindow {
 
     private View view;
     private Activity mContext;
     private Button id_btn_date_ok;
-    private DateSelectPopupWindow dateSelectPopupWindow;
+    private DateSelectPopupWindow2 dateSelectPopupWindow;
     private DatePicker datePick1;
     RadioGroup radioGroup;
 
@@ -40,7 +39,7 @@ public class DateSelectPopupWindow extends PopupWindow {
     private String mNowDateTextInner;
     public int flag=3;
 
-    public DateSelectPopupWindow(Activity context, String nowDateTextInner) {
+    public DateSelectPopupWindow2(Activity context, String nowDateTextInner) {
         super(context);
         mContext = context;
         mNowDateTextInner=nowDateTextInner;
@@ -163,7 +162,7 @@ public class DateSelectPopupWindow extends PopupWindow {
 
 
     public interface OnDateSelectListener {
-        void onDateSelect(String year,String month,String date,int flag);
+        void onDateSelect(String year, String month, String date, int flag);
     }
 
     public void setOnDateSelectListener(OnDateSelectListener onDateSelectListener) {

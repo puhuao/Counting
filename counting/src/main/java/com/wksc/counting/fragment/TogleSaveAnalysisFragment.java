@@ -17,6 +17,7 @@ import com.wksc.counting.model.SaleAnaModel.PeiModel;
 import com.wksc.counting.model.goodsSaleAnaModle.GoodSaleModle;
 import com.wksc.counting.tools.UrlUtils;
 import com.wksc.counting.widegit.ConditionLayout;
+import com.wksc.counting.widegit.ConditionLayout2;
 import com.wksc.counting.widegit.NestedListView;
 import com.wksc.counting.widegit.PieChartTool;
 import com.wksc.counting.widegit.TableTitleLayout;
@@ -42,7 +43,7 @@ public class TogleSaveAnalysisFragment extends CommonFragment {
     @Bind(R.id.sales_analysis)
     NestedListView lvSalesAnalysis;
     @Bind(R.id.condition)
-    ConditionLayout conditionLayout;
+    ConditionLayout2 conditionLayout;
     @Bind(R.id.titles)
     TableTitleLayout titleLayout;
     @Bind(R.id.pie)
@@ -89,9 +90,11 @@ public class TogleSaveAnalysisFragment extends CommonFragment {
         pieChartTool = new PieChartTool(pieChart);
 
 //        extraParam = "&month=06";
+        conditionLayout.init(4);
+        conditionLayout.initParams();
         conditionLayout.hideGoods(false);
         conditionLayout.initViewByParam();
-        conditionLayout.setConditionSelect(new ConditionLayout.OnConditionSelect() {
+        conditionLayout.setConditionSelect(new ConditionLayout2.OnConditionSelect() {
             @Override
             public void postParams() {
                 getListData();

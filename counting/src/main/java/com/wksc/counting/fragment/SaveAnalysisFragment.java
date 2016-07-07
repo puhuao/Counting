@@ -19,8 +19,10 @@ import com.wksc.counting.config.Urls;
 import com.wksc.counting.event.SaveAnaEvent;
 import com.wksc.counting.model.SaleAnaModel.PeiModel;
 import com.wksc.counting.model.goodsSaleAnaModle.GoodSaleModle;
+import com.wksc.counting.tools.Params2;
 import com.wksc.counting.tools.UrlUtils;
 import com.wksc.counting.widegit.ConditionLayout;
+import com.wksc.counting.widegit.ConditionLayout2;
 import com.wksc.counting.widegit.NestedListView;
 import com.wksc.counting.widegit.PieChartTool;
 import com.wksc.counting.widegit.TableTitleLayout;
@@ -46,7 +48,7 @@ public class SaveAnalysisFragment extends CommonFragment {
     @Bind(R.id.sales_analysis)
     NestedListView lvSalesAnalysis;
     @Bind(R.id.condition)
-    ConditionLayout conditionLayout;
+    ConditionLayout2 conditionLayout;
     @Bind(R.id.titles)
     TableTitleLayout titleLayout;
     @Bind(R.id.pie)
@@ -80,30 +82,30 @@ public class SaveAnalysisFragment extends CommonFragment {
         goodsSalesAnalysisListAdapter = new GoodsSalesAnalysisListAdapter(getActivity());
         lvSalesAnalysis.setAdapter(goodsSalesAnalysisListAdapter);
         pieChartTool = new PieChartTool(pieChart);
-//        if (FragmentDataUtil.saveModel==null)
-//        getListData();
-//        extraParam = "&month=06";
         conditionLayout.hideGoods(false);
-        conditionLayout.setConditionSelect(new ConditionLayout.OnConditionSelect() {
+        conditionLayout.init(4);
+        conditionLayout.initViewByParam();
+        conditionLayout.initParams();
+        conditionLayout.setConditionSelect(new ConditionLayout2.OnConditionSelect() {
             @Override
             public void postParams() {
+                extraParam = conditionLayout.getAllConditions();
                 getListData();
             }
         });
         lvSalesAnalysis.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Bundle bundle = new Bundle();
-                bundle.putString("code", goodsSalesAnalysisListAdapter.getList().get(position).code);
-                bundle.putString("extra", extraParam);
-                bundle.putInt("flag",4);
-//                getContext().pushFragmentToBackStack(ToglSaleGoalAnalysisFragment.class, bundle);
-                Intent intent = new Intent(getActivity(),TogleActivity.class);
-                intent.putExtras(bundle);
-                startActivity(intent);
+//                Bundle bundle = new Bundle();
+//                bundle.putString("code", goodsSalesAnalysisListAdapter.getList().get(position).code);
+//                bundle.putString("extra", extraParam);
+//                bundle.putInt("flag", 4);
+//                Intent intent = new Intent(getActivity(), TogleActivity.class);
+//                intent.putExtras(bundle);
+//                startActivity(intent);
             }
         });
-        if (FragmentDataUtil.saveModel!=null){
+        if (FragmentDataUtil.saveModel != null) {
             titleLayout.clearAllViews();
             String[] titles = FragmentDataUtil.saveModel.table.tableTitle.split("\\|");
             String[] desc = FragmentDataUtil.saveModel.table.tableTitleDesc.split("\\|");
@@ -134,11 +136,10 @@ public class SaveAnalysisFragment extends CommonFragment {
     }
 
     private void getListData() {
-        extraParam = conditionLayout.getAllConditions();
         StringBuilder sb = new StringBuilder(Urls.TOPICINDEX);
         config = BaseApplication.getInstance().getCurrentConfig();
-        UrlUtils.getInstance().addSession(sb,config).praseToUrl(sb,"class","20")
-                .praseToUrl(sb,"level","1").praseToUrl(sb,"item","50");
+        UrlUtils.getInstance().addSession(sb, config).praseToUrl(sb, "class", "20")
+                .praseToUrl(sb, "level", "1").praseToUrl(sb, "item", "50");
         sb.append(extraParam);
         OkHttpUtils.post(sb.toString())//
                 .tag(this)//
@@ -151,15 +152,6 @@ public class SaveAnalysisFragment extends CommonFragment {
 
                     @Override
                     public void onResponse(boolean isFromCache, GoodSaleModle c, Request request, @Nullable Response response) {
-
-//                        String[] titles = c.table.tableTitle.split("\\|");
-//                        String[] desc = c.table.tableTitleDesc.split("\\|");
-//                        titleLayout.clearAllViews();
-//                        titleLayout.initView(titles, desc);
-//                        goodsSalesAnalysisListAdapter.setItemCloums(titles.length);
-//                        goodsSalesAnalysisListAdapter.setList(c.tableData);
-////                        pieChartTool.setData(c.chartData);
-////                        pieChartTool.setPiechart();
                         FragmentDataUtil.saveModel = c;
                         titleLayout.clearAllViews();
                         String[] titles = c.table.tableTitle.split("\\|");
@@ -186,8 +178,6 @@ public class SaveAnalysisFragment extends CommonFragment {
                         peiModel.chartTitle1 = c.table.title;
                         pieChartTool.setData(peiModel);
                         pieChartTool.setPiechart();
-
-
                     }
 
                 });
@@ -205,8 +195,8 @@ public class SaveAnalysisFragment extends CommonFragment {
 
     @Subscribe
     public void changeChart(SaveAnaEvent event) {
-        if (FragmentDataUtil.saveModel==null){
-            conditionLayout.initViewByParam();
+        if (FragmentDataUtil.saveModel == null) {
+            extraParam = conditionLayout.getAllConditions();
             getListData();
         }
 

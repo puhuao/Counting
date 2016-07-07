@@ -2,39 +2,60 @@ package com.wksc.counting.activity;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Window;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.lzy.okhttputils.OkHttpUtils;
+import com.wksc.counting.Basedata.BaseDataUtil2;
+import com.wksc.counting.Basedata.BaseDataUtil;
 import com.wksc.counting.R;
-import com.wksc.counting.event.CoreIndextLoadDataEvent;
+import com.wksc.counting.callBack.DialogCallback;
+import com.wksc.counting.config.Urls;
+import com.wksc.counting.event.MarketEvent;
 import com.wksc.counting.event.SaleGoalAnaEvent;
 import com.wksc.counting.event.TurnToMoreFragmentEvent;
 import com.wksc.counting.fragment.CoreIndexFragment;
-import com.wksc.counting.fragment.LocusPassFragment;
 import com.wksc.counting.fragment.MoreFragment;
 import com.wksc.counting.fragment.NewsFragment;
 import com.wksc.counting.fragment.TelescopeFragment;
 import com.wksc.counting.fragment.ThematicAnalysisFragment;
+import com.wksc.counting.model.baseinfo.Channel;
+import com.wksc.counting.model.baseinfo.CoreItem;
+import com.wksc.counting.model.baseinfo.GoodsClassFirst;
+import com.wksc.counting.model.baseinfo.GoodsClassScend;
+import com.wksc.counting.model.baseinfo.Region;
+import com.wksc.counting.tools.UrlUtils;
 import com.wksc.counting.widegit.CustomDialog;
 import com.wksc.counting.widegit.CustomViewPager;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.ActivityManager;
 import com.wksc.framwork.baseui.activity.BaseFragmentActivity;
 import com.wksc.framwork.platform.config.IConfig;
+import com.wksc.framwork.util.GsonUtil;
+import com.wksc.framwork.util.StringUtils;
+import com.wksc.framwork.util.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import okhttp3.Call;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * Created by puhua on 2016/5/26.
@@ -67,7 +88,11 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
         // 删除窗口背景
         getWindow().setBackgroundDrawable(null);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+        config = BaseApplication.getInstance().getCurrentConfig();
+        getBaseData();
+    }
 
+    private void initView(){
         setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
@@ -93,7 +118,7 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
 //                    EventBus.getDefault().post(CoreIndextLoadDataEvent.class);
                 }
                 else if(position==1){
-                    EventBus.getDefault().post(SaleGoalAnaEvent.class);
+//                    EventBus.getDefault().post(MarketEvent.class);
                 }
             }
 
@@ -125,7 +150,6 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
             });
             builder.create().show();
         }
-
     }
 
     private void transFragment(Fragment fragment){
@@ -191,5 +215,65 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
             return fragmentsList.size();
         }
 
+    }
+
+    private void getBaseData() {
+        StringBuilder sb = new StringBuilder(Urls.BASE_INFO);
+        UrlUtils.getInstance().addSession(sb, config);
+        OkHttpUtils.post(sb.toString())//
+                .tag(this)//
+                .execute(new DialogCallback<String>(this, String.class) {
+
+                    @Override
+                    public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
+                        super.onError(isFromCache, call, response, e);
+                        ToastUtil.showShortMessage(MainActivity.this,"基础信息获取出错！！");
+                    }
+
+                    @Override
+                    public void onResponse(boolean isFromCache, String c, Request request, @Nullable Response response) {
+                        config = BaseApplication.getInstance().getPreferenceConfig();
+                        try {
+                            if (!StringUtils.isBlank(c)) {
+                                JSONObject object = new JSONObject(c);
+                                String region = object.getString("regions");
+                                String channel = object.getString("channel");
+                                String items = object.getString("coreitem");
+                                JSONArray array = object.getJSONArray("GoodsClass");
+                                BaseDataUtil.clearData();
+                                BaseDataUtil2.clearData();
+                                BaseDataUtil.region.addAll(
+                                        GsonUtil.fromJsonList(region, Region.class));
+                                BaseDataUtil2.region.addAll(
+                                        GsonUtil.fromJsonList(region, Region.class));
+                                BaseDataUtil.channels.addAll(GsonUtil.fromJsonList(channel, Channel.class));
+                                BaseDataUtil2.channels.addAll(GsonUtil.fromJsonList(channel, Channel.class));
+                                List<GoodsClassFirst> goodsClassFirsts = new ArrayList<>();
+                                BaseDataUtil.coreItems.addAll(GsonUtil.fromJsonList(items, CoreItem.class));
+                                BaseDataUtil2.coreItems.addAll(GsonUtil.fromJsonList(items, CoreItem.class));
+                                for (int i = 0; i < array.length(); i++) {
+                                    JSONObject obj = array.getJSONObject(i);
+                                    GoodsClassFirst first = new GoodsClassFirst();
+                                    first.name = obj.getString("name");
+                                    first.code = obj.getString("code");
+                                    String classS = obj.getString("class");
+                                    List<GoodsClassScend> goodsClassScends = GsonUtil.
+                                            fromJsonList(classS, GoodsClassScend.class);
+                                    first.classX = goodsClassScends;
+                                    goodsClassFirsts.add(first);
+                                }
+                                BaseDataUtil.goodsClassFirst.addAll(goodsClassFirsts);
+                                BaseDataUtil2.goodsClassFirst.addAll(goodsClassFirsts);
+                                Log.i("TAG", goodsClassFirsts.toString());
+                                initView();
+                            } else {
+                                ToastUtil.showShortMessage(MainActivity.this, "数据为空");
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                });
     }
 }

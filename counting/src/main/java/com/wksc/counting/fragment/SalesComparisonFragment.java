@@ -42,7 +42,7 @@ import okhttp3.Response;
 public class SalesComparisonFragment extends CommonFragment {
     @Bind(R.id.list_view)
     NestedListView list;
-//    @Bind(R.id.chart)
+    //    @Bind(R.id.chart)
 //    LineChart mChart;
     @Bind(R.id.chart1)
     LinearLayout chart1;
@@ -59,10 +59,11 @@ public class SalesComparisonFragment extends CommonFragment {
     CoreDetail detail;
     BarChartTool oldBarTool;
     BarChartTool newBarTool;
-//    LineChartTool lineChartTool;
+    //    LineChartTool lineChartTool;
     private String param;
     //////////////////////////////////
     private boolean isPrepared;
+    private int currentPos;
     /**
      * 是否已被加载过一次，第二次就不再去请求数据了
      */
@@ -70,6 +71,7 @@ public class SalesComparisonFragment extends CommonFragment {
     private IConfig config;
     private Boolean isFirstShow = true;
     Bundle bundle;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,7 +97,7 @@ public class SalesComparisonFragment extends CommonFragment {
         bundle = getArguments();
         param = bundle.getString("param");
         isFirstShow = bundle.getBoolean("isFirstShow");
-//        extraParam = bundle.getString("extraParam");
+        currentPos = bundle.getInt("position");
         initView();
         return v;
     }
@@ -135,8 +137,9 @@ public class SalesComparisonFragment extends CommonFragment {
             extraParam = bundle.getString("extraParam");
             getData();
         }
-        if (FragmentDataUtil.map.get("key"+param).tableData!=null){
-            detail = FragmentDataUtil.map.get("key"+param);
+        if( FragmentDataUtil.map.get("key" + param)!=null)
+        if (FragmentDataUtil.map.get("key" + param).tableData != null) {
+            detail = FragmentDataUtil.map.get("key" + param);
             titles.clearAllViews();
             if (oldBarTool != null)
                 oldBarTool.setData(detail.CoreChart1);
@@ -156,11 +159,6 @@ public class SalesComparisonFragment extends CommonFragment {
 
 
     private void getData() {
-//        if (isFirstShow){
-            extraParam = bundle.getString("extraParam");
-//        }else{
-//            extraParam = conditionLayout.getAllConditions();
-//        }
         StringBuilder sb = new StringBuilder(Urls.COREDETAIL);
         config = BaseApplication.getInstance().getCurrentConfig();
         UrlUtils.getInstance().addSession(sb, config).praseToUrl(sb, "item", param)
@@ -179,22 +177,22 @@ public class SalesComparisonFragment extends CommonFragment {
                     public void onResponse(boolean isFromCache, CoreDetail c, Request request, @Nullable Response response) {
                         Log.i("TAG", c.toString());
                         detail = c;
-                        FragmentDataUtil.map.put("key"+param,c);
+                        FragmentDataUtil.map.put("key" + param, c);
 //                        if (c.tableData.size()>0){
-                            titles.clearAllViews();
-                            if (oldBarTool != null)
-                                oldBarTool.setData(c.CoreChart1);
-                            if (newBarTool != null)
-                                newBarTool.setData(c.CoreChart2);
-                            String[] tableTitles = detail.tableTitle.split("\\|");
-                            final String[] titleDesc = detail.tableTitleDesc.split("\\|");
-                            if (titles != null) {
-                                titles.initView("地区");
-                                titles.initView(tableTitles,
-                                        titleDesc);
-                            }
-                            if (adapter != null)
-                                adapter.TransData(detail.tableData);
+                        titles.clearAllViews();
+                        if (oldBarTool != null)
+                            oldBarTool.setData(c.CoreChart1);
+                        if (newBarTool != null)
+                            newBarTool.setData(c.CoreChart2);
+                        String[] tableTitles = detail.tableTitle.split("\\|");
+                        final String[] titleDesc = detail.tableTitleDesc.split("\\|");
+                        if (titles != null) {
+                            titles.initView("地区");
+                            titles.initView(tableTitles,
+                                    titleDesc);
+                        }
+                        if (adapter != null)
+                            adapter.TransData(detail.tableData);
                     }
 
                 });
@@ -213,10 +211,15 @@ public class SalesComparisonFragment extends CommonFragment {
 
     @Subscribe
     public void lodaData(SaleComparisonLoadDataEvent event) {
-        if (event.item.equals(param))
+//        if (event.item.equals(param))
+        if (event.position == currentPos) {
             conditionLayout.initViewByParam();
-        if (FragmentDataUtil.map.get("key"+param).tableData==null)
-            getData();
+            extraParam = bundle.getString("extraParam");
+            if ( FragmentDataUtil.map.get("key" + param)==null){
+                getData();
+            }
+        }
+
     }
 
 }

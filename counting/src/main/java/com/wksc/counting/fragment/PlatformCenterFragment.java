@@ -22,8 +22,10 @@ import com.wksc.counting.config.Urls;
 import com.wksc.counting.event.PlatFormAnaEvent;
 import com.wksc.counting.model.SaleAnaModel.PeiModel;
 import com.wksc.counting.model.platFormModel.PlatFormModel;
+import com.wksc.counting.tools.Params2;
 import com.wksc.counting.tools.UrlUtils;
 import com.wksc.counting.widegit.ConditionLayout;
+import com.wksc.counting.widegit.ConditionLayout2;
 import com.wksc.counting.widegit.NestedListView;
 import com.wksc.counting.widegit.PieChartTool;
 import com.wksc.counting.widegit.TableTitleLayout;
@@ -50,7 +52,7 @@ public class PlatformCenterFragment extends CommonFragment {
     NestedListView lv;
 
     @Bind(R.id.condition)
-    ConditionLayout conditionLayout;
+    ConditionLayout2 conditionLayout;
 
     @Bind(R.id.pie)
     PieChart pieChart;
@@ -96,11 +98,16 @@ public class PlatformCenterFragment extends CommonFragment {
         lv.setAdapter(platFormLastItemAdapter);
         platFormListAdapter = new PlatFormListAdapter(getContext());
         lv1.setAdapter(platFormListAdapter);
+        conditionLayout.init(2);
+        conditionLayout.initViewByParam();
+        conditionLayout.initParams();
         conditionLayout.hideGoods(false);
+        conditionLayout.hidArea(true);
         pieChartTool = new PieChartTool(pieChart);
-        conditionLayout.setConditionSelect(new ConditionLayout.OnConditionSelect() {
+        conditionLayout.setConditionSelect(new ConditionLayout2.OnConditionSelect() {
             @Override
             public void postParams() {
+                extraParam = conditionLayout.getAllConditions();
                 getListData();
             }
         });
@@ -117,7 +124,8 @@ public class PlatformCenterFragment extends CommonFragment {
         if ( FragmentDataUtil.platFormModel!=null){
             Log.i("TAG", FragmentDataUtil.platFormModel.tableData.toString());
             tableTitle.clearAllViews();
-            FragmentDataUtil.platFormModel.tableData.remove(0);
+            if (FragmentDataUtil.platFormModel.tableData.size()>0)
+//            FragmentDataUtil.platFormModel.tableData.remove(0);
             platFormListAdapter.setList(FragmentDataUtil.platFormModel.tableData);
 
             String[] titles =FragmentDataUtil.platFormModel.memberData.tableTitle.split("\\|");
@@ -146,17 +154,12 @@ public class PlatformCenterFragment extends CommonFragment {
                 peiModel.chartTitle1 = FragmentDataUtil.platFormModel.memberData.title;
                 pieChartTool.setData(peiModel);
                 pieChartTool.setPiechart();
-            }else{
-//                            title.setVisibility(View.GONE);
-//                            pieChart.setVisibility(View.GONE);
-//                            tableTitle.setVisibility(View.GONE);
-//                            lv.setVisibility(View.GONE);
             }
         }
     }
 
     private void getListData() {
-        extraParam = conditionLayout.getAllConditions();
+
         StringBuilder sb = new StringBuilder(Urls.TOPICINDEX);
         config = BaseApplication.getInstance().getCurrentConfig();
         UrlUtils.getInstance().addSession(sb,config).praseToUrl(sb,"class","10")
@@ -177,7 +180,7 @@ public class PlatformCenterFragment extends CommonFragment {
                         FragmentDataUtil.platFormModel= c;
                            Log.i("TAG", c.tableData.toString());
                            tableTitle.clearAllViews();
-                            c.tableData.remove(0);
+//                            c.tableData.remove(0);
                            platFormListAdapter.setList(c.tableData);
 
                            String[] titles = c.memberData.tableTitle.split("\\|");
@@ -231,7 +234,7 @@ public class PlatformCenterFragment extends CommonFragment {
     @Subscribe
     public void changeChart(PlatFormAnaEvent event) {
         if (FragmentDataUtil.platFormModel==null){
-            conditionLayout.initViewByParam();
+                extraParam = conditionLayout.getAllConditions();
             getListData();
         }
     }

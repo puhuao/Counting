@@ -18,6 +18,7 @@ import com.wksc.counting.event.SaleGoalAnaEvent;
 import com.wksc.counting.model.SaleAnaModel.SaleAnaModel;
 import com.wksc.counting.tools.UrlUtils;
 import com.wksc.counting.widegit.ConditionLayout;
+import com.wksc.counting.widegit.ConditionLayout2;
 import com.wksc.counting.widegit.NestedListView;
 import com.wksc.counting.widegit.PieChartTool;
 import com.wksc.counting.widegit.TableTitleLayout;
@@ -43,7 +44,7 @@ public class ToglSaleGoalAnalysisFragment extends CommonFragment {
     @Bind(R.id.sales_analysis)
     NestedListView lvSalesAnalysis;
     @Bind(R.id.condition)
-    ConditionLayout conditionLayout;
+    ConditionLayout2 conditionLayout;
     @Bind(R.id.titles)
     TableTitleLayout titleLayout;
     @Bind(R.id.pie)
@@ -89,11 +90,14 @@ public class ToglSaleGoalAnalysisFragment extends CommonFragment {
         salesFinishListAdapter = new SalesFinishListAdapter(getActivity());
         lvSalesAnalysis.setAdapter(salesFinishListAdapter);
         pieChartTool = new PieChartTool(pieChart);
-//        extraParam = "&month=06";
-
-        conditionLayout.hideGoods(false);
+        conditionLayout.init(0);
+        conditionLayout.hideDay();
         conditionLayout.initViewByParam();
-        conditionLayout.setConditionSelect(new ConditionLayout.OnConditionSelect() {
+        conditionLayout.initParams();
+        conditionLayout.hideCity();
+        conditionLayout.hideCounty();
+        conditionLayout.hideBothGoodsAndChannel(true);
+        conditionLayout.setConditionSelect(new ConditionLayout2.OnConditionSelect() {
             @Override
             public void postParams() {
                 getListData();

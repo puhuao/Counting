@@ -19,8 +19,10 @@ import com.wksc.counting.config.Urls;
 import com.wksc.counting.event.SaleChannelAnaEvent;
 import com.wksc.counting.model.SaleAnaModel.PeiModel;
 import com.wksc.counting.model.saleChannelModel.SaleChannelModel;
+import com.wksc.counting.tools.Params2;
 import com.wksc.counting.tools.UrlUtils;
 import com.wksc.counting.widegit.ConditionLayout;
+import com.wksc.counting.widegit.ConditionLayout2;
 import com.wksc.counting.widegit.NestedListView;
 import com.wksc.counting.widegit.PieChartTool;
 import com.wksc.counting.widegit.TableTitleLayout;
@@ -46,7 +48,7 @@ public class SaleChainAnalysisFragment extends CommonFragment {
     @Bind(R.id.supply_analysis)
     NestedListView lvSupplyAnalysis;
     @Bind(R.id.condition)
-    ConditionLayout conditionLayout;
+    ConditionLayout2 conditionLayout;
     @Bind(R.id.titles)
     TableTitleLayout titleLayout;
     @Bind(R.id.pie)
@@ -54,7 +56,6 @@ public class SaleChainAnalysisFragment extends CommonFragment {
     SalesSupplyListAdapter salesSupplyListAdapter;
     private PieChartTool pieChartTool;
     private IConfig config;
-//    private SaleChannelModel model;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -81,13 +82,14 @@ public class SaleChainAnalysisFragment extends CommonFragment {
         salesSupplyListAdapter = new SalesSupplyListAdapter(getActivity());
         lvSupplyAnalysis.setAdapter(salesSupplyListAdapter);
         conditionLayout.hideGoods(false);
+        conditionLayout.init(1);
+        conditionLayout.initViewByParam();
+        conditionLayout.initParams();
         pieChartTool = new PieChartTool(pieChart);
-//        if (FragmentDataUtil.saleChannelModel==null)
-//        getListData();
-//        extraParam = "&month=06";
-        conditionLayout.setConditionSelect(new ConditionLayout.OnConditionSelect() {
+        conditionLayout.setConditionSelect(new ConditionLayout2.OnConditionSelect() {
             @Override
             public void postParams() {
+                extraParam = conditionLayout.getAllConditions();
                 getListData();
             }
         });
@@ -131,13 +133,12 @@ public class SaleChainAnalysisFragment extends CommonFragment {
             peiModel.chartTitle1 = FragmentDataUtil.saleChannelModel.table.title;
             pieChartTool.setData(peiModel);
             pieChartTool.setPiechart();
-//                        }
         }
     }
 
     private void getListData() {
 
-        extraParam = conditionLayout.getAllConditions();
+//        extraParam = conditionLayout.getAllConditions();
         StringBuilder sb = new StringBuilder(Urls.TOPICINDEX);
         config = BaseApplication.getInstance().getCurrentConfig();
         UrlUtils.getInstance().addSession(sb,config).praseToUrl(sb,"class","10")
@@ -200,8 +201,16 @@ public class SaleChainAnalysisFragment extends CommonFragment {
 
     @Subscribe
     public void changeChart(SaleChannelAnaEvent event) {
-        conditionLayout.initViewByParam();
-        if (FragmentDataUtil.saleChannelModel==null)
-        getListData();
+        if (FragmentDataUtil.saleChannelModel==null){
+//            if (Params2.extraParams!=null){
+//                conditionLayout.initViewByParam();
+//                extraParam = Params2.extraParams;
+//            }else{
+//                extraParam = Params2.extraParams;
+                extraParam = conditionLayout.getAllConditions();
+//            }
+            getListData();
+        }
+
     }
 }

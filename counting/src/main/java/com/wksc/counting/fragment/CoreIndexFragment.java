@@ -63,7 +63,7 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
     private IConfig config = null;
 
     CoreIndexListAdapter coreIndexListAdapter;
-    List<CoreItem> coreItems;
+//    List<CoreItem> coreItems;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -118,7 +118,8 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
         isPrepared = true;
 //        lazyLoad();
         if (FragmentDataUtil.coreIndexListModels.size()==0){
-            getBaseData();
+//            getBaseData();
+            getListData();
         }
         return v;
     }
@@ -126,65 +127,16 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //        getContext().pushFragmentToBackStack(RegisterFragment.class, null);
-        Bundle bundle = new Bundle();
-        bundle.putString("param", coreIndexListAdapter.getList().get(position).coreCode);
-        bundle.putString("extraParam", extraParam);
-        startActivity(SalesComparisonActivity.class, bundle);
-    }
+        if (coreIndexListAdapter.getList().get(position).coreCode.equals("60")||
+                coreIndexListAdapter.getList().get(position).coreCode.equals("70")){
 
-    private void getBaseData() {
-        StringBuilder sb = new StringBuilder(Urls.BASE_INFO);
-        UrlUtils.getInstance().addSession(sb, config);
-        OkHttpUtils.post(sb.toString())//
-                .tag(this)//
-                .execute(new DialogCallback<String>(getContext(), String.class) {
+        }else{
+            Bundle bundle = new Bundle();
+            bundle.putString("param", coreIndexListAdapter.getList().get(position).coreCode);
+            bundle.putString("extraParam", extraParam);
+            startActivity(SalesComparisonActivity.class, bundle);
+        }
 
-                    @Override
-                    public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
-                        super.onError(isFromCache, call, response, e);
-                    }
-
-                    @Override
-                    public void onResponse(boolean isFromCache, String c, Request request, @Nullable Response response) {
-                        config = BaseApplication.getInstance().getPreferenceConfig();
-                        try {
-                            if (!StringUtils.isBlank(c)) {
-                                JSONObject object = new JSONObject(c);
-                                String region = object.getString("regions");
-                                String channel = object.getString("channel");
-                                String items = object.getString("coreitem");
-                                JSONArray array = object.getJSONArray("GoodsClass");
-                                BaseDataUtil.clearData();
-                                BaseDataUtil.region.addAll(
-                                        GsonUtil.fromJsonList(region, Region.class));
-                                BaseDataUtil.channels.addAll(GsonUtil.fromJsonList(channel, Channel.class));
-                                List<GoodsClassFirst> goodsClassFirsts = new ArrayList<>();
-                                coreItems = GsonUtil.fromJsonList(items, CoreItem.class);
-                                BaseDataUtil.coreItems.addAll(coreItems);
-                                for (int i = 0; i < array.length(); i++) {
-                                    JSONObject obj = array.getJSONObject(i);
-                                    GoodsClassFirst first = new GoodsClassFirst();
-                                    first.name = obj.getString("name");
-                                    first.code = obj.getString("code");
-                                    String classS = obj.getString("class");
-                                    List<GoodsClassScend> goodsClassScends = GsonUtil.
-                                            fromJsonList(classS, GoodsClassScend.class);
-                                    first.classX = goodsClassScends;
-                                    goodsClassFirsts.add(first);
-                                }
-                                BaseDataUtil.goodsClassFirst.addAll(goodsClassFirsts);
-                                Log.i("TAG", goodsClassFirsts.toString());
-                                mHasLoadedOnce = true;
-                                getListData();
-                            } else {
-                                ToastUtil.showShortMessage(getContext(), "数据为空");
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                });
     }
 
     private void getListData() {
@@ -228,11 +180,6 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
 
     @Override
     protected void lazyLoad() {
-//        if (!isPrepared || mHasLoadedOnce) {
-//            return;
-//        }
-//        if (coreIndexListModels.size() == 0)
-//            getBaseData();
     }
 
     @Override
@@ -245,5 +192,6 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
     public void lodaData(CoreIndextLoadDataEvent event) {
 //        if (coreIndexListModels.size() == 0)
 //            getListData();
+        conditionLayout.initViewByParam();
     }
 }
