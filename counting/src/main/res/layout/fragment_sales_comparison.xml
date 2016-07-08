@@ -4,58 +4,62 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.wksc.counting.widegit.OverScrollView
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-            <com.wksc.counting.widegit.ConditionLayout
-                android:id="@+id/condition"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="150dp">
+                <com.wksc.counting.widegit.ConditionLayout
+                    android:id="@+id/condition"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
-                <LinearLayout
-                    android:id="@+id/chart1"
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp">
+
+                    <LinearLayout
+                        android:id="@+id/chart1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <com.github.mikephil.charting.charts.HorizontalBarChart
+                            android:id="@+id/bar_chart_old"
+                            android:layout_width="0dp"
+                            android:layout_height="150dp"
+                            android:layout_weight="1"
+                            android:background="@android:color/white" />
+
+                        <com.github.mikephil.charting.charts.HorizontalBarChart
+                            android:id="@+id/bar_chart_new"
+                            android:layout_width="0dp"
+                            android:layout_height="150dp"
+                            android:layout_weight="1"
+                            android:background="@android:color/white" />
+                    </LinearLayout>
+                </RelativeLayout>
+                <com.wksc.counting.widegit.TableTitleLayout
+                    android:id="@+id/titles"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_marginTop="12dp"
+                    android:orientation="horizontal" />
 
-                    <com.github.mikephil.charting.charts.HorizontalBarChart
-                        android:id="@+id/bar_chart_old"
-                        android:layout_width="0dp"
-                        android:layout_height="150dp"
-                        android:layout_weight="1"
-                        android:background="@android:color/white" />
-
-                    <com.github.mikephil.charting.charts.HorizontalBarChart
-                        android:id="@+id/bar_chart_new"
-                        android:layout_width="0dp"
-                        android:layout_height="150dp"
-                        android:layout_weight="1"
-                        android:background="@android:color/white" />
-                </LinearLayout>
-
-
-            </RelativeLayout>
-
-            <com.wksc.counting.widegit.TableTitleLayout
-                android:id="@+id/titles"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="12dp"/>
-            <com.wksc.counting.widegit.NestedListView
-                android:id="@+id/list_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-    </com.wksc.counting.widegit.OverScrollView>
+                <com.wksc.counting.widegit.NestedListView
+                    android:id="@+id/list_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </ScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>

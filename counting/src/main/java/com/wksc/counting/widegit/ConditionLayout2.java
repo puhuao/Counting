@@ -296,6 +296,10 @@ private Boolean hideCity = false;
                     myPopupwindow.hideMonthCheck();
                 }
 
+                if (hideDayAndMonthCheck){
+                    myPopupwindow.hideDayAndMonthCheck();
+                }
+
                 myPopupwindow.showPopupwindow(v);
                 myPopupwindow.setOnDateSelectListener(new DateSelectPopupWindow2.OnDateSelectListener() {
                     @Override
@@ -372,6 +376,10 @@ private Boolean hideCity = false;
 
     public void hideDay() {
         hideDay = true;
+    }
+    public Boolean hideDayAndMonthCheck = false;
+    public void hideDayAndMonthCheck(){
+        hideDayAndMonthCheck = true;
     }
 
     public void hidArea(boolean b) {

@@ -3,6 +3,7 @@ package com.wksc.counting.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,6 +52,8 @@ public class GoodsAnalysisFragment extends CommonFragment {
     TableTitleLayout titleLayout;
     @Bind(R.id.pie)
     PieChart pieChart;
+    @Bind(R.id.refresh_layout)
+    SwipeRefreshLayout refreshLayout;
     PieChartTool pieChartTool;
     GoodsSalesAnalysisListAdapter goodsSalesAnalysisListAdapter;
     private IConfig config;
@@ -88,6 +91,12 @@ public class GoodsAnalysisFragment extends CommonFragment {
             @Override
             public void postParams() {
                 extraParam = conditionLayout.getAllConditions();
+                getListData();
+            }
+        });
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
                 getListData();
             }
         });
@@ -153,6 +162,9 @@ public class GoodsAnalysisFragment extends CommonFragment {
 
                     @Override
                     public void onResponse(boolean isFromCache, GoodSaleModle c, Request request, @Nullable Response response) {
+                       if (refreshLayout.isRefreshing()){
+                           refreshLayout.setRefreshing(false);
+                       }
                         FragmentDataUtil.goodSaleModle = c;
                             titleLayout.clearAllViews();
                             String[] titles = c.table.tableTitle.split("\\|");

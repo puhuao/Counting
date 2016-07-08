@@ -2,6 +2,7 @@ package com.wksc.counting.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,6 +55,8 @@ public class SalesComparisonFragment extends CommonFragment {
     ConditionLayout conditionLayout;
     @Bind(R.id.titles)
     TableTitleLayout titles;
+    @Bind(R.id.refresh_layout)
+    SwipeRefreshLayout refreshLayout;
 
     SalesCompareListAdapter adapter;
     CoreDetail detail;
@@ -91,9 +94,7 @@ public class SalesComparisonFragment extends CommonFragment {
         ButterKnife.bind(this, v);
 
         oldBarTool = new BarChartTool(barChartOld, getContext());
-
         newBarTool = new BarChartTool(barChartNew, getContext());
-
         bundle = getArguments();
         param = bundle.getString("param");
         isFirstShow = bundle.getBoolean("isFirstShow");
@@ -106,9 +107,6 @@ public class SalesComparisonFragment extends CommonFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
     }
-
-
-    private Boolean down = true;
 
     private void initView() {
         conditionLayout.hideGoods(true);
@@ -137,6 +135,13 @@ public class SalesComparisonFragment extends CommonFragment {
             extraParam = bundle.getString("extraParam");
             getData();
         }
+
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getData();
+            }
+        });
         if( FragmentDataUtil.map.get("key" + param)!=null)
         if (FragmentDataUtil.map.get("key" + param).tableData != null) {
             detail = FragmentDataUtil.map.get("key" + param);
@@ -176,6 +181,9 @@ public class SalesComparisonFragment extends CommonFragment {
                     @Override
                     public void onResponse(boolean isFromCache, CoreDetail c, Request request, @Nullable Response response) {
                         Log.i("TAG", c.toString());
+                        if (refreshLayout.isRefreshing()){
+                            refreshLayout.setRefreshing(false);
+                        }
                         detail = c;
                         FragmentDataUtil.map.put("key" + param, c);
 //                        if (c.tableData.size()>0){
@@ -211,10 +219,9 @@ public class SalesComparisonFragment extends CommonFragment {
 
     @Subscribe
     public void lodaData(SaleComparisonLoadDataEvent event) {
-//        if (event.item.equals(param))
         if (event.position == currentPos) {
             conditionLayout.initViewByParam();
-            extraParam = bundle.getString("extraParam");
+            extraParam = conditionLayout.getAllConditions();
             if ( FragmentDataUtil.map.get("key" + param)==null){
                 getData();
             }

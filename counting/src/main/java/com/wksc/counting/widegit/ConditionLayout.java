@@ -60,7 +60,6 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
     public ConditionLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         LayoutInflater.from(context).inflate(R.layout.layout_condition, this);
-//        ButterKnife.bind(this);
         calendar = Calendar.getInstance();//初始化时间
         area1 = (MarqueeText) findViewById(R.id.area1);
         goods1 = (MarqueeText) findViewById(R.id.goods1);
@@ -93,11 +92,9 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
         m = calendar.get(Calendar.MONTH);
         d = calendar.get(Calendar.DAY_OF_MONTH);
         if (Params.years.length() == 0) {
-//            Params.years.delete(0, Params.years.length());
             Params.years.append("&year=").append(y);
         }
         if (Params.month.length() == 0) {
-//            Params.month.delete(0, Params.month.length());
             if (m < 10) {
                 if (Params.month.length() == 0)
                     Params.month.append("&month=").append("0" + (m + 1));
@@ -110,7 +107,6 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
             }
         }
         if (Params.day.length() == 0) {
-//            Params.day.delete(0, Params.day.length());
             if (d < 10) {
                 if (Params.day.length() == 0)
                     Params.day.append("&day=").append("0" + (d - 1));
@@ -174,7 +170,6 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
                     areaPopupWindow = new AreaPopupwindow((Activity) getContext());
                 }
                 areaPopupWindow.bindTextView(area);
-
                 areaPopupWindow.setOnConditionSelectListener(new BasePopupWindow.OnConditionSelectListener() {
                     @Override
                     public void conditionSelect(String checkBeenRagion, String name, int tag) {

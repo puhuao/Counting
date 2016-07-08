@@ -9,52 +9,61 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <com.wksc.counting.widegit.OverScrollView
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-            <com.wksc.counting.widegit.NestedListView
-                android:id="@+id/lv1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:divider="@null"/>
-<LinearLayout
-    android:id="@+id/lastItem"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="渠道会员新增数" />
+            android:layout_height="match_parent">
 
-            <com.github.mikephil.charting.charts.PieChart
-                android:id="@+id/pie"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp" />
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-            <com.wksc.counting.widegit.TableTitleLayout
-                android:id="@+id/table_titles"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:background="#FBF9FA"
-                android:orientation="horizontal"
-                android:padding="10dp" />
+                <com.wksc.counting.widegit.NestedListView
+                    android:id="@+id/lv1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:divider="@null" />
 
-            <com.wksc.counting.widegit.NestedListView
-                android:id="@+id/lv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-</LinearLayout>
-        </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/lastItem"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-    </com.wksc.counting.widegit.OverScrollView>
+                    <TextView
+                        android:id="@+id/title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:text="渠道会员新增数" />
+
+                    <com.github.mikephil.charting.charts.PieChart
+                        android:id="@+id/pie"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp" />
+
+                    <com.wksc.counting.widegit.TableTitleLayout
+                        android:id="@+id/table_titles"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:background="#FBF9FA"
+                        android:orientation="horizontal"
+                        android:padding="10dp" />
+
+                    <com.wksc.counting.widegit.NestedListView
+                        android:id="@+id/lv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+            </LinearLayout>
+
+        </ScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>

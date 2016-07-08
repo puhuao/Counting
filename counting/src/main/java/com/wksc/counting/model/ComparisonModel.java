@@ -7,5 +7,7 @@ public class ComparisonModel {
     public String area;
     public String[] oldDatas;
     public String[] newDatas;
+    public String[] oldColors;
+    public String[] newColors;
     public String code;
 }

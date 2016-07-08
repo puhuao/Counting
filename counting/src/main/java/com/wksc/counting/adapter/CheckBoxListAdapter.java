@@ -32,6 +32,7 @@ public class CheckBoxListAdapter extends BaseListAdapter<BaseWithCheckBean> {
         for (BaseWithCheckBean m : mList) {
             m.isCheck = ALL;
         }
+        this.notifyDataSetChanged();
     }
     public void setAllNormal() {
         if (sb.length()>0)
@@ -39,6 +40,7 @@ public class CheckBoxListAdapter extends BaseListAdapter<BaseWithCheckBean> {
         for (BaseWithCheckBean m : mList) {
             m.isCheck = NORMAL;
         }
+        this.notifyDataSetChanged();
     }
 
     @Override

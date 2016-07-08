@@ -11,8 +11,11 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -57,10 +60,17 @@ public class AreaPopupwindow extends BasePopupWindow {
     EditText edit_query;
     NestedListView stores;
     TextView empty;
+    CheckBox checkBox1,checkBox2,checkBox3;
     List<AreaCheckModel> areas = new ArrayList<>();
     //    private MarqueeText area;
     int flag =1;
     private IConfig config;
+    StringBuilder store = new StringBuilder();
+    private int currentShowCityPosition = 0;
+    private int cuttentShowCountPosition = 0;
+    List<BaseWithCheckBean> checkedRagions;
+    List<BaseWithCheckBean> checkedCitys;
+    List<BaseWithCheckBean> checkedCounty;
 
     public AreaPopupwindow(Activity context) {
         super();
@@ -75,6 +85,9 @@ public class AreaPopupwindow extends BasePopupWindow {
         edit_query = (EditText) view.findViewById(R.id.edit_query);
         stores = (NestedListView) view.findViewById(R.id.stores);
         empty = (TextView) view.findViewById(R.id.empty);
+        checkBox1 = (CheckBox) view.findViewById(R.id.checkbox1);
+        checkBox2 = (CheckBox) view.findViewById(R.id.checkbox2);
+        checkBox3 = (CheckBox) view.findViewById(R.id.checkbox3);
         search.setVisibility(View.GONE);
         this.setContentView(view);
         this.setOutsideTouchable(true);
@@ -97,25 +110,34 @@ public class AreaPopupwindow extends BasePopupWindow {
         storsAdapter = new CheckBoxListAdapter(mContext);
         stores.setAdapter(storsAdapter);
         radioGroup.setVisibility(View.GONE);
-//        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(RadioGroup group, int checkedId) {
-//                switch (checkedId) {
-//                    case R.id.rb1:
-//                        flag = 1;
-//                        break;
-//                    case R.id.rb2:
-//                        flag = 2;
-//                        break;
-//                    case R.id.rb3:
-//                        flag = 3;
-//                        break;
-//                    case R.id.rb4:
-//                        flag = 4;
-//                        break;
-//                }
-//            }
-//        });
+        cityListAdapter = new CheckBoxListAdapter(context);
+        cityListView.setAdapter(cityListAdapter);
+        checkedRagions = BaseDataUtil.checkedRagions();
+        int id = 0;
+        if (checkedRagions.size()==0){
+            cityListAdapter.setList(BaseDataUtil.citys(0));
+        }else if(checkedRagions.size() == 1){
+            id = BaseDataUtil.regions().indexOf(checkedRagions.get(0));
+            cityListAdapter.setList(BaseDataUtil.citys(id));
+            cityListView.superPosition = id;
+        }
+//        cityListAdapter.setList(BaseDataUtil.citys(BaseDataUtil.lastCoreRagionPos));
+
+        countyListAdapter = new CheckBoxListAdapter(context);
+       checkedCitys = BaseDataUtil.checkedCitys();
+        int cityId = 0;
+        if (checkedRagions.size()==0&&checkedCitys.size()==0){
+            countyListAdapter.setList(BaseDataUtil.countys(id, cityId));
+        }else if (checkedCitys.size() == 1){
+            cityId = cityListAdapter.getList().indexOf(checkedCitys.get(0));
+            countyListAdapter.setList(BaseDataUtil.countys(id, cityId));
+//            countyListView.scendPosition
+        }
+
+        countyListView.setAdapter(countyListAdapter);
+        regionListView.initView(null, cityListView);
+        cityListView.initView(regionListView, countyListView);
+        countyListView.initView(cityListView, null);
         edit_query.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -129,12 +151,6 @@ public class AreaPopupwindow extends BasePopupWindow {
 
             @Override
             public void afterTextChanged(Editable s) {
-                getData();
-            }
-        });
-        search.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
                 getData();
             }
         });
@@ -159,12 +175,6 @@ public class AreaPopupwindow extends BasePopupWindow {
         sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                StringBuilder sb = new StringBuilder();
-                sb.append(regionListAdapter.sb).append(cityListAdapter.sb).append(countyListAdapter.sb);
-
-                /*根据选中的数量来判断到底选中的是省还是市，区*/
-
                 List<BaseWithCheckBean> checkBeenRagion = BaseDataUtil.checkedRagions();
                 List<BaseWithCheckBean> checkBeenCity = BaseDataUtil.checkedCitys();
                 List<BaseWithCheckBean> checkBeenCountys = BaseDataUtil.checkedCountys();
@@ -184,17 +194,14 @@ public class AreaPopupwindow extends BasePopupWindow {
                         mListener.conditionSelect(BaseDataUtil.sbRegionCode.toString(), BaseDataUtil.sbRegion.toString(), 0);
                 } else if (flag == 2) {
                     dissmisPopupwindow();
-//                    radioGroup.check(1);
                     if (mListener != null)
                         mListener.conditionSelect(BaseDataUtil.sbCityCode.toString(), BaseDataUtil.sbCity.toString(), 1);
                 } else if (flag == 3) {
                     dissmisPopupwindow();
-//                    radioGroup.check(2);
                     if (mListener != null)
                         mListener.conditionSelect(BaseDataUtil.sbCountyCode.toString(), BaseDataUtil.sbCounty.toString(), 2);
                 } else if (flag == 4) {
                     dissmisPopupwindow();
-//                    radioGroup.check(2);
                     if (mListener != null)
                         mListener.conditionSelect(store.toString(), storsAdapter.sb.toString(), 4);
                 } else {
@@ -203,19 +210,86 @@ public class AreaPopupwindow extends BasePopupWindow {
 
             }
         });
-        cityListAdapter = new CheckBoxListAdapter(context);
-
-        cityListAdapter.setList(BaseDataUtil.citys(BaseDataUtil.lastCoreRagionPos));
-        cityListView.setAdapter(cityListAdapter);
-        countyListAdapter = new CheckBoxListAdapter(context);
-        countyListAdapter.setList(BaseDataUtil.countys(BaseDataUtil.lastCoreRagionPos, BaseDataUtil.lastCoreCityPos));
-        countyListView.setAdapter(countyListAdapter);
-        regionListView.initView(null, cityListView);
-        cityListView.initView(regionListView, countyListView);
-        countyListView.initView(cityListView, null);
+        regionListView.setOnDataBaseChange(new PickListView.OnDataBaseChange() {
+            @Override
+            public void onDataBaseChange() {
+               changeCheckBoxs();
+            }
+        });
+        cityListView.setOnDataBaseChange(new PickListView.OnDataBaseChange() {
+            @Override
+            public void onDataBaseChange() {
+                changeCheckBoxs();
+            }
+        });
+        countyListView.setOnDataBaseChange(new PickListView.OnDataBaseChange() {
+            @Override
+            public void onDataBaseChange() {
+                changeCheckBoxs();
+            }
+        });
+        checkBox1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    regionListAdapter.setAllCheck();
+                }else{
+                    regionListAdapter.setAllNormal();
+                }
+            }
+        });
+        checkBox2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    cityListAdapter.setAllCheck();
+                }else{
+                    cityListAdapter.setAllNormal();
+                }
+            }
+        });
+        checkBox3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    countyListAdapter.setAllCheck();
+                }else{
+                    countyListAdapter.setAllNormal();
+                }
+            }
+        });
     }
 
-    StringBuilder store = new StringBuilder();
+    private void changeCheckBoxs() {
+        if (BaseDataUtil.checkedRagions().size()<BaseDataUtil.regions().size()){
+            checkBox1.setChecked(false);
+        }else{
+            checkBox1.setChecked(true);
+        }
+        int cCity =0;
+        for (int i =0 ;i <cityListAdapter.getList().size();i++){
+            if (cityListAdapter.getList().get(i).isCheck == CheckBoxListAdapter.ALL){
+                cCity++;
+            }
+        }
+        if (cCity<cityListAdapter.getList().size()){
+            checkBox2.setChecked(false);
+        }else{
+            checkBox2.setChecked(true);
+        }
+
+        int cCounty = 0;
+        for (int i =0 ;i <countyListAdapter.getList().size();i++){
+            if (countyListAdapter.getList().get(i).isCheck == CheckBoxListAdapter.ALL){
+                cCounty++;
+            }
+        }
+        if (cCounty<countyListAdapter.getList().size()){
+            checkBox3.setChecked(false);
+        }else{
+            checkBox3.setChecked(true);
+        }
+    }
 
     private void getData() {
         String param = edit_query.getText().toString();

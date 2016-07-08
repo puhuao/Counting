@@ -2,6 +2,7 @@ package com.wksc.counting.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,6 +62,8 @@ public class PlatformCenterFragment extends CommonFragment {
     TextView title;
     @Bind(R.id.lastItem)
     LinearLayout lastLayout;
+    @Bind(R.id.refresh_layout)
+    SwipeRefreshLayout refreshLayout;
     PieChartTool pieChartTool;
 
     PlatFormListAdapter platFormListAdapter;
@@ -118,6 +121,12 @@ public class PlatformCenterFragment extends CommonFragment {
 //        if (FragmentDataUtil.platFormModel==null){
 //            getListData();
 //        }
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getListData();
+            }
+        });
         if ( FragmentDataUtil.platFormModel!=null){
             Log.i("TAG", FragmentDataUtil.platFormModel.tableData.toString());
             tableTitle.clearAllViews();
@@ -174,6 +183,9 @@ public class PlatformCenterFragment extends CommonFragment {
                     @Override
                     public void onResponse(boolean isFromCache, PlatFormModel c, Request request, @Nullable Response response) {
 //                       if (c.tableData.size()>0){
+                        if (refreshLayout.isRefreshing()){
+                            refreshLayout.setRefreshing(false);
+                        }
                         FragmentDataUtil.platFormModel= c;
                            Log.i("TAG", c.tableData.toString());
                            tableTitle.clearAllViews();

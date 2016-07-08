@@ -3,6 +3,7 @@ package com.wksc.counting.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,6 +54,8 @@ public class SaleGoalAnalysisFragment extends CommonFragment {
     TableTitleLayout titleLayout;
     @Bind(R.id.pie)
     PieChart pieChart;
+    @Bind(R.id.refresh_layout)
+    SwipeRefreshLayout refreshLayout;
     SalesFinishListAdapter salesFinishListAdapter;
     PieChartTool pieChartTool;
     private IConfig config;
@@ -105,7 +108,12 @@ public class SaleGoalAnalysisFragment extends CommonFragment {
             @Override
             public void postParams() {
                 extraParam = conditionLayout.getAllConditions();
-//                Params2.extraParams = extraParam;
+                getListData();
+            }
+        });
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
                 getListData();
             }
         });
@@ -135,8 +143,6 @@ public class SaleGoalAnalysisFragment extends CommonFragment {
     }
 
     private void getListData() {
-
-//        extraParam = conditionLayout.getAllConditions();
         StringBuilder sb = new StringBuilder(Urls.TOPICINDEX);
         config = BaseApplication.getInstance().getCurrentConfig();
         UrlUtils.getInstance().addSession(sb,config).praseToUrl(sb,"class","10")
@@ -154,6 +160,9 @@ public class SaleGoalAnalysisFragment extends CommonFragment {
                     @Override
                     public void onResponse(boolean isFromCache, SaleAnaModel c, Request request, @Nullable Response response) {
 //                       if (c.tableData.size()>0){
+                        if (refreshLayout.isRefreshing()){
+                            refreshLayout.setRefreshing(false);
+                        }
                         FragmentDataUtil.saleAnaModel =c;
                            Log.i("TAG", FragmentDataUtil.saleAnaModel.tableTitle);
                            String[] titles = FragmentDataUtil.saleAnaModel.tableTitle.split("\\|");

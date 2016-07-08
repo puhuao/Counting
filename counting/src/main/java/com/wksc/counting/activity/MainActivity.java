@@ -284,6 +284,7 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
                 MainActivity.super.onBackPressed();
             }
         });

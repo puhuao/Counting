@@ -2,8 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    >
+    android:background="@color/white">
 
     <RadioGroup
         android:id="@+id/rg"
@@ -59,19 +58,21 @@
             android:text="门店"
             android:textColor="@color/main_tab_text_selector" />
     </RadioGroup>
+
     <Button
         android:id="@+id/sure"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:padding="10dp"
         android:text="确认"
-        android:textSize="14sp"
-        android:layout_alignParentBottom="true"/>
+        android:textSize="14sp" />
+
     <com.wksc.counting.widegit.OverScrollView
-        android:layout_below="@id/rg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/sure">
+        android:layout_above="@id/sure"
+        android:layout_below="@id/rg">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -90,33 +91,64 @@
                     android:layout_weight="1"
                     android:background="@color/home_press"
                     android:orientation="vertical">
-<!--<CheckBox
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text=""/>-->
+
+                    <CheckBox
+                        android:id="@+id/checkbox1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="全选" />
+
                     <com.wksc.counting.widegit.unionPickListView.PickListView
                         android:id="@+id/diriction_area"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent" />
                 </LinearLayout>
-<LinearLayout
-    android:id="@+id/citys"
-    android:layout_width="0dp"
-    android:layout_weight="2"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
-                <com.wksc.counting.widegit.unionPickListView.PickListView
-                    android:id="@+id/diriction_province"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
 
-                <com.wksc.counting.widegit.unionPickListView.PickListView
-                    android:id="@+id/diriction_city"
+                <LinearLayout
+                    android:id="@+id/citys"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-</LinearLayout>
+                    android:layout_weight="2"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@color/home_press"
+                        android:orientation="vertical">
+
+                        <CheckBox
+                            android:id="@+id/checkbox2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="全选" />
+
+                        <com.wksc.counting.widegit.unionPickListView.PickListView
+                            android:id="@+id/diriction_province"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@color/home_press"
+                        android:orientation="vertical">
+
+                        <CheckBox
+                            android:id="@+id/checkbox3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="全选" />
+
+                        <com.wksc.counting.widegit.unionPickListView.PickListView
+                            android:id="@+id/diriction_city"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout

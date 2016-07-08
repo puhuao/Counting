@@ -2,6 +2,7 @@ package com.wksc.counting.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +49,8 @@ public class TogleSaleChainAnalysisFragment extends CommonFragment {
     TableTitleLayout titleLayout;
     @Bind(R.id.pie)
     PieChart pieChart;
+    @Bind(R.id.refresh_layout)
+    SwipeRefreshLayout refreshLayout;
     SalesSupplyListAdapter salesSupplyListAdapter;
     private PieChartTool pieChartTool;
     private IConfig config;
@@ -91,7 +94,12 @@ public class TogleSaleChainAnalysisFragment extends CommonFragment {
         conditionLayout.hideGoods(false);
         conditionLayout.initViewByParam();
         pieChartTool = new PieChartTool(pieChart);
-
+refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+    @Override
+    public void onRefresh() {
+        getListData();
+    }
+});
         conditionLayout.setConditionSelect(new ConditionLayout2.OnConditionSelect() {
             @Override
             public void postParams() {
@@ -125,6 +133,9 @@ public class TogleSaleChainAnalysisFragment extends CommonFragment {
                     @Override
                     public void onResponse(boolean isFromCache, SaleChannelModel c, Request request, @Nullable Response response) {
 //                        Log.i("TAG",c.tableTitle);
+                        if (refreshLayout.isRefreshing()){
+                            refreshLayout.setRefreshing(false);
+                        }
                         flag++;
                         if (c.tableData.size() > 0) {
                             titleLayout.clearAllViews();

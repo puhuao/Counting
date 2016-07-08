@@ -2,6 +2,7 @@ package com.wksc.counting.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +49,8 @@ public class TogleGoodsAnalysisFragment extends CommonFragment {
     TableTitleLayout titleLayout;
     @Bind(R.id.pie)
     PieChart pieChart;
+    @Bind(R.id.refresh_layout)
+    SwipeRefreshLayout refreshLayout;
     PieChartTool pieChartTool;
     GoodsSalesAnalysisListAdapter goodsSalesAnalysisListAdapter;
     private IConfig config;
@@ -67,7 +70,7 @@ public class TogleGoodsAnalysisFragment extends CommonFragment {
         getRightButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getContext().pushFragmentToBackStack(MoreFragment.class,"");
+                getContext().pushFragmentToBackStack(MoreFragment.class, "");
             }
         });
         return v;
@@ -88,23 +91,27 @@ public class TogleGoodsAnalysisFragment extends CommonFragment {
         goodsSalesAnalysisListAdapter = new GoodsSalesAnalysisListAdapter(getActivity());
         lvSalesAnalysis.setAdapter(goodsSalesAnalysisListAdapter);
         pieChartTool = new PieChartTool(pieChart);
-//        extraParam = "&month=06";
-
         conditionLayout.init(3);
         conditionLayout.initParams();
         conditionLayout.hideGoods(false);
         conditionLayout.initViewByParam();
-        getListData();
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getListData();
+            }
+        });
         conditionLayout.setConditionSelect(new ConditionLayout2.OnConditionSelect() {
             @Override
             public void postParams() {
                 getListData();
             }
         });
+        getListData();
     }
 
     private void getListData() {
-        if (flag>0){
+        if (flag > 0) {
 
             extraParam = conditionLayout.getAllConditions();
         }
@@ -124,7 +131,10 @@ public class TogleGoodsAnalysisFragment extends CommonFragment {
 
                     @Override
                     public void onResponse(boolean isFromCache, GoodSaleModle c, Request request, @Nullable Response response) {
-flag++;
+                        if (refreshLayout.isRefreshing()){
+                            refreshLayout.setRefreshing(false);
+                        }
+                        flag++;
 //                        String[] titles = c.ftable.tableTitle.split("\\|");
 //                        String[] desc = c.table.tableTitleDesc.split("\\|");
 //                        titleLayout.clearAllViews();

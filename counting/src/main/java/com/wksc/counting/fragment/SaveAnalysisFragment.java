@@ -2,6 +2,7 @@ package com.wksc.counting.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +50,8 @@ public class SaveAnalysisFragment extends CommonFragment {
     TableTitleLayout titleLayout;
     @Bind(R.id.pie)
     PieChart pieChart;
+    @Bind(R.id.refresh_layout)
+    SwipeRefreshLayout refreshLayout;
     PieChartTool pieChartTool;
     GoodsSalesAnalysisListAdapter goodsSalesAnalysisListAdapter;
     private IConfig config;
@@ -75,6 +78,7 @@ public class SaveAnalysisFragment extends CommonFragment {
     }
 
     private void initView() {
+        pieChart.setVisibility(View.GONE);
         goodsSalesAnalysisListAdapter = new GoodsSalesAnalysisListAdapter(getActivity());
         lvSalesAnalysis.setAdapter(goodsSalesAnalysisListAdapter);
         pieChartTool = new PieChartTool(pieChart);
@@ -84,11 +88,17 @@ public class SaveAnalysisFragment extends CommonFragment {
         conditionLayout.hideCity();
         conditionLayout.hideCounty();
         conditionLayout.hideStores();
-//        conditionLayout.initParams();
+        conditionLayout.hideDayAndMonthCheck();
         conditionLayout.setConditionSelect(new ConditionLayout2.OnConditionSelect() {
             @Override
             public void postParams() {
                 extraParam = conditionLayout.getAllConditions();
+                getListData();
+            }
+        });
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
                 getListData();
             }
         });
@@ -151,6 +161,9 @@ public class SaveAnalysisFragment extends CommonFragment {
 
                     @Override
                     public void onResponse(boolean isFromCache, GoodSaleModle c, Request request, @Nullable Response response) {
+                       if (refreshLayout.isRefreshing()){
+                           refreshLayout.setRefreshing(false);
+                       }
                         FragmentDataUtil.saveModel = c;
                         titleLayout.clearAllViews();
                         String[] titles = c.table.tableTitle.split("\\|");

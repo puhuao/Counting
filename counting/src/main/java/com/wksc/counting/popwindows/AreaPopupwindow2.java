@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -18,6 +20,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.lzy.okhttputils.OkHttpUtils;
+import com.wksc.counting.Basedata.BaseDataUtil;
 import com.wksc.counting.Basedata.BaseDataUtil2;
 import com.wksc.counting.R;
 import com.wksc.counting.adapter.CheckBoxListAdapter;
@@ -60,10 +63,15 @@ public class AreaPopupwindow2 extends BasePopupWindow {
     NestedListView stores;
     LinearLayout citysLayout;
     TextView empty;
+    CheckBox checkBox1,checkBox2,checkBox3;
     List<AreaCheckModel> areas = new ArrayList<>();
     //    private MarqueeText area;
     int flag =1;
     private IConfig config;
+    List<BaseWithCheckBean> checkedRagions;
+    List<BaseWithCheckBean> checkedCitys;
+    List<BaseWithCheckBean> checkedCounty;
+    StringBuilder store = new StringBuilder();
 
     public AreaPopupwindow2(Activity context) {
         super();
@@ -79,6 +87,9 @@ public class AreaPopupwindow2 extends BasePopupWindow {
         stores = (NestedListView) view.findViewById(R.id.stores);
         empty = (TextView) view.findViewById(R.id.empty);
         citysLayout = (LinearLayout) view.findViewById(R.id.citys);
+        checkBox1 = (CheckBox) view.findViewById(R.id.checkbox1);
+        checkBox2 = (CheckBox) view.findViewById(R.id.checkbox2);
+        checkBox3 = (CheckBox) view.findViewById(R.id.checkbox3);
         search.setVisibility(View.GONE);
         this.setContentView(view);
         this.setOutsideTouchable(true);
@@ -217,10 +228,87 @@ public class AreaPopupwindow2 extends BasePopupWindow {
         regionListView.initView(null, cityListView);
         cityListView.initView(regionListView, countyListView);
         countyListView.initView(cityListView, null);
+        regionListView.setOnDataBaseChange(new PickListView2.OnDataBaseChange() {
+            @Override
+            public void onDataBaseChange() {
+                changeCheckBoxs();
+            }
+        });
+        cityListView.setOnDataBaseChange(new PickListView2.OnDataBaseChange() {
+            @Override
+            public void onDataBaseChange() {
+                changeCheckBoxs();
+            }
+        });
+        countyListView.setOnDataBaseChange(new PickListView2.OnDataBaseChange() {
+            @Override
+            public void onDataBaseChange() {
+                changeCheckBoxs();
+            }
+        });
+        checkBox1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    regionListAdapter.setAllCheck();
+                }else{
+                    regionListAdapter.setAllNormal();
+                }
+            }
+        });
+        checkBox2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    cityListAdapter.setAllCheck();
+                }else{
+                    cityListAdapter.setAllNormal();
+                }
+            }
+        });
+        checkBox3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    countyListAdapter.setAllCheck();
+                }else{
+                    countyListAdapter.setAllNormal();
+                }
+            }
+        });
     }
 
-    StringBuilder store = new StringBuilder();
 
+    private void changeCheckBoxs() {
+        if (BaseDataUtil.checkedRagions().size()<BaseDataUtil.regions().size()){
+            checkBox1.setChecked(false);
+        }else{
+            checkBox1.setChecked(true);
+        }
+        int cCity =0;
+        for (int i =0 ;i <cityListAdapter.getList().size();i++){
+            if (cityListAdapter.getList().get(i).isCheck == CheckBoxListAdapter.ALL){
+                cCity++;
+            }
+        }
+        if (cCity<cityListAdapter.getList().size()){
+            checkBox2.setChecked(false);
+        }else{
+            checkBox2.setChecked(true);
+        }
+
+        int cCounty = 0;
+        for (int i =0 ;i <countyListAdapter.getList().size();i++){
+            if (countyListAdapter.getList().get(i).isCheck == CheckBoxListAdapter.ALL){
+                cCounty++;
+            }
+        }
+        if (cCounty<countyListAdapter.getList().size()){
+            checkBox3.setChecked(false);
+        }else{
+            checkBox3.setChecked(true);
+        }
+    }
     private void getData() {
         String param = edit_query.getText().toString();
 

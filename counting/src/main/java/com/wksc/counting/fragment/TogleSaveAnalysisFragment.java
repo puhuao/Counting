@@ -2,6 +2,7 @@ package com.wksc.counting.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +49,8 @@ public class TogleSaveAnalysisFragment extends CommonFragment {
     TableTitleLayout titleLayout;
     @Bind(R.id.pie)
     PieChart pieChart;
+    @Bind(R.id.refresh_layout)
+    SwipeRefreshLayout refreshLayout;
     PieChartTool pieChartTool;
     GoodsSalesAnalysisListAdapter goodsSalesAnalysisListAdapter;
     private IConfig config;
@@ -62,12 +65,11 @@ public class TogleSaveAnalysisFragment extends CommonFragment {
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_save_analysis, null);
-//        hideTitleBar();
         showRightButton();
         getRightButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getContext().pushFragmentToBackStack(MoreFragment.class,"");
+                getContext().pushFragmentToBackStack(MoreFragment.class, "");
             }
         });
         return v;
@@ -88,8 +90,6 @@ public class TogleSaveAnalysisFragment extends CommonFragment {
         goodsSalesAnalysisListAdapter = new GoodsSalesAnalysisListAdapter(getActivity());
         lvSalesAnalysis.setAdapter(goodsSalesAnalysisListAdapter);
         pieChartTool = new PieChartTool(pieChart);
-
-//        extraParam = "&month=06";
         conditionLayout.init(4);
         conditionLayout.initParams();
         conditionLayout.hideGoods(false);
@@ -100,19 +100,25 @@ public class TogleSaveAnalysisFragment extends CommonFragment {
                 getListData();
             }
         });
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getListData();
+            }
+        });
         getListData();
     }
 
     private void getListData() {
-        if (flag>0){
+        if (flag > 0) {
             extraParam = conditionLayout.getAllConditions();
         }
 
         StringBuilder sb = new StringBuilder(Urls.TOPICINDEX);
         config = BaseApplication.getInstance().getCurrentConfig();
-        UrlUtils.getInstance().addSession(sb,config).praseToUrl(sb,"class","20")
-                .praseToUrl(sb,"level","2").praseToUrl(sb,"item","50")
-                .praseToUrl(sb,"code",code);
+        UrlUtils.getInstance().addSession(sb, config).praseToUrl(sb, "class", "20")
+                .praseToUrl(sb, "level", "2").praseToUrl(sb, "item", "50")
+                .praseToUrl(sb, "code", code);
         sb.append(extraParam);
         OkHttpUtils.post(sb.toString())//
                 .tag(this)//
@@ -125,7 +131,10 @@ public class TogleSaveAnalysisFragment extends CommonFragment {
 
                     @Override
                     public void onResponse(boolean isFromCache, GoodSaleModle c, Request request, @Nullable Response response) {
-flag++;
+                        if (refreshLayout.isRefreshing()){
+                            refreshLayout.setRefreshing(false);
+                        }
+                        flag++;
 //                        String[] titles = c.table.tableTitle.split("\\|");
 //                        String[] desc = c.table.tableTitleDesc.split("\\|");
 //                        titleLayout.clearAllViews();

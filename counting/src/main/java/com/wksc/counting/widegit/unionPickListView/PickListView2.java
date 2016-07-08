@@ -214,7 +214,7 @@ public class PickListView2 extends NestedListView implements AdapterView.OnItemC
         }
 
         /////////////////////////////////////////////////////////
-
+        onDataBaseChange.onDataBaseChange();
     }
 
     private void changeSupperStatus(int positon,int status){
@@ -244,6 +244,18 @@ public class PickListView2 extends NestedListView implements AdapterView.OnItemC
                 scendListView.show();
             }
         }
-
     }
+
+    public void setOnDataBaseChange(OnDataBaseChange onDataBaseChange) {
+        this.onDataBaseChange = onDataBaseChange;
+    }
+
+    private OnDataBaseChange onDataBaseChange;
+
+
+
+    public interface OnDataBaseChange{
+        public void onDataBaseChange();
+    }
+
 }

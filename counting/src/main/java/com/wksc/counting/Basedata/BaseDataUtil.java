@@ -18,9 +18,9 @@ import java.util.List;
  */
 public class BaseDataUtil {
 
-    public static int lastCoreRagionPos;
-    public static int lastCoreCityPos;
-    public static int lastCoreCountyPos;
+//    public static int lastCoreRagionPos=0;
+//    public static int lastCoreCityPos=0;
+//    public static int lastCoreCountyPos=0;
     public static List<Region> region = new ArrayList<>();
     public static StringBuilder sbRegion= new StringBuilder();
     public static StringBuilder sbCity= new StringBuilder();

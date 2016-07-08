@@ -2,6 +2,7 @@ package com.wksc.counting.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,16 +61,11 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
     ListView list;
     @Bind(R.id.condition)
     ConditionLayout conditionLayout;
+    @Bind(R.id.refresh_layout)
+    SwipeRefreshLayout refreshLayout;
     private IConfig config = null;
-
     CoreIndexListAdapter coreIndexListAdapter;
-//    List<CoreItem> coreItems;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -86,16 +82,6 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
 
         return v;
     }
-
-    /**
-     * 标志位，标志已经初始化完成
-     */
-    private boolean isPrepared;
-    /**
-     * 是否已被加载过一次，第二次就不再去请求数据了
-     */
-    private boolean mHasLoadedOnce;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -115,22 +101,24 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
                 getListData();
             }
         });
-        isPrepared = true;
-//        lazyLoad();
-        if (FragmentDataUtil.coreIndexListModels.size()==0){
-//            getBaseData();
+        if (FragmentDataUtil.coreIndexListModels.size() == 0) {
             getListData();
         }
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getListData();
+            }
+        });
         return v;
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//        getContext().pushFragmentToBackStack(RegisterFragment.class, null);
-        if (coreIndexListAdapter.getList().get(position).coreCode.equals("60")||
-                coreIndexListAdapter.getList().get(position).coreCode.equals("70")){
+        if (coreIndexListAdapter.getList().get(position).coreCode.equals("60") ||
+                coreIndexListAdapter.getList().get(position).coreCode.equals("70")) {
 
-        }else{
+        } else {
             Bundle bundle = new Bundle();
             bundle.putString("param", coreIndexListAdapter.getList().get(position).coreCode);
             bundle.putString("extraParam", extraParam);
@@ -144,9 +132,8 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
         StringBuilder sb = new StringBuilder(Urls.COREINDEX);
         UrlUtils.getInstance().addSession(sb, config);
         sb.append(extraParam);
-        OkHttpUtils.post(sb.toString())//
-                .tag(this)//
-//                    .setCertificates(getContext().getAssets().open("bijia.cer"))
+        OkHttpUtils.post(sb.toString())
+                .tag(this)
                 .execute(new DialogCallback<String>(getContext(), String.class) {
 
                     @Override
@@ -158,6 +145,9 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
                     @Override
                     public void onResponse(boolean isFromCache, String c, Request request, @Nullable Response response) {
                         try {
+                            if (refreshLayout.isRefreshing()){
+                                refreshLayout.setRefreshing(false);
+                            }
                             if (!StringUtils.isBlank(c)) {
                                 JSONObject object = new JSONObject(c);
                                 String item = object.getString("CoreIndex");
@@ -190,8 +180,6 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
 
     @Subscribe
     public void lodaData(CoreIndextLoadDataEvent event) {
-//        if (coreIndexListModels.size() == 0)
-//            getListData();
         conditionLayout.initViewByParam();
     }
 }

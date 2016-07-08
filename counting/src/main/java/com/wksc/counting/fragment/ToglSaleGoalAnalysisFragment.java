@@ -2,6 +2,7 @@ package com.wksc.counting.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,6 +50,8 @@ public class ToglSaleGoalAnalysisFragment extends CommonFragment {
     TableTitleLayout titleLayout;
     @Bind(R.id.pie)
     PieChart pieChart;
+    @Bind(R.id.refresh_layout)
+    SwipeRefreshLayout refreshLayout;
     SalesFinishListAdapter salesFinishListAdapter;
     PieChartTool pieChartTool;
     private IConfig config;
@@ -68,7 +71,7 @@ public class ToglSaleGoalAnalysisFragment extends CommonFragment {
         getRightButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getContext().pushFragmentToBackStack(MoreFragment.class,"");
+                getContext().pushFragmentToBackStack(MoreFragment.class, "");
             }
         });
         return v;
@@ -103,6 +106,12 @@ public class ToglSaleGoalAnalysisFragment extends CommonFragment {
                 getListData();
             }
         });
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getListData();
+            }
+        });
         lvSalesAnalysis.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -117,15 +126,15 @@ public class ToglSaleGoalAnalysisFragment extends CommonFragment {
     }
 
     private void getListData() {
-        if (flag>0){
+        if (flag > 0) {
 
             extraParam = conditionLayout.getAllConditions();
         }
 
         StringBuilder sb = new StringBuilder(Urls.TOPICINDEX);
         config = BaseApplication.getInstance().getCurrentConfig();
-        UrlUtils.getInstance().addSession(sb,config).praseToUrl(sb,"class","10")
-                .praseToUrl(sb,"level","2").praseToUrl(sb,"item","10").praseToUrl(sb,"code",code);
+        UrlUtils.getInstance().addSession(sb, config).praseToUrl(sb, "class", "10")
+                .praseToUrl(sb, "level", "2").praseToUrl(sb, "item", "10").praseToUrl(sb, "code", code);
         sb.append(extraParam);
         OkHttpUtils.post(sb.toString())//
                 .tag(this)//
@@ -139,17 +148,20 @@ public class ToglSaleGoalAnalysisFragment extends CommonFragment {
                     @Override
                     public void onResponse(boolean isFromCache, SaleAnaModel c, Request request, @Nullable Response response) {
 //                       if (c.tableData.size()>0){
-                           Log.i("TAG", c.tableTitle);
-                           String[] titles = c.tableTitle.split("\\|");
-                           String[] desc = c.tableTitleDesc.split("\\|");
-                           titleLayout.clearAllViews();
-                           titleLayout.initView(titles, desc);
-                           salesFinishListAdapter.setItemCloums(titles.length);
-                           salesFinishListAdapter.setList(c.tableData);
-                           pieChartTool.setData(c.chartData);
-                           pieChartTool.setPiechart();
+                        if (refreshLayout.isRefreshing()) {
+                            refreshLayout.setRefreshing(false);
+                        }
+                        Log.i("TAG", c.tableTitle);
+                        String[] titles = c.tableTitle.split("\\|");
+                        String[] desc = c.tableTitleDesc.split("\\|");
+                        titleLayout.clearAllViews();
+                        titleLayout.initView(titles, desc);
+                        salesFinishListAdapter.setItemCloums(titles.length);
+                        salesFinishListAdapter.setList(c.tableData);
+                        pieChartTool.setData(c.chartData);
+                        pieChartTool.setPiechart();
 //                       }
-flag++;
+                        flag++;
 
                     }
 
@@ -168,6 +180,6 @@ flag++;
 
     @Subscribe
     public void changeChart(SaleGoalAnaEvent event) {
-       getListData();
+        getListData();
     }
 }

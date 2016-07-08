@@ -2,6 +2,7 @@ package com.wksc.counting.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,6 +50,8 @@ public class TogleFragment extends CommonFragment {
     ConditionLayout conditionLayout;
     @Bind(R.id.titles)
     TableTitleLayout titles;
+    @Bind(R.id.refresh_layout)
+    SwipeRefreshLayout refreshLayout;
 
     SalesCompareListAdapter adapter;
     CoreDetail detail;
@@ -127,22 +130,18 @@ public class TogleFragment extends CommonFragment {
 //                getData("423");
             }
         });
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getData(provice);
+            }
+        });
         getData(provice);
 
     }
 
     private void getData(String provice) {
-//        String url = "http://101.200.131.198:8087/gw?cmd=appCoreDetails";
-        String url;
-        if (StringUtils.isBlank(provice)) {
-            url = "http://10.1.100.6/ea/gw?cmd=appCoreDetails&item=" + param +
-                    "&level=1&year=2016&month=06";
-        } else {
-            url = "http://10.1.100.6/ea/gw?cmd=appCoreDetails&item=" + param +
-                    "&level=2&year=2016&month=06&province=" + provice;
-        }
         if (flag>0){
-
             extraParam = conditionLayout.getAllConditions();
         }
         StringBuilder sb = new StringBuilder(Urls.COREDETAIL);
@@ -162,6 +161,9 @@ public class TogleFragment extends CommonFragment {
                     @Override
                     public void onResponse(boolean isFromCache, CoreDetail c, Request request, @Nullable Response response) {
 //                        if (c.tableData.size() > 0) {
+                        if (refreshLayout.isRefreshing()){
+                            refreshLayout.setRefreshing(false);
+                        }
                         flag++;
                             Log.i("TAG", c.toString());
                             titles.clearAllViews();

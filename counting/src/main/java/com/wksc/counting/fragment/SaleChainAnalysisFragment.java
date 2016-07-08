@@ -3,6 +3,7 @@ package com.wksc.counting.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,6 +52,8 @@ public class SaleChainAnalysisFragment extends CommonFragment {
     TableTitleLayout titleLayout;
     @Bind(R.id.pie)
     PieChart pieChart;
+    @Bind(R.id.refresh_layout)
+    SwipeRefreshLayout refreshLayout;
     SalesSupplyListAdapter salesSupplyListAdapter;
     private PieChartTool pieChartTool;
     private IConfig config;
@@ -88,6 +91,12 @@ public class SaleChainAnalysisFragment extends CommonFragment {
             @Override
             public void postParams() {
                 extraParam = conditionLayout.getAllConditions();
+                getListData();
+            }
+        });
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
                 getListData();
             }
         });
@@ -135,8 +144,6 @@ public class SaleChainAnalysisFragment extends CommonFragment {
     }
 
     private void getListData() {
-
-//        extraParam = conditionLayout.getAllConditions();
         StringBuilder sb = new StringBuilder(Urls.TOPICINDEX);
         config = BaseApplication.getInstance().getCurrentConfig();
         UrlUtils.getInstance().addSession(sb,config).praseToUrl(sb,"class","10")
@@ -155,6 +162,8 @@ public class SaleChainAnalysisFragment extends CommonFragment {
                     public void onResponse(boolean isFromCache, SaleChannelModel c, Request request, @Nullable Response response) {
 //                        Log.i("TAG",c.tableTitle);
 //                        if (c.tableData.size() > 0) {
+                        if (refreshLayout.isRefreshing())
+                            refreshLayout.setRefreshing(false);
                         FragmentDataUtil.saleChannelModel = c;
                             titleLayout.clearAllViews();
                             String[] titles = FragmentDataUtil.saleChannelModel.table.tableTitle.split("\\|");
