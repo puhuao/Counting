@@ -1,6 +1,5 @@
 package com.wksc.counting.fragment;
 
-import android.content.pm.FeatureGroupInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -22,9 +21,7 @@ import com.wksc.counting.config.Urls;
 import com.wksc.counting.event.PlatFormAnaEvent;
 import com.wksc.counting.model.SaleAnaModel.PeiModel;
 import com.wksc.counting.model.platFormModel.PlatFormModel;
-import com.wksc.counting.tools.Params2;
 import com.wksc.counting.tools.UrlUtils;
-import com.wksc.counting.widegit.ConditionLayout;
 import com.wksc.counting.widegit.ConditionLayout2;
 import com.wksc.counting.widegit.NestedListView;
 import com.wksc.counting.widegit.PieChartTool;
@@ -100,7 +97,7 @@ public class PlatformCenterFragment extends CommonFragment {
         lv1.setAdapter(platFormListAdapter);
         conditionLayout.init(2);
         conditionLayout.initViewByParam();
-        conditionLayout.initParams();
+//        conditionLayout.initParams();
         conditionLayout.hideGoods(false);
         conditionLayout.hidArea(true);
         pieChartTool = new PieChartTool(pieChart);

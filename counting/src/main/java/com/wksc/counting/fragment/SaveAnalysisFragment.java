@@ -1,6 +1,5 @@
 package com.wksc.counting.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -12,16 +11,13 @@ import com.github.mikephil.charting.charts.PieChart;
 import com.lzy.okhttputils.OkHttpUtils;
 import com.wksc.counting.Basedata.FragmentDataUtil;
 import com.wksc.counting.R;
-import com.wksc.counting.activity.TogleActivity;
 import com.wksc.counting.adapter.GoodsSalesAnalysisListAdapter;
 import com.wksc.counting.callBack.DialogCallback;
 import com.wksc.counting.config.Urls;
 import com.wksc.counting.event.SaveAnaEvent;
 import com.wksc.counting.model.SaleAnaModel.PeiModel;
 import com.wksc.counting.model.goodsSaleAnaModle.GoodSaleModle;
-import com.wksc.counting.tools.Params2;
 import com.wksc.counting.tools.UrlUtils;
-import com.wksc.counting.widegit.ConditionLayout;
 import com.wksc.counting.widegit.ConditionLayout2;
 import com.wksc.counting.widegit.NestedListView;
 import com.wksc.counting.widegit.PieChartTool;
@@ -85,7 +81,10 @@ public class SaveAnalysisFragment extends CommonFragment {
         conditionLayout.hideGoods(false);
         conditionLayout.init(4);
         conditionLayout.initViewByParam();
-        conditionLayout.initParams();
+        conditionLayout.hideCity();
+        conditionLayout.hideCounty();
+        conditionLayout.hideStores();
+//        conditionLayout.initParams();
         conditionLayout.setConditionSelect(new ConditionLayout2.OnConditionSelect() {
             @Override
             public void postParams() {

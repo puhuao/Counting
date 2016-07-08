@@ -2,9 +2,11 @@ package com.wksc.counting.callBack;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.support.annotation.Nullable;
 import android.view.Window;
 
+import com.lzy.okhttputils.OkHttpUtils;
 import com.lzy.okhttputils.request.BaseRequest;
 
 import java.lang.reflect.Type;
@@ -25,13 +27,19 @@ public abstract class DialogCallback<T> extends JsonCallback<T> {
 
     private ProgressDialog dialog;
 
-    private void initDialog(Activity activity) {
+    private void initDialog(final Activity activity) {
 
         dialog = new ProgressDialog(activity);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCanceledOnTouchOutside(false);
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         dialog.setMessage("请求网络中...");
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                OkHttpUtils.getInstance().cancelTag(activity);
+            }
+        });
     }
 
     public DialogCallback(Activity activity, Class<T> clazz) {

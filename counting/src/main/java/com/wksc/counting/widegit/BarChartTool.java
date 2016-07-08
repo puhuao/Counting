@@ -55,6 +55,7 @@ public class BarChartTool {
 
         horizontalBarChart.setDrawGridBackground(false);
         horizontalBarChart.setClickable(false);
+        horizontalBarChart.setDrawValueAboveBar(false);
 
         // mChart.setDrawYLabels(false);
 
@@ -114,6 +115,8 @@ public class BarChartTool {
         int color2 = Color.parseColor("#BE364B");
         int[] colors = new int[]{color2, color1};
         set.setColors(colors);
+
+//        set.
         ArrayList<IBarDataSet> dataSets = new ArrayList<>();
         dataSets.add(set);
 

@@ -13,13 +13,11 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.lzy.okhttputils.OkHttpUtils;
-import com.wksc.counting.Basedata.BaseDataUtil2;
 import com.wksc.counting.Basedata.BaseDataUtil;
+import com.wksc.counting.Basedata.BaseDataUtil2;
 import com.wksc.counting.R;
 import com.wksc.counting.callBack.DialogCallback;
 import com.wksc.counting.config.Urls;
-import com.wksc.counting.event.MarketEvent;
-import com.wksc.counting.event.SaleGoalAnaEvent;
 import com.wksc.counting.event.TurnToMoreFragmentEvent;
 import com.wksc.counting.fragment.CoreIndexFragment;
 import com.wksc.counting.fragment.MoreFragment;
@@ -105,7 +103,7 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
         fragmentPagerAdapter = new MyPagerAdapter(getSupportFragmentManager(), (ArrayList<Fragment>) fragments);
         mViewPager.setAdapter(fragmentPagerAdapter);
         mViewPager.setPagingEnabled(false);
-        mViewPager.setOffscreenPageLimit(1);
+        mViewPager.setOffscreenPageLimit(3);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -275,5 +273,27 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
                     }
 
                 });
+    }
+
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+        CustomDialog.Builder builder = new CustomDialog.Builder(this);
+        builder.setMessage("确认退出应用？");
+        builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                MainActivity.super.onBackPressed();
+            }
+        });
+        builder.setNegativeButton("否", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
     }
 }

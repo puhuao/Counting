@@ -19,9 +19,7 @@ import com.wksc.counting.config.Urls;
 import com.wksc.counting.event.SaleChannelAnaEvent;
 import com.wksc.counting.model.SaleAnaModel.PeiModel;
 import com.wksc.counting.model.saleChannelModel.SaleChannelModel;
-import com.wksc.counting.tools.Params2;
 import com.wksc.counting.tools.UrlUtils;
-import com.wksc.counting.widegit.ConditionLayout;
 import com.wksc.counting.widegit.ConditionLayout2;
 import com.wksc.counting.widegit.NestedListView;
 import com.wksc.counting.widegit.PieChartTool;
@@ -84,7 +82,7 @@ public class SaleChainAnalysisFragment extends CommonFragment {
         conditionLayout.hideGoods(false);
         conditionLayout.init(1);
         conditionLayout.initViewByParam();
-        conditionLayout.initParams();
+//        conditionLayout.initParams();
         pieChartTool = new PieChartTool(pieChart);
         conditionLayout.setConditionSelect(new ConditionLayout2.OnConditionSelect() {
             @Override

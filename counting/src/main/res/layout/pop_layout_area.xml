@@ -90,7 +90,10 @@
                     android:layout_weight="1"
                     android:background="@color/home_press"
                     android:orientation="vertical">
-
+<!--<CheckBox
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text=""/>-->
                     <com.wksc.counting.widegit.unionPickListView.PickListView
                         android:id="@+id/diriction_area"
                         android:layout_width="match_parent"

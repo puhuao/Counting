@@ -19,7 +19,6 @@ import com.wksc.counting.config.Urls;
 import com.wksc.counting.event.GoodsAnaEvent;
 import com.wksc.counting.model.SaleAnaModel.PeiModel;
 import com.wksc.counting.model.goodsSaleAnaModle.GoodSaleModle;
-import com.wksc.counting.tools.Params2;
 import com.wksc.counting.tools.UrlUtils;
 import com.wksc.counting.widegit.ConditionLayout2;
 import com.wksc.counting.widegit.NestedListView;
@@ -81,13 +80,10 @@ public class GoodsAnalysisFragment extends CommonFragment {
         goodsSalesAnalysisListAdapter = new GoodsSalesAnalysisListAdapter(getActivity());
         lvSalesAnalysis.setAdapter(goodsSalesAnalysisListAdapter);
         pieChartTool = new PieChartTool(pieChart);
-//        extraParam = "&month=06";
-//        if (FragmentDataUtil.goodSaleModle==null)
-//        getListData();
         conditionLayout.hideGoods(false);
         conditionLayout.init(3);
         conditionLayout.initViewByParam();
-        conditionLayout.initParams();
+//        conditionLayout.initParams();
         conditionLayout.setConditionSelect(new ConditionLayout2.OnConditionSelect() {
             @Override
             public void postParams() {

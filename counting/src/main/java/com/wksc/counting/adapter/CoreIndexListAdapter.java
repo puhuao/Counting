@@ -62,11 +62,19 @@ public class CoreIndexListAdapter extends BaseListAdapter<CoreIndexListModel>{
         holder.text1.setText(mList.get(position).itemValue1);
         holder.text2.setText(mList.get(position).itemValue2);
         holder.name2.setText(mList.get(position).item2);
+
+
         String[] color = mList.get(position).itemColor2.split(",");
         int red = Integer.valueOf(color[0]);
         int green = Integer.valueOf(color[1]);
         int blue = Integer.valueOf(color[2]);
         holder.text2.setTextColor(Color.rgb(red,green,blue));
+
+        color = mList.get(position).itemColor1.split(",");
+        red = Integer.valueOf(color[0]);
+       green = Integer.valueOf(color[1]);
+        blue = Integer.valueOf(color[2]);
+        holder.text1.setTextColor(Color.rgb(red,green,blue));
 //        holder.monthData.setText("月累计: "+mList.get(position).mounthData);
         holder.name3.setText(mList.get(position).item3);
         color = mList.get(position).itemColor3.split(",");
@@ -124,7 +132,6 @@ public class CoreIndexListAdapter extends BaseListAdapter<CoreIndexListModel>{
 
         XAxis xAxis = holder.chart.getXAxis();
         xAxis.setTypeface(tf);
-        xAxis.setTextSize(12f);
         xAxis.setTextColor(Color.BLUE);
         xAxis.setDrawGridLines(false);
         xAxis.setDrawAxisLine(false);

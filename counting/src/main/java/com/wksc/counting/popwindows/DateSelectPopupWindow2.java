@@ -161,6 +161,10 @@ public class DateSelectPopupWindow2 extends PopupWindow {
         radioGroup.check(R.id.rb2);
     }
 
+    public void hideMonthCheck() {
+        radioGroup.findViewById(R.id.rb2).setVisibility(View.GONE);
+    }
+
 
     public interface OnDateSelectListener {
         void onDateSelect(String year, String month, String date, int flag);

@@ -13,7 +13,6 @@ import com.wksc.counting.popwindows.BasePopupWindow;
 import com.wksc.counting.popwindows.ChannelPopupWindow2;
 import com.wksc.counting.popwindows.DateSelectPopupWindow2;
 import com.wksc.counting.popwindows.GoodsPopupWindow2;
-import com.wksc.counting.tools.Params;
 import com.wksc.counting.tools.Params2;
 import com.wksc.framwork.util.StringUtils;
 
@@ -292,8 +291,11 @@ private Boolean hideCity = false;
                 break;
             case R.id.time:
 
-                if (hideDay)
+                if (hideDay){
                     myPopupwindow.hideDay(hideDay);
+                    myPopupwindow.hideMonthCheck();
+                }
+
                 myPopupwindow.showPopupwindow(v);
                 myPopupwindow.setOnDateSelectListener(new DateSelectPopupWindow2.OnDateSelectListener() {
                     @Override
