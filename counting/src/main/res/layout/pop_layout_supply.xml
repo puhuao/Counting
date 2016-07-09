@@ -10,19 +10,44 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/home_press"
+            android:orientation="vertical">
 
+            <CheckBox
+                android:id="@+id/checkbox1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="全选" />
         <ListView
             android:id="@+id/supply"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+             />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/platforms"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/home_press"
+            android:orientation="vertical">
 
+            <CheckBox
+                android:id="@+id/checkbox2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="全选" />
         <ListView
             android:id="@+id/platform"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            />
     </LinearLayout>
+        </LinearLayout>
 
     <Button
         android:id="@+id/sure"

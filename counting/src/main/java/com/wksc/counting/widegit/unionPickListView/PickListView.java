@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.wksc.counting.Basedata.BaseDataUtil;
@@ -23,6 +24,7 @@ public class PickListView extends NestedListView implements AdapterView.OnItemCl
     CheckBoxListAdapter currentAdapter;
     private Boolean hasSuperLevel = false;
     private Boolean hasScendLevel = false;
+    private LinearLayout nextLayout;
 
     public BaseInfo getBaseInfo() {
         return baseInfo;
@@ -209,14 +211,18 @@ public class PickListView extends NestedListView implements AdapterView.OnItemCl
     public void update(int arg1,int arg2){
         this.invalidate();
         if (hasSuperLevel&&hasScendLevel){
-            scendDataSet.clear();
-            scendDataSet.addAll(BaseDataUtil.countys(arg1,arg2));
-            scentAdapter.notifyDataSetChanged();
+            if (superDataSet!=null){
+                scendDataSet.clear();
+                scendDataSet.addAll(BaseDataUtil.countys(arg1,arg2));
+                scentAdapter.notifyDataSetChanged();
+            }
+
         }
     }
 
     public void hide(){
         this.setVisibility(INVISIBLE);
+        this.nextLayout.setVisibility(INVISIBLE);
         if (hasScendLevel){
             scendListView.hide();
         }
@@ -224,6 +230,7 @@ public class PickListView extends NestedListView implements AdapterView.OnItemCl
 
     public void show(){
         this.setVisibility(VISIBLE);
+        this.nextLayout.setVisibility(VISIBLE);
         if (hasScendLevel){
             if (currentAdapter.getCheckedNumber()==1||currentAdapter.getCheckedNumber()==0){
                 scendListView.show();
@@ -237,6 +244,9 @@ public class PickListView extends NestedListView implements AdapterView.OnItemCl
 
     private OnDataBaseChange onDataBaseChange;
 
+    public void setNextLayout(LinearLayout laytout_citys) {
+        this.nextLayout = laytout_citys;
+    }
 
 
     public interface OnDataBaseChange{

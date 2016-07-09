@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 
@@ -33,6 +36,8 @@ public class GoodsPopupWindow extends BasePopupWindow {
     Activity mContext;
     ListView lvGoodsType,lvGoodsName;
     Button sure;
+    LinearLayout layout_names;
+    CheckBox checkBox1,checkBox2;
 //    MarqueeText goods;
     CheckBoxListAdapter typeListAdapter,nameListAdapter;
     public int superPosition;
@@ -43,6 +48,9 @@ public class GoodsPopupWindow extends BasePopupWindow {
         lvGoodsType = (ListView) view.findViewById(R.id.wine_type);
         lvGoodsName = (ListView) view.findViewById(R.id.wine_name);
         sure = (Button) view.findViewById(R.id.sure);
+        checkBox1 = (CheckBox) view.findViewById(R.id.checkbox1);
+        checkBox2 = (CheckBox) view.findViewById(R.id.checkbox2);
+        layout_names = (LinearLayout) view.findViewById(R.id.wine_names);
         this.setContentView(view);
         this.setOutsideTouchable(true);
         this.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
@@ -138,6 +146,27 @@ public class GoodsPopupWindow extends BasePopupWindow {
                 BaseDataUtil.updateGoodsStatus(superPosition,position,
                         nameListAdapter.moveToNextStatus(position));
                 nameListAdapter.notifyDataSetChanged();
+            }
+        });
+        checkBox1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    typeListAdapter.setAllCheck();
+                }else{
+                    typeListAdapter.setAllNormal();
+                }
+                layout_names.setVisibility(View.INVISIBLE);
+            }
+        });
+        checkBox2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    nameListAdapter.setAllCheck();
+                }else{
+                    nameListAdapter.setAllNormal();
+                }
             }
         });
 

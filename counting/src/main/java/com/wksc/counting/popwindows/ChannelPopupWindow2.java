@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.wksc.counting.Basedata.BaseDataUtil2;
@@ -28,6 +31,8 @@ public class ChannelPopupWindow2 extends BasePopupWindow {
 
     ListView list ,platform;
     Button sure;
+    LinearLayout layout_platforms;
+    CheckBox checkBox1,checkBox2;
     CheckBoxListAdapter channelListAdapter,platformListAdapter;
     Activity mContext;
 
@@ -44,6 +49,9 @@ public class ChannelPopupWindow2 extends BasePopupWindow {
         list = (ListView) view.findViewById(R.id.supply);
         platform = (ListView) view.findViewById(R.id.platform);
         sure = (Button) view.findViewById(R.id.sure);
+        checkBox1 = (CheckBox) view.findViewById(R.id.checkbox1);
+        checkBox2 = (CheckBox) view.findViewById(R.id.checkbox2);
+        layout_platforms = (LinearLayout) view.findViewById(R.id.platforms);
         this.setContentView(view);
         this.setOutsideTouchable(true);
         this.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
@@ -138,6 +146,27 @@ public class ChannelPopupWindow2 extends BasePopupWindow {
                 platformListAdapter.moveToNextStatus(position);
                 platformListAdapter.notifyDataSetChanged();
 
+            }
+        });
+        checkBox1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    channelListAdapter.setAllCheck();
+                }else{
+                    channelListAdapter.setAllNormal();
+                }
+                layout_platforms.setVisibility(View.INVISIBLE);
+            }
+        });
+        checkBox2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    platformListAdapter.setAllCheck();
+                }else{
+                    platformListAdapter.setAllNormal();
+                }
             }
         });
 

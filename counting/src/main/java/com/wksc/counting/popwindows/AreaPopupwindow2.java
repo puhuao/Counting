@@ -64,6 +64,7 @@ public class AreaPopupwindow2 extends BasePopupWindow {
     LinearLayout citysLayout;
     TextView empty;
     CheckBox checkBox1,checkBox2,checkBox3;
+    LinearLayout layout_countys,laytout_citys;
     List<AreaCheckModel> areas = new ArrayList<>();
     //    private MarqueeText area;
     int flag =1;
@@ -90,6 +91,8 @@ public class AreaPopupwindow2 extends BasePopupWindow {
         checkBox1 = (CheckBox) view.findViewById(R.id.checkbox1);
         checkBox2 = (CheckBox) view.findViewById(R.id.checkbox2);
         checkBox3 = (CheckBox) view.findViewById(R.id.checkbox3);
+        layout_countys = (LinearLayout) view.findViewById(R.id.countys);
+        laytout_citys = (LinearLayout) view.findViewById(R.id.citys);
         search.setVisibility(View.GONE);
         this.setContentView(view);
         this.setOutsideTouchable(true);
@@ -111,26 +114,58 @@ public class AreaPopupwindow2 extends BasePopupWindow {
         regionListView.setAdapter(regionListAdapter);
         storsAdapter = new CheckBoxListAdapter(mContext);
         stores.setAdapter(storsAdapter);
+
+        cityListAdapter = new CheckBoxListAdapter(context);
+        countyListAdapter = new CheckBoxListAdapter(context);
+//        cityListAdapter.setList(BaseDataUtil2.citys(BaseDataUtil2.lastAnaRagionPos));
+        cityListView.setAdapter(cityListAdapter);
+        countyListView.setAdapter(countyListAdapter);
+        checkedRagions = BaseDataUtil2.checkedRagions();
+        int id = 0;
+        if (checkedRagions.size()==0){
+            cityListAdapter.setList(BaseDataUtil2.citys(0));
+        }else if(checkedRagions.size() == 1){
+            id = BaseDataUtil2.regions().indexOf(checkedRagions.get(0));
+            cityListAdapter.setList(BaseDataUtil2.citys(id));
+            cityListView.superPosition = id;
+        }
+
+        checkedCitys = BaseDataUtil2.checkedCitys();
+        int cityId = 0;
+        if (checkedRagions.size()==0&&checkedCitys.size()==0){
+            countyListAdapter.setList(BaseDataUtil2.countys(id, cityId));
+        }else if (checkedCitys.size() == 1){
+            cityId = cityListAdapter.getList().indexOf(checkedCitys.get(0));
+            countyListAdapter.setList(BaseDataUtil2.countys(id, cityId));
+        }
+//        countyListAdapter.setList(BaseDataUtil2.countys(BaseDataUtil2.lastAnaRagionPos, BaseDataUtil2.lastAnaCityPos));
+
+        regionListView.initView(null, cityListView);
+        cityListView.initView(regionListView, countyListView);
+        countyListView.initView(cityListView, null);
+        cityListView.setNextLayout(laytout_citys);
+        countyListView.setNextLayout(layout_countys);
         radioGroup.setVisibility(View.GONE);
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-                    case R.id.rb1:
-                        flag = 1;
-                        break;
-                    case R.id.rb2:
-                        flag = 2;
-                        break;
-                    case R.id.rb3:
-                        flag = 3;
-                        break;
-                    case R.id.rb4:
-                        flag = 4;
-                        break;
-                }
-            }
-        });
+//
+//        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(RadioGroup group, int checkedId) {
+//                switch (checkedId) {
+//                    case R.id.rb1:
+//                        flag = 1;
+//                        break;
+//                    case R.id.rb2:
+//                        flag = 2;
+//                        break;
+//                    case R.id.rb3:
+//                        flag = 3;
+//                        break;
+//                    case R.id.rb4:
+//                        flag = 4;
+//                        break;
+//                }
+//            }
+//        });
         edit_query.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -218,16 +253,7 @@ public class AreaPopupwindow2 extends BasePopupWindow {
 
             }
         });
-        cityListAdapter = new CheckBoxListAdapter(context);
 
-        cityListAdapter.setList(BaseDataUtil2.citys(BaseDataUtil2.lastAnaRagionPos));
-        cityListView.setAdapter(cityListAdapter);
-        countyListAdapter = new CheckBoxListAdapter(context);
-        countyListAdapter.setList(BaseDataUtil2.countys(BaseDataUtil2.lastAnaRagionPos, BaseDataUtil2.lastAnaCityPos));
-        countyListView.setAdapter(countyListAdapter);
-        regionListView.initView(null, cityListView);
-        cityListView.initView(regionListView, countyListView);
-        countyListView.initView(cityListView, null);
         regionListView.setOnDataBaseChange(new PickListView2.OnDataBaseChange() {
             @Override
             public void onDataBaseChange() {
@@ -254,6 +280,7 @@ public class AreaPopupwindow2 extends BasePopupWindow {
                 }else{
                     regionListAdapter.setAllNormal();
                 }
+                laytout_citys.setVisibility(View.INVISIBLE);
             }
         });
         checkBox2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -264,6 +291,7 @@ public class AreaPopupwindow2 extends BasePopupWindow {
                 }else{
                     cityListAdapter.setAllNormal();
                 }
+                layout_countys.setVisibility(View.INVISIBLE);
             }
         });
         checkBox3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

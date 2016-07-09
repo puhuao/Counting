@@ -15,6 +15,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -61,6 +62,7 @@ public class AreaPopupwindow extends BasePopupWindow {
     NestedListView stores;
     TextView empty;
     CheckBox checkBox1,checkBox2,checkBox3;
+    LinearLayout layout_countys,laytout_citys;
     List<AreaCheckModel> areas = new ArrayList<>();
     //    private MarqueeText area;
     int flag =1;
@@ -88,6 +90,8 @@ public class AreaPopupwindow extends BasePopupWindow {
         checkBox1 = (CheckBox) view.findViewById(R.id.checkbox1);
         checkBox2 = (CheckBox) view.findViewById(R.id.checkbox2);
         checkBox3 = (CheckBox) view.findViewById(R.id.checkbox3);
+        layout_countys = (LinearLayout) view.findViewById(R.id.countys);
+        laytout_citys = (LinearLayout) view.findViewById(R.id.citys);
         search.setVisibility(View.GONE);
         this.setContentView(view);
         this.setOutsideTouchable(true);
@@ -138,6 +142,8 @@ public class AreaPopupwindow extends BasePopupWindow {
         regionListView.initView(null, cityListView);
         cityListView.initView(regionListView, countyListView);
         countyListView.initView(cityListView, null);
+        cityListView.setNextLayout(laytout_citys);
+        countyListView.setNextLayout(layout_countys);
         edit_query.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -236,6 +242,7 @@ public class AreaPopupwindow extends BasePopupWindow {
                 }else{
                     regionListAdapter.setAllNormal();
                 }
+                laytout_citys.setVisibility(View.INVISIBLE);
             }
         });
         checkBox2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -246,6 +253,7 @@ public class AreaPopupwindow extends BasePopupWindow {
                 }else{
                     cityListAdapter.setAllNormal();
                 }
+                layout_countys.setVisibility(View.INVISIBLE);
             }
         });
         checkBox3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

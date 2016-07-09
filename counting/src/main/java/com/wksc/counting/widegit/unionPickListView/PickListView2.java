@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.wksc.counting.Basedata.BaseDataUtil2;
@@ -23,6 +24,7 @@ public class PickListView2 extends NestedListView implements AdapterView.OnItemC
     CheckBoxListAdapter currentAdapter;
     private Boolean hasSuperLevel = false;
     private Boolean hasScendLevel = false;
+    private LinearLayout nextLayout;
 
     public BaseInfo getBaseInfo() {
         return baseInfo;
@@ -41,7 +43,7 @@ public class PickListView2 extends NestedListView implements AdapterView.OnItemC
     private List<BaseWithCheckBean> superDataSet;
     private List<BaseWithCheckBean> scendDataSet;
     private List<BaseWithCheckBean> currentDataSet;
-    private int superPosition;
+    public int superPosition;
 
     public void setScendPosition(int scendPosition) {
         this.scendPosition = scendPosition;
@@ -51,7 +53,7 @@ public class PickListView2 extends NestedListView implements AdapterView.OnItemC
         this.superPosition = superPosition;
     }
 
-    private int scendPosition;
+    public int scendPosition;
 
     public int lastPos;
 
@@ -232,6 +234,7 @@ public class PickListView2 extends NestedListView implements AdapterView.OnItemC
 
     public void hide(){
         this.setVisibility(INVISIBLE);
+        this.setVisibility(INVISIBLE);
         if (hasScendLevel){
             scendListView.hide();
         }
@@ -239,6 +242,7 @@ public class PickListView2 extends NestedListView implements AdapterView.OnItemC
 
     public void show(){
         this.setVisibility(VISIBLE);
+        this.nextLayout.setVisibility(VISIBLE);
         if (hasScendLevel){
             if (currentAdapter.getCheckedNumber()==1||currentAdapter.getCheckedNumber()==0){
                 scendListView.show();
@@ -252,6 +256,9 @@ public class PickListView2 extends NestedListView implements AdapterView.OnItemC
 
     private OnDataBaseChange onDataBaseChange;
 
+    public void setNextLayout(LinearLayout laytout_citys) {
+        this.nextLayout = laytout_citys;
+    }
 
 
     public interface OnDataBaseChange{
