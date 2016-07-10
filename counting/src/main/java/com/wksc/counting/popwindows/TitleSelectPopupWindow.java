@@ -58,26 +58,37 @@ public class TitleSelectPopupWindow extends PopupWindow {
         initview();
     }
 
+    private Boolean checkHasRight(String s){
+        String[] rights =  config.getString("topicrule", "").split(",");
+        if (rights.length>0)
+        for (int i=0;i<rights.length;i++){
+            if (rights[i].equals(s)){
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void initview() {
         indicatorFragmentEntityList = new ArrayList<>();
-        String[] rights =  config.getString("topicrule", "").split(",");
 
-        for (int i = 0; i < rights.length; i++) {
+
+        for (int i = 0; i < 3; i++) {
             String name = null;
             Fragment fragment = null;
             FragmentEntity fragmentEntity = null;
             if (i == 0) {
-                if (rights[0].equals("10"))
+                if (checkHasRight("10"))
                 fragment = new MarktingCenterFragment();
                 else fragment = new NoRightFragment();
                 name = "营销中心";
             } else if (i == 1) {
-                if (rights[1].equals("20"))
+                if (checkHasRight("20"))
                 fragment = new SupplyChainCenterFragment();
                 else fragment = new NoRightFragment();
                 name = "供应链中心";
             } else if (i == 2) {
-                if (rights[2].equals("30"))
+                if (checkHasRight("30"))
                 fragment = new CustomerServiceFragment();
                 else fragment = new NoRightFragment();
                 name = "客服中心";

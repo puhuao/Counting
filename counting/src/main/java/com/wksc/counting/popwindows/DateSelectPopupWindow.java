@@ -71,7 +71,7 @@ public class DateSelectPopupWindow extends PopupWindow {
                     y = String.valueOf(mYear);
                 }else if (flag ==2){
                     y = String.valueOf(mYear);
-                    if (mMonthOfYear<10){
+                    if (mMonthOfYear<9){
                         m ="0"+(mMonthOfYear+1);
                     }else{
                         m = String.valueOf(mMonthOfYear+1);
@@ -79,7 +79,7 @@ public class DateSelectPopupWindow extends PopupWindow {
 
                 }else if (flag ==3){
                     y = String.valueOf(mYear);
-                    if (mMonthOfYear<10){
+                    if (mMonthOfYear<9){
                         m ="0"+(mMonthOfYear+1);
                     }else{
                         m = String.valueOf(mMonthOfYear+1);

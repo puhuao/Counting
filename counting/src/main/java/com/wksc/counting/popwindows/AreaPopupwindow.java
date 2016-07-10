@@ -38,6 +38,7 @@ import com.wksc.framwork.platform.config.IConfig;
 import com.wksc.framwork.util.StringUtils;
 import com.wksc.framwork.util.ToastUtil;
 
+import java.util.AbstractSequentialList;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,6 +50,8 @@ import okhttp3.Response;
  * Created by Administrator on 2016/5/29.
  */
 public class AreaPopupwindow extends BasePopupWindow {
+    private List<BaseWithCheckBean> checkedCitys;
+    private  List<BaseWithCheckBean> checkedRagions;
     Activity mContext;
     PickListView regionListView, cityListView, countyListView;
     Button sure;
@@ -70,11 +73,12 @@ public class AreaPopupwindow extends BasePopupWindow {
     StringBuilder store = new StringBuilder();
     private int currentShowCityPosition = 0;
     private int cuttentShowCountPosition = 0;
-    List<BaseWithCheckBean> checkedRagions;
-    List<BaseWithCheckBean> checkedCitys;
+//    List<BaseWithCheckBean> checkedRagions;
+//    List<BaseWithCheckBean> checkedCitys;
     List<BaseWithCheckBean> checkedCounty;
+    public Boolean mFromList = false;
 
-    public AreaPopupwindow(Activity context) {
+    public AreaPopupwindow(final Activity context) {
         super();
         mContext = context;
         View view = LayoutInflater.from(context).inflate(R.layout.pop_layout_area, null);
@@ -117,29 +121,45 @@ public class AreaPopupwindow extends BasePopupWindow {
         cityListAdapter = new CheckBoxListAdapter(context);
         cityListView.setAdapter(cityListAdapter);
         checkedRagions = BaseDataUtil.checkedRagions();
-        int id = 0;
-        if (checkedRagions.size()==0){
+        checkedCitys = BaseDataUtil.checkedCitys();
+        if (BaseDataUtil.citySet!=null){
+            cityListAdapter.setList(BaseDataUtil.citySet);
+        }else{
             cityListAdapter.setList(BaseDataUtil.citys(0));
-        }else if(checkedRagions.size() == 1){
-            id = BaseDataUtil.regions().indexOf(checkedRagions.get(0));
-            cityListAdapter.setList(BaseDataUtil.citys(id));
-            cityListView.superPosition = id;
-        }else if(checkedRagions.size() > 1){
-            laytout_citys.setVisibility(View.INVISIBLE);
         }
 
-        countyListAdapter = new CheckBoxListAdapter(context);
-       checkedCitys = BaseDataUtil.checkedCitys();
-        int cityId = 0;
-        if (checkedRagions.size()==0&&checkedCitys.size()==0){
-            countyListAdapter.setList(BaseDataUtil.countys(id, cityId));
-        }else if (checkedCitys.size() == 1){
-            cityId = cityListAdapter.getList().indexOf(checkedCitys.get(0));
-            countyListAdapter.setList(BaseDataUtil.countys(id, cityId));
-            countyListView.scendPosition=cityId;
-        }else if (checkedCitys.size()>1){
-            layout_countys.setVisibility(View.INVISIBLE);
+        if (BaseDataUtil.hideCity) {
+            laytout_citys.setVisibility(View.GONE);
+        }else{
+            laytout_citys.setVisibility(View.VISIBLE);
         }
+        cityListView.superPosition = BaseDataUtil.superPosition;
+//        if (checkedRagions.size()==0){
+//
+//        }else if(checkedRagions.size()==1){
+//
+//        }
+
+        countyListAdapter = new CheckBoxListAdapter(context);
+//       checkedCitys = BaseDataUtil.checkedCitys();
+//        int cityId = 0;
+        if (BaseDataUtil.countySet!=null){
+            countyListAdapter.setList(BaseDataUtil.countySet);
+        }else{
+            countyListAdapter.setList(BaseDataUtil.countys(0, 0));
+        }
+        if (BaseDataUtil.hideCounty){
+            layout_countys.setVisibility(View.GONE);
+        }else{
+            layout_countys.setVisibility(View.VISIBLE);
+        }
+        countyListView.superPosition = BaseDataUtil.superPosition;
+        countyListView.scendPosition=BaseDataUtil.scendPositon;
+//        if (checkedRagions.size()==0&&checkedCitys.size()==0){
+//        }else if (checkedCitys.size() == 1){
+//
+//        }else if (checkedCitys.size()>1){
+//        }
 
         countyListView.setAdapter(countyListAdapter);
         regionListView.initView(null, cityListView);
@@ -187,6 +207,11 @@ public class AreaPopupwindow extends BasePopupWindow {
                 List<BaseWithCheckBean> checkBeenRagion = BaseDataUtil.checkedRagions();
                 List<BaseWithCheckBean> checkBeenCity = BaseDataUtil.checkedCitys();
                 List<BaseWithCheckBean> checkBeenCountys = BaseDataUtil.checkedCountys();
+
+                if (checkBeenRagion.size()==0&&checkBeenCity.size()==0&&checkBeenCountys.size()==0){
+                    ToastUtil.showShortMessage(context,"请选择条件");
+                    return;
+                }
                 if (store.length()>0){
                     flag = 4;
                 }else if(checkBeenCountys.size()>0&&store.length()==0){
@@ -213,71 +238,76 @@ public class AreaPopupwindow extends BasePopupWindow {
                     dissmisPopupwindow();
                     if (mListener != null)
                         mListener.conditionSelect(store.toString(), storsAdapter.sb.toString(), 4);
-                } else {
-                    ToastUtil.showShortMessage(mContext, "筛选条件的格式不正确");
                 }
+                restoreLastStatus();
 
             }
         });
         regionListView.setOnDataBaseChange(new PickListView.OnDataBaseChange() {
             @Override
-            public void onDataBaseChange() {
-               changeCheckBoxs();
+            public void onDataBaseChange(Boolean isFromList) {
+               changeCheckBoxs(isFromList);
             }
         });
         cityListView.setOnDataBaseChange(new PickListView.OnDataBaseChange() {
             @Override
-            public void onDataBaseChange() {
-                changeCheckBoxs();
+            public void onDataBaseChange(Boolean isFromList) {
+                changeCheckBoxs(isFromList);
             }
         });
         countyListView.setOnDataBaseChange(new PickListView.OnDataBaseChange() {
             @Override
-            public void onDataBaseChange() {
-                changeCheckBoxs();
+            public void onDataBaseChange(Boolean isFromList) {
+                changeCheckBoxs(isFromList);
             }
         });
         checkBox1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (!mFromList)
                 if (isChecked){
                     regionListAdapter.setAllCheck();
-                    checkBox1.setText("反选");
                 }else{
                     regionListAdapter.setAllNormal();
-                    checkBox1.setText("全选");
                 }
-                laytout_citys.setVisibility(View.INVISIBLE);
+                mFromList = false;
+                laytout_citys.setVisibility(View.GONE);
             }
         });
         checkBox2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (!mFromList)
                 if (isChecked){
                     cityListAdapter.setAllCheck();
-                    checkBox2.setText("反选");
                 }else{
                     cityListAdapter.setAllNormal();
-                    checkBox2.setText("全选");
                 }
-                layout_countys.setVisibility(View.INVISIBLE);
+                mFromList = false;
+                layout_countys.setVisibility(View.GONE);
             }
         });
         checkBox3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (!mFromList)
                 if (isChecked){
                     countyListAdapter.setAllCheck();
-                    checkBox3.setText("反选");
                 }else{
                     countyListAdapter.setAllNormal();
-                    checkBox3.setText("全选");
                 }
+                mFromList = false;
             }
         });
     }
 
-    private void changeCheckBoxs() {
+    private void restoreLastStatus() {
+        BaseDataUtil.citySet = cityListAdapter.getList();
+        BaseDataUtil.countySet = countyListAdapter.getList();
+    }
+
+    private void changeCheckBoxs(Boolean isFromList) {
+        mFromList = isFromList;
         if (BaseDataUtil.checkedRagions().size()<BaseDataUtil.regions().size()){
             checkBox1.setChecked(false);
         }else{
@@ -330,6 +360,7 @@ public class AreaPopupwindow extends BasePopupWindow {
 
             @Override
             public void onResponse(boolean isFromCache, MCU c, Request request, @Nullable Response response) {
+                if(c!=null)
                 if (c.MCU.size() > 0) {
                     storsAdapter.setList(c.MCU);
                     empty.setVisibility(View.GONE);

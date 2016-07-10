@@ -13,7 +13,9 @@ import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.lzy.okhttputils.OkHttpUtils;
+import com.wksc.counting.Basedata.BaseDataUtil2;
 import com.wksc.counting.Basedata.FragmentDataUtil;
+import com.wksc.counting.Contorner.Condition;
 import com.wksc.counting.R;
 import com.wksc.counting.adapter.PlatFormLastItemAdapter;
 import com.wksc.counting.adapter.PlatFormListAdapter;
@@ -23,7 +25,7 @@ import com.wksc.counting.event.PlatFormAnaEvent;
 import com.wksc.counting.model.SaleAnaModel.PeiModel;
 import com.wksc.counting.model.platFormModel.PlatFormModel;
 import com.wksc.counting.tools.UrlUtils;
-import com.wksc.counting.widegit.ConditionLayout2;
+import com.wksc.counting.widegit.ConditionLayout3;
 import com.wksc.counting.widegit.NestedListView;
 import com.wksc.counting.widegit.PieChartTool;
 import com.wksc.counting.widegit.TableTitleLayout;
@@ -50,7 +52,7 @@ public class PlatformCenterFragment extends CommonFragment {
     NestedListView lv;
 
     @Bind(R.id.condition)
-    ConditionLayout2 conditionLayout;
+    ConditionLayout3 conditionLayout;
 
     @Bind(R.id.pie)
     PieChart pieChart;
@@ -70,6 +72,7 @@ public class PlatformCenterFragment extends CommonFragment {
     PlatFormLastItemAdapter platFormLastItemAdapter;
     private IConfig config;
 //    private PlatFormModel model;
+Condition condition;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -98,13 +101,17 @@ public class PlatformCenterFragment extends CommonFragment {
         lv.setAdapter(platFormLastItemAdapter);
         platFormListAdapter = new PlatFormListAdapter(getContext());
         lv1.setAdapter(platFormListAdapter);
+        condition = new Condition(BaseDataUtil2.vipSet);
+        condition.init();
+        condition.goodsClassFirst = BaseDataUtil2.goodsClassFirstVip;
         conditionLayout.init(2);
         conditionLayout.initViewByParam();
 //        conditionLayout.initParams();
         conditionLayout.hideGoods(false);
         conditionLayout.hidArea(true);
+        conditionLayout.setcondition(condition);
         pieChartTool = new PieChartTool(pieChart);
-        conditionLayout.setConditionSelect(new ConditionLayout2.OnConditionSelect() {
+        conditionLayout.setConditionSelect(new ConditionLayout3.OnConditionSelect() {
             @Override
             public void postParams() {
                 extraParam = conditionLayout.getAllConditions();

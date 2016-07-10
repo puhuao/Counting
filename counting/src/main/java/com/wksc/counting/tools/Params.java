@@ -60,4 +60,37 @@ public class Params {
 
     }
 
+    public static void clearData(){
+        if (prams.length()>0)
+        prams.delete(0,prams.length());
+        if (time.length()>0)
+            time.delete(0,time.length());
+        if (goods.length()>0)
+            goods.delete(0,goods.length());
+        if (areal.length()>0)
+            areal.delete(0,areal.length());
+        if (channels.length()>0)
+            channels.delete(0,channels.length());
+        if (wchannel.length()>0)
+            wchannel.delete(0,wchannel.length());
+        if (years.length()>0)
+            years.delete(0,years.length());
+        if (month.length()>0)
+            month.delete(0,month.length());
+        if (day.length()>0)
+            day.delete(0,day.length());
+        if (city.length()>0)
+            city.delete(0,city.length());
+        if (county.length()>0)
+            county.delete(0,county.length());
+        if (mcu.length()>0)
+            mcu.delete(0,mcu.length());
+        if (goodsclass.length()>0)
+            goodsclass.delete(0,goodsclass.length());
+        if (goodssubclass.length()>0)
+            goodssubclass.delete(0,goodssubclass.length());
+        if (province.length()>0)
+            province.delete(0,province.length());
+    }
+
 }

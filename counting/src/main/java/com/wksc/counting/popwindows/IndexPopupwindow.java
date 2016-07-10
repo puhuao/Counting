@@ -40,6 +40,7 @@ public class IndexPopupwindow extends PopupWindow {
     Button sure;
     CheckBoxListAdapter areaListAdapter;
     Activity mContext;
+    String[] noderule;
 
     public IndexPopupwindow(Activity context){
         super();
@@ -62,6 +63,17 @@ public class IndexPopupwindow extends PopupWindow {
             }
         });
         config = BaseApplication.getInstance().getCurrentConfig();
+        noderule = config.getString("noderule","").split(",");
+        int k =0;
+        for (int i = 0;i<noderule.length;i++){
+            for (int j = k ; j < BaseDataUtil.coreItems.size();j++){
+                if (noderule[i].equals(BaseDataUtil.coreItems.get(j).code)){
+                    k=j;
+                    BaseDataUtil.coreItems.get(j).isCheck = CheckBoxListAdapter.ALL;
+                    break;
+                }
+            }
+        }
         areaListAdapter = new CheckBoxListAdapter(context);
         areaListAdapter. setList(BaseDataUtil.coreItems());
         list.setAdapter(areaListAdapter);

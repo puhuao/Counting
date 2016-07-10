@@ -102,11 +102,13 @@ public class PickListView extends NestedListView implements AdapterView.OnItemCl
 
             if (checkecNumber == 1){
                 scendListView.superPosition = currentAdapter.oneCheckPosition;
+                BaseDataUtil.superPosition = currentAdapter.oneCheckPosition;
                 scendDataSet = BaseDataUtil.citys(currentAdapter.oneCheckPosition);
                 scentAdapter.setList(scendDataSet);
                 scendListView.update(currentAdapter.oneCheckPosition,0);
             }else{
                 scendListView.superPosition = position;
+                BaseDataUtil.superPosition = position;
                 scendDataSet = BaseDataUtil.citys(position);
                 scentAdapter.setList(scendDataSet);
                 scendListView.update(position,0);
@@ -117,12 +119,14 @@ public class PickListView extends NestedListView implements AdapterView.OnItemCl
                 if (checkecNumber == 1&& currentDataSet.size()==1){
                     scendListView.show();
                 }else{
+                    BaseDataUtil.hideCity = true;
                     scendListView.hide();
                 }
             } else if (checkecNumber == 0) {
             }else if(checkecNumber == 1){
                 scendListView.show();
             }else if (checkecNumber>1){
+                BaseDataUtil.hideCity = true;
                 scendListView.hide();
                 BaseDataUtil.citys();
                 BaseDataUtil.countys();
@@ -143,11 +147,13 @@ public class PickListView extends NestedListView implements AdapterView.OnItemCl
 
             if (checkecNumber == 1){
                 scendListView.scendPosition = currentAdapter.oneCheckPosition;
+                BaseDataUtil.scendPositon = currentAdapter.oneCheckPosition;;
                 scendDataSet = BaseDataUtil.countys(superPosition,currentAdapter.oneCheckPosition);
                 scentAdapter.setList(scendDataSet);
 //                scendListView.update(currentAdapter.oneCheckPosition,0);
             }else{
                 scendListView.scendPosition = position;
+                BaseDataUtil.scendPositon =position;
                 scendDataSet = BaseDataUtil.countys(superPosition,position);
                 scentAdapter.setList(scendDataSet);
 //                scendListView.update(superPosition,0);
@@ -157,6 +163,7 @@ public class PickListView extends NestedListView implements AdapterView.OnItemCl
                 if (checkecNumber == 1&& currentDataSet.size()==1){
                     scendListView.show();
                 }else{
+                    BaseDataUtil.hideCounty = true;
                     scendListView.hide();
                 }
             } else if (checkecNumber == 0) {
@@ -165,6 +172,7 @@ public class PickListView extends NestedListView implements AdapterView.OnItemCl
             }else if(checkecNumber == 1){
                 scendListView.show();
             }else if (checkecNumber>1){
+                BaseDataUtil.hideCounty = true;
                 scendListView.hide();
                 BaseDataUtil.countys();
             }
@@ -201,7 +209,7 @@ public class PickListView extends NestedListView implements AdapterView.OnItemCl
         }
 
         /////////////////////////////////////////////////////////
-        onDataBaseChange.onDataBaseChange();
+        onDataBaseChange.onDataBaseChange(true);
     }
 
     private void changeSupperStatus(int positon,int status){
@@ -221,8 +229,8 @@ public class PickListView extends NestedListView implements AdapterView.OnItemCl
     }
 
     public void hide(){
-        this.setVisibility(INVISIBLE);
-        this.nextLayout.setVisibility(INVISIBLE);
+        this.setVisibility(GONE);
+        this.nextLayout.setVisibility(GONE);
         if (hasScendLevel){
             scendListView.hide();
         }
@@ -250,7 +258,7 @@ public class PickListView extends NestedListView implements AdapterView.OnItemCl
 
 
     public interface OnDataBaseChange{
-        public void onDataBaseChange();
+        public void onDataBaseChange(Boolean isFromList);
     }
 
 }

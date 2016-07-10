@@ -11,7 +11,9 @@ import android.widget.AdapterView;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.lzy.okhttputils.OkHttpUtils;
+import com.wksc.counting.Basedata.BaseDataUtil2;
 import com.wksc.counting.Basedata.FragmentDataUtil;
+import com.wksc.counting.Contorner.Condition;
 import com.wksc.counting.R;
 import com.wksc.counting.activity.TogleActivity;
 import com.wksc.counting.adapter.SalesSupplyListAdapter;
@@ -21,7 +23,7 @@ import com.wksc.counting.event.SaleChannelAnaEvent;
 import com.wksc.counting.model.SaleAnaModel.PeiModel;
 import com.wksc.counting.model.saleChannelModel.SaleChannelModel;
 import com.wksc.counting.tools.UrlUtils;
-import com.wksc.counting.widegit.ConditionLayout2;
+import com.wksc.counting.widegit.ConditionLayout3;
 import com.wksc.counting.widegit.NestedListView;
 import com.wksc.counting.widegit.PieChartTool;
 import com.wksc.counting.widegit.TableTitleLayout;
@@ -47,7 +49,7 @@ public class SaleChainAnalysisFragment extends CommonFragment {
     @Bind(R.id.supply_analysis)
     NestedListView lvSupplyAnalysis;
     @Bind(R.id.condition)
-    ConditionLayout2 conditionLayout;
+    ConditionLayout3 conditionLayout;
     @Bind(R.id.titles)
     TableTitleLayout titleLayout;
     @Bind(R.id.pie)
@@ -57,6 +59,7 @@ public class SaleChainAnalysisFragment extends CommonFragment {
     SalesSupplyListAdapter salesSupplyListAdapter;
     private PieChartTool pieChartTool;
     private IConfig config;
+    Condition condition;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -82,12 +85,15 @@ public class SaleChainAnalysisFragment extends CommonFragment {
     private void initView() {
         salesSupplyListAdapter = new SalesSupplyListAdapter(getActivity());
         lvSupplyAnalysis.setAdapter(salesSupplyListAdapter);
+        condition = new Condition(BaseDataUtil2.saleChannelSet);
+        condition.init();
+        condition.goodsClassFirst = BaseDataUtil2.goodsClassFirstChannel;
         conditionLayout.hideGoods(false);
         conditionLayout.init(1);
         conditionLayout.initViewByParam();
-//        conditionLayout.initParams();
+        conditionLayout.setcondition(condition);
         pieChartTool = new PieChartTool(pieChart);
-        conditionLayout.setConditionSelect(new ConditionLayout2.OnConditionSelect() {
+        conditionLayout.setConditionSelect(new ConditionLayout3.OnConditionSelect() {
             @Override
             public void postParams() {
                 extraParam = conditionLayout.getAllConditions();
@@ -103,15 +109,18 @@ public class SaleChainAnalysisFragment extends CommonFragment {
         lvSupplyAnalysis.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Bundle bundle = new Bundle();
-                bundle.putString("code", salesSupplyListAdapter.getList().get(position).code);
-                bundle.putString("extra", extraParam);
-                bundle.putInt("flag",2);
+                if (salesSupplyListAdapter.getList().get(position).code.equals("W")){
+                    Bundle bundle = new Bundle();
+                    bundle.putString("code", salesSupplyListAdapter.getList().get(position).code);
+                    bundle.putString("extra", extraParam);
+                    bundle.putInt("flag",2);
+                    bundle.putSerializable("condition",condition);
 //                getContext().pushFragmentToBackStack(ToglSaleGoalAnalysisFragment.class, bundle);
-                Intent intent = new Intent(getActivity(),TogleActivity.class);
-                intent.putExtras(bundle);
-                startActivity(intent);
+                    Intent intent = new Intent(getActivity(),TogleActivity.class);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
 //                getContext().pushFragmentToBackStack(TogleSaleChainAnalysisFragment.class, bundle);
+                }
             }
         });
         if (FragmentDataUtil.saleChannelModel!=null){

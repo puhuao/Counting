@@ -7,8 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.wksc.counting.Contorner.Condition;
 import com.wksc.counting.R;
 import com.wksc.counting.popwindows.AreaPopupwindow2;
+import com.wksc.counting.popwindows.AreaPopupwindow3;
 import com.wksc.counting.popwindows.BasePopupWindow;
 import com.wksc.counting.popwindows.ChannelPopupWindow2;
 import com.wksc.counting.popwindows.DateSelectPopupWindow2;
@@ -25,14 +27,16 @@ import java.util.List;
  *
  * @
  */
-public class ConditionLayout2 extends LinearLayout implements View.OnClickListener {
+public class ConditionLayout3 extends LinearLayout implements View.OnClickListener {
     public static List<Params2> params2List = new ArrayList<>();
-    static{
-        for (int i =0 ;i<5;i++){
+
+    static {
+        for (int i = 0; i < 5; i++) {
             Params2 params21 = new Params2();
             params2List.add(params21);
         }
     }
+
     LinearLayout layout_channel1;
     LinearLayout layout_goods1;
     LinearLayout area_layout;
@@ -51,25 +55,25 @@ public class ConditionLayout2 extends LinearLayout implements View.OnClickListen
     LinearLayout layout;
     int y, m, d;
     private String data = "";
-    AreaPopupwindow2 areaPopupWindow;
+    AreaPopupwindow3 areaPopupWindow;
     GoodsPopupWindow2 goodsPopupWindow;
     DateSelectPopupWindow2 myPopupwindow;
     ChannelPopupWindow2 channelPopupWindow;
-    public Params2 params2 ;
+    public Params2 params2;
 
     public String getAllConditions() {
         return params2.getParam();
     }
 
-    public ConditionLayout2(Context context) {
+    public ConditionLayout3(Context context) {
         super(context);
     }
 
-    public ConditionLayout2(Context context, AttributeSet attrs) {
+    public ConditionLayout3(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public ConditionLayout2(Context context, AttributeSet attrs, int defStyleAttr) {
+    public ConditionLayout3(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         LayoutInflater.from(context).inflate(R.layout.layout_condition, this);
 //        ButterKnife.bind(this);
@@ -93,11 +97,9 @@ public class ConditionLayout2 extends LinearLayout implements View.OnClickListen
         goods.setOnClickListener(this);
         time.setOnClickListener(this);
         channel.setOnClickListener(this);
-//        index.setOnClickListener(this);
-        goodsPopupWindow = new GoodsPopupWindow2((Activity) getContext());
+
         myPopupwindow = new DateSelectPopupWindow2((Activity) getContext(), data);
         channelPopupWindow = new ChannelPopupWindow2((Activity) getContext());
-//        init();
 
     }
 
@@ -107,11 +109,9 @@ public class ConditionLayout2 extends LinearLayout implements View.OnClickListen
         m = calendar.get(Calendar.MONTH);
         d = calendar.get(Calendar.DAY_OF_MONTH);
         if (params2.years.length() == 0) {
-//            Params.years.delete(0, Params.years.length());
             params2.years.append("&year=").append(y);
         }
         if (params2.month.length() == 0) {
-//            Params.month.delete(0, Params.month.length());
             if (m < 10) {
                 if (params2.month.length() == 0)
                     params2.month.append("&month=").append("0" + (m + 1));
@@ -124,7 +124,6 @@ public class ConditionLayout2 extends LinearLayout implements View.OnClickListen
             }
         }
         if (params2.day.length() == 0) {
-//            Params.day.delete(0, Params.day.length());
             if (d < 10) {
                 if (params2.day.length() == 0)
                     params2.day.append("&day=").append("0" + (d - 1));
@@ -140,20 +139,23 @@ public class ConditionLayout2 extends LinearLayout implements View.OnClickListen
     }
 
 
-private Boolean hideCity = false;
+    private Boolean hideCity = false;
     private Boolean hideCounty = false;
-    public void hideCity(){
+
+    public void hideCity() {
         hideCity = true;
     }
-    public void hideCounty(){
+
+    public void hideCounty() {
         hideCounty = true;
     }
 
 
     public void initParams() {
-        if (params2.day.length()>0)
-            params2.day.delete(0,params2.day.length());
+        if (params2.day.length() > 0)
+            params2.day.delete(0, params2.day.length());
     }
+
     /**
      * @param
      */
@@ -167,9 +169,9 @@ private Boolean hideCity = false;
     public void initViewByParam() {
 
         if (StringUtils.isBlank(params2.time.toString())) {
-            if (hideDay){
+            if (hideDay) {
                 time1.setText(y + "-" + (m + 1));
-            }else{
+            } else {
                 time1.setText(y + "-" + (m + 1) + "-" + (d - 1));
             }
         } else {
@@ -198,6 +200,7 @@ private Boolean hideCity = false;
             layout_channel1.setVisibility(GONE);
         }
     }
+
     public void hideBothGoodsAndChannel(Boolean hide) {
         if (hide) {
             layoutGoods.setVisibility(GONE);
@@ -212,16 +215,16 @@ private Boolean hideCity = false;
         switch (v.getId()) {
             case R.id.area:
                 if (areaPopupWindow == null) {
-                    areaPopupWindow = new AreaPopupwindow2((Activity) getContext());
+                    areaPopupWindow = new AreaPopupwindow3((Activity) getContext(),mCondition);
                 }
-                if (hideCounty){
+                if (hideCity) {
                     areaPopupWindow.hideCity();
                 }
-                if (hideCounty){
+                if (hideCounty) {
                     areaPopupWindow.hideCounty();
                 }
 
-                if (hideStores){
+                if (hideStores) {
                     areaPopupWindow.hideStores();
                 }
                 areaPopupWindow.bindTextView(area);
@@ -262,6 +265,10 @@ private Boolean hideCity = false;
                 break;
             case R.id.goods:
 
+                if (goodsPopupWindow == null) {
+                    goodsPopupWindow = new GoodsPopupWindow2((Activity) getContext(),mCondition);
+                }
+                goodsPopupWindow.setCondition(mCondition);
                 goodsPopupWindow.bindTextView(goods);
                 goodsPopupWindow.setOnConditionSelectListener(new BasePopupWindow.OnConditionSelectListener() {
                     @Override
@@ -291,12 +298,12 @@ private Boolean hideCity = false;
                 break;
             case R.id.time:
 
-                if (hideDay){
+                if (hideDay) {
                     myPopupwindow.hideDay(hideDay);
                     myPopupwindow.hideMonthCheck();
                 }
 
-                if (hideDayAndMonthCheck){
+                if (hideDayAndMonthCheck) {
                     myPopupwindow.hideDayAndMonthCheck();
                 }
 
@@ -317,10 +324,12 @@ private Boolean hideCity = false;
                             params2.years.append("&year=").append(y);
 
                         } else if (f == 2) {
+                            params2.years.append("&year=").append(y);
                             params2.month.append("&month=").append(m);
                             (time1).setText(y + "-" + m);
                             params2.changeTime(y + "-" + m);
                         } else {
+                            params2.years.append("&year=").append(y);
                             params2.month.append("&month=").append(m);
                             params2.day.append("&day=").append(date);
                             (time1).setText(y + "-" + m + "-" + date);
@@ -377,20 +386,28 @@ private Boolean hideCity = false;
     public void hideDay() {
         hideDay = true;
     }
+
     public Boolean hideDayAndMonthCheck = false;
-    public void hideDayAndMonthCheck(){
+
+    public void hideDayAndMonthCheck() {
         hideDayAndMonthCheck = true;
     }
 
     public void hidArea(boolean b) {
-        if (b){
+        if (b) {
             area_layout.setVisibility(GONE);
             area1_layout.setVisibility(GONE);
         }
     }
-private Boolean hideStores = false;
+
+    private Boolean hideStores = false;
+
     public void hideStores() {
         hideStores = true;
+    }
+private Condition mCondition;
+    public void setcondition(Condition condition) {
+        mCondition = condition;
     }
 
 

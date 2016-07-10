@@ -35,5 +35,14 @@ public class FragmentDataUtil {
     }
 
     public static HashMap<String,CoreDetail> map = new HashMap<>();
+    public static void clearData(){
+        goodSaleModle = null;
+        platFormModel = null;
+        saleChannelModel = null;
+        saleAnaModel = null;
+        saveModel = null;
+         CoreDetail1 = null;
+        coreIndexListModels.clear();
+    }
 
 }

@@ -10,4 +10,8 @@ public class Table {
     public String title;
     public String tableTitle;
     public String tableTitleDesc;
+    public String chartData;
+    public String tableData;
+    public String chartTitle;
+    public String chartDesc;
 }

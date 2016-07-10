@@ -254,10 +254,12 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
                             Params.years.append("&year=").append(y);
 
                         } else if (f == 2) {
+                            Params.years.append("&year=").append(y);
                             Params.month.append("&month=").append(m);
                             (time1).setText(y + "-" + m);
                             Params.changeTime(y + "-" + m);
                         } else {
+                            Params.years.append("&year=").append(y);
                             Params.month.append("&month=").append(m);
                             Params.day.append("&day=").append(date);
                             (time1).setText(y + "-" + m + "-" + date);
@@ -283,9 +285,6 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
                             Params.channels.append("&channel=").append(ragions);
                         } else if (tag == 1) {
                             Params.wchannel.append("&wchannel=").append(ragions);
-                        } else if (tag == -1) {
-                            Params.channels.delete(0, Params.channels.length());
-                            Params.wchannel.delete(0, Params.wchannel.length());
                         }
                         layout.setVisibility(VISIBLE);
                         channel1.setText(name);

@@ -16,11 +16,7 @@ import java.util.List;
  *
  * @
  */
-public class BaseDataUtil {
-
-//    public static int lastCoreRagionPos=0;
-//    public static int lastCoreCityPos=0;
-//    public static int lastCoreCountyPos=0;
+public class BaseDataUtil6 {
     public static List<BaseWithCheckBean> citySet;//用以记录地区选择消失后的位置
     public static List<BaseWithCheckBean> countySet;
     public static List<Region> region = new ArrayList<>();

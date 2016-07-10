@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.wksc.counting.Basedata.BaseDataUtil2;
+import com.wksc.counting.Contorner.Condition;
 import com.wksc.counting.R;
 import com.wksc.counting.adapter.CheckBoxListAdapter;
 import com.wksc.counting.model.baseinfo.BaseWithCheckBean;
@@ -40,9 +41,15 @@ public class GoodsPopupWindow2 extends BasePopupWindow {
 //    MarqueeText goods;
     CheckBoxListAdapter typeListAdapter,nameListAdapter;
     public int superPosition;
-    public GoodsPopupWindow2(Activity context){
+    private boolean isFromList =false;
+    private Condition mCondition;
+    public void setCondition( Condition condition){
+        this.mCondition = condition;
+    }
+    public GoodsPopupWindow2(Activity context,Condition condition){
         super();
         mContext = context;
+        mCondition =condition;
         View view = LayoutInflater.from(context).inflate(R.layout.pop_layout_goods,null);
         lvGoodsType = (ListView) view.findViewById(R.id.wine_type);
         lvGoodsName = (ListView) view.findViewById(R.id.wine_name);
@@ -67,22 +74,25 @@ public class GoodsPopupWindow2 extends BasePopupWindow {
         sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if (typeListAdapter.getCheckedNumber()==0&&nameListAdapter.getCheckedNumber()==0){
+                        ToastUtil.showShortMessage(mContext,"请选择商品");
+                        return;
+                }
                 dissmisPopupwindow();
                 backgroundAlpha(1f);
 
-                List<BaseWithCheckBean> scend = BaseDataUtil2.checkGoodsClassScend();
-                List<BaseWithCheckBean> first = BaseDataUtil2.checkGoodsClassFirst();
+                List<BaseWithCheckBean> scend = mCondition.checkGoodsClassScend();
+                List<BaseWithCheckBean> first = mCondition.checkGoodsClassFirst();
             if (first.size()>=1&&scend.size()==0){
-                mListener.conditionSelect(BaseDataUtil2.sbGoodsClassFirstCode.toString(),
-                        BaseDataUtil2.sbGoodsClassFirst.toString(),0);
+                mListener.conditionSelect(mCondition.sbGoodsClassFirstCode.toString(),
+                        mCondition.sbGoodsClassFirst.toString(),0);
             }else if(first.size()==0&&scend.size()>=1){
-                mListener.conditionSelect(BaseDataUtil2.sbGoodsClassFirstCode.toString(),
-                        BaseDataUtil2.sbGoodsClassScend.toString(),1);
+                mListener.conditionSelect(mCondition.sbGoodsClassFirstCode.toString(),
+                        mCondition.sbGoodsClassScend.toString(),1);
             }else if (first.size()==0&&scend.size()==0){
-                mListener.conditionSelect(BaseDataUtil2.sbGoodsClassFirstCode.toString(),
-                        BaseDataUtil2.sbGoodsClassScend.toString(),-1);
-            }else {
-                ToastUtil.showShortMessage(mContext,"筛选条件的格式不正确" );
+                mListener.conditionSelect(mCondition.sbGoodsClassFirstCode.toString(),
+                        mCondition.sbGoodsClassScend.toString(),-1);
             }
 
                 if (sbChannel.length()>0)
@@ -112,28 +122,34 @@ public class GoodsPopupWindow2 extends BasePopupWindow {
         });
 
         typeListAdapter = new CheckBoxListAdapter(context);
-        type = BaseDataUtil2.goodsClassFirst();
+        type = mCondition.goodsClassFirst();
         typeListAdapter.setList(type);
         lvGoodsType.setAdapter(typeListAdapter);
 
         nameListAdapter = new CheckBoxListAdapter(context);
-        names = BaseDataUtil2.goodsClassScend(0);
+        names = mCondition.goodsClassScend(0);
         nameListAdapter.setList(names);
         lvGoodsName.setAdapter(nameListAdapter);
 
         lvGoodsType.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                BaseDataUtil2.updateGoodsStatus(position,-1,
+                mCondition.updateGoodsStatus(position,-1,
                         typeListAdapter.moveToNextStatus(position));
                 typeListAdapter.notifyDataSetChanged();
                 superPosition = position;
-                nameListAdapter.setList(BaseDataUtil2.goodsClassScend(position));
+                nameListAdapter.setList(mCondition.goodsClassScend(position));
                 nameListAdapter.notifyDataSetChanged();
                 if (typeListAdapter.getCheckedNumber()>1){
                     lvGoodsName.setVisibility(View.INVISIBLE);
                 }else if(typeListAdapter.getCheckedNumber()==1){
                     lvGoodsName.setVisibility(View.VISIBLE);
+                }
+                isFromList = true;
+                if (typeListAdapter.getCheckedNumber()==typeListAdapter.getList().size()){
+                    checkBox1.setChecked(true);
+                }else{
+                    checkBox1.setChecked(false);
                 }
 
             }
@@ -142,34 +158,40 @@ public class GoodsPopupWindow2 extends BasePopupWindow {
         lvGoodsName.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                BaseDataUtil2.updateGoodsStatus(superPosition,position,
+                mCondition.updateGoodsStatus(superPosition,position,
                         nameListAdapter.moveToNextStatus(position));
                 nameListAdapter.notifyDataSetChanged();
+                isFromList = true;
+                if (nameListAdapter.getCheckedNumber()==nameListAdapter.getList().size()){
+                    checkBox2.setChecked(true);
+                }else{
+                    checkBox2.setChecked(false);
+                }
             }
         });
         checkBox1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (!isFromList)
                 if (isChecked){
                     typeListAdapter.setAllCheck();
-                    checkBox1.setText("反选");
                 }else{
                     typeListAdapter.setAllNormal();
-                    checkBox1.setText("全选");
                 }
+                isFromList = false;
                 layout_names.setVisibility(View.INVISIBLE);
             }
         });
         checkBox2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (!isFromList)
                 if (isChecked){
                     nameListAdapter.setAllCheck();
-                    checkBox2.setText("反选");
                 }else{
                     nameListAdapter.setAllNormal();
-                    checkBox2.setText("全选");
                 }
+                isFromList = false;
             }
         });
 

@@ -116,7 +116,11 @@ public class LoginFragment extends CommonFragment {
                     @Override
                     public void onResponse(boolean isFromCache, Object o, Request request, @Nullable Response response) {
                         if (BaseInfo.code == 1) {
+                            if(validType==0)
                             ToastUtil.showShortMessage(getContext(), "密码错误");
+                            else{
+                                ToastUtil.showShortMessage(getContext(), "验证码错误");
+                            }
                         } else {
                             config.setInt("validType",validType);
                             config.setString("username", username);

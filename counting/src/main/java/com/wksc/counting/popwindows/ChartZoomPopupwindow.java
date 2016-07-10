@@ -1,6 +1,7 @@
 package com.wksc.counting.popwindows;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
@@ -49,7 +50,10 @@ public class ChartZoomPopupwindow extends PopupWindow {
         this.setContentView(view);
         this.setOutsideTouchable(true);
         this.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
-        this.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
+        WindowManager wm = (WindowManager) context
+                .getSystemService(Context.WINDOW_SERVICE);
+        int height = wm.getDefaultDisplay().getHeight();
+        this.setHeight(height/2);
         this.setBackgroundDrawable(new BitmapDrawable());
         this.setFocusable(true);
         this.setOnDismissListener(new OnDismissListener() {
@@ -101,11 +105,12 @@ public class ChartZoomPopupwindow extends PopupWindow {
 
         XAxis xAxis = chart.getXAxis();
         xAxis.setTypeface(tf);
-        xAxis.setTextColor(Color.BLUE);
+        xAxis.setTextColor(ColorTemplate.getHoloBlue());
         xAxis.setDrawGridLines(false);
         xAxis.setDrawAxisLine(false);
         xAxis.setSpaceBetweenLabels(1);
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+
 
         YAxis leftAxis = chart.getAxisLeft();
         leftAxis.setTypeface(tf);
@@ -129,8 +134,9 @@ public class ChartZoomPopupwindow extends PopupWindow {
         ArrayList<Entry> yVals1 = new ArrayList<Entry>();
 
         String[] strArray = range.split(",");
-        for (int i = 0; i < strArray.length; i++) {
-            xVals.add((i) + "");
+        String[] xpoionts = coreIndexListModel.xpoint.split(",");
+        for (int i = 0; i < xpoionts.length; i++) {
+            xVals.add(xpoionts[i]);
         }
         for (int i = 0; i < strArray.length; i++) {
             String s = strArray[i];

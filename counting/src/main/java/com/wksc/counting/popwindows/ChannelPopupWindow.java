@@ -41,9 +41,9 @@ public class ChannelPopupWindow extends BasePopupWindow {
     public StringBuilder sbPlatform = new StringBuilder();
     public StringBuilder sbChannelCode = new StringBuilder();
     public StringBuilder sbPlatformCode = new StringBuilder();
-//    private MarqueeText area;
+    private boolean isFromList =false;
 
-    public ChannelPopupWindow(Activity context){
+    public ChannelPopupWindow(final Activity context){
         super();
         mContext = context;
         View view = LayoutInflater.from(context).inflate(R.layout.pop_layout_supply,null);
@@ -77,10 +77,15 @@ public class ChannelPopupWindow extends BasePopupWindow {
         sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if (channelListAdapter.getCheckedNumber()==0&&platformListAdapter.getCheckedNumber()==0)
+                {
+                    ToastUtil.showShortMessage(context,"请选择渠道");
+                    return;
+                }
                 dissmisPopupwindow();
                 backgroundAlpha(1f);
                 int i = 0,j=0;
-
 
                 if (sbChannel.length()>0)
                 sbChannel.delete(0,sbChannel.length());
@@ -118,15 +123,18 @@ public class ChannelPopupWindow extends BasePopupWindow {
                     sbPlatformCode.deleteCharAt(sbPlatformCode.length()-1);
                 }
 
-                if (i>=1&&j==0){
-                    mListener.conditionSelect(sbChannelCode.toString(),sbChannel.toString(),0);
-                }else if(i == 0&&j>=1){
+                if (j>0){
                     mListener.conditionSelect(sbPlatformCode.toString(),sbPlatform.toString(),1);
-                }else if(i == 0&&j==0){
-                    mListener.conditionSelect(sbPlatformCode.toString(),sbPlatform.toString(),-1);
-                }else{
-                    ToastUtil.showShortMessage(mContext,"筛选条件的格式不正确" );
+                }else if(i>0&&j==0){
+                    mListener.conditionSelect(sbChannelCode.toString(),sbChannel.toString(),0);
                 }
+//                if (i>=1&&j==0){
+
+//                }else if(i == 0&&j>=1){
+//
+//                }else if(i == 0&&j==0){
+//                    mListener.conditionSelect(sbPlatformCode.toString(),sbPlatform.toString(),-1);
+//                }
 
 
 //                area.setText(sbChannel+" "+sbPlatform);
@@ -139,6 +147,18 @@ public class ChannelPopupWindow extends BasePopupWindow {
                 platformListAdapter.notifyDataSetChanged();
                 channelListAdapter.moveToNextStatus(position);
                 channelListAdapter.notifyDataSetChanged();
+                if (channelListAdapter.getCheckedNumber()==1){
+                    layout_platforms.setVisibility(View.VISIBLE);
+                }else{
+                    layout_platforms.setVisibility(View.INVISIBLE);
+                }
+
+                if (channelListAdapter.getCheckedNumber()==BaseDataUtil.channels().size()){
+                    isFromList = true;
+                    checkBox1.setChecked(true);
+                }else{
+                    checkBox1.setChecked(false);
+                }
             }
         });
         platform.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -146,34 +166,43 @@ public class ChannelPopupWindow extends BasePopupWindow {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 platformListAdapter.moveToNextStatus(position);
                 platformListAdapter.notifyDataSetChanged();
-
+                if (platformListAdapter.getCheckedNumber()==platformListAdapter.getList().size()){
+                    isFromList = true;
+                    checkBox2.setChecked(true);
+                }else{
+                    checkBox2.setChecked(false);
+                }
             }
         });
         checkBox1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (!isFromList)
                 if (isChecked){
                     channelListAdapter.setAllCheck();
-                    checkBox1.setText("反选");
                 }else{
                     channelListAdapter.setAllNormal();
-                    checkBox1.setText("全选");
                 }
+                isFromList = false;
                 layout_platforms.setVisibility(View.INVISIBLE);
             }
         });
         checkBox2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (!isFromList)
                 if (isChecked){
                     platformListAdapter.setAllCheck();
-                    checkBox2.setText("反选");
                 }else{
                     platformListAdapter.setAllNormal();
-                    checkBox2.setText("全选");
                 }
+                isFromList = false;
             }
         });
+        if (channelListAdapter.getCheckedNumber()==0||
+                channelListAdapter.getCheckedNumber()==channelListAdapter.getList().size()){
+            layout_platforms.setVisibility(View.INVISIBLE);
+        }
 
     }
 

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.lzy.okhttputils.OkHttpUtils;
+import com.wksc.counting.Contorner.Condition;
 import com.wksc.counting.R;
 import com.wksc.counting.adapter.SalesSupplyListAdapter;
 import com.wksc.counting.callBack.DialogCallback;
@@ -17,8 +18,7 @@ import com.wksc.counting.event.SaleChannelAnaEvent;
 import com.wksc.counting.model.SaleAnaModel.PeiModel;
 import com.wksc.counting.model.saleChannelModel.SaleChannelModel;
 import com.wksc.counting.tools.UrlUtils;
-import com.wksc.counting.widegit.ConditionLayout;
-import com.wksc.counting.widegit.ConditionLayout2;
+import com.wksc.counting.widegit.ConditionLayout3;
 import com.wksc.counting.widegit.NestedListView;
 import com.wksc.counting.widegit.PieChartTool;
 import com.wksc.counting.widegit.TableTitleLayout;
@@ -44,7 +44,7 @@ public class TogleSaleChainAnalysisFragment extends CommonFragment {
     @Bind(R.id.supply_analysis)
     NestedListView lvSupplyAnalysis;
     @Bind(R.id.condition)
-    ConditionLayout2 conditionLayout;
+    ConditionLayout3 conditionLayout;
     @Bind(R.id.titles)
     TableTitleLayout titleLayout;
     @Bind(R.id.pie)
@@ -55,6 +55,7 @@ public class TogleSaleChainAnalysisFragment extends CommonFragment {
     private PieChartTool pieChartTool;
     private IConfig config;
     private String code;
+    private Condition condition;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -82,6 +83,7 @@ public class TogleSaleChainAnalysisFragment extends CommonFragment {
         Bundle bundle = (Bundle) getmDataIn();
         code = bundle.getString("code");
         extraParam = bundle.getString("extra");
+        condition = (Condition) bundle.getSerializable("condition");
         initView();
         return v;
     }
@@ -93,14 +95,15 @@ public class TogleSaleChainAnalysisFragment extends CommonFragment {
         conditionLayout.initParams();
         conditionLayout.hideGoods(false);
         conditionLayout.initViewByParam();
+        conditionLayout.setcondition(condition);
         pieChartTool = new PieChartTool(pieChart);
-refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-    @Override
-    public void onRefresh() {
-        getListData();
-    }
-});
-        conditionLayout.setConditionSelect(new ConditionLayout2.OnConditionSelect() {
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getListData();
+            }
+        });
+        conditionLayout.setConditionSelect(new ConditionLayout3.OnConditionSelect() {
             @Override
             public void postParams() {
                 getListData();
@@ -110,16 +113,16 @@ refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
     }
 
     private void getListData() {
-        if (flag>0){
+        if (flag > 0) {
 
             extraParam = conditionLayout.getAllConditions();
         }
 
         StringBuilder sb = new StringBuilder(Urls.TOPICINDEX);
         config = BaseApplication.getInstance().getCurrentConfig();
-        UrlUtils.getInstance().addSession(sb,config).praseToUrl(sb,"class","10")
-                .praseToUrl(sb,"level","2").praseToUrl(sb,"item","20")
-                .praseToUrl(sb,"code",code);
+        UrlUtils.getInstance().addSession(sb, config).praseToUrl(sb, "class", "10")
+                .praseToUrl(sb, "level", "2").praseToUrl(sb, "item", "20")
+                .praseToUrl(sb, "code", code);
         sb.append(extraParam);
         OkHttpUtils.post(sb.toString())//
                 .tag(this)//
@@ -133,7 +136,7 @@ refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onResponse(boolean isFromCache, SaleChannelModel c, Request request, @Nullable Response response) {
 //                        Log.i("TAG",c.tableTitle);
-                        if (refreshLayout.isRefreshing()){
+                        if (refreshLayout.isRefreshing()) {
                             refreshLayout.setRefreshing(false);
                         }
                         flag++;
@@ -145,21 +148,10 @@ refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                             salesSupplyListAdapter.setItemCloums(titles.length);
                             salesSupplyListAdapter.setList(c.tableData);
 
-                            StringBuilder sb1 = new StringBuilder();
-                            StringBuilder sb2 = new StringBuilder();
-                            for (int i = 0; i < c.tableData.size(); i++) {
-                                String[] array = c.tableData.get(i).newValue.split("\\|");
-                                sb1.append(array[1]).append("|");
-                                sb2.append(array[0]).append("|");
-                            }
 
-                            if (sb1.length() > 0) {
-                                sb1.deleteCharAt(sb1.length() - 1);
-                                sb2.deleteCharAt(sb2.length() - 1);
-                            }
                             PeiModel peiModel = new PeiModel();
-                            peiModel.chartPoint1 = sb2.toString();
-                            peiModel.chartValue1 = sb1.toString();
+                            peiModel.chartPoint1 = c.table.chartTitle;
+                            peiModel.chartValue1 = c.table.chartData;
                             peiModel.chartTitle1 = c.table.title;
                             pieChartTool.setData(peiModel);
                             pieChartTool.setPiechart();
@@ -173,6 +165,7 @@ refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
     protected void lazyLoad() {
 
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();

@@ -12,7 +12,9 @@ import android.widget.AdapterView;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.lzy.okhttputils.OkHttpUtils;
+import com.wksc.counting.Basedata.BaseDataUtil2;
 import com.wksc.counting.Basedata.FragmentDataUtil;
+import com.wksc.counting.Contorner.Condition;
 import com.wksc.counting.R;
 import com.wksc.counting.activity.TogleActivity;
 import com.wksc.counting.adapter.SalesFinishListAdapter;
@@ -20,10 +22,8 @@ import com.wksc.counting.callBack.DialogCallback;
 import com.wksc.counting.config.Urls;
 import com.wksc.counting.event.SaleGoalAnaEvent;
 import com.wksc.counting.model.SaleAnaModel.SaleAnaModel;
-import com.wksc.counting.tools.Params2;
 import com.wksc.counting.tools.UrlUtils;
-import com.wksc.counting.widegit.ConditionLayout;
-import com.wksc.counting.widegit.ConditionLayout2;
+import com.wksc.counting.widegit.ConditionLayout3;
 import com.wksc.counting.widegit.NestedListView;
 import com.wksc.counting.widegit.PieChartTool;
 import com.wksc.counting.widegit.TableTitleLayout;
@@ -49,7 +49,7 @@ public class SaleGoalAnalysisFragment extends CommonFragment {
     @Bind(R.id.sales_analysis)
     NestedListView lvSalesAnalysis;
     @Bind(R.id.condition)
-    ConditionLayout2 conditionLayout;
+    ConditionLayout3 conditionLayout;
     @Bind(R.id.titles)
     TableTitleLayout titleLayout;
     @Bind(R.id.pie)
@@ -59,7 +59,7 @@ public class SaleGoalAnalysisFragment extends CommonFragment {
     SalesFinishListAdapter salesFinishListAdapter;
     PieChartTool pieChartTool;
     private IConfig config;
-
+Condition condition;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,6 +91,10 @@ public class SaleGoalAnalysisFragment extends CommonFragment {
         salesFinishListAdapter = new SalesFinishListAdapter(getActivity());
         lvSalesAnalysis.setAdapter(salesFinishListAdapter);
         pieChartTool = new PieChartTool(pieChart);
+
+        condition = new Condition(BaseDataUtil2.saleGoleRegionSet);
+        condition.init();
+        condition.goodsClassFirst = BaseDataUtil2.goodsClassFirstGoal;
         conditionLayout.init(0);
         conditionLayout.hideDay();
         conditionLayout.initViewByParam();
@@ -98,13 +102,10 @@ public class SaleGoalAnalysisFragment extends CommonFragment {
         conditionLayout.hideCity();
         conditionLayout.hideCounty();
         conditionLayout.hideStores();
-//        if (FragmentDataUtil.saleAnaModel==null){
-//            extraParam = conditionLayout.getAllConditions();
-//            getListData();
-//        }
+        conditionLayout.setcondition(condition);
         conditionLayout.hideBothGoodsAndChannel(true);
 
-        conditionLayout.setConditionSelect(new ConditionLayout2.OnConditionSelect() {
+        conditionLayout.setConditionSelect(new ConditionLayout3.OnConditionSelect() {
             @Override
             public void postParams() {
                 extraParam = conditionLayout.getAllConditions();
@@ -124,6 +125,7 @@ public class SaleGoalAnalysisFragment extends CommonFragment {
                 bundle.putString("code", salesFinishListAdapter.getList().get(position).code);
                 bundle.putString("extra", extraParam);
                 bundle.putInt("flag", 1);
+                bundle.putSerializable("condition",condition);
                 Intent intent = new Intent(getActivity(), TogleActivity.class);
                 intent.putExtras(bundle);
                 startActivity(intent);

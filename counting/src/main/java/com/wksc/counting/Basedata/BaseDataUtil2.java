@@ -7,8 +7,10 @@ import com.wksc.counting.model.baseinfo.City;
 import com.wksc.counting.model.baseinfo.CoreItem;
 import com.wksc.counting.model.baseinfo.GoodsClassFirst;
 import com.wksc.counting.model.baseinfo.Region;
+import com.wksc.framwork.util.GsonUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -17,10 +19,13 @@ import java.util.List;
  * @
  */
 public class BaseDataUtil2 {
-
-    public static int lastAnaRagionPos;
-    public static int lastAnaCityPos;
-    public static int lastAnaCountyPos;
+    public static List<Region> saleGoleRegionSet = new ArrayList<>();
+    public static List<Region> saleChannelSet = new ArrayList<>();
+    public static List<Region> vipSet = new ArrayList<>();
+    public static List<Region> goodsAnaSet = new ArrayList<>();
+    public static List<Region> saveSet = new ArrayList<>();
+    public static List<BaseWithCheckBean> citySet;//用以记录地区选择消失后的位置
+    public static List<BaseWithCheckBean> countySet;
     public static List<Region> region = new ArrayList<>();
     public static StringBuilder sbRegion= new StringBuilder();
     public static StringBuilder sbCity= new StringBuilder();
@@ -29,10 +34,31 @@ public class BaseDataUtil2 {
     public static StringBuilder sbCityCode= new StringBuilder();
     public static StringBuilder sbCountyCode= new StringBuilder();
     public static List<GoodsClassFirst> goodsClassFirst = new ArrayList<>();
-
+    public static List<GoodsClassFirst> goodsClassFirstGoal = new ArrayList<>();
+    public static List<GoodsClassFirst> goodsClassFirstChannel = new ArrayList<>();
+    public static List<GoodsClassFirst> goodsClassFirstVip = new ArrayList<>();
+    public static List<GoodsClassFirst> goodsClassFirstGoods = new ArrayList<>();
+    public static List<GoodsClassFirst> goodsClassFirstSave = new ArrayList<>();
     public static List<CoreItem> coreItems = new ArrayList<>();
 
     public static List<Channel> channels = new ArrayList<>();
+    public static boolean hideCounty = false;
+    public static boolean hideCity = false;
+    public static int scendPositon;
+    public static int superPosition;
+
+
+    public static void copyConditionSet(String region){
+        saleChannelSet.addAll(GsonUtil.fromJsonList(region, Region.class));
+        saleGoleRegionSet.addAll(GsonUtil.fromJsonList(region, Region.class));
+        vipSet.addAll(GsonUtil.fromJsonList(region, Region.class));
+        goodsAnaSet.addAll(GsonUtil.fromJsonList(region, Region.class));
+        saveSet.addAll(GsonUtil.fromJsonList(region, Region.class));
+    }
+
+    public static void copyGoodeCondition(String goods){
+
+    }
 
     public static List<BaseWithCheckBean> coreItems(){
         List<BaseWithCheckBean> regions = new ArrayList<>();

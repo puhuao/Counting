@@ -24,4 +24,5 @@ public class CoreIndexListModel {
     public String itemColor4;
     public String maxY;
     public String minY;
+    public String xpoint;
 }

@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.lzy.okhttputils.OkHttpUtils;
+import com.wksc.counting.Contorner.Condition;
 import com.wksc.counting.R;
 import com.wksc.counting.adapter.SalesFinishListAdapter;
 import com.wksc.counting.callBack.DialogCallback;
@@ -18,8 +19,7 @@ import com.wksc.counting.config.Urls;
 import com.wksc.counting.event.SaleGoalAnaEvent;
 import com.wksc.counting.model.SaleAnaModel.SaleAnaModel;
 import com.wksc.counting.tools.UrlUtils;
-import com.wksc.counting.widegit.ConditionLayout;
-import com.wksc.counting.widegit.ConditionLayout2;
+import com.wksc.counting.widegit.ConditionLayout3;
 import com.wksc.counting.widegit.NestedListView;
 import com.wksc.counting.widegit.PieChartTool;
 import com.wksc.counting.widegit.TableTitleLayout;
@@ -45,7 +45,7 @@ public class ToglSaleGoalAnalysisFragment extends CommonFragment {
     @Bind(R.id.sales_analysis)
     NestedListView lvSalesAnalysis;
     @Bind(R.id.condition)
-    ConditionLayout2 conditionLayout;
+    ConditionLayout3 conditionLayout;
     @Bind(R.id.titles)
     TableTitleLayout titleLayout;
     @Bind(R.id.pie)
@@ -57,6 +57,7 @@ public class ToglSaleGoalAnalysisFragment extends CommonFragment {
     private IConfig config;
     private String param;
     private String code;
+    Condition condition;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -84,6 +85,7 @@ public class ToglSaleGoalAnalysisFragment extends CommonFragment {
         Bundle bundle = (Bundle) getmDataIn();
         code = bundle.getString("code");
         extraParam = bundle.getString("extra");
+        condition= (Condition) bundle.getSerializable("condition");
         initView();
 
         return v;
@@ -100,7 +102,8 @@ public class ToglSaleGoalAnalysisFragment extends CommonFragment {
         conditionLayout.hideCity();
         conditionLayout.hideCounty();
         conditionLayout.hideBothGoodsAndChannel(true);
-        conditionLayout.setConditionSelect(new ConditionLayout2.OnConditionSelect() {
+        conditionLayout.setcondition(condition);
+        conditionLayout.setConditionSelect(new ConditionLayout3.OnConditionSelect() {
             @Override
             public void postParams() {
                 getListData();

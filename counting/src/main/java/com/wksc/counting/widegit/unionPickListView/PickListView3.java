@@ -7,8 +7,7 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
-import com.wksc.counting.Basedata.BaseDataUtil;
-import com.wksc.counting.Basedata.BaseDataUtil2;
+import com.wksc.counting.Contorner.Condition;
 import com.wksc.counting.adapter.CheckBoxListAdapter;
 import com.wksc.counting.model.BaseInfo;
 import com.wksc.counting.model.baseinfo.BaseWithCheckBean;
@@ -21,7 +20,7 @@ import java.util.List;
  *
  * @
  */
-public class PickListView2 extends NestedListView implements AdapterView.OnItemClickListener {
+public class PickListView3 extends NestedListView implements AdapterView.OnItemClickListener {
     CheckBoxListAdapter currentAdapter;
     private Boolean hasSuperLevel = false;
     private Boolean hasScendLevel = false;
@@ -37,8 +36,8 @@ public class PickListView2 extends NestedListView implements AdapterView.OnItemC
 
     private BaseInfo baseInfo;
 
-    private PickListView2 superListView;
-    private PickListView2 scendListView;
+    private PickListView3 superListView;
+    private PickListView3 scendListView;
     private CheckBoxListAdapter superAdaper;
     private CheckBoxListAdapter scentAdapter;
     private List<BaseWithCheckBean> superDataSet;
@@ -58,15 +57,15 @@ public class PickListView2 extends NestedListView implements AdapterView.OnItemC
 
     public int lastPos;
 
-    public PickListView2(Context con) {
+    public PickListView3(Context con) {
         super(con);
     }
 
-    public PickListView2(Context context, AttributeSet attrs) {
+    public PickListView3(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public PickListView2(Context context, AttributeSet attrs, int defStyle) {
+    public PickListView3(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 
@@ -81,7 +80,7 @@ public class PickListView2 extends NestedListView implements AdapterView.OnItemC
         currentAdapter = (CheckBoxListAdapter) this.getAdapter();
         currentDataSet = currentAdapter.getList();
         if (superView != null) {
-            superListView = (PickListView2) superView;
+            superListView = (PickListView3) superView;
             superAdaper = (CheckBoxListAdapter) superListView.getAdapter();
             superDataSet = superAdaper.getList();
             hasSuperLevel = true;
@@ -90,7 +89,7 @@ public class PickListView2 extends NestedListView implements AdapterView.OnItemC
         }
 
         if (scendView != null) {
-            scendListView = (PickListView2) scendView;
+            scendListView = (PickListView3) scendView;
             scentAdapter = (CheckBoxListAdapter) scendListView.getAdapter();
             scendDataSet = scentAdapter.getList();
             hasScendLevel = true;
@@ -106,7 +105,7 @@ public class PickListView2 extends NestedListView implements AdapterView.OnItemC
 
         if (!hasSuperLevel && hasScendLevel) {
             getCurrentData();
-            BaseDataUtil2.updateDataStatus(position,-1,-1,
+            mCondition.updateDataStatus(position,-1,-1,
                     currentAdapter.moveToNextStatus(position));
 
             //////////////////////////////////////////////////////////
@@ -114,14 +113,14 @@ public class PickListView2 extends NestedListView implements AdapterView.OnItemC
 
             if (checkecNumber == 1){
                 scendListView.superPosition = currentAdapter.oneCheckPosition;
-                BaseDataUtil2.superPosition = currentAdapter.oneCheckPosition;
-                scendDataSet = BaseDataUtil2.citys(currentAdapter.oneCheckPosition);
+                mCondition.superPosition = currentAdapter.oneCheckPosition;
+                scendDataSet = mCondition.citys(currentAdapter.oneCheckPosition);
                 scentAdapter.setList(scendDataSet);
                 scendListView.update(currentAdapter.oneCheckPosition,0);
             }else{
                 scendListView.superPosition = position;
-                BaseDataUtil2.superPosition = position;
-                scendDataSet = BaseDataUtil2.citys(position);
+                mCondition.superPosition = position;
+                scendDataSet = mCondition.citys(position);
                 scentAdapter.setList(scendDataSet);
                 scendListView.update(position,0);
             }
@@ -142,8 +141,8 @@ public class PickListView2 extends NestedListView implements AdapterView.OnItemC
                 scendListView.show();
             }else if (checkecNumber>1){
                 scendListView.hide();
-                BaseDataUtil2.citys();
-                BaseDataUtil2.countys();
+                mCondition.citys();
+                mCondition.countys();
             }
             currentAdapter.notifyDataSetChanged();
             scentAdapter.notifyDataSetChanged();
@@ -151,7 +150,7 @@ public class PickListView2 extends NestedListView implements AdapterView.OnItemC
 
             getCurrentData();
             scendListView.superPosition = superPosition;
-            BaseDataUtil2.updateDataStatus(superPosition,position,-1,
+            mCondition.updateDataStatus(superPosition,position,-1,
                     currentAdapter.moveToNextStatus(position));
             //下级列表重新加载当前position对应的列表
             //判断本级当前位置是否选中，选中将下级
@@ -161,14 +160,14 @@ public class PickListView2 extends NestedListView implements AdapterView.OnItemC
 
             if (checkecNumber == 1){
                 scendListView.scendPosition = currentAdapter.oneCheckPosition;
-                BaseDataUtil2.scendPositon = currentAdapter.oneCheckPosition;;
-                scendDataSet = BaseDataUtil2.countys(superPosition,currentAdapter.oneCheckPosition);
+                mCondition.scendPositon = currentAdapter.oneCheckPosition;;
+                scendDataSet = mCondition.countys(superPosition,currentAdapter.oneCheckPosition);
                 scentAdapter.setList(scendDataSet);
 //                scendListView.update(currentAdapter.oneCheckPosition,0);
             }else{
                 scendListView.scendPosition = position;
-                BaseDataUtil2.scendPositon =position;
-                scendDataSet = BaseDataUtil2.countys(superPosition,position);
+                mCondition.scendPositon =position;
+                scendDataSet = mCondition.countys(superPosition,position);
                 scentAdapter.setList(scendDataSet);
 //                scendListView.update(superPosition,0);
             }
@@ -186,7 +185,7 @@ public class PickListView2 extends NestedListView implements AdapterView.OnItemC
                 scendListView.show();
             }else if (checkecNumber>1){
                 scendListView.hide();
-                BaseDataUtil2.countys();
+                mCondition.countys();
             }
 
             if (checkecNumber<currentDataSet.size()&&checkecNumber!=0){
@@ -201,7 +200,7 @@ public class PickListView2 extends NestedListView implements AdapterView.OnItemC
             superAdaper.notifyDataSetChanged();
         }else if (hasSuperLevel && !hasScendLevel){
             getCurrentData();
-            BaseDataUtil2.updateDataStatus(superPosition,scendPosition,position,
+            mCondition.updateDataStatus(superPosition,scendPosition,position,
                     currentAdapter.moveToNextStatus(position));
             /////////////////////////////////////////////////////////////
             int checkecNumber = currentAdapter.getCheckedNumber();
@@ -221,7 +220,7 @@ public class PickListView2 extends NestedListView implements AdapterView.OnItemC
         }
 
         /////////////////////////////////////////////////////////
-        onDataBaseChange.onDataBaseChange();
+        onDataBaseChange.onDataBaseChange(true);
     }
 
     private void changeSupperStatus(int positon,int status){
@@ -233,7 +232,7 @@ public class PickListView2 extends NestedListView implements AdapterView.OnItemC
         if (hasSuperLevel&&hasScendLevel){
             if (scendDataSet!=null){
                 scendDataSet.clear();
-                scendDataSet.addAll(BaseDataUtil2.countys(arg1,arg2));
+                scendDataSet.addAll(mCondition.countys(arg1,arg2));
                 scentAdapter.notifyDataSetChanged();
             }
 
@@ -241,8 +240,8 @@ public class PickListView2 extends NestedListView implements AdapterView.OnItemC
     }
 
     public void hide(){
-        this.setVisibility(INVISIBLE);
-        this.nextLayout.setVisibility(INVISIBLE);
+        this.setVisibility(GONE);
+        this.nextLayout.setVisibility(GONE);
         if (hasScendLevel){
             scendListView.hide();
         }
@@ -268,9 +267,13 @@ public class PickListView2 extends NestedListView implements AdapterView.OnItemC
         this.nextLayout = laytout_citys;
     }
 
+    private Condition mCondition;
+    public void setCondition(Condition condition) {
+        this.mCondition = condition;
+    }
 
     public interface OnDataBaseChange{
-        public void onDataBaseChange();
+        public void onDataBaseChange(Boolean isFromList);
     }
 
 }

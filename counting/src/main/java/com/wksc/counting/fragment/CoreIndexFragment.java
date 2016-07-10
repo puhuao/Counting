@@ -102,6 +102,7 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
                 getListData();
             }
         });
+//        if (FragmentDataUtil.coreIndexListModels == null)
         if (FragmentDataUtil.coreIndexListModels.size() == 0) {
             getListData();
         }
@@ -147,7 +148,7 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
                     @Override
                     public void onResponse(boolean isFromCache, String c, Request request, @Nullable Response response) {
                         try {
-                            if (refreshLayout.isRefreshing()){
+                            if (refreshLayout.isRefreshing()) {
                                 refreshLayout.setRefreshing(false);
                             }
                             if (!StringUtils.isBlank(c)) {

@@ -54,13 +54,11 @@ public class CoreIndexListAdapter extends BaseListAdapter<CoreIndexListModel>{
             convertView.setTag(holder);
         }
         final  int pos = position;
-        final View finalConvertView = convertView;
         holder.name.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-//                ToastUtil.showShortMessage(mContext,mList.get(pos).titleDesc);
                 TitleDescribewindow titleSelectPopupWindow = new TitleDescribewindow(mContext);
-                titleSelectPopupWindow.showPopupwindow(finalConvertView.getRootView(),mList.get(pos).titleDesc);
+                titleSelectPopupWindow.showPopupwindow(v,mList.get(pos).titleDesc);
                 return false;
             }
         });
@@ -113,13 +111,13 @@ public class CoreIndexListAdapter extends BaseListAdapter<CoreIndexListModel>{
         holder.chart.setDragDecelerationFrictionCoef(0.9f);
 
         // enable scaling and dragging
-        holder.chart.setDragEnabled(true);
-        holder.chart.setScaleEnabled(true);
+        holder.chart.setDragEnabled(false);
+        holder.chart.setScaleEnabled(false);
         holder.chart.setDrawGridBackground(false);
         holder.chart.setHighlightPerDragEnabled(true);
 
         // if disabled, scaling can be done on x- and y-axis separately
-        holder.chart.setPinchZoom(true);
+//        holder.chart.setPinchZoom(true);
 
         // set an alternative background color
         holder.chart.setBackgroundColor(Color.WHITE);

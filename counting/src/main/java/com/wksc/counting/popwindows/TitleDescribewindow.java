@@ -42,8 +42,8 @@ public class TitleDescribewindow extends PopupWindow {
 
     public void showPopupwindow(View view, String titleDesc){
         backgroundAlpha(0.5f);
-        this.showAsDropDown(view);
         area.setText(titleDesc);
+        this.showAsDropDown(view);
     }
     public void dissmisPopupwindow(){
         this.dismiss();

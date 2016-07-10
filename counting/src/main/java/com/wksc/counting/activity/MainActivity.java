@@ -15,6 +15,7 @@ import android.widget.RadioGroup;
 import com.lzy.okhttputils.OkHttpUtils;
 import com.wksc.counting.Basedata.BaseDataUtil;
 import com.wksc.counting.Basedata.BaseDataUtil2;
+import com.wksc.counting.Basedata.FragmentDataUtil;
 import com.wksc.counting.R;
 import com.wksc.counting.callBack.DialogCallback;
 import com.wksc.counting.config.Urls;
@@ -25,11 +26,13 @@ import com.wksc.counting.fragment.MoreFragment;
 import com.wksc.counting.fragment.NewsFragment;
 import com.wksc.counting.fragment.TelescopeFragment;
 import com.wksc.counting.fragment.ThematicAnalysisFragment;
+import com.wksc.counting.model.baseinfo.BaseWithCheckBean;
 import com.wksc.counting.model.baseinfo.Channel;
 import com.wksc.counting.model.baseinfo.CoreItem;
 import com.wksc.counting.model.baseinfo.GoodsClassFirst;
 import com.wksc.counting.model.baseinfo.GoodsClassScend;
 import com.wksc.counting.model.baseinfo.Region;
+import com.wksc.counting.tools.Params;
 import com.wksc.counting.tools.UrlUtils;
 import com.wksc.counting.widegit.CustomDialog;
 import com.wksc.counting.widegit.CustomViewPager;
@@ -239,6 +242,7 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
                                 String items = object.getString("coreitem");
                                 String topicrule = object.getString("topicrule");
                                 config.setString("topicrule",topicrule);
+                                config.setString("noderule",object.getString("noderule"));
                                 JSONArray array = object.getJSONArray("GoodsClass");
                                 BaseDataUtil.clearData();
                                 BaseDataUtil2.clearData();
@@ -246,25 +250,29 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
                                         GsonUtil.fromJsonList(region, Region.class));
                                 BaseDataUtil2.region.addAll(
                                         GsonUtil.fromJsonList(region, Region.class));
+                                BaseDataUtil2.copyConditionSet(region);
                                 BaseDataUtil.channels.addAll(GsonUtil.fromJsonList(channel, Channel.class));
                                 BaseDataUtil2.channels.addAll(GsonUtil.fromJsonList(channel, Channel.class));
-                                List<GoodsClassFirst> goodsClassFirsts = new ArrayList<>();
                                 BaseDataUtil.coreItems.addAll(GsonUtil.fromJsonList(items, CoreItem.class));
                                 BaseDataUtil2.coreItems.addAll(GsonUtil.fromJsonList(items, CoreItem.class));
-                                for (int i = 0; i < array.length(); i++) {
-                                    JSONObject obj = array.getJSONObject(i);
-                                    GoodsClassFirst first = new GoodsClassFirst();
-                                    first.name = obj.getString("name");
-                                    first.code = obj.getString("code");
-                                    String classS = obj.getString("class");
-                                    List<GoodsClassScend> goodsClassScends = GsonUtil.
-                                            fromJsonList(classS, GoodsClassScend.class);
-                                    first.classX = goodsClassScends;
-                                    goodsClassFirsts.add(first);
-                                }
-                                BaseDataUtil.goodsClassFirst.addAll(goodsClassFirsts);
-                                BaseDataUtil2.goodsClassFirst.addAll(goodsClassFirsts);
-                                Log.i("TAG", goodsClassFirsts.toString());
+//                                for (int i = 0; i < array.length(); i++) {
+//                                    JSONObject obj = array.getJSONObject(i);
+//                                    GoodsClassFirst first = new GoodsClassFirst();
+//                                    first.name = obj.getString("name");
+//                                    first.code = obj.getString("code");
+//                                    String classS = obj.getString("class");
+//                                    List<GoodsClassScend> goodsClassScends = GsonUtil.
+//                                            fromJsonList(classS, GoodsClassScend.class);
+//                                    first.classX = goodsClassScends;
+//                                    goodsClassFirsts.add(first);
+//                                }
+                                BaseDataUtil.goodsClassFirst.addAll(getGoods(array));
+                                BaseDataUtil2.goodsClassFirst.addAll(getGoods(array));
+                                BaseDataUtil2.goodsClassFirstGoal.addAll(getGoods(array));
+                                BaseDataUtil2.goodsClassFirstChannel.addAll(getGoods(array));
+                                BaseDataUtil2.goodsClassFirstVip.addAll(getGoods(array));
+                                BaseDataUtil2.goodsClassFirstGoods.addAll(getGoods(array));
+                                BaseDataUtil2.goodsClassFirstSave.addAll(getGoods(array));
                                 initView();
                             } else {
                                 ToastUtil.showShortMessage(MainActivity.this, "数据为空");
@@ -277,6 +285,28 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
                 });
     }
 
+
+    public List<GoodsClassFirst> getGoods(JSONArray array){
+        List<GoodsClassFirst> goodsClassFirsts = new ArrayList<>();
+        for (int i = 0; i < array.length(); i++) {
+            JSONObject obj = null;
+            try {
+                obj = array.getJSONObject(i);
+                GoodsClassFirst first = new GoodsClassFirst();
+                first.name = obj.getString("name");
+                first.code = obj.getString("code");
+                String classS = obj.getString("class");
+                List<GoodsClassScend> goodsClassScends = GsonUtil.
+                        fromJsonList(classS, GoodsClassScend.class);
+                first.classX = goodsClassScends;
+                goodsClassFirsts.add(first);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return  goodsClassFirsts;
+    }
+
     @Override
     public void onBackPressed() {
 //        super.onBackPressed();
@@ -287,6 +317,8 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
+                FragmentDataUtil.clearData();
+                Params.clearData();
                 MainActivity.super.onBackPressed();
             }
         });
