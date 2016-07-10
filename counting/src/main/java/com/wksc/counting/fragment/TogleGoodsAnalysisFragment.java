@@ -66,13 +66,13 @@ public class TogleGoodsAnalysisFragment extends CommonFragment {
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_goods_analysis, null);
 //        hideTitleBar();
-        showRightButton();
-        getRightButton().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getContext().pushFragmentToBackStack(MoreFragment.class, "");
-            }
-        });
+//        showRightButton();
+//        getRightButton().setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                getContext().pushFragmentToBackStack(MoreFragment.class, "");
+//            }
+//        });
         return v;
     }
 
@@ -164,8 +164,8 @@ public class TogleGoodsAnalysisFragment extends CommonFragment {
                                 sb2.deleteCharAt(sb2.length() - 1);
                             }
                             PeiModel peiModel = new PeiModel();
-                            peiModel.chartPoint1 = sb2.toString();
-                            peiModel.chartValue1 = sb1.toString();
+                            peiModel.chartPoint1 = c.table.chartTitle;
+                            peiModel.chartValue1 = c.table.chartData;
                             peiModel.chartTitle1 = c.table.title;
                             pieChartTool.setData(peiModel);
                             pieChartTool.setPiechart();

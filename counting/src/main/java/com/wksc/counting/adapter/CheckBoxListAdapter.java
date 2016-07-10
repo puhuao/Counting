@@ -67,7 +67,7 @@ public class CheckBoxListAdapter extends BaseListAdapter<BaseWithCheckBean> {
         }
     }
 
-    public int oneCheckPosition = -1;
+    public int oneCheckPosition = 0;
 
     public int getCheckedNumber(){
         if (sb.length()>0){

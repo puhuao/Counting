@@ -40,10 +40,6 @@ public class CompareFragment extends CommonFragment {
     PagerSlidingTabStrip mIndicator;
     @Bind(R.id.viewPager_history)
     CustomViewPager mViewPager;
-//    @Bind(R.id.ib_right)
-//    ImageButton btnRight;
-//    @Bind(R.id.bar_left)
-//    ImageView barLeft;
 
     private ArrayList<FragmentEntity> indicatorFragmentEntityList;
     private MyPagerAdapter adapter;
@@ -52,16 +48,15 @@ public class CompareFragment extends CommonFragment {
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_comparison, null);
-//        hideTitleBar();
         setHeaderTitle("销售额对比");
-        showRightButton();
-        getRightButton().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                getContext().pushFragmentToBackStack(MoreFragment.class,"");
-            }
-        });
+//        showRightButton();
+//        getRightButton().setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                getContext().pushFragmentToBackStack(MoreFragment.class,"");
+//            }
+//        });
         return v;
     }
 

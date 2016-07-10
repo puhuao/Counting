@@ -2,6 +2,7 @@ package com.wksc.counting.popwindows;
 
 import android.app.Activity;
 import android.graphics.drawable.BitmapDrawable;
+import android.support.annotation.Nullable;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,14 +13,29 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 
+import com.lzy.okhttputils.OkHttpUtils;
 import com.wksc.counting.Basedata.BaseDataUtil;
 import com.wksc.counting.R;
+import com.wksc.counting.activity.MainActivity;
 import com.wksc.counting.adapter.CheckBoxListAdapter;
+import com.wksc.counting.callBack.BaseInfo;
+import com.wksc.counting.callBack.DialogCallback;
+import com.wksc.counting.config.Urls;
+import com.wksc.counting.model.baseinfo.BaseWithCheckBean;
+import com.wksc.counting.tools.UrlUtils;
+import com.wksc.framwork.BaseApplication;
+import com.wksc.framwork.platform.config.IConfig;
+import com.wksc.framwork.util.ToastUtil;
+
+import okhttp3.Call;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * Created by Administrator on 2016/5/29.
  */
 public class IndexPopupwindow extends PopupWindow {
+    private  IConfig config;
     ListView list ;
     Button sure;
     CheckBoxListAdapter areaListAdapter;
@@ -45,6 +61,7 @@ public class IndexPopupwindow extends PopupWindow {
                 dismiss();
             }
         });
+        config = BaseApplication.getInstance().getCurrentConfig();
         areaListAdapter = new CheckBoxListAdapter(context);
         areaListAdapter. setList(BaseDataUtil.coreItems());
         list.setAdapter(areaListAdapter);
@@ -52,6 +69,7 @@ public class IndexPopupwindow extends PopupWindow {
             @Override
             public void onClick(View v) {
                 dissmisPopupwindow();
+                setNodeRule();
             }
         });
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -61,6 +79,40 @@ public class IndexPopupwindow extends PopupWindow {
                 areaListAdapter.notifyDataSetChanged();
             }
         });
+    }
+
+    private void setNodeRule() {
+        StringBuilder sb = new StringBuilder();
+        for (int i =0 ;i <BaseDataUtil.coreItems.size();i++){
+            BaseWithCheckBean bean = BaseDataUtil.coreItems.get(i);
+            if (bean.isCheck == CheckBoxListAdapter.ALL){
+                sb.append(bean.code).append(",");
+            }
+        }
+        if (sb.length()>0){
+            sb.deleteCharAt(sb.length()-1);
+        }
+        post(sb.toString());
+    }
+
+    private void post(String s) {
+        StringBuilder sb = new StringBuilder(Urls.SET_NODE_RULE);
+        UrlUtils.getInstance().addSession(sb, config).praseToUrl(sb, "code", s);
+        OkHttpUtils.post(sb.toString())//
+                .tag(this)//
+                .execute(new DialogCallback<Object>(mContext, Object.class) {
+
+                    @Override
+                    public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
+                        super.onError(isFromCache, call, response, e);
+                    }
+
+                    @Override
+                    public void onResponse(boolean isFromCache, Object o, Request request, @Nullable Response response) {
+
+
+                    }
+                });
     }
 
     public void showPopupwindow(View view){

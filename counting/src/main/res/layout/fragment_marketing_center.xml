@@ -13,7 +13,9 @@
         <com.wksc.counting.widegit.PagerSlidingTabStrip
             android:id="@+id/indicator"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             app:allowWidthFull="true"
             app:slidingBlock="@drawable/transparent" />
 

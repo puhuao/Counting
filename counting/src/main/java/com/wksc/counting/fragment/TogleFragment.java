@@ -78,13 +78,13 @@ public class TogleFragment extends CommonFragment {
                 goBack();
             }
         });
-        showRightButton();
-        getRightButton().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getContext().pushFragmentToBackStack(MoreFragment.class,"");
-            }
-        });
+//        showRightButton();
+//        getRightButton().setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                getContext().pushFragmentToBackStack(MoreFragment.class,"");
+//            }
+//        });
         return v;
     }
 
@@ -101,6 +101,7 @@ public class TogleFragment extends CommonFragment {
         param = bundle.getString("param");
         provice = bundle.getString("provice");
         extraParam = bundle.getString("extra");
+        setHeaderTitle(bundle.getString("title"));
         initView();
         return v;
     }

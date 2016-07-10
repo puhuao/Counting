@@ -128,6 +128,8 @@ public class AreaPopupwindow2 extends BasePopupWindow {
             id = BaseDataUtil2.regions().indexOf(checkedRagions.get(0));
             cityListAdapter.setList(BaseDataUtil2.citys(id));
             cityListView.superPosition = id;
+        }else if(checkedRagions.size() > 1){
+            laytout_citys.setVisibility(View.INVISIBLE);
         }
 
         checkedCitys = BaseDataUtil2.checkedCitys();
@@ -137,6 +139,8 @@ public class AreaPopupwindow2 extends BasePopupWindow {
         }else if (checkedCitys.size() == 1){
             cityId = cityListAdapter.getList().indexOf(checkedCitys.get(0));
             countyListAdapter.setList(BaseDataUtil2.countys(id, cityId));
+        }else if (checkedCitys.size()>1){
+            layout_countys.setVisibility(View.GONE);
         }
 //        countyListAdapter.setList(BaseDataUtil2.countys(BaseDataUtil2.lastAnaRagionPos, BaseDataUtil2.lastAnaCityPos));
 
@@ -277,8 +281,10 @@ public class AreaPopupwindow2 extends BasePopupWindow {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked){
                     regionListAdapter.setAllCheck();
+                    checkBox1.setText("反选");
                 }else{
                     regionListAdapter.setAllNormal();
+                    checkBox1.setText("全选");
                 }
                 laytout_citys.setVisibility(View.INVISIBLE);
             }
@@ -288,8 +294,10 @@ public class AreaPopupwindow2 extends BasePopupWindow {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked){
                     cityListAdapter.setAllCheck();
+                    checkBox2.setText("反选");
                 }else{
                     cityListAdapter.setAllNormal();
+                    checkBox2.setText("全选");
                 }
                 layout_countys.setVisibility(View.INVISIBLE);
             }
@@ -299,8 +307,10 @@ public class AreaPopupwindow2 extends BasePopupWindow {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked){
                     countyListAdapter.setAllCheck();
+                    checkBox3.setText("反选");
                 }else{
                     countyListAdapter.setAllNormal();
+                    checkBox3.setText("全选");
                 }
             }
         });
@@ -314,27 +324,31 @@ public class AreaPopupwindow2 extends BasePopupWindow {
             checkBox1.setChecked(true);
         }
         int cCity =0;
-        for (int i =0 ;i <cityListAdapter.getList().size();i++){
-            if (cityListAdapter.getList().get(i).isCheck == CheckBoxListAdapter.ALL){
-                cCity++;
+        if (cityListAdapter.getList()!=null){
+            for (int i =0 ;i <cityListAdapter.getList().size();i++){
+                if (cityListAdapter.getList().get(i).isCheck == CheckBoxListAdapter.ALL){
+                    cCity++;
+                }
             }
-        }
-        if (cCity<cityListAdapter.getList().size()){
-            checkBox2.setChecked(false);
-        }else{
-            checkBox2.setChecked(true);
+            if (cCity<cityListAdapter.getList().size()){
+                checkBox2.setChecked(false);
+            }else{
+                checkBox2.setChecked(true);
+            }
         }
 
         int cCounty = 0;
-        for (int i =0 ;i <countyListAdapter.getList().size();i++){
-            if (countyListAdapter.getList().get(i).isCheck == CheckBoxListAdapter.ALL){
-                cCounty++;
+        if (countyListAdapter.getList()!=null){//在初始化的时候，是根据上一次选中的状态来的，可能为空
+            for (int i =0 ;i <countyListAdapter.getList().size();i++){
+                if (countyListAdapter.getList().get(i).isCheck == CheckBoxListAdapter.ALL){
+                    cCounty++;
+                }
             }
-        }
-        if (cCounty<countyListAdapter.getList().size()){
-            checkBox3.setChecked(false);
-        }else{
-            checkBox3.setChecked(true);
+            if (cCounty<countyListAdapter.getList().size()){
+                checkBox3.setChecked(false);
+            }else{
+                checkBox3.setChecked(true);
+            }
         }
     }
     private void getData() {

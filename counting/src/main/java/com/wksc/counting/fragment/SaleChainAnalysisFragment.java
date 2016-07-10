@@ -162,6 +162,7 @@ public class SaleChainAnalysisFragment extends CommonFragment {
                     public void onResponse(boolean isFromCache, SaleChannelModel c, Request request, @Nullable Response response) {
 //                        Log.i("TAG",c.tableTitle);
 //                        if (c.tableData.size() > 0) {
+                        pieChart.clear();
                         if (refreshLayout.isRefreshing())
                             refreshLayout.setRefreshing(false);
                         FragmentDataUtil.saleChannelModel = c;
@@ -209,13 +210,7 @@ public class SaleChainAnalysisFragment extends CommonFragment {
     @Subscribe
     public void changeChart(SaleChannelAnaEvent event) {
         if (FragmentDataUtil.saleChannelModel==null){
-//            if (Params2.extraParams!=null){
-//                conditionLayout.initViewByParam();
-//                extraParam = Params2.extraParams;
-//            }else{
-//                extraParam = Params2.extraParams;
                 extraParam = conditionLayout.getAllConditions();
-//            }
             getListData();
         }
 

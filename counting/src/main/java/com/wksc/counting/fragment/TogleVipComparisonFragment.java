@@ -73,13 +73,13 @@ public class TogleVipComparisonFragment extends CommonFragment {
                 goBack();
             }
         });
-        showRightButton();
-        getRightButton().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getContext().pushFragmentToBackStack(MoreFragment.class,"");
-            }
-        });
+//        showRightButton();
+//        getRightButton().setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                getContext().pushFragmentToBackStack(MoreFragment.class,"");
+//            }
+//        });
         return v;
     }
 

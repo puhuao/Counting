@@ -16,8 +16,11 @@ import android.widget.TextView;
 import com.wksc.counting.R;
 import com.wksc.counting.fragment.CustomerServiceFragment;
 import com.wksc.counting.fragment.MarktingCenterFragment;
+import com.wksc.counting.fragment.NoRightFragment;
 import com.wksc.counting.fragment.SupplyChainCenterFragment;
 import com.wksc.counting.widegit.PagerSlidingTabStrip;
+import com.wksc.framwork.BaseApplication;
+import com.wksc.framwork.platform.config.IConfig;
 
 import java.util.ArrayList;
 
@@ -26,15 +29,16 @@ import java.util.ArrayList;
  *
  * @
  */
-public class TitleSelectPopupWindow extends PopupWindow{
+public class TitleSelectPopupWindow extends PopupWindow {
+    private IConfig config;
     PagerSlidingTabStrip mIndicator;
     private final Activity mContext;
     private ArrayList<FragmentEntity> indicatorFragmentEntityList;
     private TextView titleView;
 
-    public TitleSelectPopupWindow(Activity context){
+    public TitleSelectPopupWindow(Activity context) {
         mContext = context;
-        View view = LayoutInflater.from(context).inflate(R.layout.pop_layout_title_select,null);
+        View view = LayoutInflater.from(context).inflate(R.layout.pop_layout_title_select, null);
         mIndicator = (PagerSlidingTabStrip) view.findViewById(R.id.indicator);
         this.setContentView(view);
         this.setOutsideTouchable(true);
@@ -49,26 +53,33 @@ public class TitleSelectPopupWindow extends PopupWindow{
                 dismiss();
             }
         });
-
+        config = BaseApplication.getInstance().getCurrentConfig();
 
         initview();
     }
 
     private void initview() {
         indicatorFragmentEntityList = new ArrayList<>();
+        String[] rights =  config.getString("topicrule", "").split(",");
 
-        for (int i =0 ;i < 3;i++) {
+        for (int i = 0; i < rights.length; i++) {
             String name = null;
             Fragment fragment = null;
             FragmentEntity fragmentEntity = null;
-            if (i == 0){
+            if (i == 0) {
+                if (rights[0].equals("10"))
                 fragment = new MarktingCenterFragment();
+                else fragment = new NoRightFragment();
                 name = "营销中心";
-            }else if(i == 1){
+            } else if (i == 1) {
+                if (rights[1].equals("20"))
                 fragment = new SupplyChainCenterFragment();
+                else fragment = new NoRightFragment();
                 name = "供应链中心";
-            }else if(i ==2){
+            } else if (i == 2) {
+                if (rights[2].equals("30"))
                 fragment = new CustomerServiceFragment();
+                else fragment = new NoRightFragment();
                 name = "客服中心";
             }
             if (fragment != null) {
@@ -89,19 +100,20 @@ public class TitleSelectPopupWindow extends PopupWindow{
                     tab.setTextSize(15);
                     tab.setText(indicatorFragmentEntityList.get(i).name);
                     tab.setPadding(8, 8, 8, 8);
+                    tab.setTextColor(mContext.getResources().getColor(R.color.main_tab_text_selector));
 
-                    if (indicatorFragmentEntityList.size() == 2) {
-                        if (i == 0) {
-                            tab.setTextColor(mContext.getResources().getColor(R.color.bg_color));
-                            tab.setBackgroundResource(R.drawable.tab_left_select);
-                        } else {
-                            tab.setTextColor(mContext.getResources().getColor(R.color.white));
-                            tab.setBackgroundResource(R.drawable.tab_right_notselect);
-                        }
-                    } else if (indicatorFragmentEntityList.size() == 1) {
-                        tab.setTextColor(mContext.getResources().getColor(R.color.white));
-                        tab.setBackgroundResource(R.drawable.transparent);
-                    }
+//                    if (indicatorFragmentEntityList.size() == 2) {
+//                        if (i == 0) {
+//                            tab.setTextColor(mContext.getResources().getColor(R.color.bg_color));
+//                            tab.setBackgroundResource(R.drawable.tab_left_select);
+//                        } else {
+//                            tab.setTextColor(mContext.getResources().getColor(R.color.white));
+//                            tab.setBackgroundResource(R.drawable.tab_right_notselect);
+//                        }
+//                    } else if (indicatorFragmentEntityList.size() == 1) {
+//                        tab.setTextColor(mContext.getResources().getColor(R.color.white));
+//                        tab.setBackgroundResource(R.drawable.transparent);
+//                    }
 
                     parent.addView(tab);
                 }
@@ -110,7 +122,7 @@ public class TitleSelectPopupWindow extends PopupWindow{
 
     }
 
-    public void initListener(){
+    public void initListener() {
         mIndicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -122,29 +134,6 @@ public class TitleSelectPopupWindow extends PopupWindow{
                     titleView.setText(indicatorFragmentEntityList.get(position).name);
                 }
                 dissmisPopupwindow();
-                if (indicatorFragmentEntityList.size() == 2) {
-                    if (position == 0) {
-                        TextView tvTab0 = (TextView) mIndicator.getTab(0);
-                        tvTab0.setBackgroundResource(R.drawable.tab_left_select);
-                        tvTab0.setTextColor(mContext.getResources().getColor(R.color.bg_color));
-
-                        TextView tvTab1 = (TextView) mIndicator.getTab(1);
-                        tvTab1.setBackgroundResource(R.drawable.tab_right_notselect);
-                        tvTab1.setTextColor(mContext.getResources().getColor(R.color.white));
-                    } else if (position == 1) {
-                        TextView tvTab0 = (TextView) mIndicator.getTab(0);
-                        tvTab0.setBackgroundResource(R.drawable.tab_left_notselect);
-                        tvTab0.setTextColor(mContext.getResources().getColor(R.color.white));
-
-                        TextView tvTab1 = (TextView) mIndicator.getTab(1);
-                        tvTab1.setBackgroundResource(R.drawable.tab_right_select);
-                        tvTab1.setTextColor(mContext.getResources().getColor(R.color.bg_color));
-                    }
-
-                } else if (indicatorFragmentEntityList.size() == 1) {
-                    TextView tvTab = (TextView) mIndicator.getTab(position);
-                    tvTab.setTextColor(mContext.getResources().getColor(R.color.white));
-                }
             }
 
             @Override
@@ -153,19 +142,20 @@ public class TitleSelectPopupWindow extends PopupWindow{
         });
     }
 
-    public ArrayList<FragmentEntity> getIndicatorList(){
+    public ArrayList<FragmentEntity> getIndicatorList() {
         return indicatorFragmentEntityList;
     }
 
-    public void setViewPager(ViewPager mViewPager){
+    public void setViewPager(ViewPager mViewPager) {
         mIndicator.setViewPager(mViewPager);
     }
 
-    public void showPopupwindow(View view){
+    public void showPopupwindow(View view) {
         backgroundAlpha(0.5f);
         this.showAsDropDown(view);
     }
-    public void dissmisPopupwindow(){
+
+    public void dissmisPopupwindow() {
         this.dismiss();
     }
 
@@ -184,7 +174,7 @@ public class TitleSelectPopupWindow extends PopupWindow{
         public String name;
         public Fragment fragment;
 
-        public FragmentEntity( String name, Fragment fragment) {
+        public FragmentEntity(String name, Fragment fragment) {
             this.name = name;
             this.fragment = fragment;
         }

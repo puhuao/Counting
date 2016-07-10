@@ -497,8 +497,10 @@ public class BarLineChartTouchListener extends ChartTouchListener<BarLineChartBa
 
             PointF trans = getTrans(e.getX(), e.getY());
 
-            mChart.zoom(mChart.isScaleXEnabled() ? 1.4f : 1f, mChart.isScaleYEnabled() ? 1.4f : 1f, trans.x, trans.y);
-
+//            mChart.zoom(mChart.isScaleXEnabled() ? 1.4f : 1f, mChart.isScaleYEnabled() ? 1.4f : 1f, trans.x, trans.y);
+if (mChart.getmOnDoubleTab()!=null){
+    mChart.getmOnDoubleTab().doubleTab(mChart);
+}
             if (mChart.isLogEnabled())
                 Log.i("BarlineChartTouch", "Double-Tap, Zooming In, x: " + trans.x + ", y: "
                         + trans.y);

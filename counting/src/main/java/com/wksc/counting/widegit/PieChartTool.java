@@ -31,16 +31,11 @@ public class PieChartTool {
         pieChart1.setUsePercentValues(true);
         pieChart1.setDescription("");
         pieChart1.setExtraOffsets(5, 10, 5, 5);
-
         pieChart1.setDragDecelerationFrictionCoef(0.95f);
-
-
         pieChart1.setDrawHoleEnabled(true);
         pieChart1.setHoleColor(Color.WHITE);
-
         pieChart1.setTransparentCircleColor(Color.WHITE);
         pieChart1.setTransparentCircleAlpha(110);
-
         pieChart1.setHoleRadius(58f);
         pieChart1.setTransparentCircleRadius(61f);
 
@@ -69,7 +64,7 @@ public class PieChartTool {
         // drawn above each other.
         if (!values[0].equals("")&&!des[0].equals("")){
             for (int i = 0; i < values.length; i++) {
-                yVals1.add(new Entry(Float.parseFloat(values[i]),i));
+                yVals1.add(new Entry(Float.valueOf(values[i]),i));
             }
             ArrayList<String> xVals = new ArrayList<>();
 

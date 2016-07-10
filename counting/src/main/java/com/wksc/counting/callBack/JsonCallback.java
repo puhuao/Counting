@@ -74,13 +74,6 @@ public abstract class JsonCallback<T> extends EncryptCallback<T> {
                 break;
             case 1:
                     BaseInfo.code = 1;
-                OkHttpUtils.getInstance().getDelivery().post(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(OkHttpUtils.getContext(), "错误信息：" + msg, Toast.LENGTH_SHORT).show();
-
-                    }
-                });
                 break;
             case -2:
                 mConext.startActivity(new Intent(mConext, LoginActivity.class));
@@ -107,12 +100,12 @@ public abstract class JsonCallback<T> extends EncryptCallback<T> {
                 throw new IllegalStateException("错误代码：" + code + "，错误信息：" + msg);
         }
         //如果要更新UI，需要使用handler，可以如下方式实现，也可以自己写handler
-        OkHttpUtils.getInstance().getDelivery().post(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(OkHttpUtils.getContext(), "错误代码：" + code + "，错误信息：" + msg, Toast.LENGTH_SHORT).show();
-            }
-        });
+//        OkHttpUtils.getInstance().getDelivery().post(new Runnable() {
+//            @Override
+//            public void run() {
+//                Toast.makeText(OkHttpUtils.getContext(), "错误代码：" + code + "，错误信息：" + msg, Toast.LENGTH_SHORT).show();
+//            }
+//        });
         return null;
     }
 }

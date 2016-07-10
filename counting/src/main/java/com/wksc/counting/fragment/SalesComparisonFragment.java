@@ -127,6 +127,7 @@ public class SalesComparisonFragment extends CommonFragment {
                 bundle.putString("param", param);
                 bundle.putString("provice", adapter.getList().get(position).code);
                 bundle.putString("extra", extraParam);
+                bundle.putString("title",adapter.getList().get(position).area);
                 getContext().pushFragmentToBackStack(TogleFragment.class, bundle);
             }
         });

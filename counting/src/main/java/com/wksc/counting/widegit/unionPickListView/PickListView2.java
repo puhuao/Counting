@@ -226,9 +226,12 @@ public class PickListView2 extends NestedListView implements AdapterView.OnItemC
     public void update(int arg1,int arg2){
         this.invalidate();
         if (hasSuperLevel&&hasScendLevel){
-            scendDataSet.clear();
-            scendDataSet.addAll(BaseDataUtil2.countys(arg1,arg2));
-            scentAdapter.notifyDataSetChanged();
+            if (scendDataSet!=null){
+                scendDataSet.clear();
+                scendDataSet.addAll(BaseDataUtil2.countys(arg1,arg2));
+                scentAdapter.notifyDataSetChanged();
+            }
+
         }
     }
 

@@ -65,13 +65,13 @@ public class TogleSaveAnalysisFragment extends CommonFragment {
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_save_analysis, null);
-        showRightButton();
-        getRightButton().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getContext().pushFragmentToBackStack(MoreFragment.class, "");
-            }
-        });
+//        showRightButton();
+//        getRightButton().setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                getContext().pushFragmentToBackStack(MoreFragment.class, "");
+//            }
+//        });
         return v;
     }
 

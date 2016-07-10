@@ -71,13 +71,13 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_core_index, null);
         hideLeftButton();
-        showRightButton();
-        getRightButton().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                EventBus.getDefault().post(new TurnToMoreFragmentEvent(false));
-            }
-        });
+//        showRightButton();
+//        getRightButton().setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                EventBus.getDefault().post(new TurnToMoreFragmentEvent(false));
+//            }
+//        });
         setHeaderTitle("核心指标");
 
         return v;
@@ -91,6 +91,7 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
             EventBus.getDefault().register(this);
         config = BaseApplication.getInstance().getCurrentConfig();
         coreIndexListAdapter = new CoreIndexListAdapter(getActivity());
+        coreIndexListAdapter.setView(conditionLayout);
         coreIndexListAdapter.setList(FragmentDataUtil.coreIndexListModels);
         list.setAdapter(coreIndexListAdapter);
         list.setOnItemClickListener(this);
@@ -107,6 +108,7 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                conditionLayout.initViewByParam();
                 getListData();
             }
         });

@@ -153,8 +153,10 @@ public class GoodsPopupWindow extends BasePopupWindow {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked){
                     typeListAdapter.setAllCheck();
+                    checkBox1.setText("反选");
                 }else{
                     typeListAdapter.setAllNormal();
+                    checkBox1.setText("全选");
                 }
                 layout_names.setVisibility(View.INVISIBLE);
             }
@@ -164,8 +166,10 @@ public class GoodsPopupWindow extends BasePopupWindow {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked){
                     nameListAdapter.setAllCheck();
+                    checkBox2.setText("反选");
                 }else{
                     nameListAdapter.setAllNormal();
+                    checkBox2.setText("全选");
                 }
             }
         });

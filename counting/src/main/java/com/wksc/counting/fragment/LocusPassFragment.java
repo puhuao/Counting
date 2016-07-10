@@ -72,32 +72,13 @@ public class LocusPassFragment extends CommonFragment {
                 if (isLogin) {
                     String savedPassword = config.getString("locusPassword","");
                     if (savedPassword.equals(password)){
-                        StringBuilder sb = new StringBuilder(Urls.LOGIN);
-                        UrlUtils.getInstance().praseToUrl(sb,"username",config.getString("username",""))
-                                .praseToUrl(sb,"password",config.getString("password",""));
-                        OkHttpUtils.post(sb.toString())//
-                                .tag(this)//
-                                .execute(new DialogCallback<Object>(getContext(), Object.class) {
-
-                                    @Override
-                                    public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
-                                        super.onError(isFromCache, call, response, e);
-                                        ToastUtil.showShortMessage(getContext(),"系统错误");
-                                        mLocusPassView.clearPassword();
-                                    }
-
-                                    @Override
-                                    public void onResponse(boolean isFromCache, Object o, Request request, @Nullable Response response) {
-//                                        ToastUtil.showShortMessage(getContext(),"成功");
-//                                        config.setString("username",username);
-//                                        config.setString("password",password);
-                                        mLocusPassView.clearPassword();
-                                        startActivity(MainActivity.class);
-                                        getActivity().finish();
-                                    }
-                                });
-//                        startActivity(MainActivity.class);
-//                        getActivity().finish();
+                    if (config.getInt("validType",0)==0){
+                        doLogin();
+                    }else{
+                        mLocusPassView.clearPassword();
+                        startActivity(MainActivity.class);
+                        getActivity().finish();
+                    }
                     }else{
                         title.setText("手势密码错误请重新输入");
                         mLocusPassView.markError(2000);
@@ -123,6 +104,30 @@ public class LocusPassFragment extends CommonFragment {
             }
         });
         return v;
+    }
+
+    private void doLogin() {
+            StringBuilder sb = new StringBuilder(Urls.LOGIN);
+            UrlUtils.getInstance().praseToUrl(sb,"username",config.getString("username",""))
+                    .praseToUrl(sb,"password",config.getString("password",""));
+            OkHttpUtils.post(sb.toString())//
+                    .tag(this)//
+                    .execute(new DialogCallback<Object>(getContext(), Object.class) {
+
+                        @Override
+                        public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
+                            super.onError(isFromCache, call, response, e);
+                            ToastUtil.showShortMessage(getContext(),"系统错误");
+                            mLocusPassView.clearPassword();
+                        }
+
+                        @Override
+                        public void onResponse(boolean isFromCache, Object o, Request request, @Nullable Response response) {
+                            mLocusPassView.clearPassword();
+                            startActivity(MainActivity.class);
+                            getActivity().finish();
+                        }
+                    });
     }
 
     @Override

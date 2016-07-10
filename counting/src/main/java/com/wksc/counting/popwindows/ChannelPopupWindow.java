@@ -154,8 +154,10 @@ public class ChannelPopupWindow extends BasePopupWindow {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked){
                     channelListAdapter.setAllCheck();
+                    checkBox1.setText("反选");
                 }else{
                     channelListAdapter.setAllNormal();
+                    checkBox1.setText("全选");
                 }
                 layout_platforms.setVisibility(View.INVISIBLE);
             }
@@ -165,8 +167,10 @@ public class ChannelPopupWindow extends BasePopupWindow {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked){
                     platformListAdapter.setAllCheck();
+                    checkBox2.setText("反选");
                 }else{
                     platformListAdapter.setAllNormal();
+                    checkBox2.setText("全选");
                 }
             }
         });

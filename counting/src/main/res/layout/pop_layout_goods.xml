@@ -21,7 +21,11 @@
                 android:id="@+id/checkbox1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="全选" />
+                android:text="全选"
+                android:button="@null"
+                android:drawableLeft="@drawable/pop_item_selector"
+                android:drawablePadding="5dp"
+                android:padding="10dp"/>
         <ListView
             android:id="@+id/wine_type"
             android:layout_width="match_parent"
@@ -35,13 +39,19 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/home_press"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="invisible">
 
             <CheckBox
                 android:id="@+id/checkbox2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="全选" />
+                android:text="全选"
+                android:checked="false"
+                android:button="@null"
+                android:drawableLeft="@drawable/pop_item_selector"
+                android:drawablePadding="5dp"
+                android:padding="10dp"/>
         <ListView
             android:id="@+id/wine_name"
             android:layout_width="match_parent"

@@ -211,7 +211,7 @@ public class PickListView extends NestedListView implements AdapterView.OnItemCl
     public void update(int arg1,int arg2){
         this.invalidate();
         if (hasSuperLevel&&hasScendLevel){
-            if (superDataSet!=null){
+            if (scendDataSet!=null){
                 scendDataSet.clear();
                 scendDataSet.addAll(BaseDataUtil.countys(arg1,arg2));
                 scentAdapter.notifyDataSetChanged();

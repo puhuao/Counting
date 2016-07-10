@@ -37,21 +37,12 @@ public class BarChartTool {
 
         horizontalBarChart.setDrawBarShadow(false);
 
-        horizontalBarChart.setDrawValueAboveBar(true);
-
         horizontalBarChart.setDescription("");
 
-        // if more than 60 entries are displayed in the chart, no values will be
-        // drawn
         horizontalBarChart.setMaxVisibleValueCount(60);
 
         // scaling can now only be done on x- and y-axis separately
         horizontalBarChart.setPinchZoom(false);
-
-        // draw shadows for each bar that show the maximum value
-        // mChart.setDrawBarShadow(true);
-
-        // mChart.setDrawXLabels(false);
 
         horizontalBarChart.setDrawGridBackground(false);
         horizontalBarChart.setClickable(false);
@@ -68,7 +59,7 @@ public class BarChartTool {
         xl.setDrawGridLines(true);
         xl.setGridLineWidth(0.3f);
         xl.setSpaceBetweenLabels(10);
-
+        xl.setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE);
         YAxis yl = horizontalBarChart.getAxisLeft();
         yl.setTypeface(tf);
         yl.setDrawAxisLine(true);
@@ -84,9 +75,6 @@ public class BarChartTool {
         yr.setDrawGridLines(false);
         yr.setAxisMinValue(0f); // this replaces setStartAtZero(true)
         yr.setTextSize(6f);
-
-//        setData(coreChart);
-
         horizontalBarChart.invalidate();
     }
 
@@ -115,8 +103,6 @@ public class BarChartTool {
         int color2 = Color.parseColor("#BE364B");
         int[] colors = new int[]{color2, color1};
         set.setColors(colors);
-
-//        set.
         ArrayList<IBarDataSet> dataSets = new ArrayList<>();
         dataSets.add(set);
 

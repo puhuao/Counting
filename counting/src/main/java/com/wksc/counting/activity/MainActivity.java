@@ -18,6 +18,7 @@ import com.wksc.counting.Basedata.BaseDataUtil2;
 import com.wksc.counting.R;
 import com.wksc.counting.callBack.DialogCallback;
 import com.wksc.counting.config.Urls;
+import com.wksc.counting.event.SaleGoalAnaEvent;
 import com.wksc.counting.event.TurnToMoreFragmentEvent;
 import com.wksc.counting.fragment.CoreIndexFragment;
 import com.wksc.counting.fragment.MoreFragment;
@@ -73,17 +74,17 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
     private Boolean isSetLocusPassword;
 
     private Fragment coreIndexFragment = new CoreIndexFragment();
-    private Fragment thematicAnalysisFragment = new ThematicAnalysisFragment();
+    private ThematicAnalysisFragment thematicAnalysisFragment = new ThematicAnalysisFragment();
     private Fragment telescopeFragment = new TelescopeFragment();
     private Fragment newsFragment = new NewsFragment();
     private Fragment moreFragment = new MoreFragment();
     FragmentPagerAdapter fragmentPagerAdapter;
+    private boolean isFirstIn = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
-        // 删除窗口背景
         getWindow().setBackgroundDrawable(null);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         config = BaseApplication.getInstance().getCurrentConfig();
@@ -92,9 +93,7 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
 
     private void initView(){
         setContentView(R.layout.activity_main);
-
         ButterKnife.bind(this);
-//        transFragment(coreIndexFragment);
         fragments.add(coreIndexFragment);
         fragments.add(thematicAnalysisFragment);
         fragments.add(telescopeFragment);
@@ -112,11 +111,12 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
 
             @Override
             public void onPageSelected(int position) {
-                if (position==0){
-//                    EventBus.getDefault().post(CoreIndextLoadDataEvent.class);
-                }
-                else if(position==1){
-//                    EventBus.getDefault().post(MarketEvent.class);
+                if(position==1){
+                    if (isFirstIn){
+                        if (thematicAnalysisFragment!=null)
+                            thematicAnalysisFragment.loadFirst();
+                        isFirstIn = false;
+                    }
                 }
             }
 
@@ -237,6 +237,8 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
                                 String region = object.getString("regions");
                                 String channel = object.getString("channel");
                                 String items = object.getString("coreitem");
+                                String topicrule = object.getString("topicrule");
+                                config.setString("topicrule",topicrule);
                                 JSONArray array = object.getJSONArray("GoodsClass");
                                 BaseDataUtil.clearData();
                                 BaseDataUtil2.clearData();

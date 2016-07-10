@@ -194,7 +194,6 @@ public class MarktingCenterFragment extends CommonFragment {
 
             }
         });
-        mViewPager.setCurrentItem(0);
     }
 
     @Override

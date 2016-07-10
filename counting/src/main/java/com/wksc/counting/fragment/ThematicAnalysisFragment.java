@@ -45,13 +45,13 @@ public class ThematicAnalysisFragment extends CommonFragment {
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_thematic_analysis, null);
         hideLeftButton();
-        showRightButton();
-        getRightButton().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                EventBus.getDefault().post(new TurnToMoreFragmentEvent(false));
-            }
-        });
+//        showRightButton();
+//        getRightButton().setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                EventBus.getDefault().post(new TurnToMoreFragmentEvent(false));
+//            }
+//        });
         setHeaderTitle("专题分析");
         Drawable drawable = getContext().getResources().getDrawable(R.drawable.rectangle);
         drawable.setBounds(0,0,drawable.getMinimumWidth(),drawable.getMinimumHeight());
@@ -91,10 +91,7 @@ public class ThematicAnalysisFragment extends CommonFragment {
 
             @Override
             public void onPageSelected(int position) {
-                if (position==0){
-                    EventBus.getDefault().post(new SaleGoalAnaEvent());
-                    isFirst = false;
-                }else if(position == 1){
+                if(position == 1){
                     EventBus.getDefault().post(new GoodsAnaEvent());
                 }
             }
@@ -104,9 +101,6 @@ public class ThematicAnalysisFragment extends CommonFragment {
 
             }
         });
-//        if (isFirst){
-//            mViewPager.setCurrentItem(0);
-//        }
         titleSelectPopupWindow.setViewPager(mViewPager);
         titleSelectPopupWindow.initListener();
         titleSelectPopupWindow.setTitleView(getTitleHeaderBar().getTitleTextView());
@@ -148,6 +142,10 @@ public class ThematicAnalysisFragment extends CommonFragment {
             return fragmentsList.size();
         }
 
+    }
+
+    public void loadFirst(){
+        EventBus.getDefault().post(new SaleGoalAnaEvent());
     }
 
 }

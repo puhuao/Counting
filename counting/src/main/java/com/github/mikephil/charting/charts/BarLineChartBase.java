@@ -12,6 +12,7 @@ import android.graphics.PointF;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.View;
 
 import com.github.mikephil.charting.components.Legend.LegendPosition;
 import com.github.mikephil.charting.components.XAxis;
@@ -681,6 +682,20 @@ public abstract class BarLineChartBase<T extends BarLineScatterCandleBubbleData<
         // So we need to recalculate offsets.
         calculateOffsets();
         postInvalidate();
+    }
+
+    public void setmOnDoubleTab(OnDoubleTab mOnDoubleTab) {
+        this.mOnDoubleTab = mOnDoubleTab;
+    }
+
+    public OnDoubleTab getmOnDoubleTab() {
+        return mOnDoubleTab;
+    }
+
+    private OnDoubleTab mOnDoubleTab;
+
+    public interface OnDoubleTab{
+        public void doubleTab(View v);
     }
 
     /**

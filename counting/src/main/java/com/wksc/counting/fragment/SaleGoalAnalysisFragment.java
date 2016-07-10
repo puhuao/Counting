@@ -84,7 +84,7 @@ public class SaleGoalAnalysisFragment extends CommonFragment {
     @Override
     public void onResume() {
         super.onResume();
-        Log.e("tag","onrums");
+        Log.e("tag", "onrums");
     }
 
     private void initView() {
@@ -98,10 +98,10 @@ public class SaleGoalAnalysisFragment extends CommonFragment {
         conditionLayout.hideCity();
         conditionLayout.hideCounty();
         conditionLayout.hideStores();
-        if (FragmentDataUtil.saleAnaModel==null){
-            extraParam = conditionLayout.getAllConditions();
-            getListData();
-        }
+//        if (FragmentDataUtil.saleAnaModel==null){
+//            extraParam = conditionLayout.getAllConditions();
+//            getListData();
+//        }
         conditionLayout.hideBothGoodsAndChannel(true);
 
         conditionLayout.setConditionSelect(new ConditionLayout2.OnConditionSelect() {
@@ -123,13 +123,13 @@ public class SaleGoalAnalysisFragment extends CommonFragment {
                 Bundle bundle = new Bundle();
                 bundle.putString("code", salesFinishListAdapter.getList().get(position).code);
                 bundle.putString("extra", extraParam);
-                bundle.putInt("flag",1);
-                Intent intent = new Intent(getActivity(),TogleActivity.class);
+                bundle.putInt("flag", 1);
+                Intent intent = new Intent(getActivity(), TogleActivity.class);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
-        if (FragmentDataUtil.saleAnaModel!=null){
+        if (FragmentDataUtil.saleAnaModel != null) {
             Log.i("TAG", FragmentDataUtil.saleAnaModel.tableTitle);
             String[] titles = FragmentDataUtil.saleAnaModel.tableTitle.split("\\|");
             String[] desc = FragmentDataUtil.saleAnaModel.tableTitleDesc.split("\\|");
@@ -145,8 +145,8 @@ public class SaleGoalAnalysisFragment extends CommonFragment {
     private void getListData() {
         StringBuilder sb = new StringBuilder(Urls.TOPICINDEX);
         config = BaseApplication.getInstance().getCurrentConfig();
-        UrlUtils.getInstance().addSession(sb,config).praseToUrl(sb,"class","10")
-                .praseToUrl(sb,"level","1").praseToUrl(sb,"item","10");
+        UrlUtils.getInstance().addSession(sb, config).praseToUrl(sb, "class", "10")
+                .praseToUrl(sb, "level", "1").praseToUrl(sb, "item", "10");
         sb.append(extraParam);
         OkHttpUtils.post(sb.toString())//
                 .tag(this)//
@@ -160,19 +160,19 @@ public class SaleGoalAnalysisFragment extends CommonFragment {
                     @Override
                     public void onResponse(boolean isFromCache, SaleAnaModel c, Request request, @Nullable Response response) {
 //                       if (c.tableData.size()>0){
-                        if (refreshLayout.isRefreshing()){
+                        if (refreshLayout.isRefreshing()) {
                             refreshLayout.setRefreshing(false);
                         }
-                        FragmentDataUtil.saleAnaModel =c;
-                           Log.i("TAG", FragmentDataUtil.saleAnaModel.tableTitle);
-                           String[] titles = FragmentDataUtil.saleAnaModel.tableTitle.split("\\|");
-                           String[] desc = FragmentDataUtil.saleAnaModel.tableTitleDesc.split("\\|");
-                           titleLayout.clearAllViews();
-                           titleLayout.initView(titles, desc);
-                           salesFinishListAdapter.setItemCloums(titles.length);
-                           salesFinishListAdapter.setList(FragmentDataUtil.saleAnaModel.tableData);
-                           pieChartTool.setData(FragmentDataUtil.saleAnaModel.chartData);
-                           pieChartTool.setPiechart();
+                        FragmentDataUtil.saleAnaModel = c;
+                        Log.i("TAG", FragmentDataUtil.saleAnaModel.tableTitle);
+                        String[] titles = FragmentDataUtil.saleAnaModel.tableTitle.split("\\|");
+                        String[] desc = FragmentDataUtil.saleAnaModel.tableTitleDesc.split("\\|");
+                        titleLayout.clearAllViews();
+                        titleLayout.initView(titles, desc);
+                        salesFinishListAdapter.setItemCloums(titles.length);
+                        salesFinishListAdapter.setList(FragmentDataUtil.saleAnaModel.tableData);
+                        pieChartTool.setData(FragmentDataUtil.saleAnaModel.chartData);
+                        pieChartTool.setPiechart();
 
                     }
 
@@ -192,14 +192,8 @@ public class SaleGoalAnalysisFragment extends CommonFragment {
     @Subscribe
     public void changeChart(SaleGoalAnaEvent event) {
 
-        if (FragmentDataUtil.saleAnaModel==null){
-//            conditionLayout.initViewByParam();
-//            if (Params2.extraParams!=null){
-//                extraParam = Params2.extraParams;
-//            }else{
-//                extraParam = Params2.extraParams;
-                extraParam = conditionLayout.getAllConditions();
-//            }
+        if (FragmentDataUtil.saleAnaModel == null) {
+            extraParam = conditionLayout.getAllConditions();
             getListData();
         }
     }

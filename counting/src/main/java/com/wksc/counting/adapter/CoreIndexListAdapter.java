@@ -3,10 +3,12 @@ package com.wksc.counting.adapter;
 import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.charts.BarLineChartBase;
 import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
@@ -15,11 +17,16 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.listener.BarLineChartTouchListener;
+import com.github.mikephil.charting.listener.ChartTouchListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.wksc.counting.R;
 import com.wksc.counting.model.CoreIndexListModel;
+import com.wksc.counting.popwindows.ChartZoomPopupwindow;
 import com.wksc.counting.popwindows.TitleDescribewindow;
+import com.wksc.counting.widegit.ConditionLayout;
 import com.wksc.framwork.util.StringUtils;
 
 import java.util.ArrayList;
@@ -47,12 +54,13 @@ public class CoreIndexListAdapter extends BaseListAdapter<CoreIndexListModel>{
             convertView.setTag(holder);
         }
         final  int pos = position;
+        final View finalConvertView = convertView;
         holder.name.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
 //                ToastUtil.showShortMessage(mContext,mList.get(pos).titleDesc);
                 TitleDescribewindow titleSelectPopupWindow = new TitleDescribewindow(mContext);
-                titleSelectPopupWindow.showPopupwindow(v,mList.get(pos).titleDesc);
+                titleSelectPopupWindow.showPopupwindow(finalConvertView.getRootView(),mList.get(pos).titleDesc);
                 return false;
             }
         });
@@ -94,7 +102,14 @@ public class CoreIndexListAdapter extends BaseListAdapter<CoreIndexListModel>{
 
         // enable touch gestures
         holder.chart.setTouchEnabled(true);
-
+        holder.chart.setmOnDoubleTab(new BarLineChartBase.OnDoubleTab() {
+            @Override
+            public void doubleTab(View v) {
+                ChartZoomPopupwindow chartZoomPopupwindow = new ChartZoomPopupwindow(mContext,pos,
+                        mList.get(pos).chartData,mList.get(pos));
+                chartZoomPopupwindow.showPopupwindow(mView);
+            }
+        });
         holder.chart.setDragDecelerationFrictionCoef(0.9f);
 
         // enable scaling and dragging
@@ -110,7 +125,7 @@ public class CoreIndexListAdapter extends BaseListAdapter<CoreIndexListModel>{
         holder.chart.setBackgroundColor(Color.WHITE);
 
         // add data
-        setData(6, mList.get(position).chartData,holder.chart,position);
+        setData(6, mList.get(position).chartData,holder.chart,position,mList.get(position));
 
 //        holder.chart.animateX(2500);
         String[] strArray = mList.get(position).chartData.split(",");
@@ -118,17 +133,12 @@ public class CoreIndexListAdapter extends BaseListAdapter<CoreIndexListModel>{
 
         Typeface tf = Typeface.createFromAsset(mContext.getAssets(), "OpenSans-Regular.ttf");
 
-        // get the legend (only possible after setting data)
         Legend l = holder.chart.getLegend();
-
-        // modify the legend ...
-        // l.setPosition(LegendPosition.LEFT_OF_CHART);
         l.setForm(Legend.LegendForm.LINE);
         l.setTypeface(tf);
         l.setTextSize(11f);
         l.setTextColor(Color.BLACK);
         l.setPosition(Legend.LegendPosition.BELOW_CHART_LEFT);
-//        l.setYOffset(11f);
 
         XAxis xAxis = holder.chart.getXAxis();
         xAxis.setTypeface(tf);
@@ -136,20 +146,24 @@ public class CoreIndexListAdapter extends BaseListAdapter<CoreIndexListModel>{
         xAxis.setDrawGridLines(false);
         xAxis.setDrawAxisLine(false);
         xAxis.setSpaceBetweenLabels(1);
+        xAxis.setEnabled(false);
 
         YAxis leftAxis = holder.chart.getAxisLeft();
         leftAxis.setTypeface(tf);
         leftAxis.setTextColor(ColorTemplate.getHoloBlue());
-        leftAxis.setAxisMaxValue(Float.parseFloat(mList.get(position).maxY));
-        leftAxis.setAxisMinValue(Float.parseFloat(mList.get(position).minY));
+        leftAxis.setAxisMaxValue(Float.valueOf(mList.get(position).maxY));
+        leftAxis.setAxisMinValue(Float.valueOf(mList.get(position).minY));
         leftAxis.setDrawGridLines(true);
+        if (mList.get(position).coreCode.equals("30")){
+            leftAxis.setValueFormatter(new PercentFormatter());
+        }
 
         YAxis rightAxis = holder.chart.getAxisRight();
         rightAxis.setEnabled(false);
         return convertView;
     }
 
-    private void setData(int count, String range, Chart chart,int pos) {
+    private void setData(int count, String range, Chart chart,int pos,CoreIndexListModel coreIndexListModel) {
 
         ArrayList<String> xVals = new ArrayList<String>();
 
@@ -179,6 +193,8 @@ public class CoreIndexListAdapter extends BaseListAdapter<CoreIndexListModel>{
         set1.setDrawCircleHole(false);
         set1.setDrawFilled(true);
         set1.setDrawValues(false);
+        if (coreIndexListModel.coreCode.equals("30"))
+        set1.setValueFormatter(new PercentFormatter());
         ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
         dataSets.add(set1); // add the datasets
 
@@ -189,6 +205,10 @@ public class CoreIndexListAdapter extends BaseListAdapter<CoreIndexListModel>{
 
         // set data
         chart.setData(data);
+    }
+View mView;
+    public void setView(View conditionLayout) {
+        mView = conditionLayout;
     }
 
     class ViewHolder{
