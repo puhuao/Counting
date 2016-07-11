@@ -1,6 +1,5 @@
 package com.wksc.counting.fragment;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -10,8 +9,6 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.lzy.okhttputils.OkHttpUtils;
-import com.lzy.okhttputils.callback.StringCallback;
-import com.wksc.counting.Basedata.BaseDataUtil;
 import com.wksc.counting.R;
 import com.wksc.counting.activity.MainActivity;
 import com.wksc.counting.callBack.BaseInfo;
@@ -19,10 +16,8 @@ import com.wksc.counting.callBack.DialogCallback;
 import com.wksc.counting.config.Constans;
 import com.wksc.counting.config.Urls;
 import com.wksc.counting.tools.UrlUtils;
-import com.wksc.counting.widegit.CustomDialog;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
-import com.wksc.framwork.platform.config.Constants;
 import com.wksc.framwork.platform.config.IConfig;
 import com.wksc.framwork.util.StringUtils;
 import com.wksc.framwork.util.ToastUtil;
@@ -134,7 +129,7 @@ public class LoginFragment extends CommonFragment {
     }
 
     private void getValidCode() {
-        Pattern p = Pattern.compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
+        Pattern p = Pattern.compile("^((13[0-9])|(15[^4,\\D])|(18[0-9])|(17[6,7,8]))\\d{8}$");
         Matcher m = p.matcher(userName.getText().toString());
         if (!m.matches()) {
             ToastUtil.showShortMessage(getContext(), "请输入正确的手机号");
