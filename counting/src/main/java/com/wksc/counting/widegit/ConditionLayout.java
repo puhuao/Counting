@@ -38,8 +38,6 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
     LinearLayout layoutGoods;
     LinearLayout layoutChannel;
     LinearLayout layout;
-    int y, m, d;
-    private String data = "";
     AreaPopupwindow areaPopupWindow;
     GoodsPopupWindow goodsPopupWindow;
     DateSelectPopupWindow myPopupwindow;
@@ -80,41 +78,43 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
         channel.setOnClickListener(this);
 //        index.setOnClickListener(this);
         goodsPopupWindow = new GoodsPopupWindow((Activity) getContext());
-        myPopupwindow = new DateSelectPopupWindow((Activity) getContext(), data);
         channelPopupWindow = new ChannelPopupWindow((Activity) getContext());
         init();
     }
 
 
-
     public void init() {
-        y = calendar.get(Calendar.YEAR);
-        m = calendar.get(Calendar.MONTH);
-        d = calendar.get(Calendar.DAY_OF_MONTH);
+        if (Params.y==0)
+            Params.y = calendar.get(Calendar.YEAR);
+        if (Params.m==0)
+            Params.m = calendar.get(Calendar.MONTH);
+        if (Params.d == 0)
+            Params.d = calendar.get(Calendar.DAY_OF_MONTH);
+
         if (Params.years.length() == 0) {
-            Params.years.append("&year=").append(y);
+            Params.years.append("&year=").append(Params.y);
         }
         if (Params.month.length() == 0) {
-            if (m < 10) {
+            if (Params.m < 10) {
                 if (Params.month.length() == 0)
-                    Params.month.append("&month=").append("0" + (m + 1));
-            } else if (m == 12) {
+                    Params.month.append("&month=").append("0" + (Params.m + 1));
+            } else if (Params.m == 12) {
                 if (Params.month.length() == 0)
                     Params.month.append("&month=").append("01");
             } else {
                 if (Params.month.length() == 0)
-                    Params.month.append("&month=").append((m + 1));
+                    Params.month.append("&month=").append((Params.m + 1));
             }
         }
         if (Params.day.length() == 0) {
-            if (d < 10) {
+            if (Params.d < 10) {
                 if (Params.day.length() == 0)
-                    Params.day.append("&day=").append("0" + (d - 1));
-            } else if (d == 1) {
+                    Params.day.append("&day=").append("0" + (Params.d - 1));
+            } else if (Params.d == 1) {
 
             } else {
                 if (Params.day.length() == 0)
-                    Params.day.append("&day=").append(d - 1);
+                    Params.day.append("&day=").append(Params.d - 1);
             }
         }
 
@@ -127,20 +127,20 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
      * @param
      */
     public void initViewBySelf() {
-        time1.setText(y + "-" + (m + 1) + "-" + (d - 1));
-        area1.setText("全国");
+        time1.setText(Params.y + "-" + (Params.m + 1) + "-" + (Params.d - 1));
+        area1.setText("全部");
         channel1.setText("全部");
         goods1.setText("全部");
     }
 
     public void initViewByParam() {
         if (StringUtils.isBlank(Params.time.toString())) {
-            time1.setText(y + "-" + (m + 1) + "-" + (d - 1));
+            time1.setText(Params.y + "-" + (Params.m + 1) + "-" + (Params.d - 1));
         } else {
             time1.setText(Params.time.toString());
         }
         if (StringUtils.isBlank(Params.areal.toString())) {
-            area1.setText("全国");
+            area1.setText("全部");
         } else
             area1.setText(Params.areal.toString());
         if (StringUtils.isBlank(Params.channel.toString())) {
@@ -234,7 +234,9 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
                 goodsPopupWindow.showPopupwindow(v);
                 break;
             case R.id.time:
-
+                if (myPopupwindow == null) {
+                    myPopupwindow = new DateSelectPopupWindow((Activity) getContext());
+                }
                 if (hideDay)
                     myPopupwindow.hideDay(hideDay);
                 myPopupwindow.showPopupwindow(v);

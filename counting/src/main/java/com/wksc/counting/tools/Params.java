@@ -22,12 +22,22 @@ public class Params {
     public static StringBuilder time = new StringBuilder();
     public static StringBuilder channel = new StringBuilder();
 
+    public static int y,m,d;
+    public static int dateFlag = 3;
+
     public static String getParam(){
         if (prams.length() > 0) {
             prams.delete(0, prams.length());
         }
-        prams.append(province).append(channels).append(wchannel).append(years).append(month).append(day)
+        prams.append(province).append(channels).append(wchannel)
                 .append(city).append(county).append(goodsclass).append(goodssubclass).append(mcu);
+        if (dateFlag==3){
+            prams.append(day).append(years).append(month);
+        }else if(dateFlag == 2){
+            prams.append(years).append(month);
+        }else if(dateFlag == 1){
+            prams.append(years);
+        }
         return prams.toString();
     }
 
@@ -91,6 +101,9 @@ public class Params {
             goodssubclass.delete(0,goodssubclass.length());
         if (province.length()>0)
             province.delete(0,province.length());
+        y =0;
+        m = 0;
+        d = 0;
     }
 
 }

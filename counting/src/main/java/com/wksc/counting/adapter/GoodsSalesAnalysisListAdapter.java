@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.style.TextAppearanceSpan;
 import android.view.Gravity;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.wksc.counting.R;
 import com.wksc.counting.model.GoodsAnalysisModel;
 import com.wksc.counting.model.goodsSaleAnaModle.GoodSaleModle;
 import com.wksc.counting.model.goodsSaleAnaModle.TableModle;
+import com.wksc.counting.widegit.MarqueeText;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -42,14 +44,16 @@ public class GoodsSalesAnalysisListAdapter extends BaseListAdapter<TableModle> {
         String[] array = mList.get(position).newValue.split("\\|");
         String[] colors = mList.get(position).newColor.split("\\|");
         for (int i = 0; i < itemCloums; i++) {
-            TextView textView = new TextView(mContext);
+            MarqueeText textView = new MarqueeText(mContext);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT);
             params.weight = 1;
             textView.setLayoutParams(params);
             textView.setGravity(Gravity.CENTER);
             textView.setPadding(10, 10, 10, 10);
             textView.setTextSize(12f);
-
+            textView.setSingleLine();
+            textView.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+            textView.setMarqueeRepeatLimit(-1);
             textView.setText(array[i]);
             String[] color = colors[i].split(",");
             textView.setTextColor(Color.rgb(Integer.parseInt(color[0]),

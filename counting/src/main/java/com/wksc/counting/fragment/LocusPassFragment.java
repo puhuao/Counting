@@ -8,16 +8,32 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.lzy.okhttputils.OkHttpUtils;
+import com.wksc.counting.Basedata.BaseDataUtil;
+import com.wksc.counting.Basedata.BaseDataUtil2;
 import com.wksc.counting.R;
 import com.wksc.counting.activity.MainActivity;
 import com.wksc.counting.callBack.DialogCallback;
 import com.wksc.counting.config.Urls;
+import com.wksc.counting.model.baseinfo.Channel;
+import com.wksc.counting.model.baseinfo.CoreItem;
+import com.wksc.counting.model.baseinfo.GoodsClassFirst;
+import com.wksc.counting.model.baseinfo.GoodsClassScend;
+import com.wksc.counting.model.baseinfo.Region;
 import com.wksc.counting.tools.UrlUtils;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 import com.wksc.framwork.platform.config.IConfig;
+import com.wksc.framwork.util.GsonUtil;
+import com.wksc.framwork.util.StringUtils;
 import com.wksc.framwork.util.ToastUtil;
 import com.wksc.framwork.widget.LocusPassWordView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -110,28 +126,109 @@ public class LocusPassFragment extends CommonFragment {
             StringBuilder sb = new StringBuilder(Urls.LOGIN);
             UrlUtils.getInstance().praseToUrl(sb,"username",config.getString("username",""))
                     .praseToUrl(sb,"password",config.getString("password",""));
+        DialogCallback callback =new DialogCallback<Object>(getContext(), Object.class) {
+
+            @Override
+            public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
+                super.onError(isFromCache, call, response, e);
+                ToastUtil.showShortMessage(getContext(),"系统错误");
+                mLocusPassView.clearPassword();
+            }
+
+            @Override
+            public void onResponse(boolean isFromCache, Object o, Request request, @Nullable Response response) {
+                mLocusPassView.clearPassword();
+                getBaseData();
+//                startActivity(MainActivity.class);
+//                getActivity().finish();
+            }
+        };
+        callback.setDialogHide();
             OkHttpUtils.post(sb.toString())//
                     .tag(this)//
-                    .execute(new DialogCallback<Object>(getContext(), Object.class) {
-
-                        @Override
-                        public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
-                            super.onError(isFromCache, call, response, e);
-                            ToastUtil.showShortMessage(getContext(),"系统错误");
-                            mLocusPassView.clearPassword();
-                        }
-
-                        @Override
-                        public void onResponse(boolean isFromCache, Object o, Request request, @Nullable Response response) {
-                            mLocusPassView.clearPassword();
-                            startActivity(MainActivity.class);
-                            getActivity().finish();
-                        }
-                    });
+                    .execute(callback);
     }
 
     @Override
     protected void lazyLoad() {
 
+    }
+
+    private void getBaseData() {
+        StringBuilder sb = new StringBuilder(Urls.BASE_INFO);
+        UrlUtils.getInstance().addSession(sb, config);
+        OkHttpUtils.post(sb.toString())//
+                .tag(this)//
+                .execute(new DialogCallback<String>(getActivity(), String.class) {
+
+                    @Override
+                    public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
+                        super.onError(isFromCache, call, response, e);
+                        ToastUtil.showShortMessage(getContext(),"基础信息获取出错！！");
+                    }
+
+                    @Override
+                    public void onResponse(boolean isFromCache, String c, Request request, @Nullable Response response) {
+                        config = BaseApplication.getInstance().getPreferenceConfig();
+                        try {
+                            if (!StringUtils.isBlank(c)) {
+                                JSONObject object = new JSONObject(c);
+                                String region = object.getString("regions");
+                                String channel = object.getString("channel");
+                                String items = object.getString("coreitem");
+                                String topicrule = object.getString("topicrule");
+                                config.setString("topicrule",topicrule);
+                                config.setString("noderule",object.getString("noderule"));
+                                JSONArray array = object.getJSONArray("GoodsClass");
+                                BaseDataUtil.clearData();
+                                BaseDataUtil2.clearData();
+                                BaseDataUtil.region.addAll(
+                                        GsonUtil.fromJsonList(region, Region.class));
+                                BaseDataUtil2.region.addAll(
+                                        GsonUtil.fromJsonList(region, Region.class));
+                                BaseDataUtil2.copyConditionSet(region);
+                                BaseDataUtil.channels.addAll(GsonUtil.fromJsonList(channel, Channel.class));
+                                BaseDataUtil2.channels.addAll(GsonUtil.fromJsonList(channel, Channel.class));
+                                BaseDataUtil.coreItems.addAll(GsonUtil.fromJsonList(items, CoreItem.class));
+                                BaseDataUtil2.coreItems.addAll(GsonUtil.fromJsonList(items, CoreItem.class));
+                                BaseDataUtil.goodsClassFirst.addAll(getGoods(array));
+                                BaseDataUtil2.goodsClassFirst.addAll(getGoods(array));
+                                BaseDataUtil2.goodsClassFirstGoal.addAll(getGoods(array));
+                                BaseDataUtil2.goodsClassFirstChannel.addAll(getGoods(array));
+                                BaseDataUtil2.goodsClassFirstVip.addAll(getGoods(array));
+                                BaseDataUtil2.goodsClassFirstGoods.addAll(getGoods(array));
+                                BaseDataUtil2.goodsClassFirstSave.addAll(getGoods(array));
+                                startActivity(MainActivity.class);
+                                getActivity().finish();
+                            } else {
+                                ToastUtil.showShortMessage(getContext(), "数据为空");
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                });
+    }
+
+    public List<GoodsClassFirst> getGoods(JSONArray array){
+        List<GoodsClassFirst> goodsClassFirsts = new ArrayList<>();
+        for (int i = 0; i < array.length(); i++) {
+            JSONObject obj = null;
+            try {
+                obj = array.getJSONObject(i);
+                GoodsClassFirst first = new GoodsClassFirst();
+                first.name = obj.getString("name");
+                first.code = obj.getString("code");
+                String classS = obj.getString("class");
+                List<GoodsClassScend> goodsClassScends = GsonUtil.
+                        fromJsonList(classS, GoodsClassScend.class);
+                first.classX = goodsClassScends;
+                goodsClassFirsts.add(first);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return  goodsClassFirsts;
     }
 }

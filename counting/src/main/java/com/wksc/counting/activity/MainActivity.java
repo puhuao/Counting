@@ -91,7 +91,7 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
         getWindow().setBackgroundDrawable(null);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         config = BaseApplication.getInstance().getCurrentConfig();
-        getBaseData();
+        initView();
     }
 
     private void initView(){
@@ -216,95 +216,6 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
             return fragmentsList.size();
         }
 
-    }
-
-    private void getBaseData() {
-        StringBuilder sb = new StringBuilder(Urls.BASE_INFO);
-        UrlUtils.getInstance().addSession(sb, config);
-        OkHttpUtils.post(sb.toString())//
-                .tag(this)//
-                .execute(new DialogCallback<String>(this, String.class) {
-
-                    @Override
-                    public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
-                        super.onError(isFromCache, call, response, e);
-                        ToastUtil.showShortMessage(MainActivity.this,"基础信息获取出错！！");
-                    }
-
-                    @Override
-                    public void onResponse(boolean isFromCache, String c, Request request, @Nullable Response response) {
-                        config = BaseApplication.getInstance().getPreferenceConfig();
-                        try {
-                            if (!StringUtils.isBlank(c)) {
-                                JSONObject object = new JSONObject(c);
-                                String region = object.getString("regions");
-                                String channel = object.getString("channel");
-                                String items = object.getString("coreitem");
-                                String topicrule = object.getString("topicrule");
-                                config.setString("topicrule",topicrule);
-                                config.setString("noderule",object.getString("noderule"));
-                                JSONArray array = object.getJSONArray("GoodsClass");
-                                BaseDataUtil.clearData();
-                                BaseDataUtil2.clearData();
-                                BaseDataUtil.region.addAll(
-                                        GsonUtil.fromJsonList(region, Region.class));
-                                BaseDataUtil2.region.addAll(
-                                        GsonUtil.fromJsonList(region, Region.class));
-                                BaseDataUtil2.copyConditionSet(region);
-                                BaseDataUtil.channels.addAll(GsonUtil.fromJsonList(channel, Channel.class));
-                                BaseDataUtil2.channels.addAll(GsonUtil.fromJsonList(channel, Channel.class));
-                                BaseDataUtil.coreItems.addAll(GsonUtil.fromJsonList(items, CoreItem.class));
-                                BaseDataUtil2.coreItems.addAll(GsonUtil.fromJsonList(items, CoreItem.class));
-//                                for (int i = 0; i < array.length(); i++) {
-//                                    JSONObject obj = array.getJSONObject(i);
-//                                    GoodsClassFirst first = new GoodsClassFirst();
-//                                    first.name = obj.getString("name");
-//                                    first.code = obj.getString("code");
-//                                    String classS = obj.getString("class");
-//                                    List<GoodsClassScend> goodsClassScends = GsonUtil.
-//                                            fromJsonList(classS, GoodsClassScend.class);
-//                                    first.classX = goodsClassScends;
-//                                    goodsClassFirsts.add(first);
-//                                }
-                                BaseDataUtil.goodsClassFirst.addAll(getGoods(array));
-                                BaseDataUtil2.goodsClassFirst.addAll(getGoods(array));
-                                BaseDataUtil2.goodsClassFirstGoal.addAll(getGoods(array));
-                                BaseDataUtil2.goodsClassFirstChannel.addAll(getGoods(array));
-                                BaseDataUtil2.goodsClassFirstVip.addAll(getGoods(array));
-                                BaseDataUtil2.goodsClassFirstGoods.addAll(getGoods(array));
-                                BaseDataUtil2.goodsClassFirstSave.addAll(getGoods(array));
-                                initView();
-                            } else {
-                                ToastUtil.showShortMessage(MainActivity.this, "数据为空");
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                });
-    }
-
-
-    public List<GoodsClassFirst> getGoods(JSONArray array){
-        List<GoodsClassFirst> goodsClassFirsts = new ArrayList<>();
-        for (int i = 0; i < array.length(); i++) {
-            JSONObject obj = null;
-            try {
-                obj = array.getJSONObject(i);
-                GoodsClassFirst first = new GoodsClassFirst();
-                first.name = obj.getString("name");
-                first.code = obj.getString("code");
-                String classS = obj.getString("class");
-                List<GoodsClassScend> goodsClassScends = GsonUtil.
-                        fromJsonList(classS, GoodsClassScend.class);
-                first.classX = goodsClassScends;
-                goodsClassFirsts.add(first);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        return  goodsClassFirsts;
     }
 
     @Override

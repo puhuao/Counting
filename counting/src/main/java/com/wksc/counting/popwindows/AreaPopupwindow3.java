@@ -310,7 +310,7 @@ public class AreaPopupwindow3 extends BasePopupWindow {
 
     private void changeCheckBoxs(Boolean isFromList) {
         mFromList = isFromList;
-        if (BaseDataUtil.checkedRagions().size()<BaseDataUtil.regions().size()){
+        if (condition.checkedRagions().size()<condition.regions().size()){
             checkBox1.setChecked(false);
         }else{
             checkBox1.setChecked(true);
@@ -342,6 +342,7 @@ public class AreaPopupwindow3 extends BasePopupWindow {
                 checkBox3.setChecked(true);
             }
         }
+        mFromList = false;
     }
     private void getData() {
         String param = edit_query.getText().toString();

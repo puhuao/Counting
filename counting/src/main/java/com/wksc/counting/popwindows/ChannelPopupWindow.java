@@ -128,16 +128,14 @@ public class ChannelPopupWindow extends BasePopupWindow {
                 }else if(i>0&&j==0){
                     mListener.conditionSelect(sbChannelCode.toString(),sbChannel.toString(),0);
                 }
-//                if (i>=1&&j==0){
 
-//                }else if(i == 0&&j>=1){
-//
-//                }else if(i == 0&&j==0){
-//                    mListener.conditionSelect(sbPlatformCode.toString(),sbPlatform.toString(),-1);
-//                }
-
-
-//                area.setText(sbChannel+" "+sbPlatform);
+                isFromList = true;
+                if (platformListAdapter.getCheckedNumber()==platformListAdapter.getList().size()){
+                    checkBox2.setChecked(true);
+                }else{
+                    checkBox2.setChecked(false);
+                }
+                isFromList = false;
             }
         });
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -148,17 +146,20 @@ public class ChannelPopupWindow extends BasePopupWindow {
                 channelListAdapter.moveToNextStatus(position);
                 channelListAdapter.notifyDataSetChanged();
                 if (channelListAdapter.getCheckedNumber()==1){
+                    if (platformListAdapter.getList().size()>0)
                     layout_platforms.setVisibility(View.VISIBLE);
                 }else{
                     layout_platforms.setVisibility(View.INVISIBLE);
                 }
-
+                isFromList = true;
                 if (channelListAdapter.getCheckedNumber()==BaseDataUtil.channels().size()){
-                    isFromList = true;
+
                     checkBox1.setChecked(true);
                 }else{
                     checkBox1.setChecked(false);
                 }
+                isFromList = false;
+
             }
         });
         platform.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -167,11 +168,12 @@ public class ChannelPopupWindow extends BasePopupWindow {
                 platformListAdapter.moveToNextStatus(position);
                 platformListAdapter.notifyDataSetChanged();
                 if (platformListAdapter.getCheckedNumber()==platformListAdapter.getList().size()){
-                    isFromList = true;
+
                     checkBox2.setChecked(true);
                 }else{
                     checkBox2.setChecked(false);
                 }
+                isFromList = true;
             }
         });
         checkBox1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

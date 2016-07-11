@@ -103,7 +103,7 @@ public class PieChartTool {
             data.setValueTextSize(10f);
             data.setValueTextColor(Color.BLACK);
             pieChart1.setData(data);
-            pieChart1.setDrawSliceText(!pieChart1.isDrawSliceTextEnabled());
+            pieChart1.setDrawSliceText(true);
             // undo all highlights
             pieChart1.highlightValues(null);
 

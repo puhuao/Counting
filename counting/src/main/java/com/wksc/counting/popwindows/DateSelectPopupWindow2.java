@@ -14,10 +14,7 @@ import android.widget.PopupWindow;
 import android.widget.RadioGroup;
 
 import com.wksc.counting.R;
-import com.wksc.counting.tools.DateTool;
-
-import java.util.Calendar;
-import java.util.Date;
+import com.wksc.counting.tools.Params2;
 
 /**
  * Created by puhua on 2016/6/5.
@@ -31,20 +28,16 @@ public class DateSelectPopupWindow2 extends PopupWindow {
     private DatePicker datePick1;
     RadioGroup radioGroup;
 
-    private int mYear;
-    private int mMonthOfYear;
-    private int mDayOfMonth;
-
-
     private String mNowDateTextInner;
     public int flag=3;
 
-    public DateSelectPopupWindow2(Activity context, String nowDateTextInner) {
+    public DateSelectPopupWindow2(Activity context,Params2 params2) {
         super(context);
         mContext = context;
-        mNowDateTextInner=nowDateTextInner;
-        initView();
+
         dateSelectPopupWindow=this;
+        mParams2 = params2;
+        initView();
     }
 
     private void initView() {
@@ -55,7 +48,24 @@ public class DateSelectPopupWindow2 extends PopupWindow {
 
         datePick1= (DatePicker) view.findViewById(R.id.datePick1);
         radioGroup = (RadioGroup) view.findViewById(R.id.rg);
-        initDatePicker();
+        DatePicker.OnDateChangedListener dcl=new DatePicker.OnDateChangedListener() {
+            @Override
+            public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                mParams2.y=year;
+                mParams2.m=monthOfYear;
+                mParams2.d=dayOfMonth;
+            }
+        };
+//        hide(0);
+        if (mParams2.dateFlag == 2){
+            hide(2);
+            radioGroup.check(R.id.rb2);
+
+        }else if(mParams2.dateFlag==3){
+            show(2);
+        }
+        datePick1.init( mParams2.y,mParams2.m,mParams2.d,dcl);
+
 
         id_btn_date_ok= (Button) view.findViewById(R.id.id_btn_date_ok);
         id_btn_date_ok.setOnClickListener(new View.OnClickListener() {
@@ -67,26 +77,26 @@ public class DateSelectPopupWindow2 extends PopupWindow {
                 String y = "";
                 String m = "";
                 if (flag ==1){
-                    y = String.valueOf(mYear);
+                    y = String.valueOf(mParams2.y);
                 }else if (flag ==2){
-                    y = String.valueOf(mYear);
-                    if (mMonthOfYear<10){
-                        m ="0"+(mMonthOfYear+1);
+                    y = String.valueOf(mParams2.y);
+                    if (mParams2.m<10){
+                        m ="0"+(mParams2.m+1);
                     }else{
-                        m = String.valueOf(mMonthOfYear+1);
+                        m = String.valueOf(mParams2.m+1);
                     }
 
                 }else if (flag ==3){
-                    y = String.valueOf(mYear);
-                    if (mMonthOfYear<10){
-                        m ="0"+(mMonthOfYear+1);
+                    y = String.valueOf(mParams2.y);
+                    if (mParams2.m<9){
+                        m ="0"+(mParams2.m+1);
                     }else{
-                        m = String.valueOf(mMonthOfYear+1);
+                        m = String.valueOf(mParams2.m+1);
                     }
-                    if (mDayOfMonth<10){
-                        date = "0"+(mDayOfMonth);
+                    if (mParams2.d<10){
+                        date = "0"+(mParams2.d);
                     }else{
-                        date =String.valueOf(mDayOfMonth);
+                        date =String.valueOf(mParams2.d);
                     }
                 }
                 mOnDateSelectListener.onDateSelect(y,m,date,flag);
@@ -99,13 +109,16 @@ public class DateSelectPopupWindow2 extends PopupWindow {
                 switch (checkedId){
                     case R.id.rb1:
                         flag = 1;
+                        mParams2.dateFlag = 1;
                         break;
                     case R.id.rb2:
                         flag = 2;
+                        mParams2.dateFlag = 2;
                         hide(2);
                         break;
                     case R.id.rb3:
                         flag = 3;
+                        mParams2.dateFlag = 3;
                         show(1);
                         show(2);
                         break;
@@ -129,36 +142,11 @@ public class DateSelectPopupWindow2 extends PopupWindow {
             }
         });
     }
-
-    private void initDatePicker() {
-        Calendar calendar;
-        if(mNowDateTextInner!=null&&!mNowDateTextInner.equals("")&&!mNowDateTextInner.equals("null")){
-            //显示上一次选择数据
-           Date date= DateTool.parseStr2Data(mNowDateTextInner,DateTool.FORMAT_DATE);
-           calendar=DateTool.parseDate2Calendar(date);
-        }else{
-            calendar= Calendar.getInstance();//初始化时间
-         }
-        mYear=calendar.get(Calendar.YEAR);
-        mMonthOfYear=calendar.get(Calendar.MONTH);
-        mDayOfMonth=calendar.get(Calendar.DAY_OF_MONTH);
-
-        DatePicker.OnDateChangedListener dcl=new DatePicker.OnDateChangedListener() {
-            @Override
-            public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                mYear=year;
-                mMonthOfYear=monthOfYear;
-                mDayOfMonth=dayOfMonth;
-            }
-        };
-//        hide(0);
-        datePick1.init(mYear,mMonthOfYear,mDayOfMonth,dcl);
-    }
-
     public void hideDay(Boolean hideDay) {
         radioGroup.findViewById(R.id.rb3).setVisibility(View.GONE);
         hide(2);
         radioGroup.check(R.id.rb2);
+        flag = 2;
     }
 
     public void hideMonthCheck() {
@@ -168,6 +156,10 @@ public class DateSelectPopupWindow2 extends PopupWindow {
     public void hideDayAndMonthCheck() {
         radioGroup.findViewById(R.id.rb2).setVisibility(View.GONE);
         radioGroup.findViewById(R.id.rb3).setVisibility(View.GONE);
+    }
+private Params2 mParams2;
+    public void setPrams(Params2 params2) {
+        mParams2 = params2;
     }
 
 

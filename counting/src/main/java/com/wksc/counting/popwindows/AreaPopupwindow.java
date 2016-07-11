@@ -340,6 +340,7 @@ public class AreaPopupwindow extends BasePopupWindow {
                 checkBox3.setChecked(true);
             }
         }
+        mFromList = false;
     }
 
     private void getData() {

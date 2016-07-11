@@ -15,6 +15,7 @@ import com.wksc.counting.popwindows.BasePopupWindow;
 import com.wksc.counting.popwindows.ChannelPopupWindow2;
 import com.wksc.counting.popwindows.DateSelectPopupWindow2;
 import com.wksc.counting.popwindows.GoodsPopupWindow2;
+import com.wksc.counting.tools.Params;
 import com.wksc.counting.tools.Params2;
 import com.wksc.framwork.util.StringUtils;
 
@@ -53,8 +54,6 @@ public class ConditionLayout3 extends LinearLayout implements View.OnClickListen
     LinearLayout layoutGoods;
     LinearLayout layoutChannel;
     LinearLayout layout;
-    int y, m, d;
-    private String data = "";
     AreaPopupwindow3 areaPopupWindow;
     GoodsPopupWindow2 goodsPopupWindow;
     DateSelectPopupWindow2 myPopupwindow;
@@ -98,40 +97,43 @@ public class ConditionLayout3 extends LinearLayout implements View.OnClickListen
         time.setOnClickListener(this);
         channel.setOnClickListener(this);
 
-        myPopupwindow = new DateSelectPopupWindow2((Activity) getContext(), data);
         channelPopupWindow = new ChannelPopupWindow2((Activity) getContext());
 
     }
 
     public void init(int posion) {
         params2 = params2List.get(posion);
-        y = calendar.get(Calendar.YEAR);
-        m = calendar.get(Calendar.MONTH);
-        d = calendar.get(Calendar.DAY_OF_MONTH);
+
+        if (params2.y==0)
+            params2.y = calendar.get(Calendar.YEAR);
+        if (params2.m==0)
+            params2.m = calendar.get(Calendar.MONTH);
+        if (params2.d == 0)
+            params2.d = calendar.get(Calendar.DAY_OF_MONTH);
         if (params2.years.length() == 0) {
-            params2.years.append("&year=").append(y);
+            params2.years.append("&year=").append(params2.y);
         }
         if (params2.month.length() == 0) {
-            if (m < 10) {
+            if (params2.m < 10) {
                 if (params2.month.length() == 0)
-                    params2.month.append("&month=").append("0" + (m + 1));
-            } else if (m == 12) {
+                    params2.month.append("&month=").append("0" + (params2.m + 1));
+            } else if (params2.m == 12) {
                 if (params2.month.length() == 0)
                     params2.month.append("&month=").append("01");
             } else {
                 if (params2.month.length() == 0)
-                    params2.month.append("&month=").append((m + 1));
+                    params2.month.append("&month=").append((params2.m + 1));
             }
         }
         if (params2.day.length() == 0) {
-            if (d < 10) {
+            if (params2.d < 10) {
                 if (params2.day.length() == 0)
-                    params2.day.append("&day=").append("0" + (d - 1));
-            } else if (d == 1) {
+                    params2.day.append("&day=").append("0" + (params2.d - 1));
+            } else if (params2.d == 1) {
 
             } else {
                 if (params2.day.length() == 0)
-                    params2.day.append("&day=").append(d - 1);
+                    params2.day.append("&day=").append(params2.d - 1);
             }
         }
         initViewBySelf();
@@ -160,8 +162,8 @@ public class ConditionLayout3 extends LinearLayout implements View.OnClickListen
      * @param
      */
     public void initViewBySelf() {
-        time1.setText(y + "-" + (m + 1) + "-" + (d - 1));
-        area1.setText("全国");
+        time1.setText(params2.y + "-" + (params2.m + 1) + "-" + (params2.d - 1));
+        area1.setText("全部");
         channel1.setText("全部");
         goods1.setText("全部");
     }
@@ -170,15 +172,15 @@ public class ConditionLayout3 extends LinearLayout implements View.OnClickListen
 
         if (StringUtils.isBlank(params2.time.toString())) {
             if (hideDay) {
-                time1.setText(y + "-" + (m + 1));
+                time1.setText(params2.y + "-" + (params2.m + 1));
             } else {
-                time1.setText(y + "-" + (m + 1) + "-" + (d - 1));
+                time1.setText(params2.y + "-" + (params2.m + 1) + "-" + (params2.d - 1));
             }
         } else {
             time1.setText(params2.time.toString());
         }
         if (StringUtils.isBlank(params2.areal.toString())) {
-            area1.setText("全国");
+            area1.setText("全部");
         } else
             area1.setText(params2.areal.toString());
         if (StringUtils.isBlank(params2.channel.toString())) {
@@ -298,6 +300,9 @@ public class ConditionLayout3 extends LinearLayout implements View.OnClickListen
                 break;
             case R.id.time:
 
+                if(myPopupwindow==null){
+                    myPopupwindow = new DateSelectPopupWindow2((Activity) getContext(),params2);
+                }
                 if (hideDay) {
                     myPopupwindow.hideDay(hideDay);
                     myPopupwindow.hideMonthCheck();

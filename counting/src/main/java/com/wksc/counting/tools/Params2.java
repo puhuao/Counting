@@ -26,12 +26,22 @@ public class Params2 {
 
     public  String extraParams;
 
+    public  int y,m,d;
+    public  int dateFlag = 3;
+
     public  String getParam(){
         if (prams.length() > 0) {
             prams.delete(0, prams.length());
         }
-        prams.append(province).append(channels).append(wchannel).append(years).append(month).append(day)
+        prams.append(province).append(channels).append(wchannel)
                 .append(city).append(county).append(goodsclass).append(goodssubclass).append(mcu);
+        if (dateFlag==3){
+            prams.append(day).append(years).append(month);
+        }else if(dateFlag == 2){
+            prams.append(years).append(month);
+        }else if(dateFlag == 1){
+            prams.append(years);
+        }
         return prams.toString();
     }
 

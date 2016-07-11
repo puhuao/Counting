@@ -143,6 +143,7 @@ public class GoodsPopupWindow2 extends BasePopupWindow {
                 if (typeListAdapter.getCheckedNumber()>1){
                     lvGoodsName.setVisibility(View.INVISIBLE);
                 }else if(typeListAdapter.getCheckedNumber()==1){
+                    if (nameListAdapter.getList().size()>0)
                     lvGoodsName.setVisibility(View.VISIBLE);
                 }
                 isFromList = true;
@@ -151,6 +152,7 @@ public class GoodsPopupWindow2 extends BasePopupWindow {
                 }else{
                     checkBox1.setChecked(false);
                 }
+                isFromList = false;
 
             }
         });
@@ -167,6 +169,7 @@ public class GoodsPopupWindow2 extends BasePopupWindow {
                 }else{
                     checkBox2.setChecked(false);
                 }
+                isFromList = false;
             }
         });
         checkBox1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
