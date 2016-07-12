@@ -56,7 +56,7 @@ import okhttp3.Response;
  *
  * @
  */
-public class CoreIndexFragment extends CommonFragment implements AdapterView.OnItemClickListener {
+public class CoreIndexFragment extends CommonFragment implements AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
     @Bind(R.id.list)
     ListView list;
     @Bind(R.id.condition)
@@ -106,15 +106,11 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
         if (FragmentDataUtil.coreIndexListModels.size() == 0) {
             getListData();
         }
-        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                conditionLayout.initViewByParam();
-                getListData();
-            }
-        });
+        refreshLayout.setOnRefreshListener(this);
         return v;
     }
+
+    StringBuilder originExtraParam = new StringBuilder();
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -122,6 +118,9 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
                 coreIndexListAdapter.getList().get(position).coreCode.equals("70")) {
 
         } else {
+            if (originExtraParam.length()>0)
+            originExtraParam.delete(0,originExtraParam.length());
+            originExtraParam.append(extraParam);
             Bundle bundle = new Bundle();
             bundle.putString("param", coreIndexListAdapter.getList().get(position).coreCode);
             bundle.putString("extraParam", extraParam);
@@ -129,6 +128,16 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
         }
 
     }
+
+   /* @Override
+    public void onResume() {
+        super.onResume();
+        if (originExtraParam.length()>0)
+        if (!conditionLayout.getAllConditions().equals(originExtraParam.toString())){
+            refreshLayout.setRefreshing(true);
+            onRefresh();
+        }
+    }*/
 
     private void getListData() {
         extraParam = conditionLayout.getAllConditions();
@@ -184,5 +193,11 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
     @Subscribe
     public void lodaData(CoreIndextLoadDataEvent event) {
         conditionLayout.initViewByParam();
+    }
+
+    @Override
+    public void onRefresh() {
+        conditionLayout.initViewByParam();
+        getListData();
     }
 }

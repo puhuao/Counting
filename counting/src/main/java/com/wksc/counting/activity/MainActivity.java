@@ -89,6 +89,7 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
         getWindow().setBackgroundDrawable(null);
+        ActivityManager.getInstance().addActivity(this);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         config = BaseApplication.getInstance().getCurrentConfig();
         initView();

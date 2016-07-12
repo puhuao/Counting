@@ -67,6 +67,8 @@ public class MoreFragment extends CommonFragment implements View.OnClickListener
         clearCache.setOnClickListener(this);
         indexChoice.setOnClickListener(this);
         logout.setOnClickListener(this);
+        modifyPassword.setOnClickListener(this);
+        articles.setOnClickListener(this);
         return v;
     }
 

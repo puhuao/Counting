@@ -156,7 +156,7 @@ public class LoginFragment extends CommonFragment {
         final String username = userName.getText().toString();
 
         StringBuilder sb = new StringBuilder(Urls.GET_MOBILE_VALID_CODE);
-        UrlUtils.getInstance().praseToUrl(sb, "username", username).praseToUrl(sb, "busiType",
+        UrlUtils.getInstance().addSession(sb, config).praseToUrl(sb, "username", username).praseToUrl(sb, "busiType",
                 Constans.LOGIN).praseToUrl(sb,"phone",username);
         OkHttpUtils.post(sb.toString())//
                 .tag(this)//

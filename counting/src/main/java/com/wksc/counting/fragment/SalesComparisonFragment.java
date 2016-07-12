@@ -103,6 +103,14 @@ public class SalesComparisonFragment extends CommonFragment {
         return v;
     }
 
+    StringBuilder oldParmas = new StringBuilder();
+
+    private void setOldParams(String s){
+        if (oldParmas.length()>0)
+        this.oldParmas.delete(0,oldParmas.length());
+        oldParmas.append(s);
+    }
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -115,6 +123,7 @@ public class SalesComparisonFragment extends CommonFragment {
             @Override
             public void postParams() {
                 extraParam = conditionLayout.getAllConditions();
+                setOldParams(extraParam);
                 getData();
             }
         });
@@ -134,12 +143,16 @@ public class SalesComparisonFragment extends CommonFragment {
         if (isFirstShow) {
             conditionLayout.initViewByParam();
             extraParam = bundle.getString("extraParam");
+            setOldParams(extraParam);
             getData();
         }
 
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                conditionLayout.initViewByParam();
+                extraParam = conditionLayout.getAllConditions();
+                setOldParams(extraParam);
                 getData();
             }
         });
@@ -223,7 +236,8 @@ public class SalesComparisonFragment extends CommonFragment {
         if (event.position == currentPos) {
             conditionLayout.initViewByParam();
             extraParam = conditionLayout.getAllConditions();
-            if ( FragmentDataUtil.map.get("key" + param)==null){
+            if ( FragmentDataUtil.map.get("key" + param)==null/*||
+                    !extraParam.equals(oldParmas.toString())*/){
                 getData();
             }
         }
