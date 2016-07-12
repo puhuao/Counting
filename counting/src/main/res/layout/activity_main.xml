@@ -36,7 +36,7 @@
                 android:button="@null"
                 android:gravity="center_horizontal"
                 android:text="核心指标"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:drawableTop="@drawable/main_core_tab_selector"
                 android:textColor="@color/main_tab_text_selector"
                 android:checked="true"/>
@@ -50,7 +50,7 @@
                 android:button="@null"
                 android:gravity="center"
                 android:text="专题分析"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:textColor="@color/main_tab_text_selector"
                 android:drawableTop="@drawable/main_thematic_tab_selector"/>
             <RadioButton
@@ -62,7 +62,7 @@
                 android:button="@null"
                 android:gravity="center"
                 android:text="实时数据"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:textColor="@color/main_tab_text_selector"
                 android:drawableTop="@drawable/main_news_tab_selector"/>
             <RadioButton
@@ -74,7 +74,7 @@
                 android:button="@null"
                 android:gravity="center"
                 android:text="千里眼"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:textColor="@color/main_tab_text_selector"
                 android:drawableTop="@drawable/main_telescope_tab_selector"/>
 
@@ -88,7 +88,7 @@
                 android:button="@null"
                 android:gravity="center"
                 android:text="更多"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:textColor="@color/main_tab_text_selector"
                 android:drawableTop="@drawable/main_more_tab_selector"/>
         </RadioGroup>

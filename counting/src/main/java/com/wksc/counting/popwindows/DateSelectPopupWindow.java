@@ -12,14 +12,9 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.PopupWindow;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 
 import com.wksc.counting.R;
-import com.wksc.counting.tools.DateTool;
 import com.wksc.counting.tools.Params;
-
-import java.util.Calendar;
-import java.util.Date;
 
 /**
  * Created by puhua on 2016/6/5.
@@ -62,9 +57,11 @@ public class DateSelectPopupWindow extends PopupWindow {
         if (Params.dateFlag == 2){
             hide(2);
             radioGroup.check(R.id.rb2);
+            flag =2;
 
         }else if(Params.dateFlag==3){
             show(2);
+            flag =3;
         }
         datePick1.init( Params.y,Params.m,Params.d,dcl);
 

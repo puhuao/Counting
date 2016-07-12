@@ -2,19 +2,12 @@ package com.wksc.counting.adapter;
 
 import android.app.Activity;
 import android.graphics.Color;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.TextUtils;
-import android.text.style.TextAppearanceSpan;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.wksc.counting.R;
-import com.wksc.counting.model.GoodsAnalysisModel;
-import com.wksc.counting.model.goodsSaleAnaModle.GoodSaleModle;
 import com.wksc.counting.model.goodsSaleAnaModle.TableModle;
 import com.wksc.counting.widegit.MarqueeText;
 
@@ -49,11 +42,11 @@ public class GoodsSalesAnalysisListAdapter extends BaseListAdapter<TableModle> {
             params.weight = 1;
             textView.setLayoutParams(params);
             textView.setGravity(Gravity.CENTER);
-            textView.setPadding(10, 10, 10, 10);
+            textView.setPadding(5,5,5,5);
             textView.setTextSize(12f);
-            textView.setSingleLine();
-            textView.setEllipsize(TextUtils.TruncateAt.MARQUEE);
-            textView.setMarqueeRepeatLimit(-1);
+//            textView.setSingleLine();
+//            textView.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+//            textView.setMarqueeRepeatLimit(-1);
             textView.setText(array[i]);
             String[] color = colors[i].split(",");
             textView.setTextColor(Color.rgb(Integer.parseInt(color[0]),

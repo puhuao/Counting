@@ -16,10 +16,8 @@ import com.wksc.counting.Basedata.BaseDataUtil;
 import com.wksc.counting.Basedata.FragmentDataUtil;
 import com.wksc.counting.R;
 import com.wksc.counting.event.SaleComparisonLoadDataEvent;
-import com.wksc.counting.event.TurnToMoreFragmentEvent;
 import com.wksc.counting.event.VipComparisonLoadDataEvent;
 import com.wksc.counting.model.baseinfo.CoreItem;
-import com.wksc.counting.model.coreDetail.CoreDetail;
 import com.wksc.counting.widegit.CustomViewPager;
 import com.wksc.counting.widegit.PagerSlidingTabStrip;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
@@ -115,7 +113,7 @@ public class CompareFragment extends CommonFragment {
                 for (int i = 0; i < indicatorFragmentEntityList.size(); i++) {
                     TextView tab = new TextView(getContext());
                     tab.setGravity(Gravity.CENTER);
-                    tab.setTextSize(15);
+                    tab.setTextSize(14);
                     tab.setText(indicatorFragmentEntityList.get(i).name);
                     tab.setPadding(10, 8, 10, 8);
 

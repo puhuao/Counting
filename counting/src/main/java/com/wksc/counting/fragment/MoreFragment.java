@@ -7,21 +7,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.wksc.counting.Basedata.FragmentDataUtil;
 import com.wksc.counting.R;
+import com.wksc.counting.activity.ArticleListActivity;
 import com.wksc.counting.activity.LocusPassActivity;
 import com.wksc.counting.activity.LoginActivity;
-import com.wksc.counting.event.SaleChannelAnaEvent;
-import com.wksc.counting.event.TurnToMoreFragmentEvent;
+import com.wksc.counting.activity.ModifyPasswordActivity;
 import com.wksc.counting.popwindows.IndexPopupwindow;
+import com.wksc.counting.tools.Params;
 import com.wksc.counting.widegit.CustomDialog;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 import com.wksc.framwork.platform.config.IConfig;
 import com.wksc.framwork.util.StringUtils;
 import com.wksc.framwork.util.ToastUtil;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -40,6 +39,12 @@ public class MoreFragment extends CommonFragment implements View.OnClickListener
     TextView indexChoice;
     @Bind(R.id.logout)
     TextView logout;
+    @Bind(R.id.user_name)
+    TextView user_name;
+    @Bind(R.id.modify_pass)
+    TextView modifyPassword;
+    @Bind(R.id.articles)
+    TextView articles;
     private IConfig config;
 
 
@@ -56,6 +61,8 @@ public class MoreFragment extends CommonFragment implements View.OnClickListener
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, v);
+        config = BaseApplication.getInstance().getCurrentConfig();
+        user_name.setText(config.getString("username",""));
         loc.setOnClickListener(this);
         clearCache.setOnClickListener(this);
         indexChoice.setOnClickListener(this);
@@ -68,6 +75,12 @@ public class MoreFragment extends CommonFragment implements View.OnClickListener
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.articles:
+                startActivity(ArticleListActivity.class);
+                break;
+            case R.id.modify_pass:
+                startActivity(ModifyPasswordActivity.class);
+                break;
             case R.id.loc:
                 startActivity(LocusPassActivity.class);
 //                getContext().pushFragmentToBackStack(LocusPassFragment.class,false);
@@ -82,7 +95,8 @@ public class MoreFragment extends CommonFragment implements View.OnClickListener
                     public void onClick(DialogInterface dialog, int which) {
                         // 清除缓存
 //                        RequestManager.clearCache();
-
+                        FragmentDataUtil.clearData();
+                        Params.clearData();
                         ToastUtil.showLongMessage(getActivity(), "清除缓存完成!");
                         dialog.dismiss();
                     }
@@ -102,7 +116,7 @@ public class MoreFragment extends CommonFragment implements View.OnClickListener
                 break;
             case R.id.logout:
                 /*在退出登录时将存在本地的手势密码清空，将设置手势密码的标志位设为未设置*/
-                config = BaseApplication.getInstance().getCurrentConfig();
+
                 config.setBoolean("setLocusPassword", false);
                 config.setString("locusPassword","");
                 startActivity(LoginActivity.class,null);

@@ -1,12 +1,10 @@
 package com.wksc.counting.adapter;
 
 import android.app.Activity;
-import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.wksc.counting.R;
 import com.wksc.counting.widegit.MarqueeText;
@@ -43,12 +41,12 @@ public class PlatFormLastItemAdapter extends BaseListAdapter<String> {
             params.weight = 1;
             textView.setLayoutParams(params);
             textView.setGravity(Gravity.CENTER);
-            textView.setPadding(10, 10, 10, 10);
+            textView.setPadding(5,5,5,5);
             textView.setTextSize(12f);
             textView.setText(array[i]);
-            textView.setSingleLine();
-            textView.setEllipsize(TextUtils.TruncateAt.MARQUEE);
-            textView.setMarqueeRepeatLimit(-1);
+//            textView.setSingleLine();
+//            textView.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+//            textView.setMarqueeRepeatLimit(-1);
 //            String[] color = colors[i].split(",");
 //            textView.setTextColor(Color.rgb(Integer.parseInt(color[0]),
 //                    Integer.parseInt(color[1]),
