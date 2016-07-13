@@ -47,6 +47,10 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
         return Params.getParam();
     }
 
+    public String getAllAreas() {
+        return Params.getParam();
+    }
+
     public ConditionLayout(Context context) {
         super(context);
     }

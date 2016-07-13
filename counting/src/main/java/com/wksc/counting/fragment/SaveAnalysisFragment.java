@@ -106,6 +106,8 @@ public class SaveAnalysisFragment extends CommonFragment {
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                conditionLayout.initViewByParam();
+                extraParam = conditionLayout.getAllConditions();
                 getListData();
             }
         });

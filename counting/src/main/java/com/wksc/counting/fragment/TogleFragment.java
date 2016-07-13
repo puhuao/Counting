@@ -24,7 +24,6 @@ import com.wksc.counting.widegit.TableTitleLayout;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 import com.wksc.framwork.platform.config.IConfig;
-import com.wksc.framwork.util.StringUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -120,6 +119,10 @@ public class TogleFragment extends CommonFragment {
         conditionLayout.setConditionSelect(new ConditionLayout.OnConditionSelect() {
             @Override
             public void postParams() {
+//                conditionLayout.getAllConditions()
+                if (originExtraParam.length()>0)
+                    originExtraParam.delete(0,originExtraParam.length());
+                originExtraParam.append(extraParam);
                 getData(provice);
             }
         });
@@ -141,6 +144,8 @@ public class TogleFragment extends CommonFragment {
 
     }
 
+    StringBuilder originExtraParam = new StringBuilder();
+
     private void getData(String provice) {
         if (flag>0){
             extraParam = conditionLayout.getAllConditions();
@@ -149,6 +154,7 @@ public class TogleFragment extends CommonFragment {
         UrlUtils.getInstance().addSession(sb, config).praseToUrl(sb, "item", param)
                 .praseToUrl(sb, "level", "2").praseToUrl(sb, "province", provice)
         .praseToUrl(sb, "code", provice);
+        if (!extraParam.equals(originExtraParam))
         sb.append(extraParam);
         OkHttpUtils.post(sb.toString())//
                 .tag(this)//

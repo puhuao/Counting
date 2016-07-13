@@ -131,6 +131,8 @@ Condition condition;
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                conditionLayout.initViewByParam();
+                extraParam = conditionLayout.getAllConditions();
                 getListData();
             }
         });
