@@ -15,6 +15,7 @@ import com.wksc.counting.popwindows.DateSelectPopupWindow;
 import com.wksc.counting.popwindows.GoodsPopupWindow;
 import com.wksc.counting.tools.Params;
 import com.wksc.framwork.util.StringUtils;
+import com.wksc.framwork.util.ToastUtil;
 
 import java.util.Calendar;
 
@@ -170,6 +171,12 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.area:
+
+                if (firbidSelectArea){
+                    ToastUtil.showShortMessage(getContext(),"禁止选择区域");
+                    break;
+                }
+
                 if (areaPopupWindow == null) {
                     areaPopupWindow = new AreaPopupwindow((Activity) getContext());
                 }
@@ -318,6 +325,10 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
 
     public void hideDay() {
         hideDay = true;
+    }
+private Boolean firbidSelectArea = false;
+    public void ferbidSelectArea() {
+        firbidSelectArea = true;
     }
 
     public interface OnConditionSelect {

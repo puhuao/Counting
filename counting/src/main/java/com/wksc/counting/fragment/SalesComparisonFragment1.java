@@ -122,6 +122,7 @@ public class SalesComparisonFragment1 extends CommonFragment {
     private void initView() {
         conditionLayout.hideGoods(true);
         conditionLayout.initViewByParam();
+        conditionLayout.ferbidSelectArea();
         conditionLayout.setConditionSelect(new ConditionLayout.OnConditionSelect() {
             @Override
             public void postParams() {
