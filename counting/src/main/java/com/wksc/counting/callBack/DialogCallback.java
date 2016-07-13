@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.Window;
 
 import com.lzy.okhttputils.OkHttpUtils;
@@ -11,6 +12,7 @@ import com.lzy.okhttputils.request.BaseRequest;
 
 import java.lang.reflect.Type;
 
+import butterknife.Bind;
 import okhttp3.Call;
 import okhttp3.Response;
 
@@ -46,6 +48,12 @@ public abstract class DialogCallback<T> extends JsonCallback<T> {
         super(activity,clazz);
         initDialog(activity);
     }
+    public DialogCallback(Activity activity, Class<T> clazz,SwipeRefreshLayout refreshLayout) {
+        super(activity,clazz);
+        mSwipeRefreshLayout = refreshLayout;
+        show = false;
+        initDialog(activity);
+    }
 
     public DialogCallback(Activity activity, Type type) {
         super(type);
@@ -60,6 +68,10 @@ public abstract class DialogCallback<T> extends JsonCallback<T> {
         if (dialog != null && !dialog.isShowing()) {
             dialog.show();
         }
+
+        if (mSwipeRefreshLayout!=null){
+            mSwipeRefreshLayout.setRefreshing(true);
+        }
     }
 
     @Override
@@ -69,9 +81,18 @@ public abstract class DialogCallback<T> extends JsonCallback<T> {
         if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
         }
+
+        if (mSwipeRefreshLayout!=null){
+            mSwipeRefreshLayout.setRefreshing(false);
+        }
     }
 private Boolean show = true;
     public void setDialogHide() {
+        show = false;
+    }
+private SwipeRefreshLayout mSwipeRefreshLayout;
+    public void setRefreshLayout(SwipeRefreshLayout refreshLayout) {
+        this.mSwipeRefreshLayout = refreshLayout;
         show = false;
     }
 }

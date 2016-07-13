@@ -18,6 +18,7 @@ import com.wksc.counting.callBack.DialogCallback;
 import com.wksc.counting.config.Urls;
 import com.wksc.counting.event.SaleGoalAnaEvent;
 import com.wksc.counting.model.SaleAnaModel.SaleAnaModel;
+import com.wksc.counting.tools.PixToDp;
 import com.wksc.counting.tools.UrlUtils;
 import com.wksc.counting.widegit.ConditionLayout3;
 import com.wksc.counting.widegit.NestedListView;
@@ -58,6 +59,7 @@ public class ToglSaleGoalAnalysisFragment extends CommonFragment {
     private String param;
     private String code;
     Condition condition;
+    private String titel;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -86,6 +88,8 @@ public class ToglSaleGoalAnalysisFragment extends CommonFragment {
         code = bundle.getString("code");
         extraParam = bundle.getString("extra");
         condition= (Condition) bundle.getSerializable("condition");
+        titel = bundle.getString("titel");
+        setHeaderTitle(titel);
         initView();
 
         return v;
@@ -125,6 +129,7 @@ public class ToglSaleGoalAnalysisFragment extends CommonFragment {
 //                getContext().pushFragmentToBackStack(TogleVipComparisonFragment.class, bundle);
             }
         });
+        refreshLayout.setProgressViewOffset(false, 0, PixToDp.dip2px(getContext(), 24));
         getListData();
     }
 
@@ -141,7 +146,7 @@ public class ToglSaleGoalAnalysisFragment extends CommonFragment {
         sb.append(extraParam);
         OkHttpUtils.post(sb.toString())//
                 .tag(this)//
-                .execute(new DialogCallback<SaleAnaModel>(getContext(), SaleAnaModel.class) {
+                .execute(new DialogCallback<SaleAnaModel>(getContext(), SaleAnaModel.class,refreshLayout) {
 
                     @Override
                     public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {

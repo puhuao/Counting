@@ -37,10 +37,10 @@ public class DateSelectPopupWindow2 extends PopupWindow {
 
         dateSelectPopupWindow=this;
         mParams2 = params2;
-        initView();
+
     }
 
-    private void initView() {
+    public void initView() {
 
         LayoutInflater inflater = (LayoutInflater) mContext
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -60,9 +60,12 @@ public class DateSelectPopupWindow2 extends PopupWindow {
         if (mParams2.dateFlag == 2){
             hide(2);
             radioGroup.check(R.id.rb2);
+            flag = 2;
 
         }else if(mParams2.dateFlag==3){
             show(2);
+            radioGroup.check(R.id.rb3);
+            flag = 3;
         }
         datePick1.init( mParams2.y,mParams2.m,mParams2.d,dcl);
 

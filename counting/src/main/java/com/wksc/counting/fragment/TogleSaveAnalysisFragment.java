@@ -17,6 +17,7 @@ import com.wksc.counting.config.Urls;
 import com.wksc.counting.event.SaveAnaEvent;
 import com.wksc.counting.model.SaleAnaModel.PeiModel;
 import com.wksc.counting.model.goodsSaleAnaModle.GoodSaleModle;
+import com.wksc.counting.tools.PixToDp;
 import com.wksc.counting.tools.UrlUtils;
 import com.wksc.counting.widegit.ConditionLayout3;
 import com.wksc.counting.widegit.NestedListView;
@@ -109,6 +110,7 @@ public class TogleSaveAnalysisFragment extends CommonFragment {
                 getListData();
             }
         });
+        refreshLayout.setProgressViewOffset(false, 0, PixToDp.dip2px(getContext(), 24));
         getListData();
     }
 
@@ -125,7 +127,7 @@ public class TogleSaveAnalysisFragment extends CommonFragment {
         sb.append(extraParam);
         OkHttpUtils.post(sb.toString())//
                 .tag(this)//
-                .execute(new DialogCallback<GoodSaleModle>(getContext(), GoodSaleModle.class) {
+                .execute(new DialogCallback<GoodSaleModle>(getContext(), GoodSaleModle.class,refreshLayout) {
 
                     @Override
                     public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {

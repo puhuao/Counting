@@ -10,6 +10,7 @@ import com.wksc.counting.model.saleChannelModel.SaleChannelModel;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2016/7/6.
@@ -35,6 +36,7 @@ public class FragmentDataUtil {
     }
 
     public static HashMap<String,CoreDetail> map = new HashMap<>();
+    public static HashMap<String,CoreDetail> map1 = new HashMap<>();
     public static void clearData(){
         goodSaleModle = null;
         platFormModel = null;
@@ -43,6 +45,14 @@ public class FragmentDataUtil {
         saveModel = null;
          CoreDetail1 = null;
         coreIndexListModels.clear();
+    }
+
+    public static void clearCoreDetailData(HashMap<String,CoreDetail> map){
+        for (Map.Entry<String, CoreDetail> entry : map.entrySet()) {
+            entry.getKey();
+            CoreDetail detail = entry.getValue();
+            entry.setValue(null);
+        }
     }
 
 }

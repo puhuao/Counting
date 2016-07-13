@@ -62,6 +62,7 @@ public class DateSelectPopupWindow extends PopupWindow {
         }else if(Params.dateFlag==3){
             show(2);
             flag =3;
+            radioGroup.check(R.id.rb3);
         }
         datePick1.init( Params.y,Params.m,Params.d,dcl);
 

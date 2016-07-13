@@ -182,7 +182,7 @@ Condition condition;
         sb.append(extraParam);
         OkHttpUtils.post(sb.toString())//
                 .tag(this)//
-                .execute(new DialogCallback<PlatFormModel>(getContext(), PlatFormModel.class) {
+                .execute(new DialogCallback<PlatFormModel>(getContext(), PlatFormModel.class,refreshLayout) {
 
                     @Override
                     public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {

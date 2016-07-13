@@ -27,6 +27,7 @@ import com.wksc.counting.model.baseinfo.CoreItem;
 import com.wksc.counting.model.baseinfo.GoodsClassFirst;
 import com.wksc.counting.model.baseinfo.GoodsClassScend;
 import com.wksc.counting.model.baseinfo.Region;
+import com.wksc.counting.tools.PixToDp;
 import com.wksc.counting.tools.UrlUtils;
 import com.wksc.counting.widegit.ConditionLayout;
 import com.wksc.framwork.BaseApplication;
@@ -99,12 +100,18 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
         conditionLayout.setConditionSelect(new ConditionLayout.OnConditionSelect() {
             @Override
             public void postParams() {
-                getListData();
+//                refreshLayout.setRefreshing(true);
+                onRefresh();
+//                getListData();
             }
         });
 //        if (FragmentDataUtil.coreIndexListModels == null)
         if (FragmentDataUtil.coreIndexListModels.size() == 0) {
+            refreshLayout.setProgressViewOffset(false, 0, PixToDp.dip2px(getContext(), 24));
             getListData();
+
+//            refreshLayout.setRefreshing(true);
+//            onRefresh();
         }
         refreshLayout.setOnRefreshListener(this);
         return v;
@@ -124,6 +131,7 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
             Bundle bundle = new Bundle();
             bundle.putString("param", coreIndexListAdapter.getList().get(position).coreCode);
             bundle.putString("extraParam", extraParam);
+            bundle.putString("provice", "");
             startActivity(SalesComparisonActivity.class, bundle);
         }
 
@@ -144,39 +152,42 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
         StringBuilder sb = new StringBuilder(Urls.COREINDEX);
         UrlUtils.getInstance().addSession(sb, config);
         sb.append(extraParam);
+        DialogCallback callback = new DialogCallback<String>(getContext(), String.class,refreshLayout) {
+
+            @Override
+            public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
+                super.onError(isFromCache, call, response, e);
+                ToastUtil.showShortMessage(getContext(), "系统错误");
+            }
+
+            @Override
+            public void onResponse(boolean isFromCache, String c, Request request, @Nullable Response response) {
+                try {
+                    if (refreshLayout.isRefreshing()) {
+                        refreshLayout.setRefreshing(false);
+                    }
+                    if (!StringUtils.isBlank(c)) {
+                        JSONObject object = new JSONObject(c);
+                        String item = object.getString("CoreIndex");
+                        FragmentDataUtil.coreIndexListModels.clear();
+                        FragmentDataUtil.coreIndexListModels.addAll(GsonUtil.fromJsonList(item, CoreIndexListModel.class));
+                        coreIndexListAdapter.setList(FragmentDataUtil.coreIndexListModels);
+                        Log.i("TAG", FragmentDataUtil.coreIndexListModels.toString());
+                    } else {
+                        ToastUtil.showShortMessage(getContext(), "数据为空");
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        };
+//        callback.setDialogHide();
+//        callback.setRefreshLayout(refreshLayout);
         OkHttpUtils.post(sb.toString())
                 .tag(this)
-                .execute(new DialogCallback<String>(getContext(), String.class) {
-
-                    @Override
-                    public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
-                        super.onError(isFromCache, call, response, e);
-                        ToastUtil.showShortMessage(getContext(), "系统错误");
-                    }
-
-                    @Override
-                    public void onResponse(boolean isFromCache, String c, Request request, @Nullable Response response) {
-                        try {
-                            if (refreshLayout.isRefreshing()) {
-                                refreshLayout.setRefreshing(false);
-                            }
-                            if (!StringUtils.isBlank(c)) {
-                                JSONObject object = new JSONObject(c);
-                                String item = object.getString("CoreIndex");
-                                FragmentDataUtil.coreIndexListModels.clear();
-                                FragmentDataUtil.coreIndexListModels.addAll(GsonUtil.fromJsonList(item, CoreIndexListModel.class));
-                                coreIndexListAdapter.setList(FragmentDataUtil.coreIndexListModels);
-                                Log.i("TAG", FragmentDataUtil.coreIndexListModels.toString());
-                            } else {
-                                ToastUtil.showShortMessage(getContext(), "数据为空");
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                });
+                .execute(callback);
     }
 
 

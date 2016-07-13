@@ -56,6 +56,7 @@ public class TogleSaleChainAnalysisFragment extends CommonFragment {
     private IConfig config;
     private String code;
     private Condition condition;
+    private String titel;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -84,6 +85,8 @@ public class TogleSaleChainAnalysisFragment extends CommonFragment {
         code = bundle.getString("code");
         extraParam = bundle.getString("extra");
         condition = (Condition) bundle.getSerializable("condition");
+        titel = bundle.getString("titel");
+        setHeaderTitle(titel);
         initView();
         return v;
     }
@@ -126,7 +129,7 @@ public class TogleSaleChainAnalysisFragment extends CommonFragment {
         sb.append(extraParam);
         OkHttpUtils.post(sb.toString())//
                 .tag(this)//
-                .execute(new DialogCallback<SaleChannelModel>(getContext(), SaleChannelModel.class) {
+                .execute(new DialogCallback<SaleChannelModel>(getContext(), SaleChannelModel.class,refreshLayout) {
 
                     @Override
                     public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {

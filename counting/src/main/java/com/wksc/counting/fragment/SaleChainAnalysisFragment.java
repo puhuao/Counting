@@ -117,6 +117,7 @@ public class SaleChainAnalysisFragment extends CommonFragment {
                     bundle.putString("extra", extraParam);
                     bundle.putInt("flag",2);
                     bundle.putSerializable("condition",condition);
+                    bundle.putString("titel","线上");
 //                getContext().pushFragmentToBackStack(ToglSaleGoalAnalysisFragment.class, bundle);
                     Intent intent = new Intent(getActivity(),TogleActivity.class);
                     intent.putExtras(bundle);
@@ -162,7 +163,7 @@ public class SaleChainAnalysisFragment extends CommonFragment {
         sb.append(extraParam);
         OkHttpUtils.post(sb.toString())//
                 .tag(this)//
-                .execute(new DialogCallback<SaleChannelModel>(getContext(), SaleChannelModel.class) {
+                .execute(new DialogCallback<SaleChannelModel>(getContext(), SaleChannelModel.class,refreshLayout) {
 
                     @Override
                     public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {

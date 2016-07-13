@@ -127,6 +127,7 @@ Condition condition;
                 bundle.putString("code", salesFinishListAdapter.getList().get(position).code);
                 bundle.putString("extra", extraParam);
                 bundle.putInt("flag", 1);
+                bundle.putString("titel",salesFinishListAdapter.getList().get(position).title);
                 bundle.putSerializable("condition",condition);
                 Intent intent = new Intent(getActivity(), TogleActivity.class);
                 intent.putExtras(bundle);
@@ -154,7 +155,7 @@ Condition condition;
         sb.append(extraParam);
         OkHttpUtils.post(sb.toString())//
                 .tag(this)//
-                .execute(new DialogCallback<SaleAnaModel>(getContext(), SaleAnaModel.class) {
+                .execute(new DialogCallback<SaleAnaModel>(getContext(), SaleAnaModel.class,refreshLayout) {
 
                     @Override
                     public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {

@@ -303,6 +303,7 @@ public class ConditionLayout3 extends LinearLayout implements View.OnClickListen
                 if(myPopupwindow==null){
                     myPopupwindow = new DateSelectPopupWindow2((Activity) getContext(),params2);
                 }
+                myPopupwindow.initView();
                 if (hideDay) {
                     myPopupwindow.hideDay(hideDay);
                     myPopupwindow.hideMonthCheck();

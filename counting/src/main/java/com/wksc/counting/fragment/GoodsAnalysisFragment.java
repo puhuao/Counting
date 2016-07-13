@@ -115,17 +115,19 @@ public class GoodsAnalysisFragment extends CommonFragment {
                 Bundle bundle = new Bundle();
                 bundle.putString("code", goodsSalesAnalysisListAdapter.getList().get(position).code);
                 bundle.putString("extra", extraParam);
-                bundle.putInt("flag",3);
-                bundle.putSerializable("condition",condition);
-                Intent intent = new Intent(getActivity(),TogleActivity.class);
+                bundle.putInt("flag", 3);
+                bundle.putSerializable("condition", condition);
+                String[] array = goodsSalesAnalysisListAdapter.getList().get(position).newValue.split("\\|");
+                bundle.putString("titel", array[0]);
+                Intent intent = new Intent(getActivity(), TogleActivity.class);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
-        if (FragmentDataUtil.goodSaleModle!=null){
+        if (FragmentDataUtil.goodSaleModle != null) {
             titleLayout.clearAllViews();
             String[] titles = FragmentDataUtil.goodSaleModle.table.tableTitle.split("\\|");
-            String[] desc =FragmentDataUtil.goodSaleModle.table.tableTitleDesc.split("\\|");
+            String[] desc = FragmentDataUtil.goodSaleModle.table.tableTitleDesc.split("\\|");
             titleLayout.initView(titles, desc);
             goodsSalesAnalysisListAdapter.setItemCloums(titles.length);
             goodsSalesAnalysisListAdapter.setList(FragmentDataUtil.goodSaleModle.tableData);
@@ -148,7 +150,7 @@ public class GoodsAnalysisFragment extends CommonFragment {
         sb.append(extraParam);
         OkHttpUtils.post(sb.toString())//
                 .tag(this)//
-                .execute(new DialogCallback<GoodSaleModle>(getContext(), GoodSaleModle.class) {
+                .execute(new DialogCallback<GoodSaleModle>(getContext(), GoodSaleModle.class, refreshLayout) {
 
                     @Override
                     public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
@@ -157,23 +159,23 @@ public class GoodsAnalysisFragment extends CommonFragment {
 
                     @Override
                     public void onResponse(boolean isFromCache, GoodSaleModle c, Request request, @Nullable Response response) {
-                       if (refreshLayout.isRefreshing()){
-                           refreshLayout.setRefreshing(false);
-                       }
+                        if (refreshLayout.isRefreshing()) {
+                            refreshLayout.setRefreshing(false);
+                        }
                         FragmentDataUtil.goodSaleModle = c;
-                            titleLayout.clearAllViews();
-                            String[] titles = c.table.tableTitle.split("\\|");
-                            String[] desc = c.table.tableTitleDesc.split("\\|");
-                            titleLayout.initView(titles, desc);
-                            goodsSalesAnalysisListAdapter.setItemCloums(titles.length);
-                            goodsSalesAnalysisListAdapter.setList(c.tableData);
+                        titleLayout.clearAllViews();
+                        String[] titles = c.table.tableTitle.split("\\|");
+                        String[] desc = c.table.tableTitleDesc.split("\\|");
+                        titleLayout.initView(titles, desc);
+                        goodsSalesAnalysisListAdapter.setItemCloums(titles.length);
+                        goodsSalesAnalysisListAdapter.setList(c.tableData);
 
-                            PeiModel peiModel = new PeiModel();
-                            peiModel.chartPoint1 = c.table.chartTitle;
-                            peiModel.chartValue1 = c.table.chartData;
-                            peiModel.chartTitle1 = c.table.title;
-                            pieChartTool.setData(peiModel);
-                            pieChartTool.setPiechart();
+                        PeiModel peiModel = new PeiModel();
+                        peiModel.chartPoint1 = c.table.chartTitle;
+                        peiModel.chartValue1 = c.table.chartData;
+                        peiModel.chartTitle1 = c.table.title;
+                        pieChartTool.setData(peiModel);
+                        pieChartTool.setPiechart();
                     }
 
                 });
@@ -191,14 +193,14 @@ public class GoodsAnalysisFragment extends CommonFragment {
 
     @Subscribe
     public void changeChart(GoodsAnaEvent event) {
-        if (FragmentDataUtil.goodSaleModle==null){
+        if (FragmentDataUtil.goodSaleModle == null) {
 
 //            if (Params2.extraParams!=null){
 //                conditionLayout.initViewByParam();
 //                extraParam = Params2.extraParams;
 //            }else{
 //                extraParam = Params2.extraParams;
-                extraParam = conditionLayout.getAllConditions();
+            extraParam = conditionLayout.getAllConditions();
 //            }
             getListData();
         }

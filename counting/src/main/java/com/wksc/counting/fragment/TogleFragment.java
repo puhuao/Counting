@@ -120,9 +120,6 @@ public class TogleFragment extends CommonFragment {
             @Override
             public void postParams() {
 //                conditionLayout.getAllConditions()
-                if (originExtraParam.length()>0)
-                    originExtraParam.delete(0,originExtraParam.length());
-                originExtraParam.append(extraParam);
                 getData(provice);
             }
         });
@@ -158,7 +155,7 @@ public class TogleFragment extends CommonFragment {
         sb.append(extraParam);
         OkHttpUtils.post(sb.toString())//
                 .tag(this)//
-                .execute(new DialogCallback<CoreDetail>(getContext(), CoreDetail.class) {
+                .execute(new DialogCallback<CoreDetail>(getContext(), CoreDetail.class,refreshLayout) {
 
                     @Override
                     public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {

@@ -16,7 +16,9 @@ import com.wksc.counting.Basedata.BaseDataUtil;
 import com.wksc.counting.Basedata.FragmentDataUtil;
 import com.wksc.counting.R;
 import com.wksc.counting.event.SaleComparisonLoadDataEvent;
+import com.wksc.counting.event.SaleComparisonLoadDataEvent1;
 import com.wksc.counting.event.VipComparisonLoadDataEvent;
+import com.wksc.counting.event.VipComparisonLoadDataEvent1;
 import com.wksc.counting.model.baseinfo.CoreItem;
 import com.wksc.counting.widegit.CustomViewPager;
 import com.wksc.counting.widegit.PagerSlidingTabStrip;
@@ -33,7 +35,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Administrator on 2016/6/15.
  */
-public class CompareFragment extends CommonFragment {
+public class CompareFragment1 extends CommonFragment {
     @Bind(R.id.indicator)
     PagerSlidingTabStrip mIndicator;
     @Bind(R.id.viewPager_history)
@@ -92,7 +94,7 @@ public class CompareFragment extends CommonFragment {
 //                fragment = new VipComparisonFragment();
                 break;
             } else {
-                fragment = new SalesComparisonFragment();
+                fragment = new SalesComparisonFragment1();
             }
 
             bundle.putString("param", coreItem.code);
@@ -200,11 +202,11 @@ public class CompareFragment extends CommonFragment {
 
             @Override
             public void onPageSelected(int position) {
-                SaleComparisonLoadDataEvent event = new SaleComparisonLoadDataEvent();
+                SaleComparisonLoadDataEvent1 event = new SaleComparisonLoadDataEvent1();
                 event.item = BaseDataUtil.coreItems.get(position).code;
                 event.position = position;
                 if (event.item.equals("60")||event.item.equals("70")){
-                    VipComparisonLoadDataEvent vipComparisonLoadDataEvent = new VipComparisonLoadDataEvent();
+                    VipComparisonLoadDataEvent1 vipComparisonLoadDataEvent = new VipComparisonLoadDataEvent1();
                     vipComparisonLoadDataEvent.item = BaseDataUtil.coreItems.get(position).code;
                     vipComparisonLoadDataEvent.position = position;
                     EventBus.getDefault().post(vipComparisonLoadDataEvent);
@@ -235,11 +237,6 @@ public class CompareFragment extends CommonFragment {
 //                getActivity().finish();
 //            }
 //        });
-    }
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        FragmentDataUtil.clearCoreDetailData(FragmentDataUtil.map);
     }
 
     @Override
@@ -282,5 +279,11 @@ public class CompareFragment extends CommonFragment {
             this.name = name;
             this.fragment = fragment;
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        FragmentDataUtil.clearCoreDetailData(FragmentDataUtil.map1);
     }
 }
