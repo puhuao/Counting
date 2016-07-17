@@ -3,6 +3,8 @@ package com.wksc.counting.adapter;
 import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -181,7 +183,7 @@ public class CoreIndexListAdapter extends BaseListAdapter<CoreIndexListModel>{
         // create a dataset and give it a type
         LineDataSet set1 = new LineDataSet(yVals1, mList.get(pos).title);
         set1.setAxisDependency(YAxis.AxisDependency.LEFT);
-        set1.setColor(ColorTemplate.getHoloBlue());
+//        set1.setColor(ColorTemplate.getHoloBlue());
         set1.setCircleColor(Color.WHITE);
         set1.setLineWidth(2f);
         set1.setCircleRadius(3f);
@@ -191,6 +193,8 @@ public class CoreIndexListAdapter extends BaseListAdapter<CoreIndexListModel>{
         set1.setDrawCircleHole(false);
         set1.setDrawFilled(true);
         set1.setDrawValues(false);
+        Drawable drawable = ContextCompat.getDrawable(mContext, R.drawable.blue_fade);
+        set1.setFillDrawable(drawable);
         if (coreIndexListModel.coreCode.equals("30"))
         set1.setValueFormatter(new PercentFormatter());
         ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();

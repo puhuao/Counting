@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.lzy.okhttputils.OkHttpUtils;
 import com.wksc.counting.Basedata.BaseDataUtil;
@@ -59,7 +60,7 @@ public class LoginFragment extends CommonFragment {
     @Bind(R.id.et_password)
     EditText passWord;
     @Bind(R.id.get_valid_code)
-    Button getValidCode;
+    TextView getValidCode;
     private IConfig config;
     private int validType = 0;
 

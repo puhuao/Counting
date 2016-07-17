@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/login_background">
+    android:background="@drawable/background_drawable">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,8 +25,8 @@
         android:layout_weight="3"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:layout_marginLeft="24dp"
-        android:layout_marginRight="24dp"
+        android:layout_marginLeft="36dp"
+        android:layout_marginRight="36dp"
         >
 
         <LinearLayout
@@ -38,7 +38,7 @@
             <EditText
                 android:id="@+id/et_username"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="@null"
                 android:ellipsize="end"
@@ -66,8 +66,7 @@
                 android:id="@+id/et_password"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
+                android:layout_height="wrap_content"
                 android:background="@null"
                 android:ellipsize="end"
                 android:gravity="center_vertical"
@@ -78,16 +77,22 @@
                 android:textSize="15sp"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white"
-                android:drawableLeft="@drawable/yz"/>
-
-                <Button
+                android:drawableLeft="@drawable/yz"
+                android:layout_gravity="center_vertical"/>
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="20dp"
+                    android:background="@color/white"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="5dp"/>
+                <TextView
                     android:id="@+id/get_valid_code"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/selector_btn_yz"
-                    android:text="验证码"
+                    android:background="@null"
+                    android:text="发送验证码"
                     android:textColor="@color/white"
-                    android:layout_marginBottom="5dp"/>
+                    android:layout_gravity="center_vertical"/>
 
             </LinearLayout>
             <View
