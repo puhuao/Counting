@@ -10,12 +10,14 @@
         android:layout_width="130dp"
         android:layout_height="130dp"
         android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="27dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="130dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginRight="27dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -23,14 +25,20 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:orientation="horizontal"
-            android:padding="10dp">
-
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@drawable/shape_core_item">
             <TextView
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:text="销售额"/>
 
             <TextView
                 android:id="@+id/unit"
@@ -39,6 +47,7 @@
                 android:singleLine="true"
                 android:textSize="12sp"
                 android:textStyle="bold" />
+</LinearLayout>
         </LinearLayout>
 
         <RelativeLayout
@@ -72,7 +81,8 @@
                     android:gravity="left|center_vertical"
                     android:singleLine="true"
                     android:text="123456.78"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    android:textStyle="bold"/>
             </LinearLayout>
 
             <LinearLayout
@@ -102,7 +112,8 @@
                     android:gravity="left|center_vertical"
                     android:singleLine="true"
                     android:text="-100%"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    android:textStyle="bold"/>
             </LinearLayout>
         <!--</RelativeLayout>
 
@@ -139,7 +150,8 @@
                     android:gravity="left|center_vertical"
                     android:singleLine="true"
                     android:text="123456.78"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    android:textStyle="bold"/>
             </LinearLayout>
 
             <LinearLayout
@@ -170,7 +182,8 @@
                     android:gravity="left|center_vertical"
                     android:singleLine="true"
                     android:text="-100%"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    android:textStyle="bold"/>
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>

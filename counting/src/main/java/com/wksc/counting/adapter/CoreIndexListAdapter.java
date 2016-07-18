@@ -185,6 +185,7 @@ public class CoreIndexListAdapter extends BaseListAdapter<CoreIndexListModel>{
         set1.setAxisDependency(YAxis.AxisDependency.LEFT);
 //        set1.setColor(ColorTemplate.getHoloBlue());
         set1.setCircleColor(Color.WHITE);
+        set1.setCircleColorHole(Color.parseColor("#4BACFD"));
         set1.setLineWidth(2f);
         set1.setCircleRadius(3f);
         set1.setFillAlpha(65);
