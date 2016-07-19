@@ -97,7 +97,7 @@ public class CheckBoxListAdapter extends BaseListAdapter<BaseWithCheckBean> {
                 drawable = mContext.getResources().getDrawable(R.drawable.ic_check);
                 break;
             case HALF:
-                drawable = mContext.getResources().getDrawable(R.drawable.icon_blue_selected);
+                drawable = mContext.getResources().getDrawable(R.drawable.ic_check_half);
                 break;
         }
         drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());

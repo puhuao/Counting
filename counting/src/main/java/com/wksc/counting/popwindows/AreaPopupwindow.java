@@ -16,7 +16,6 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -38,7 +37,6 @@ import com.wksc.framwork.platform.config.IConfig;
 import com.wksc.framwork.util.StringUtils;
 import com.wksc.framwork.util.ToastUtil;
 
-import java.util.AbstractSequentialList;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,23 +79,23 @@ public class AreaPopupwindow extends BasePopupWindow {
     public AreaPopupwindow(final Activity context) {
         super();
         mContext = context;
-        View view = LayoutInflater.from(context).inflate(R.layout.pop_layout_area, null);
-        regionListView = (PickListView) view.findViewById(R.id.diriction_area);
-        cityListView = (PickListView) view.findViewById(R.id.diriction_province);
-        countyListView = (PickListView) view.findViewById(R.id.diriction_city);
-        sure = (Button) view.findViewById(R.id.sure);
-        radioGroup = (RadioGroup) view.findViewById(R.id.rg);
-        search = (ImageView) view.findViewById(R.id.search);
-        edit_query = (EditText) view.findViewById(R.id.edit_query);
-        stores = (NestedListView) view.findViewById(R.id.stores);
-        empty = (TextView) view.findViewById(R.id.empty);
-        checkBox1 = (CheckBox) view.findViewById(R.id.checkbox1);
-        checkBox2 = (CheckBox) view.findViewById(R.id.checkbox2);
-        checkBox3 = (CheckBox) view.findViewById(R.id.checkbox3);
-        layout_countys = (LinearLayout) view.findViewById(R.id.countys);
-        laytout_citys = (LinearLayout) view.findViewById(R.id.citys);
+        contentView = LayoutInflater.from(context).inflate(R.layout.pop_layout_area, null);
+        regionListView = (PickListView) contentView.findViewById(R.id.diriction_area);
+        cityListView = (PickListView) contentView.findViewById(R.id.diriction_province);
+        countyListView = (PickListView) contentView.findViewById(R.id.diriction_city);
+        sure = (Button) contentView.findViewById(R.id.sure);
+        radioGroup = (RadioGroup) contentView.findViewById(R.id.rg);
+        search = (ImageView) contentView.findViewById(R.id.search);
+        edit_query = (EditText) contentView.findViewById(R.id.edit_query);
+        stores = (NestedListView) contentView.findViewById(R.id.stores);
+        empty = (TextView) contentView.findViewById(R.id.empty);
+        checkBox1 = (CheckBox) contentView.findViewById(R.id.checkbox1);
+        checkBox2 = (CheckBox) contentView.findViewById(R.id.checkbox2);
+        checkBox3 = (CheckBox) contentView.findViewById(R.id.checkbox3);
+        layout_countys = (LinearLayout) contentView.findViewById(R.id.countys);
+        laytout_citys = (LinearLayout) contentView.findViewById(R.id.citys);
         search.setVisibility(View.GONE);
-        this.setContentView(view);
+        this.setContentView(contentView);
         this.setOutsideTouchable(true);
         this.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
         this.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
@@ -111,6 +109,7 @@ public class AreaPopupwindow extends BasePopupWindow {
                 dismiss();
             }
         });
+        init();
         regionListAdapter = new CheckBoxListAdapter(context);
         regionListAdapter.isAll = true;
         regionListAdapter.setList(BaseDataUtil.regions());

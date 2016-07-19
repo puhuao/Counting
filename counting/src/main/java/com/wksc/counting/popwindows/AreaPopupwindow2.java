@@ -32,7 +32,6 @@ import com.wksc.counting.model.baseinfo.BaseWithCheckBean;
 import com.wksc.counting.tools.UrlUtils;
 import com.wksc.counting.widegit.MarqueeText;
 import com.wksc.counting.widegit.NestedListView;
-import com.wksc.counting.widegit.unionPickListView.PickListView;
 import com.wksc.counting.widegit.unionPickListView.PickListView2;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.platform.config.IConfig;

@@ -2,6 +2,7 @@ package com.wksc.counting.widegit;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -180,6 +181,7 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
                 if (areaPopupWindow == null) {
                     areaPopupWindow = new AreaPopupwindow((Activity) getContext());
                 }
+
                 areaPopupWindow.bindTextView(area);
                 areaPopupWindow.setOnConditionSelectListener(new BasePopupWindow.OnConditionSelectListener() {
                     @Override
@@ -213,7 +215,12 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
                         conditionSelect.postParams();
                     }
                 });
-                areaPopupWindow.showPopupwindow(v);
+//                areaPopupWindow.showPopupwindow(v);
+                areaPopupWindow.setDarkStyle(-1);
+                areaPopupWindow.setDarkColor(Color.parseColor("#a0000000"));
+                areaPopupWindow.resetDarkPosition();
+                areaPopupWindow.darkBelow(v);
+                areaPopupWindow.showAsDropDown(v, v.getRight() / 2, 0);
                 break;
             case R.id.goods:
 
@@ -242,7 +249,12 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
                         conditionSelect.postParams();
                     }
                 });
-                goodsPopupWindow.showPopupwindow(v);
+//                goodsPopupWindow.showPopupwindow(v);
+                goodsPopupWindow.setDarkStyle(-1);
+                goodsPopupWindow.setDarkColor(Color.parseColor("#a0000000"));
+                goodsPopupWindow.resetDarkPosition();
+                goodsPopupWindow.darkBelow(v);
+                goodsPopupWindow.showAsDropDown(v, v.getRight() / 2, 0);
                 break;
             case R.id.time:
                 if (myPopupwindow == null) {
@@ -250,7 +262,13 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
                 }
                 if (hideDay)
                     myPopupwindow.hideDay(hideDay);
-                myPopupwindow.showPopupwindow(v);
+//                myPopupwindow.showPopupwindow(v);
+                myPopupwindow.setDarkStyle(-1);
+                myPopupwindow.setDarkColor(Color.parseColor("#a0000000"));
+                myPopupwindow.resetDarkPosition();
+                myPopupwindow.darkBelow(v);
+                myPopupwindow.showAsDropDown(v, v.getRight() / 2, 0);
+
                 myPopupwindow.setOnDateSelectListener(new DateSelectPopupWindow.OnDateSelectListener() {
                     @Override
                     public void onDateSelect(String y, String m, String date, int f) {
@@ -305,7 +323,12 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
                         conditionSelect.postParams();
                     }
                 });
-                channelPopupWindow.showPopupwindow(v);
+//                channelPopupWindow.showPopupwindow(v);
+                channelPopupWindow.setDarkStyle(-1);
+                channelPopupWindow.setDarkColor(Color.parseColor("#a0000000"));
+                channelPopupWindow.resetDarkPosition();
+                channelPopupWindow.darkBelow(v);
+                channelPopupWindow.showAsDropDown(v, v.getRight() / 2, 0);
                 break;
 //            case R.id.index:
 //                IndexPopupWindow indexPopupwindow = new IndexPopupWindow((Activity) getContext());

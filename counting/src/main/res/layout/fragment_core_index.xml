@@ -9,12 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
          />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#DEE0DF" />
-
     <android.support.v4.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -72,13 +72,13 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_core_index, null);
         hideLeftButton();
-//        showRightButton();
-//        getRightButton().setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                EventBus.getDefault().post(new TurnToMoreFragmentEvent(false));
-//            }
-//        });
+        showRightButton();
+        getRightButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         setHeaderTitle("核心指标");
 
         return v;

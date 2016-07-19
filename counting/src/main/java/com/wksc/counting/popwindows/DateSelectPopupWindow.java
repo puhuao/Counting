@@ -19,9 +19,8 @@ import com.wksc.counting.tools.Params;
 /**
  * Created by puhua on 2016/6/5.
  */
-public class DateSelectPopupWindow extends PopupWindow {
+public class DateSelectPopupWindow extends BasePopupWindow {
 
-    private View view;
     private Activity mContext;
     private Button id_btn_date_ok;
     private DateSelectPopupWindow dateSelectPopupWindow;
@@ -30,20 +29,21 @@ public class DateSelectPopupWindow extends PopupWindow {
     public int flag=3;
 
     public DateSelectPopupWindow(Activity context) {
-        super(context);
+        super();
         mContext = context;
         initView();
         dateSelectPopupWindow=this;
+        init();
     }
 
     private void initView() {
 
         LayoutInflater inflater = (LayoutInflater) mContext
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        view= inflater.inflate(R.layout.layout_popupwindow_datepick, null);
+        contentView= inflater.inflate(R.layout.layout_popupwindow_datepick, null);
 
-        datePick1= (DatePicker) view.findViewById(R.id.datePick1);
-        radioGroup = (RadioGroup) view.findViewById(R.id.rg);
+        datePick1= (DatePicker) contentView.findViewById(R.id.datePick1);
+        radioGroup = (RadioGroup) contentView.findViewById(R.id.rg);
 
         DatePicker.OnDateChangedListener dcl=new DatePicker.OnDateChangedListener() {
             @Override
@@ -66,7 +66,7 @@ public class DateSelectPopupWindow extends PopupWindow {
         }
         datePick1.init( Params.y,Params.m,Params.d,dcl);
 
-        id_btn_date_ok= (Button) view.findViewById(R.id.id_btn_date_ok);
+        id_btn_date_ok= (Button) contentView.findViewById(R.id.id_btn_date_ok);
         id_btn_date_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,7 +125,7 @@ public class DateSelectPopupWindow extends PopupWindow {
             }
         });
         //设置PopupWindow的View
-        this.setContentView(view);
+        this.setContentView(contentView);
         //设置PopupWindow弹出窗体的宽
         this.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
         //设置PopupWindow弹出窗体的高

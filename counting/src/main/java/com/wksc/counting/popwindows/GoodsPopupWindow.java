@@ -12,7 +12,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.PopupWindow;
 
 import com.wksc.counting.Basedata.BaseDataUtil;
 import com.wksc.counting.R;
@@ -44,14 +43,14 @@ public class GoodsPopupWindow extends BasePopupWindow {
     public GoodsPopupWindow(Activity context){
         super();
         mContext = context;
-        View view = LayoutInflater.from(context).inflate(R.layout.pop_layout_goods,null);
-        lvGoodsType = (ListView) view.findViewById(R.id.wine_type);
-        lvGoodsName = (ListView) view.findViewById(R.id.wine_name);
-        sure = (Button) view.findViewById(R.id.sure);
-        checkBox1 = (CheckBox) view.findViewById(R.id.checkbox1);
-        checkBox2 = (CheckBox) view.findViewById(R.id.checkbox2);
-        layout_names = (LinearLayout) view.findViewById(R.id.wine_names);
-        this.setContentView(view);
+        contentView= LayoutInflater.from(context).inflate(R.layout.pop_layout_goods,null);
+        lvGoodsType = (ListView) contentView.findViewById(R.id.wine_type);
+        lvGoodsName = (ListView) contentView.findViewById(R.id.wine_name);
+        sure = (Button) contentView.findViewById(R.id.sure);
+        checkBox1 = (CheckBox) contentView.findViewById(R.id.checkbox1);
+        checkBox2 = (CheckBox) contentView.findViewById(R.id.checkbox2);
+        layout_names = (LinearLayout) contentView.findViewById(R.id.wine_names);
+        this.setContentView(contentView);
         this.setOutsideTouchable(true);
         this.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
         this.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -65,6 +64,7 @@ public class GoodsPopupWindow extends BasePopupWindow {
                 dismiss();
             }
         });
+        init();
         sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

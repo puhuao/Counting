@@ -59,5 +59,10 @@
         <item name="android:backgroundDimAmount">0.7</item>
     </style>
 
+    <style name="DarkAnimation">
+        <item name="android:windowEnterAnimation">@anim/dark_fade_in</item>
+        <item name="android:windowExitAnimation">@anim/dark_fade_out</item>
+    </style>
+
 
 </resources>

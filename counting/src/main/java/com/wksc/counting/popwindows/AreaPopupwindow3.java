@@ -2,7 +2,6 @@ package com.wksc.counting.popwindows;
 
 import android.app.Activity;
 import android.graphics.drawable.BitmapDrawable;
-import android.support.annotation.BoolRes;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -21,8 +20,6 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.lzy.okhttputils.OkHttpUtils;
-import com.wksc.counting.Basedata.BaseDataUtil;
-import com.wksc.counting.Basedata.BaseDataUtil2;
 import com.wksc.counting.Contorner.Condition;
 import com.wksc.counting.R;
 import com.wksc.counting.adapter.CheckBoxListAdapter;
@@ -34,7 +31,6 @@ import com.wksc.counting.model.baseinfo.BaseWithCheckBean;
 import com.wksc.counting.tools.UrlUtils;
 import com.wksc.counting.widegit.MarqueeText;
 import com.wksc.counting.widegit.NestedListView;
-import com.wksc.counting.widegit.unionPickListView.PickListView2;
 import com.wksc.counting.widegit.unionPickListView.PickListView3;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.platform.config.IConfig;

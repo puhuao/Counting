@@ -37,7 +37,8 @@
             android:gravity="center"
             android:singleLine="true"
             android:textColor="#ffffff"
-            android:textSize="16sp" />
+            android:textSize="21sp"
+            android:textStyle="bold"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -56,7 +57,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:clickable="true"
-            android:src="@drawable/btn_user"/>
+            android:src="@drawable/ic_search"/>
 
         <TextView
             android:id="@+id/tv_right"

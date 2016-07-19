@@ -1,16 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="55dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:orientation="horizontal"
+        android:background="#5295EE"></LinearLayout>
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="5dp"
-    android:background="#FBF9FA">
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="5dp"
+    android:background="@drawable/condition_background"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginBottom="5dp">
+        >
 
         <LinearLayout
             android:id="@+id/area_layout"
@@ -26,7 +37,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:drawableLeft="@drawable/location"
                 android:drawablePadding="5dp"
                 android:drawableRight="@drawable/rectangle"
                 android:ellipsize="marquee"
@@ -37,7 +47,8 @@
                 android:scrollHorizontally="true"
                 android:singleLine="true"
                 android:text="地区"
-                android:textSize="14sp"/>
+                android:textSize="17sp"
+                android:textColor="@color/text_color"/>
         </LinearLayout>
 
         <LinearLayout
@@ -52,7 +63,6 @@
                 android:id="@+id/time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/time"
                 android:drawablePadding="5dp"
                 android:drawableRight="@drawable/rectangle"
                 android:ellipsize="marquee"
@@ -63,7 +73,8 @@
                 android:scrollHorizontally="true"
                 android:singleLine="true"
                 android:text="时间"
-                android:textSize="14sp"/>
+                android:textSize="17sp"
+                android:textColor="@color/text_color"/>
         </LinearLayout>
 
         <LinearLayout
@@ -79,7 +90,6 @@
                 android:id="@+id/channel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/channel"
                 android:drawablePadding="5dp"
                 android:drawableRight="@drawable/rectangle"
                 android:ellipsize="marquee"
@@ -90,7 +100,8 @@
                 android:scrollHorizontally="true"
                 android:singleLine="true"
                 android:text="渠道"
-                android:textSize="14sp"/>
+                android:textSize="17sp"
+                android:textColor="@color/text_color"/>
         </LinearLayout>
 
         <LinearLayout
@@ -106,7 +117,6 @@
                 android:id="@+id/goods"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/goods"
                 android:drawablePadding="5dp"
                 android:drawableRight="@drawable/rectangle"
                 android:ellipsize="marquee"
@@ -117,7 +127,8 @@
                 android:scrollHorizontally="true"
                 android:singleLine="true"
                 android:text="商品"
-                android:textSize="14sp"/>
+                android:textSize="17sp"
+                android:textColor="@color/text_color"/>
         </LinearLayout>
 
     </LinearLayout>
@@ -128,7 +139,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        >
+        android:visibility="gone">
 
         <LinearLayout
             android:id="@+id/area1_layout"
@@ -137,7 +148,8 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            >
 
             <com.wksc.counting.widegit.MarqueeText
                 android:id="@+id/area1"
@@ -229,3 +241,4 @@
 
     </LinearLayout>
 </LinearLayout>
+</RelativeLayout>

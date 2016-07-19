@@ -12,7 +12,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.PopupWindow;
 
 import com.wksc.counting.Basedata.BaseDataUtil;
 import com.wksc.counting.R;
@@ -46,14 +45,14 @@ public class ChannelPopupWindow extends BasePopupWindow {
     public ChannelPopupWindow(final Activity context){
         super();
         mContext = context;
-        View view = LayoutInflater.from(context).inflate(R.layout.pop_layout_supply,null);
-        list = (ListView) view.findViewById(R.id.supply);
-        platform = (ListView) view.findViewById(R.id.platform);
-        sure = (Button) view.findViewById(R.id.sure);
-        checkBox1 = (CheckBox) view.findViewById(R.id.checkbox1);
-        checkBox2 = (CheckBox) view.findViewById(R.id.checkbox2);
-        layout_platforms = (LinearLayout) view.findViewById(R.id.platforms);
-        this.setContentView(view);
+        contentView = LayoutInflater.from(context).inflate(R.layout.pop_layout_supply,null);
+        list = (ListView) contentView.findViewById(R.id.supply);
+        platform = (ListView) contentView.findViewById(R.id.platform);
+        sure = (Button) contentView.findViewById(R.id.sure);
+        checkBox1 = (CheckBox) contentView.findViewById(R.id.checkbox1);
+        checkBox2 = (CheckBox) contentView.findViewById(R.id.checkbox2);
+        layout_platforms = (LinearLayout) contentView.findViewById(R.id.platforms);
+        this.setContentView(contentView);
         this.setOutsideTouchable(true);
         this.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
         this.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -67,7 +66,7 @@ public class ChannelPopupWindow extends BasePopupWindow {
                 dismiss();
             }
         });
-
+        init();
         channelListAdapter = new CheckBoxListAdapter(context);
         channelListAdapter. setList(BaseDataUtil.channels());
         list.setAdapter(channelListAdapter);

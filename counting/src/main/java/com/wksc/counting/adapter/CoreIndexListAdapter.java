@@ -139,6 +139,7 @@ public class CoreIndexListAdapter extends BaseListAdapter<CoreIndexListModel>{
         l.setTextSize(11f);
         l.setTextColor(Color.BLACK);
         l.setPosition(Legend.LegendPosition.BELOW_CHART_LEFT);
+        l.setEnabled(false);
 
         XAxis xAxis = holder.chart.getXAxis();
         xAxis.setTypeface(tf);

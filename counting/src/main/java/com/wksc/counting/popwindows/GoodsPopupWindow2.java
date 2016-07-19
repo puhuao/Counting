@@ -13,7 +13,6 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
-import com.wksc.counting.Basedata.BaseDataUtil2;
 import com.wksc.counting.Contorner.Condition;
 import com.wksc.counting.R;
 import com.wksc.counting.adapter.CheckBoxListAdapter;
