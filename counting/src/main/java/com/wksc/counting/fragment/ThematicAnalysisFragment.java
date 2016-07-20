@@ -1,6 +1,5 @@
 package com.wksc.counting.fragment;
 
-import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,7 +13,6 @@ import android.view.ViewGroup;
 import com.wksc.counting.R;
 import com.wksc.counting.event.GoodsAnaEvent;
 import com.wksc.counting.event.SaleGoalAnaEvent;
-import com.wksc.counting.event.TurnToMoreFragmentEvent;
 import com.wksc.counting.popwindows.TitleSelectPopupWindow;
 import com.wksc.counting.widegit.CustomViewPager;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
@@ -55,7 +53,7 @@ public class ThematicAnalysisFragment extends CommonFragment {
         setHeaderTitle("专题分析");
         Drawable drawable = getContext().getResources().getDrawable(R.drawable.title_rectangle_down);
         drawable.setBounds(0,0,drawable.getMinimumWidth(),drawable.getMinimumHeight());
-//        getTitleHeaderBar().getTitleTextView().setCompoundDrawables(null,null,drawable,null);
+        getTitleHeaderBar().getTitleTextView().setCompoundDrawables(null,null,drawable,null);
 //        getTitleHeaderBar().getTitleTextView().getPaint().setFlags(Paint. UNDERLINE_TEXT_FLAG ); //下划线
 //        getTitleHeaderBar().getTitleTextView().getPaint().setAntiAlias(true);
         getTitleHeaderBar().getTitleTextView().setCompoundDrawablePadding(10);

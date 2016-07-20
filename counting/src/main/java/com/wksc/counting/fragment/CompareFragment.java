@@ -18,6 +18,7 @@ import com.wksc.counting.R;
 import com.wksc.counting.event.SaleComparisonLoadDataEvent;
 import com.wksc.counting.event.VipComparisonLoadDataEvent;
 import com.wksc.counting.model.baseinfo.CoreItem;
+import com.wksc.counting.popwindows.ComparePopupWindow;
 import com.wksc.counting.widegit.CustomViewPager;
 import com.wksc.counting.widegit.PagerSlidingTabStrip;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
@@ -48,14 +49,18 @@ public class CompareFragment extends CommonFragment {
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_comparison, null);
         setHeaderTitle("销售额对比");
-//        showRightButton();
-//        getRightButton().setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                getContext().pushFragmentToBackStack(MoreFragment.class,"");
-//            }
-//        });
+        Drawable drawable = getContext().getResources().getDrawable(R.drawable.title_rectangle_down);
+        drawable.setBounds(0,0,drawable.getMinimumWidth(),drawable.getMinimumHeight());
+        getTitleHeaderBar().getTitleTextView().setCompoundDrawablePadding(10);
+        getTitleHeaderBar().getTitleTextView().setCompoundDrawables(null,null,drawable,null);
+
+        showRightButton();
+        getRightButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         return v;
     }
 
@@ -105,6 +110,14 @@ public class CompareFragment extends CommonFragment {
                 indicatorFragmentEntityList.add(fragmentEntity);
             }
         }
+
+        getTitleHeaderBar().getTitleTextView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ComparePopupWindow comparePopupWindow = new ComparePopupWindow(getContext(),indicatorFragmentEntityList,pos);
+                comparePopupWindow.showPopupwindow(v);
+            }
+        });
 
         Drawable drawable = getResources().getDrawable(R.drawable.slide_block_shape);
         mIndicator.setSlidingBlockDrawable(drawable);
@@ -274,7 +287,7 @@ public class CompareFragment extends CommonFragment {
 
     }
 
-    class FragmentEntity {
+    public class FragmentEntity {
         public String name;
         public Fragment fragment;
 

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/outpatient_check_hospital"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5.0dip"
+        android:layout_marginLeft="12.599976dip"
+        android:layout_marginRight="12.599976dip"
+        android:layout_marginTop="5.0dip"
+        android:gravity="center_vertical"
+        android:background="#AAAAAA">
+
+            <RadioButton
+                android:id="@+id/rb_light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:text="" />
+
+    </RelativeLayout>
+
+</LinearLayout>
