@@ -1,5 +1,6 @@
 package com.wksc.counting.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -15,10 +16,12 @@ import com.wksc.counting.Basedata.BaseDataUtil;
 import com.wksc.counting.Basedata.FragmentDataUtil;
 import com.wksc.counting.R;
 import com.wksc.counting.activity.SalesComparisonActivity;
+import com.wksc.counting.activity.SearchActivity;
 import com.wksc.counting.adapter.CoreIndexListAdapter;
 import com.wksc.counting.callBack.DialogCallback;
 import com.wksc.counting.config.Urls;
 import com.wksc.counting.event.CoreIndextLoadDataEvent;
+import com.wksc.counting.event.CoreIndextRefreshEvent;
 import com.wksc.counting.event.SaleComparisonLoadDataEvent;
 import com.wksc.counting.event.TurnToMoreFragmentEvent;
 import com.wksc.counting.model.CoreIndexListModel;
@@ -27,6 +30,7 @@ import com.wksc.counting.model.baseinfo.CoreItem;
 import com.wksc.counting.model.baseinfo.GoodsClassFirst;
 import com.wksc.counting.model.baseinfo.GoodsClassScend;
 import com.wksc.counting.model.baseinfo.Region;
+import com.wksc.counting.tools.Params;
 import com.wksc.counting.tools.PixToDp;
 import com.wksc.counting.tools.UrlUtils;
 import com.wksc.counting.widegit.ConditionLayout;
@@ -76,7 +80,9 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
         getRightButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(getContext(), SearchActivity.class);
+                intent.putExtra("flag",-1);
+                getActivity().startActivity(intent);
             }
         });
         setHeaderTitle("核心指标");
@@ -204,6 +210,19 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
     @Subscribe
     public void lodaData(CoreIndextLoadDataEvent event) {
         conditionLayout.initViewByParam();
+    }
+
+    @Subscribe
+    public void onEvent(CoreIndextRefreshEvent event) {
+        if (Params.mcu.length() > 0) {
+            Params.mcu.delete(0, Params.mcu.length());
+        }
+        if (Params.areal.length() > 0) {
+            Params.areal.delete(0, Params.areal.length());
+        }
+        Params.mcu.append("&mcu=").append(event.sb);
+        Params.areal.append(event.names);
+        onRefresh();
     }
 
     @Override

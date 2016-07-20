@@ -1,5 +1,6 @@
 package com.wksc.counting.fragment;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,15 +16,20 @@ import android.widget.TextView;
 import com.wksc.counting.Basedata.BaseDataUtil;
 import com.wksc.counting.Basedata.FragmentDataUtil;
 import com.wksc.counting.R;
+import com.wksc.counting.activity.SearchActivity;
+import com.wksc.counting.event.CompareFragmentTransPagerEvent;
+import com.wksc.counting.event.CoreIndextRefreshEvent;
 import com.wksc.counting.event.SaleComparisonLoadDataEvent;
 import com.wksc.counting.event.VipComparisonLoadDataEvent;
 import com.wksc.counting.model.baseinfo.CoreItem;
 import com.wksc.counting.popwindows.ComparePopupWindow;
+import com.wksc.counting.tools.Params;
 import com.wksc.counting.widegit.CustomViewPager;
 import com.wksc.counting.widegit.PagerSlidingTabStrip;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +52,12 @@ public class CompareFragment extends CommonFragment {
     private String provice;
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_comparison, null);
         setHeaderTitle("销售额对比");
@@ -58,7 +70,9 @@ public class CompareFragment extends CommonFragment {
         getRightButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(getContext(), SearchActivity.class);
+                intent.putExtra("flag",pos);
+                getActivity().startActivity(intent);
             }
         });
         return v;
@@ -160,43 +174,44 @@ public class CompareFragment extends CommonFragment {
         mViewPager.setPagingEnabled(false);
         mViewPager.setOffscreenPageLimit(1);
         mIndicator.setViewPager(mViewPager);
-        mIndicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                setHeaderTitle(indicatorFragmentEntityList.get(position).name+"对比");
-                if (indicatorFragmentEntityList.size() == 2) {
-                    if (position == 0) {
-                        TextView tvTab0 = (TextView) mIndicator.getTab(0);
-                        tvTab0.setBackgroundResource(R.drawable.tab_left_select);
-                        tvTab0.setTextColor(getResources().getColor(R.color.bg_color));
-
-                        TextView tvTab1 = (TextView) mIndicator.getTab(1);
-                        tvTab1.setBackgroundResource(R.drawable.tab_right_notselect);
-                        tvTab1.setTextColor(getResources().getColor(R.color.white));
-                    } else if (position == 1) {
-                        TextView tvTab0 = (TextView) mIndicator.getTab(0);
-                        tvTab0.setBackgroundResource(R.drawable.tab_left_notselect);
-                        tvTab0.setTextColor(getResources().getColor(R.color.white));
-
-                        TextView tvTab1 = (TextView) mIndicator.getTab(1);
-                        tvTab1.setBackgroundResource(R.drawable.tab_right_select);
-                        tvTab1.setTextColor(getResources().getColor(R.color.bg_color));
-                    }
-
-                } else if (indicatorFragmentEntityList.size() == 1) {
-                    TextView tvTab = (TextView) mIndicator.getTab(position);
-                    tvTab.setTextColor(getResources().getColor(R.color.white));
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-            }
-        });
+        mIndicator.setVisibility(View.GONE);
+//        mIndicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+//            @Override
+//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+//            }
+//
+//            @Override
+//            public void onPageSelected(int position) {
+//                setHeaderTitle(indicatorFragmentEntityList.get(position).name+"对比");
+//                if (indicatorFragmentEntityList.size() == 2) {
+//                    if (position == 0) {
+//                        TextView tvTab0 = (TextView) mIndicator.getTab(0);
+//                        tvTab0.setBackgroundResource(R.drawable.tab_left_select);
+//                        tvTab0.setTextColor(getResources().getColor(R.color.bg_color));
+//
+//                        TextView tvTab1 = (TextView) mIndicator.getTab(1);
+//                        tvTab1.setBackgroundResource(R.drawable.tab_right_notselect);
+//                        tvTab1.setTextColor(getResources().getColor(R.color.white));
+//                    } else if (position == 1) {
+//                        TextView tvTab0 = (TextView) mIndicator.getTab(0);
+//                        tvTab0.setBackgroundResource(R.drawable.tab_left_notselect);
+//                        tvTab0.setTextColor(getResources().getColor(R.color.white));
+//
+//                        TextView tvTab1 = (TextView) mIndicator.getTab(1);
+//                        tvTab1.setBackgroundResource(R.drawable.tab_right_select);
+//                        tvTab1.setTextColor(getResources().getColor(R.color.bg_color));
+//                    }
+//
+//                } else if (indicatorFragmentEntityList.size() == 1) {
+//                    TextView tvTab = (TextView) mIndicator.getTab(position);
+//                    tvTab.setTextColor(getResources().getColor(R.color.white));
+//                }
+//            }
+//
+//            @Override
+//            public void onPageScrollStateChanged(int state) {
+//            }
+//        });
 
 //        btnRight.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -213,6 +228,7 @@ public class CompareFragment extends CommonFragment {
 
             @Override
             public void onPageSelected(int position) {
+                setHeaderTitle(indicatorFragmentEntityList.get(position).name+"对比");
                 SaleComparisonLoadDataEvent event = new SaleComparisonLoadDataEvent();
                 event.item = BaseDataUtil.coreItems.get(position).code;
                 event.position = position;
@@ -253,6 +269,13 @@ public class CompareFragment extends CommonFragment {
     public void onDestroy() {
         super.onDestroy();
         FragmentDataUtil.clearCoreDetailData(FragmentDataUtil.map);
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe
+    public void onEvent(CompareFragmentTransPagerEvent event) {
+        mViewPager.setCurrentItem(event.pos);
+        pos = event.pos;
     }
 
     @Override

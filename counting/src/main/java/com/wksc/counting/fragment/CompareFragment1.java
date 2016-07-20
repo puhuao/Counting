@@ -1,5 +1,6 @@
 package com.wksc.counting.fragment;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import com.wksc.counting.Basedata.BaseDataUtil;
 import com.wksc.counting.Basedata.FragmentDataUtil;
 import com.wksc.counting.R;
+import com.wksc.counting.activity.SearchActivity;
 import com.wksc.counting.event.SaleComparisonLoadDataEvent;
 import com.wksc.counting.event.SaleComparisonLoadDataEvent1;
 import com.wksc.counting.event.VipComparisonLoadDataEvent;
@@ -50,14 +52,20 @@ public class CompareFragment1 extends CommonFragment {
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_comparison, null);
         setHeaderTitle("销售额对比");
-//        showRightButton();
-//        getRightButton().setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                getContext().pushFragmentToBackStack(MoreFragment.class,"");
-//            }
-//        });
+        Drawable drawable = getContext().getResources().getDrawable(R.drawable.title_rectangle_down);
+        drawable.setBounds(0,0,drawable.getMinimumWidth(),drawable.getMinimumHeight());
+        getTitleHeaderBar().getTitleTextView().setCompoundDrawablePadding(10);
+        getTitleHeaderBar().getTitleTextView().setCompoundDrawables(null,null,drawable,null);
+        showRightButton();
+        getRightButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+//                Intent intent = new Intent(getContext(), SearchActivity.class);
+//                intent.putExtra("flag",pos);
+//                getActivity().startActivity(intent);
+            }
+        });
         return v;
     }
 

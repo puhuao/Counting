@@ -1,5 +1,6 @@
 package com.wksc.counting.Basedata;
 
+import com.wksc.counting.activity.SearchActivity;
 import com.wksc.counting.adapter.CheckBoxListAdapter;
 import com.wksc.counting.model.baseinfo.BaseWithCheckBean;
 import com.wksc.counting.model.baseinfo.Channel;
@@ -11,6 +12,8 @@ import com.wksc.counting.model.baseinfo.Region;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.crypto.SealedObject;
+
 /**
  * Created by puhua on 2016/6/21.
  *
@@ -21,6 +24,7 @@ public class BaseDataUtil {
 //    public static int lastCoreRagionPos=0;
 //    public static int lastCoreCityPos=0;
 //    public static int lastCoreCountyPos=0;
+    public static List<BaseWithCheckBean> stores;
     public static List<BaseWithCheckBean> citySet;//用以记录地区选择消失后的位置
     public static List<BaseWithCheckBean> countySet;
     public static List<Region> region = new ArrayList<>();
@@ -40,6 +44,7 @@ public class BaseDataUtil {
     public static int scendPositon;
     public static int superPosition;
 
+
     public static List<BaseWithCheckBean> coreItems(){
         List<BaseWithCheckBean> regions = new ArrayList<>();
         for (BaseWithCheckBean reg : coreItems) {
@@ -54,6 +59,7 @@ public class BaseDataUtil {
         goodsClassFirst.clear();
         coreItems.clear();
         channels.clear();
+        SearchActivity.historys.clear();
     }
     public static StringBuilder sbGoodsClassFirst= new StringBuilder();
     public static StringBuilder sbGoodsClassFirstCode = new StringBuilder();
@@ -135,6 +141,14 @@ public static StringBuilder sbGoodsClassScend = new StringBuilder();
         List<BaseWithCheckBean> regions = new ArrayList<>();
         for (BaseWithCheckBean reg : region) {
             regions.add(reg);
+        }
+        return regions;
+    }
+
+    public static List<BaseWithCheckBean> regionsNormal() {
+        List<BaseWithCheckBean> regions = new ArrayList<>();
+        for (BaseWithCheckBean reg : region) {
+            reg.isCheck = CheckBoxListAdapter.NORMAL;
         }
         return regions;
     }
@@ -317,6 +331,18 @@ public static StringBuilder sbGoodsClassScend = new StringBuilder();
                 for (BaseWithCheckBean channel :
                         channels.get(pos).MCU) {
                     list.add(channel);
+                }
+        return list;
+    }
+
+    public static List<BaseWithCheckBean> resetPlatforms(int pos) {
+        List<BaseWithCheckBean> list = new ArrayList<>();
+        if (channels.size() > 0)
+            if (channels.get(pos).MCU != null)
+                for (BaseWithCheckBean channel :
+                        channels.get(pos).MCU) {
+                    list.add(channel);
+                    channel.isCheck = CheckBoxListAdapter.NORMAL;
                 }
         return list;
     }

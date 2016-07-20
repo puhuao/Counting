@@ -35,6 +35,7 @@ public class ChannelPopupWindow extends BasePopupWindow {
     CheckBox checkBox1,checkBox2;
     CheckBoxListAdapter channelListAdapter,platformListAdapter;
     Activity mContext;
+    Button reset;
 
     public StringBuilder sbChannel = new StringBuilder();
     public StringBuilder sbPlatform = new StringBuilder();
@@ -52,6 +53,7 @@ public class ChannelPopupWindow extends BasePopupWindow {
         checkBox1 = (CheckBox) contentView.findViewById(R.id.checkbox1);
         checkBox2 = (CheckBox) contentView.findViewById(R.id.checkbox2);
         layout_platforms = (LinearLayout) contentView.findViewById(R.id.platforms);
+        reset = (Button) contentView.findViewById(R.id.reset);
         this.setContentView(contentView);
         this.setOutsideTouchable(true);
         this.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
@@ -204,6 +206,16 @@ public class ChannelPopupWindow extends BasePopupWindow {
                 channelListAdapter.getCheckedNumber()==channelListAdapter.getList().size()){
             layout_platforms.setVisibility(View.INVISIBLE);
         }
+
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                channelListAdapter.setAllNormal();
+                BaseDataUtil.resetPlatforms(2);
+                channelListAdapter.notifyDataSetChanged();
+                platformListAdapter.notifyDataSetChanged();
+            }
+        });
 
     }
 

@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
@@ -63,9 +63,8 @@
             android:text="门店"
             android:textColor="@color/main_tab_text_selector" />
     </RadioGroup>
-
-
     <LinearLayout
+        android:id="@+id/ll1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -78,7 +77,7 @@
             android:padding="10dp"
             android:text="重置"
             android:textSize="14sp"
-        android:background="#D9D9D9"/>
+            android:background="#D9D9D9"/>
         <Button
             android:id="@+id/sure"
             android:layout_width="0dp"
@@ -89,14 +88,12 @@
             android:textSize="14sp"
             android:background="#50ADFA"/>
     </LinearLayout>
-
-
     <com.wksc.counting.widegit.OverScrollView
+        android:id="@+id/scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/sure"
-        android:layout_below="@id/rg">
-
+        android:layout_below="@id/rg"
+        android:layout_above="@id/ll1">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -191,7 +188,8 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -236,6 +234,5 @@
 
         </LinearLayout>
     </com.wksc.counting.widegit.OverScrollView>
-
 </RelativeLayout>
 </LinearLayout>

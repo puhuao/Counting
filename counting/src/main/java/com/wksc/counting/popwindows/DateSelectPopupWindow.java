@@ -2,6 +2,7 @@ package com.wksc.counting.popwindows;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -10,11 +11,16 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.LinearLayout;
+import android.widget.NumberPicker;
 import android.widget.PopupWindow;
 import android.widget.RadioGroup;
 
 import com.wksc.counting.R;
 import com.wksc.counting.tools.Params;
+
+import java.lang.reflect.Field;
+import java.util.Calendar;
 
 /**
  * Created by puhua on 2016/6/5.
@@ -27,6 +33,7 @@ public class DateSelectPopupWindow extends BasePopupWindow {
     private DatePicker datePick1;
     RadioGroup radioGroup;
     public int flag=3;
+    private Button reset;
 
     public DateSelectPopupWindow(Activity context) {
         super();
@@ -34,6 +41,36 @@ public class DateSelectPopupWindow extends BasePopupWindow {
         initView();
         dateSelectPopupWindow=this;
         init();
+    }
+
+    private void setDatePickerDividerColor(DatePicker datePicker){
+        // Divider changing:
+
+        // 获取 mSpinners
+        LinearLayout llFirst       = (LinearLayout) datePicker.getChildAt(0);
+
+        // 获取 NumberPicker
+        LinearLayout mSpinners      = (LinearLayout) llFirst.getChildAt(0);
+        for (int i = 0; i < mSpinners.getChildCount(); i++) {
+            NumberPicker picker = (NumberPicker) mSpinners.getChildAt(i);
+
+            Field[] pickerFields = NumberPicker.class.getDeclaredFields();
+            for (Field pf : pickerFields) {
+                if (pf.getName().equals("mSelectionDivider")) {
+                    pf.setAccessible(true);
+                    try {
+                        pf.set(picker, new ColorDrawable(mContext.getResources().getColor(R.color.colorPrimary)));
+                    } catch (IllegalArgumentException e) {
+                        e.printStackTrace();
+                    } catch (Resources.NotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                }
+            }
+        }
     }
 
     private void initView() {
@@ -44,8 +81,9 @@ public class DateSelectPopupWindow extends BasePopupWindow {
 
         datePick1= (DatePicker) contentView.findViewById(R.id.datePick1);
         radioGroup = (RadioGroup) contentView.findViewById(R.id.rg);
-
-        DatePicker.OnDateChangedListener dcl=new DatePicker.OnDateChangedListener() {
+        reset = (Button) contentView.findViewById(R.id.reset);
+        setDatePickerDividerColor(datePick1);
+        final DatePicker.OnDateChangedListener dcl=new DatePicker.OnDateChangedListener() {
             @Override
             public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 Params.y=year;
@@ -137,6 +175,15 @@ public class DateSelectPopupWindow extends BasePopupWindow {
             @Override
             public void onDismiss() {
                 backgroundAlpha(1f);
+            }
+        });
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar calendar = Calendar.getInstance();
+
+                datePick1.init( calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH)-1
+                        ,calendar.get(Calendar.DAY_OF_MONTH),dcl);
             }
         });
     }

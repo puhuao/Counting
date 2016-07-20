@@ -56,6 +56,11 @@ public class CheckBoxListAdapter extends BaseListAdapter<BaseWithCheckBean> {
         }
         holder.name.setText(mList.get(position).name);
         setSelect(mList.get(position).isCheck,holder.name);
+        if (mList.get(position).isCheck==CheckBoxListAdapter.ALL){
+            holder.name.setTextColor(mContext.getResources().getColor(R.color.colorPrimary));
+        }else{
+            holder.name.setTextColor(mContext.getResources().getColor(R.color.ui_dialog_list_text));
+        }
         return convertView;
     }
 

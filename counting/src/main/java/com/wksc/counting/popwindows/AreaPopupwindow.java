@@ -66,6 +66,7 @@ public class AreaPopupwindow extends BasePopupWindow {
     LinearLayout layout_countys,laytout_citys;
     List<AreaCheckModel> areas = new ArrayList<>();
     //    private MarqueeText area;
+    Button reset;
     int flag =1;
     private IConfig config;
     StringBuilder store = new StringBuilder();
@@ -94,6 +95,7 @@ public class AreaPopupwindow extends BasePopupWindow {
         checkBox3 = (CheckBox) contentView.findViewById(R.id.checkbox3);
         layout_countys = (LinearLayout) contentView.findViewById(R.id.countys);
         laytout_citys = (LinearLayout) contentView.findViewById(R.id.citys);
+        reset = (Button) contentView.findViewById(R.id.reset);
         search.setVisibility(View.GONE);
         this.setContentView(contentView);
         this.setOutsideTouchable(true);
@@ -296,6 +298,17 @@ public class AreaPopupwindow extends BasePopupWindow {
                     countyListAdapter.setAllNormal();
                 }
                 mFromList = false;
+            }
+        });
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BaseDataUtil.regionsNormal();
+                BaseDataUtil.citys();
+                BaseDataUtil.countys();
+                regionListAdapter.notifyDataSetChanged();
+                cityListAdapter.notifyDataSetChanged();
+                countyListAdapter.notifyDataSetChanged();
             }
         });
     }

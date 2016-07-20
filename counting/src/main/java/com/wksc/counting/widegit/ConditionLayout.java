@@ -29,10 +29,10 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
     LinearLayout layout_channel1;
     LinearLayout layout_goods1;
     Calendar calendar;
-    MarqueeText channel1;
-    MarqueeText time1;
-    MarqueeText area1;
-    MarqueeText goods1;
+//    MarqueeText channel1;
+//    MarqueeText time1;
+//    MarqueeText area1;
+//    MarqueeText goods1;
     MarqueeText area;
     MarqueeText goods;
     MarqueeText time;
@@ -44,6 +44,7 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
     GoodsPopupWindow goodsPopupWindow;
     DateSelectPopupWindow myPopupwindow;
     ChannelPopupWindow channelPopupWindow;
+    LinearLayout dark_below;
 
     public String getAllConditions() {
         return Params.getParam();
@@ -65,10 +66,10 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
         super(context, attrs, defStyleAttr);
         LayoutInflater.from(context).inflate(R.layout.layout_condition, this);
         calendar = Calendar.getInstance();//初始化时间
-        area1 = (MarqueeText) findViewById(R.id.area1);
-        goods1 = (MarqueeText) findViewById(R.id.goods1);
-        time1 = (MarqueeText) findViewById(R.id.time1);
-        channel1 = (MarqueeText) findViewById(R.id.channel1);
+//        area1 = (MarqueeText) findViewById(R.id.area1);
+//        goods1 = (MarqueeText) findViewById(R.id.goods1);
+//        time1 = (MarqueeText) findViewById(R.id.time1);
+//        channel1 = (MarqueeText) findViewById(R.id.channel1);
         area = (MarqueeText) findViewById(R.id.area);
         goods = (MarqueeText) findViewById(R.id.goods);
         time = (MarqueeText) findViewById(R.id.time);
@@ -78,6 +79,7 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
         layout = (LinearLayout) findViewById(R.id.layout);
         layout_goods1 = (LinearLayout) findViewById(R.id.layout_goods1);
         layout_channel1 = (LinearLayout) findViewById(R.id.layout_channel1);
+        dark_below = (LinearLayout) findViewById(R.id.dark_below);
         area.setOnClickListener(this);
         goods.setOnClickListener(this);
         time.setOnClickListener(this);
@@ -133,30 +135,30 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
      * @param
      */
     public void initViewBySelf() {
-        time1.setText(Params.y + "-" + (Params.m + 1) + "-" + (Params.d - 1));
-        area1.setText("全部");
-        channel1.setText("全部");
-        goods1.setText("全部");
+        time.setText(Params.y + "-" + (Params.m + 1) + "-" + (Params.d - 1));
+        area.setText("全部");
+        channel.setText("全部");
+        goods.setText("全部");
     }
 
     public void initViewByParam() {
         if (StringUtils.isBlank(Params.time.toString())) {
-            time1.setText(Params.y + "-" + (Params.m + 1) + "-" + (Params.d - 1));
+            time.setText(Params.y + "-" + (Params.m + 1) + "-" + (Params.d - 1));
         } else {
-            time1.setText(Params.time.toString());
+            time.setText(Params.time.toString());
         }
         if (StringUtils.isBlank(Params.areal.toString())) {
-            area1.setText("全部");
+            area.setText("全部");
         } else
-            area1.setText(Params.areal.toString());
+            area.setText(Params.areal.toString());
         if (StringUtils.isBlank(Params.channel.toString())) {
-            channel1.setText("全部");
+            channel.setText("全部");
         } else
-            channel1.setText(Params.channel.toString());
+            channel.setText(Params.channel.toString());
         if (StringUtils.isBlank(Params.goods.toString())) {
-            goods1.setText("全部");
+            goods.setText("全部");
         } else
-            goods1.setText(Params.goods.toString());
+            goods.setText(Params.goods.toString());
     }
 
     public void hideGoods(Boolean hide) {
@@ -172,12 +174,10 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.area:
-
                 if (firbidSelectArea){
                     ToastUtil.showShortMessage(getContext(),"禁止选择区域");
                     break;
                 }
-
                 if (areaPopupWindow == null) {
                     areaPopupWindow = new AreaPopupwindow((Activity) getContext());
                 }
@@ -195,21 +195,24 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
                         if (Params.county.length() > 0) {
                             Params.county.delete(0, Params.county.length());
                         }
+                        if (Params.mcu.length() > 0) {
+                            Params.mcu.delete(0, Params.mcu.length());
+                        }
 
                         if (tag == 0) {
                             Params.province.append("&province=").append(checkBeenRagion);
-                            area1.setText(name);
+                            area.setText(name);
                         } else if (tag == 1) {
                             Params.city.append("&city=").append(checkBeenRagion);
-                            area1.setText(name);
+                            area.setText(name);
                         } else if (tag == 2) {
                             Params.county.append("&county=").append(checkBeenRagion);
-                            area1.setText(name);
+                            area.setText(name);
                         } else if (tag == 4) {
                             Params.mcu.append("&mcu=").append(checkBeenRagion);
-                            area1.setText(name);
+                            area.setText(name);
                         } else {
-                            area1.setText("全国");
+                            area.setText("全国");
                         }
                         Params.changeAreal(name);
                         conditionSelect.postParams();
@@ -219,7 +222,7 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
                 areaPopupWindow.setDarkStyle(-1);
                 areaPopupWindow.setDarkColor(Color.parseColor("#a0000000"));
                 areaPopupWindow.resetDarkPosition();
-                areaPopupWindow.darkBelow(v);
+                areaPopupWindow.darkBelow(dark_below);
                 areaPopupWindow.showAsDropDown(v, v.getRight() / 2, 0);
                 break;
             case R.id.goods:
@@ -243,7 +246,7 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
                             Params.goodssubclass.delete(0, Params.goodssubclass.length());
                         }
                         layout.setVisibility(VISIBLE);
-                        goods1.setText(name);
+                        goods.setText(name);
                         Params.changeGoods(name);
 
                         conditionSelect.postParams();
@@ -253,7 +256,7 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
                 goodsPopupWindow.setDarkStyle(-1);
                 goodsPopupWindow.setDarkColor(Color.parseColor("#a0000000"));
                 goodsPopupWindow.resetDarkPosition();
-                goodsPopupWindow.darkBelow(v);
+                goodsPopupWindow.darkBelow(dark_below);
                 goodsPopupWindow.showAsDropDown(v, v.getRight() / 2, 0);
                 break;
             case R.id.time:
@@ -266,7 +269,7 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
                 myPopupwindow.setDarkStyle(-1);
                 myPopupwindow.setDarkColor(Color.parseColor("#a0000000"));
                 myPopupwindow.resetDarkPosition();
-                myPopupwindow.darkBelow(v);
+                myPopupwindow.darkBelow(dark_below);
                 myPopupwindow.showAsDropDown(v, v.getRight() / 2, 0);
 
                 myPopupwindow.setOnDateSelectListener(new DateSelectPopupWindow.OnDateSelectListener() {
@@ -287,13 +290,13 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
                         } else if (f == 2) {
                             Params.years.append("&year=").append(y);
                             Params.month.append("&month=").append(m);
-                            (time1).setText(y + "-" + m);
+                            (time).setText(y + "-" + m);
                             Params.changeTime(y + "-" + m);
                         } else {
                             Params.years.append("&year=").append(y);
                             Params.month.append("&month=").append(m);
                             Params.day.append("&day=").append(date);
-                            (time1).setText(y + "-" + m + "-" + date);
+                            (time).setText(y + "-" + m + "-" + date);
                             Params.changeTime(y + "-" + m + "-" + date);
                         }
                         conditionSelect.postParams();
@@ -318,7 +321,7 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
                             Params.wchannel.append("&wchannel=").append(ragions);
                         }
                         layout.setVisibility(VISIBLE);
-                        channel1.setText(name);
+                        channel.setText(name);
                         Params.changeChannel(name);
                         conditionSelect.postParams();
                     }
@@ -327,7 +330,7 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
                 channelPopupWindow.setDarkStyle(-1);
                 channelPopupWindow.setDarkColor(Color.parseColor("#a0000000"));
                 channelPopupWindow.resetDarkPosition();
-                channelPopupWindow.darkBelow(v);
+                channelPopupWindow.darkBelow(dark_below);
                 channelPopupWindow.showAsDropDown(v, v.getRight() / 2, 0);
                 break;
 //            case R.id.index:
