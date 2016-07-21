@@ -16,5 +16,5 @@
         android:orientation="vertical"
         android:background="@drawable/shape_pop"
         android:gravity="center_horizontal"
-        />
+        android:padding="5dp"/>
 </LinearLayout>

@@ -65,6 +65,7 @@ public class AreaPopupwindow3 extends BasePopupWindow {
     LinearLayout layout_countys,laytout_citys;
     List<AreaCheckModel> areas = new ArrayList<>();
     //    private MarqueeText area;
+    Button reset;
     int flag =1;
     private IConfig config;
     List<BaseWithCheckBean> checkedRagions;
@@ -77,27 +78,28 @@ public class AreaPopupwindow3 extends BasePopupWindow {
         super();
         mContext = context;
         condition = mCondition;
-        View view = LayoutInflater.from(context).inflate(R.layout.pop_layout_area3, null);
-        regionListView = (PickListView3) view.findViewById(R.id.diriction_area);
-        cityListView = (PickListView3) view.findViewById(R.id.diriction_province);
-        countyListView = (PickListView3) view.findViewById(R.id.diriction_city);
-        sure = (Button) view.findViewById(R.id.sure);
-        radioGroup = (RadioGroup) view.findViewById(R.id.rg);
-        search = (ImageView) view.findViewById(R.id.search);
-        edit_query = (EditText) view.findViewById(R.id.edit_query);
-        stores = (NestedListView) view.findViewById(R.id.stores);
-        empty = (TextView) view.findViewById(R.id.empty);
-        citysLayout = (LinearLayout) view.findViewById(R.id.citys);
-        checkBox1 = (CheckBox) view.findViewById(R.id.checkbox1);
-        checkBox2 = (CheckBox) view.findViewById(R.id.checkbox2);
-        checkBox3 = (CheckBox) view.findViewById(R.id.checkbox3);
-        layout_countys = (LinearLayout) view.findViewById(R.id.countys);
-        laytout_citys = (LinearLayout) view.findViewById(R.id.citys);
+        contentView = LayoutInflater.from(context).inflate(R.layout.pop_layout_area3, null);
+        regionListView = (PickListView3) contentView.findViewById(R.id.diriction_area);
+        cityListView = (PickListView3) contentView.findViewById(R.id.diriction_province);
+        countyListView = (PickListView3) contentView.findViewById(R.id.diriction_city);
+        sure = (Button) contentView.findViewById(R.id.sure);
+        radioGroup = (RadioGroup) contentView.findViewById(R.id.rg);
+        search = (ImageView) contentView.findViewById(R.id.search);
+        edit_query = (EditText) contentView.findViewById(R.id.edit_query);
+        stores = (NestedListView) contentView.findViewById(R.id.stores);
+        empty = (TextView) contentView.findViewById(R.id.empty);
+        citysLayout = (LinearLayout) contentView.findViewById(R.id.citys);
+        checkBox1 = (CheckBox) contentView.findViewById(R.id.checkbox1);
+        checkBox2 = (CheckBox) contentView.findViewById(R.id.checkbox2);
+        checkBox3 = (CheckBox) contentView.findViewById(R.id.checkbox3);
+        layout_countys = (LinearLayout) contentView.findViewById(R.id.countys);
+        laytout_citys = (LinearLayout) contentView.findViewById(R.id.citys);
+        reset = (Button) contentView.findViewById(R.id.reset);
         search.setVisibility(View.GONE);
         regionListView.setCondition(mCondition);
         cityListView.setCondition(mCondition);
         countyListView.setCondition(mCondition);
-        this.setContentView(view);
+        this.setContentView(contentView);
         this.setOutsideTouchable(true);
         this.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
         this.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
@@ -111,6 +113,7 @@ public class AreaPopupwindow3 extends BasePopupWindow {
                 dismiss();
             }
         });
+        init();
         regionListAdapter = new CheckBoxListAdapter(context);
         regionListAdapter.isAll = true;
         regionListAdapter.setList(condition.regions);
@@ -299,6 +302,17 @@ public class AreaPopupwindow3 extends BasePopupWindow {
                     countyListAdapter.setAllNormal();
                 }
                 mFromList = false;
+            }
+        });
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                condition.regionsNormal();
+                condition.citys();
+                condition.countys();
+                regionListAdapter.notifyDataSetChanged();
+                cityListAdapter.notifyDataSetChanged();
+                countyListAdapter.notifyDataSetChanged();
             }
         });
     }

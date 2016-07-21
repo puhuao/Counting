@@ -132,37 +132,37 @@ public class CompareFragment extends CommonFragment {
             }
         });
 
-        Drawable drawable = getResources().getDrawable(R.drawable.slide_block_shape);
-        mIndicator.setSlidingBlockDrawable(drawable);
-
-        mIndicator.setTabViewFactory(new PagerSlidingTabStrip.TabViewFactory() {
-            @Override
-            public void addTabs(ViewGroup parent, int defaultPosition) {
-                parent.removeAllViews();
-                for (int i = 0; i < indicatorFragmentEntityList.size(); i++) {
-                    TextView tab = new TextView(getContext());
-                    tab.setGravity(Gravity.CENTER);
-                    tab.setTextSize(14);
-                    tab.setText(indicatorFragmentEntityList.get(i).name);
-                    tab.setPadding(10, 8, 10, 8);
-
-                    if (indicatorFragmentEntityList.size() == 2) {
-                        if (i == 0) {
-                            tab.setTextColor(getResources().getColor(R.color.bg_color));
-                            tab.setBackgroundResource(R.drawable.tab_left_select);
-                        } else {
-                            tab.setTextColor(getResources().getColor(R.color.white));
-                            tab.setBackgroundResource(R.drawable.tab_right_notselect);
-                        }
-                    } else if (indicatorFragmentEntityList.size() == 1) {
-                        tab.setTextColor(getResources().getColor(R.color.white));
-                        tab.setBackgroundResource(R.drawable.transparent);
-                    }
-
-                    parent.addView(tab);
-                }
-            }
-        });
+//        Drawable drawable = getResources().getDrawable(R.drawable.slide_block_shape);
+//        mIndicator.setSlidingBlockDrawable(drawable);
+//
+//        mIndicator.setTabViewFactory(new PagerSlidingTabStrip.TabViewFactory() {
+//            @Override
+//            public void addTabs(ViewGroup parent, int defaultPosition) {
+//                parent.removeAllViews();
+//                for (int i = 0; i < indicatorFragmentEntityList.size(); i++) {
+//                    TextView tab = new TextView(getContext());
+//                    tab.setGravity(Gravity.CENTER);
+//                    tab.setTextSize(14);
+//                    tab.setText(indicatorFragmentEntityList.get(i).name);
+//                    tab.setPadding(10, 8, 10, 8);
+//
+//                    if (indicatorFragmentEntityList.size() == 2) {
+//                        if (i == 0) {
+//                            tab.setTextColor(getResources().getColor(R.color.bg_color));
+//                            tab.setBackgroundResource(R.drawable.tab_left_select);
+//                        } else {
+//                            tab.setTextColor(getResources().getColor(R.color.white));
+//                            tab.setBackgroundResource(R.drawable.tab_right_notselect);
+//                        }
+//                    } else if (indicatorFragmentEntityList.size() == 1) {
+//                        tab.setTextColor(getResources().getColor(R.color.white));
+//                        tab.setBackgroundResource(R.drawable.transparent);
+//                    }
+//
+//                    parent.addView(tab);
+//                }
+//            }
+//        });
         FragmentManager fm = getChildFragmentManager();
         List<Fragment> fragments = fm.getFragments();
         if (fragments != null) fragments.clear();
@@ -172,7 +172,7 @@ public class CompareFragment extends CommonFragment {
         mViewPager.setAdapter(adapter);
         mViewPager.setPagingEnabled(false);
         mViewPager.setOffscreenPageLimit(1);
-        mIndicator.setViewPager(mViewPager);
+//        mIndicator.setViewPager(mViewPager);
         mIndicator.setVisibility(View.GONE);
 //        mIndicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 //            @Override
@@ -248,10 +248,10 @@ public class CompareFragment extends CommonFragment {
         });
         if (pos!=0){
             mViewPager.setCurrentItem(pos);
-            mIndicator.selectedTab(pos);
+//            mIndicator.selectedTab(pos);
         }else{
             mViewPager.setCurrentItem(0);
-            mIndicator.selectedTab(0);
+//            mIndicator.selectedTab(0);
 //            VipComparisonLoadDataEvent vipComparisonLoadDataEvent = new VipComparisonLoadDataEvent();
 //            vipComparisonLoadDataEvent.item = BaseDataUtil.coreItems.get(0).code;
 //            vipComparisonLoadDataEvent.position = 0;

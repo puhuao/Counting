@@ -1,5 +1,6 @@
 package com.wksc.counting.fragment;
 
+import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -37,6 +38,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Administrator on 2016/5/29.
  */
+@SuppressLint("ValidFragment")
 public class SupplyChainCenterFragment extends CommonFragment {
     @Bind(R.id.indicator)
     PagerSlidingTabStrip mIndicator;
@@ -97,7 +99,10 @@ public class SupplyChainCenterFragment extends CommonFragment {
                 indicatorFragmentEntityList.add(fragmentEntity);
             }
         }
-
+        ChangeTitleEvent changeTitleEvent = new ChangeTitleEvent();
+        changeTitleEvent.pos = 2;
+        changeTitleEvent.title = indicatorFragmentEntityList.get(0).name;
+        EventBus.getDefault().post(changeTitleEvent);
         mIndicator.setTabViewFactory(new PagerSlidingTabStrip.TabViewFactory() {
             @Override
             public void addTabs(ViewGroup parent, int defaultPosition) {

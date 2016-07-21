@@ -282,4 +282,12 @@ public class Condition implements Serializable{
         }
 
     }
+
+    public void regionsNormal() {
+        List<BaseWithCheckBean> regions = new ArrayList<>();
+        for (BaseWithCheckBean reg : area) {
+            reg.isCheck = CheckBoxListAdapter.NORMAL;
+        }
+
+    }
 }

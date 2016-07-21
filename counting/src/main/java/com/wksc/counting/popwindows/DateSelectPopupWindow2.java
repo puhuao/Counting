@@ -16,39 +16,40 @@ import android.widget.RadioGroup;
 import com.wksc.counting.R;
 import com.wksc.counting.tools.Params2;
 
+import java.util.Calendar;
+
 /**
  * Created by puhua on 2016/6/5.
  */
-public class DateSelectPopupWindow2 extends PopupWindow {
+public class DateSelectPopupWindow2 extends BasePopupWindow {
 
-    private View view;
     private Activity mContext;
     private Button id_btn_date_ok;
     private DateSelectPopupWindow2 dateSelectPopupWindow;
     private DatePicker datePick1;
     RadioGroup radioGroup;
+    private Button reset;
 
     private String mNowDateTextInner;
     public int flag=3;
 
     public DateSelectPopupWindow2(Activity context,Params2 params2) {
-        super(context);
+        super();
         mContext = context;
-
         dateSelectPopupWindow=this;
         mParams2 = params2;
-
     }
 
     public void initView() {
 
         LayoutInflater inflater = (LayoutInflater) mContext
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        view= inflater.inflate(R.layout.layout_popupwindow_datepick, null);
-
-        datePick1= (DatePicker) view.findViewById(R.id.datePick1);
-        radioGroup = (RadioGroup) view.findViewById(R.id.rg);
-        DatePicker.OnDateChangedListener dcl=new DatePicker.OnDateChangedListener() {
+        contentView= inflater.inflate(R.layout.layout_popupwindow_datepick, null);
+        init();
+        datePick1= (DatePicker) contentView.findViewById(R.id.datePick1);
+        radioGroup = (RadioGroup) contentView.findViewById(R.id.rg);
+        reset = (Button) contentView.findViewById(R.id.reset);
+        final DatePicker.OnDateChangedListener dcl=new DatePicker.OnDateChangedListener() {
             @Override
             public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 mParams2.y=year;
@@ -70,7 +71,7 @@ public class DateSelectPopupWindow2 extends PopupWindow {
         datePick1.init( mParams2.y,mParams2.m,mParams2.d,dcl);
 
 
-        id_btn_date_ok= (Button) view.findViewById(R.id.id_btn_date_ok);
+        id_btn_date_ok= (Button) contentView.findViewById(R.id.id_btn_date_ok);
         id_btn_date_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -130,7 +131,7 @@ public class DateSelectPopupWindow2 extends PopupWindow {
             }
         });
         //设置PopupWindow的View
-        this.setContentView(view);
+        this.setContentView(contentView);
         //设置PopupWindow弹出窗体的宽
         this.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
         //设置PopupWindow弹出窗体的高
@@ -142,6 +143,16 @@ public class DateSelectPopupWindow2 extends PopupWindow {
             @Override
             public void onDismiss() {
                 backgroundAlpha(1f);
+            }
+        });
+
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar calendar = Calendar.getInstance();
+
+                datePick1.init( calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH)
+                        ,calendar.get(Calendar.DAY_OF_MONTH),dcl);
             }
         });
     }

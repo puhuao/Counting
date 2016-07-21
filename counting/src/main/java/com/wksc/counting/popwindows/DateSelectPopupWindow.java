@@ -182,7 +182,7 @@ public class DateSelectPopupWindow extends BasePopupWindow {
             public void onClick(View v) {
                 Calendar calendar = Calendar.getInstance();
 
-                datePick1.init( calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH)-1
+                datePick1.init( calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH)
                         ,calendar.get(Calendar.DAY_OF_MONTH),dcl);
             }
         });

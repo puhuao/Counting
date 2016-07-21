@@ -146,9 +146,6 @@ public class ThematicAnalysisFragment extends CommonFragment {
                 EventBus.getDefault().post(2);
             }
         });
-
-//        final TitleSelectPopupWindow titleSelectPopupWindow = new TitleSelectPopupWindow(getContext());
-
         FragmentManager fm = getChildFragmentManager();
         List<Fragment> fragments =  fm.getFragments();
         if(fragments!=null)fragments.clear();
@@ -176,15 +173,6 @@ public class ThematicAnalysisFragment extends CommonFragment {
 
             }
         });
-//        titleSelectPopupWindow.setViewPager(mViewPager);
-//        titleSelectPopupWindow.initListener();
-//        titleSelectPopupWindow.setTitleView(getTitleHeaderBar().getTitleTextView());
-//        getTitleHeaderBar().setCenterOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                titleSelectPopupWindow.showPopupwindow(v);
-//            }
-//        });
     }
 
     private Boolean checkHasRight(String s){

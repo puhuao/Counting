@@ -2,8 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
 
+    >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp">
     <RadioGroup
         android:id="@+id/rg"
         android:layout_width="match_parent"
@@ -59,19 +65,36 @@
             android:textColor="@color/main_tab_text_selector" />
     </RadioGroup>
 
-    <Button
-        android:id="@+id/sure"
+    <LinearLayout
+        android:id="@+id/ll1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:padding="10dp"
-        android:text="确认"
-        android:textSize="14sp" />
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true">
+        <Button
+            android:id="@+id/reset"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="重置"
+            android:textSize="14sp"
+            android:background="#D9D9D9"/>
+        <Button
+            android:id="@+id/sure"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="确认"
+            android:textSize="14sp"
+            android:background="#50ADFA"/>
+    </LinearLayout>
 
     <com.wksc.counting.widegit.OverScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/sure"
+        android:layout_above="@id/ll1"
         android:layout_below="@id/rg">
 
         <LinearLayout
@@ -212,5 +235,5 @@
 
         </LinearLayout>
     </com.wksc.counting.widegit.OverScrollView>
-
+</RelativeLayout>
 </RelativeLayout>

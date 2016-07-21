@@ -2,6 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <com.wksc.counting.widegit.ConditionLayout3
+        android:id="@+id/condition"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
     <android.support.v4.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -14,10 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <com.wksc.counting.widegit.ConditionLayout3
-            android:id="@+id/condition"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+
         <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/pie"
             android:layout_width="match_parent"

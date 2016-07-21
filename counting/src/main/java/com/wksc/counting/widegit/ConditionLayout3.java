@@ -2,6 +2,7 @@ package com.wksc.counting.widegit;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,10 +44,10 @@ public class ConditionLayout3 extends LinearLayout implements View.OnClickListen
     LinearLayout area_layout;
     LinearLayout area1_layout;
     Calendar calendar;
-    MarqueeText channel1;
-    MarqueeText time1;
-    MarqueeText area1;
-    MarqueeText goods1;
+//    MarqueeText channel1;
+//    MarqueeText time1;
+//    MarqueeText area1;
+//    MarqueeText goods1;
     MarqueeText area;
     MarqueeText goods;
     MarqueeText time;
@@ -59,6 +60,7 @@ public class ConditionLayout3 extends LinearLayout implements View.OnClickListen
     DateSelectPopupWindow2 myPopupwindow;
     ChannelPopupWindow2 channelPopupWindow;
     public Params2 params2;
+    LinearLayout dark_below;
 
     public String getAllConditions() {
         return params2.getParam();
@@ -77,10 +79,10 @@ public class ConditionLayout3 extends LinearLayout implements View.OnClickListen
         LayoutInflater.from(context).inflate(R.layout.layout_condition, this);
 //        ButterKnife.bind(this);
         calendar = Calendar.getInstance();//初始化时间
-        area1 = (MarqueeText) findViewById(R.id.area1);
-        goods1 = (MarqueeText) findViewById(R.id.goods1);
-        time1 = (MarqueeText) findViewById(R.id.time1);
-        channel1 = (MarqueeText) findViewById(R.id.channel1);
+//        area1 = (MarqueeText) findViewById(R.id.area1);
+//        goods1 = (MarqueeText) findViewById(R.id.goods1);
+//        time1 = (MarqueeText) findViewById(R.id.time1);
+//        channel1 = (MarqueeText) findViewById(R.id.channel1);
         area = (MarqueeText) findViewById(R.id.area);
         goods = (MarqueeText) findViewById(R.id.goods);
         time = (MarqueeText) findViewById(R.id.time);
@@ -92,6 +94,7 @@ public class ConditionLayout3 extends LinearLayout implements View.OnClickListen
         layout_channel1 = (LinearLayout) findViewById(R.id.layout_channel1);
         area_layout = (LinearLayout) findViewById(R.id.area_layout);
         area1_layout = (LinearLayout) findViewById(R.id.area1_layout);
+        dark_below = (LinearLayout) findViewById(R.id.dark_below);
         area.setOnClickListener(this);
         goods.setOnClickListener(this);
         time.setOnClickListener(this);
@@ -162,35 +165,35 @@ public class ConditionLayout3 extends LinearLayout implements View.OnClickListen
      * @param
      */
     public void initViewBySelf() {
-        time1.setText(params2.y + "-" + (params2.m + 1) + "-" + (params2.d - 1));
-        area1.setText("全部");
-        channel1.setText("全部");
-        goods1.setText("全部");
+        time.setText(params2.y + "-" + (params2.m + 1) + "-" + (params2.d - 1));
+        area.setText("全部");
+        channel.setText("全部");
+        goods.setText("全部");
     }
 
     public void initViewByParam() {
 
         if (StringUtils.isBlank(params2.time.toString())) {
             if (hideDay) {
-                time1.setText(params2.y + "-" + (params2.m + 1));
+                time.setText(params2.y + "-" + (params2.m + 1));
             } else {
-                time1.setText(params2.y + "-" + (params2.m + 1) + "-" + (params2.d - 1));
+                time.setText(params2.y + "-" + (params2.m + 1) + "-" + (params2.d - 1));
             }
         } else {
-            time1.setText(params2.time.toString());
+            time.setText(params2.time.toString());
         }
         if (StringUtils.isBlank(params2.areal.toString())) {
-            area1.setText("全部");
+            area.setText("全部");
         } else
-            area1.setText(params2.areal.toString());
+            area.setText(params2.areal.toString());
         if (StringUtils.isBlank(params2.channel.toString())) {
-            channel1.setText("全部");
+            channel.setText("全部");
         } else
-            channel1.setText(params2.channel.toString());
+            channel.setText(params2.channel.toString());
         if (StringUtils.isBlank(params2.goods.toString())) {
-            goods1.setText("全部");
+            goods.setText("全部");
         } else
-            goods1.setText(params2.goods.toString());
+            goods.setText(params2.goods.toString());
     }
 
     public void hideGoods(Boolean hide) {
@@ -246,24 +249,28 @@ public class ConditionLayout3 extends LinearLayout implements View.OnClickListen
 
                         if (tag == 0) {
                             params2.province.append("&province=").append(checkBeenRagion);
-                            area1.setText(name);
+                            area.setText(name);
                         } else if (tag == 1) {
                             params2.city.append("&city=").append(checkBeenRagion);
-                            area1.setText(name);
+                            area.setText(name);
                         } else if (tag == 2) {
                             params2.county.append("&county=").append(checkBeenRagion);
-                            area1.setText(name);
+                            area.setText(name);
                         } else if (tag == 4) {
                             params2.mcu.append("&mcu=").append(checkBeenRagion);
-                            area1.setText(name);
+                            area.setText(name);
                         } else {
-                            area1.setText("全国");
+                            area.setText("全国");
                         }
                         params2.changeAreal(name);
                         conditionSelect.postParams();
                     }
                 });
-                areaPopupWindow.showPopupwindow(v);
+                areaPopupWindow.setDarkStyle(-1);
+                areaPopupWindow.setDarkColor(Color.parseColor("#a0000000"));
+                areaPopupWindow.resetDarkPosition();
+                areaPopupWindow.darkBelow(dark_below);
+                areaPopupWindow.showAsDropDown(v, v.getRight() / 2, 0);
                 break;
             case R.id.goods:
 
@@ -290,13 +297,17 @@ public class ConditionLayout3 extends LinearLayout implements View.OnClickListen
                             params2.goodssubclass.delete(0, params2.goodssubclass.length());
                         }
                         layout.setVisibility(VISIBLE);
-                        goods1.setText(name);
+                        goods.setText(name);
                         params2.changeGoods(name);
 
                         conditionSelect.postParams();
                     }
                 });
-                goodsPopupWindow.showPopupwindow(v);
+                goodsPopupWindow.setDarkStyle(-1);
+                goodsPopupWindow.setDarkColor(Color.parseColor("#a0000000"));
+                goodsPopupWindow.resetDarkPosition();
+                goodsPopupWindow.darkBelow(dark_below);
+                goodsPopupWindow.showAsDropDown(v, v.getRight() / 2, 0);
                 break;
             case R.id.time:
 
@@ -313,7 +324,11 @@ public class ConditionLayout3 extends LinearLayout implements View.OnClickListen
                     myPopupwindow.hideDayAndMonthCheck();
                 }
 
-                myPopupwindow.showPopupwindow(v);
+                myPopupwindow.setDarkStyle(-1);
+                myPopupwindow.setDarkColor(Color.parseColor("#a0000000"));
+                myPopupwindow.resetDarkPosition();
+                myPopupwindow.darkBelow(dark_below);
+                myPopupwindow.showAsDropDown(v, v.getRight() / 2, 0);
                 myPopupwindow.setOnDateSelectListener(new DateSelectPopupWindow2.OnDateSelectListener() {
                     @Override
                     public void onDateSelect(String y, String m, String date, int f) {
@@ -332,13 +347,13 @@ public class ConditionLayout3 extends LinearLayout implements View.OnClickListen
                         } else if (f == 2) {
                             params2.years.append("&year=").append(y);
                             params2.month.append("&month=").append(m);
-                            (time1).setText(y + "-" + m);
+                            (time).setText(y + "-" + m);
                             params2.changeTime(y + "-" + m);
                         } else {
                             params2.years.append("&year=").append(y);
                             params2.month.append("&month=").append(m);
                             params2.day.append("&day=").append(date);
-                            (time1).setText(y + "-" + m + "-" + date);
+                            (time).setText(y + "-" + m + "-" + date);
                             params2.changeTime(y + "-" + m + "-" + date);
                         }
                         conditionSelect.postParams();
@@ -366,12 +381,16 @@ public class ConditionLayout3 extends LinearLayout implements View.OnClickListen
                             params2.wchannel.delete(0, params2.wchannel.length());
                         }
                         layout.setVisibility(VISIBLE);
-                        channel1.setText(name);
+                        channel.setText(name);
                         params2.changeChannel(name);
                         conditionSelect.postParams();
                     }
                 });
-                channelPopupWindow.showPopupwindow(v);
+                channelPopupWindow.setDarkStyle(-1);
+                channelPopupWindow.setDarkColor(Color.parseColor("#a0000000"));
+                channelPopupWindow.resetDarkPosition();
+                channelPopupWindow.darkBelow(dark_below);
+                channelPopupWindow.showAsDropDown(v, v.getRight() / 2, 0);
                 break;
 //            case R.id.index:
 //                IndexPopupWindow indexPopupwindow = new IndexPopupWindow((Activity) getContext());

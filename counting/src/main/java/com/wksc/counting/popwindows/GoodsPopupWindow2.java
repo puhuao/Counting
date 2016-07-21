@@ -37,6 +37,7 @@ public class GoodsPopupWindow2 extends BasePopupWindow {
     Button sure;
     LinearLayout layout_names;
     CheckBox checkBox1,checkBox2;
+    Button reset;
 //    MarqueeText goods;
     CheckBoxListAdapter typeListAdapter,nameListAdapter;
     public int superPosition;
@@ -49,14 +50,15 @@ public class GoodsPopupWindow2 extends BasePopupWindow {
         super();
         mContext = context;
         mCondition =condition;
-        View view = LayoutInflater.from(context).inflate(R.layout.pop_layout_goods,null);
-        lvGoodsType = (ListView) view.findViewById(R.id.wine_type);
-        lvGoodsName = (ListView) view.findViewById(R.id.wine_name);
-        sure = (Button) view.findViewById(R.id.sure);
-        checkBox1 = (CheckBox) view.findViewById(R.id.checkbox1);
-        checkBox2 = (CheckBox) view.findViewById(R.id.checkbox2);
-        layout_names = (LinearLayout) view.findViewById(R.id.wine_names);
-        this.setContentView(view);
+        contentView = LayoutInflater.from(context).inflate(R.layout.pop_layout_goods,null);
+        lvGoodsType = (ListView) contentView.findViewById(R.id.wine_type);
+        lvGoodsName = (ListView) contentView.findViewById(R.id.wine_name);
+        sure = (Button) contentView.findViewById(R.id.sure);
+        checkBox1 = (CheckBox) contentView.findViewById(R.id.checkbox1);
+        checkBox2 = (CheckBox) contentView.findViewById(R.id.checkbox2);
+        layout_names = (LinearLayout) contentView.findViewById(R.id.wine_names);
+        reset = (Button) contentView.findViewById(R.id.reset);
+        this.setContentView(contentView);
         this.setOutsideTouchable(true);
         this.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
         this.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -70,6 +72,7 @@ public class GoodsPopupWindow2 extends BasePopupWindow {
                 dismiss();
             }
         });
+        init();
         sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -194,6 +197,14 @@ public class GoodsPopupWindow2 extends BasePopupWindow {
                     nameListAdapter.setAllNormal();
                 }
                 isFromList = false;
+            }
+        });
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                typeListAdapter.setAllNormal();
+                checkBox1.setChecked(false);
+                isFromList = true;
             }
         });
 

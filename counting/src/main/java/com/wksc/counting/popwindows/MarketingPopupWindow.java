@@ -58,7 +58,7 @@ public class MarketingPopupWindow extends PopupWindow {
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams( LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT);
             params.gravity = Gravity.CENTER_HORIZONTAL;
-            params.setMargins(10,5,10,5);
+            params.setMargins(10,10,10,10);
             button.setGravity(Gravity.CENTER);
             group.addView(button,
                     params);
@@ -78,6 +78,7 @@ public class MarketingPopupWindow extends PopupWindow {
                 dissmisPopupwindow();
             }
         });
+
         this.setContentView(view);
         this.setOutsideTouchable(true);
         this.setWidth(400);
