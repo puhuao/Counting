@@ -4,7 +4,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -14,17 +13,20 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.wksc.counting.R;
+import com.wksc.counting.adapter.MyPagerAdapter;
+import com.wksc.counting.event.ChangeTitleEvent;
 import com.wksc.counting.event.GoodsAnaEvent;
-import com.wksc.counting.event.PlatFormAnaEvent;
 import com.wksc.counting.event.PurchaseAnaEvent;
-import com.wksc.counting.event.SaleChannelAnaEvent;
-import com.wksc.counting.event.SaleGoalAnaEvent;
 import com.wksc.counting.event.SaveAnaEvent;
+import com.wksc.counting.event.SupplyTransPagerEvent;
+import com.wksc.counting.model.FragmentEntity;
+import com.wksc.counting.popwindows.SupplyChainePopupWindow;
 import com.wksc.counting.widegit.CustomViewPager;
 import com.wksc.counting.widegit.PagerSlidingTabStrip;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,9 +42,23 @@ public class SupplyChainCenterFragment extends CommonFragment {
     PagerSlidingTabStrip mIndicator;
     @Bind(R.id.viewPager_history)
     CustomViewPager mViewPager;
+    View view;
+    int pos;
 
     private ArrayList<FragmentEntity> indicatorFragmentEntityList;
     private MyPagerAdapter adapter;
+
+    public SupplyChainCenterFragment(View view){
+        super();
+        this.view = view;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
+
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_marketing_center, null);
@@ -129,7 +145,7 @@ public class SupplyChainCenterFragment extends CommonFragment {
         mViewPager.setPagingEnabled(false);
         mViewPager.setOffscreenPageLimit(1);
         mIndicator.setViewPager(mViewPager);
-
+        mIndicator.setVisibility(View.GONE);
         mIndicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -177,12 +193,15 @@ public class SupplyChainCenterFragment extends CommonFragment {
             public void onPageSelected(int position) {
                 switch (position){
                     case 0:
+                        pos = 0;
                         EventBus.getDefault().post(new GoodsAnaEvent());
                         break;
                     case 1:
+                        pos = 1;
                         EventBus.getDefault().post(new SaveAnaEvent());
                         break;
                     case 2:
+                        pos = 2;
                         EventBus.getDefault().post(new PurchaseAnaEvent());
                         break;
                 }
@@ -200,39 +219,22 @@ public class SupplyChainCenterFragment extends CommonFragment {
 
     }
 
-    class FragmentEntity {
-        public String name;
-        public Fragment fragment;
-
-        public FragmentEntity( String name, Fragment fragment) {
-            this.name = name;
-            this.fragment = fragment;
+    @Subscribe
+    public void onEvent(Integer flag) {
+        if (flag == 2){
+            SupplyChainePopupWindow marketingPopupWindow = new SupplyChainePopupWindow(getActivity(),
+                    indicatorFragmentEntityList,pos);
+            marketingPopupWindow.showPopupwindow(view);
         }
     }
-    public class MyPagerAdapter extends FragmentPagerAdapter {
 
-        public MyPagerAdapter(FragmentManager fm, ArrayList<FragmentEntity> fragments) {
-            super(fm);
-            this.fragmentsList = fragments;
-
-        }
-
-        private ArrayList<FragmentEntity> fragmentsList;
-
-        public void setFragmentsList(ArrayList<FragmentEntity> fragmentsList) {
-            this.fragmentsList = fragmentsList;
-            notifyDataSetChanged();
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return fragmentsList.get(position).fragment;
-        }
-
-        @Override
-        public int getCount() {
-            return fragmentsList.size();
-        }
-
+    @Subscribe
+    public void onChange(SupplyTransPagerEvent event){
+        mViewPager.setCurrentItem(event.pos);
+        pos = event.pos;
+        ChangeTitleEvent changeTitleEvent = new ChangeTitleEvent();
+        changeTitleEvent.pos = 2;
+        changeTitleEvent.title = indicatorFragmentEntityList.get(pos).name;
+        EventBus.getDefault().post(changeTitleEvent);
     }
 }

@@ -5,7 +5,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -16,17 +15,20 @@ import android.widget.TextView;
 import com.wksc.counting.Basedata.BaseDataUtil;
 import com.wksc.counting.Basedata.FragmentDataUtil;
 import com.wksc.counting.R;
-import com.wksc.counting.activity.SearchActivity;
-import com.wksc.counting.event.SaleComparisonLoadDataEvent;
+import com.wksc.counting.activity.SearchActivity1;
+import com.wksc.counting.adapter.MyPagerAdapter;
+import com.wksc.counting.event.CompareFragmentTransPagerEvent1;
 import com.wksc.counting.event.SaleComparisonLoadDataEvent1;
-import com.wksc.counting.event.VipComparisonLoadDataEvent;
 import com.wksc.counting.event.VipComparisonLoadDataEvent1;
+import com.wksc.counting.model.FragmentEntity;
 import com.wksc.counting.model.baseinfo.CoreItem;
+import com.wksc.counting.popwindows.ComparePopupWindow1;
 import com.wksc.counting.widegit.CustomViewPager;
 import com.wksc.counting.widegit.PagerSlidingTabStrip;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +51,12 @@ public class CompareFragment1 extends CommonFragment {
     private String provice;
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_comparison, null);
         setHeaderTitle("销售额对比");
@@ -61,9 +69,9 @@ public class CompareFragment1 extends CommonFragment {
             @Override
             public void onClick(View v) {
 
-//                Intent intent = new Intent(getContext(), SearchActivity.class);
-//                intent.putExtra("flag",pos);
-//                getActivity().startActivity(intent);
+                Intent intent = new Intent(getContext(), SearchActivity1.class);
+                intent.putExtra("flag",pos);
+                getActivity().startActivity(intent);
             }
         });
         return v;
@@ -116,9 +124,17 @@ public class CompareFragment1 extends CommonFragment {
             }
         }
 
+        getTitleHeaderBar().getTitleTextView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ComparePopupWindow1 comparePopupWindow = new ComparePopupWindow1(getContext(),indicatorFragmentEntityList,pos);
+                comparePopupWindow.showPopupwindow(v);
+            }
+        });
+
         Drawable drawable = getResources().getDrawable(R.drawable.slide_block_shape);
         mIndicator.setSlidingBlockDrawable(drawable);
-
+        mIndicator.setVisibility(View.GONE);
         mIndicator.setTabViewFactory(new PagerSlidingTabStrip.TabViewFactory() {
             @Override
             public void addTabs(ViewGroup parent, int defaultPosition) {
@@ -252,46 +268,16 @@ public class CompareFragment1 extends CommonFragment {
 
     }
 
-    public class MyPagerAdapter extends FragmentPagerAdapter {
-
-        public MyPagerAdapter(FragmentManager fm, ArrayList<FragmentEntity> fragments) {
-            super(fm);
-            this.fragmentsList = fragments;
-
-        }
-
-        private ArrayList<FragmentEntity> fragmentsList;
-
-        public void setFragmentsList(ArrayList<FragmentEntity> fragmentsList) {
-            this.fragmentsList = fragmentsList;
-            notifyDataSetChanged();
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return fragmentsList.get(position).fragment;
-        }
-
-        @Override
-        public int getCount() {
-            return fragmentsList.size();
-        }
-
-    }
-
-    class FragmentEntity {
-        public String name;
-        public Fragment fragment;
-
-        public FragmentEntity(String name, Fragment fragment) {
-            this.name = name;
-            this.fragment = fragment;
-        }
+    @Subscribe
+    public void onEvent(CompareFragmentTransPagerEvent1 event) {
+        mViewPager.setCurrentItem(event.pos);
+        pos = event.pos;
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         FragmentDataUtil.clearCoreDetailData(FragmentDataUtil.map1);
+        EventBus.getDefault().unregister(this);
     }
 }

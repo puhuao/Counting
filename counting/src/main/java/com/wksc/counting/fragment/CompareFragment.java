@@ -5,7 +5,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -17,13 +16,13 @@ import com.wksc.counting.Basedata.BaseDataUtil;
 import com.wksc.counting.Basedata.FragmentDataUtil;
 import com.wksc.counting.R;
 import com.wksc.counting.activity.SearchActivity;
+import com.wksc.counting.adapter.MyPagerAdapter;
 import com.wksc.counting.event.CompareFragmentTransPagerEvent;
-import com.wksc.counting.event.CoreIndextRefreshEvent;
 import com.wksc.counting.event.SaleComparisonLoadDataEvent;
 import com.wksc.counting.event.VipComparisonLoadDataEvent;
+import com.wksc.counting.model.FragmentEntity;
 import com.wksc.counting.model.baseinfo.CoreItem;
 import com.wksc.counting.popwindows.ComparePopupWindow;
-import com.wksc.counting.tools.Params;
 import com.wksc.counting.widegit.CustomViewPager;
 import com.wksc.counting.widegit.PagerSlidingTabStrip;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
@@ -281,42 +280,5 @@ public class CompareFragment extends CommonFragment {
     @Override
     protected void lazyLoad() {
 
-    }
-
-    public class MyPagerAdapter extends FragmentPagerAdapter {
-
-        public MyPagerAdapter(FragmentManager fm, ArrayList<FragmentEntity> fragments) {
-            super(fm);
-            this.fragmentsList = fragments;
-
-        }
-
-        private ArrayList<FragmentEntity> fragmentsList;
-
-        public void setFragmentsList(ArrayList<FragmentEntity> fragmentsList) {
-            this.fragmentsList = fragmentsList;
-            notifyDataSetChanged();
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return fragmentsList.get(position).fragment;
-        }
-
-        @Override
-        public int getCount() {
-            return fragmentsList.size();
-        }
-
-    }
-
-    public class FragmentEntity {
-        public String name;
-        public Fragment fragment;
-
-        public FragmentEntity(String name, Fragment fragment) {
-            this.name = name;
-            this.fragment = fragment;
-        }
     }
 }

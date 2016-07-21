@@ -18,6 +18,7 @@ import com.wksc.counting.fragment.CustomerServiceFragment;
 import com.wksc.counting.fragment.MarktingCenterFragment;
 import com.wksc.counting.fragment.NoRightFragment;
 import com.wksc.counting.fragment.SupplyChainCenterFragment;
+import com.wksc.counting.model.FragmentEntity;
 import com.wksc.counting.widegit.PagerSlidingTabStrip;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.platform.config.IConfig;
@@ -79,12 +80,12 @@ public class TitleSelectPopupWindow extends PopupWindow {
             FragmentEntity fragmentEntity = null;
             if (i == 0) {
                 if (checkHasRight("10"))
-                fragment = new MarktingCenterFragment();
+                fragment = new MarktingCenterFragment(null);
                 else fragment = new NoRightFragment();
                 name = "营销中心";
             } else if (i == 1) {
                 if (checkHasRight("20"))
-                fragment = new SupplyChainCenterFragment();
+                fragment = new SupplyChainCenterFragment(null);
                 else fragment = new NoRightFragment();
                 name = "供应链中心";
             } else if (i == 2) {
@@ -179,15 +180,5 @@ public class TitleSelectPopupWindow extends PopupWindow {
 
     public void setTitleView(TextView titleTextView) {
         this.titleView = titleTextView;
-    }
-
-    public class FragmentEntity {
-        public String name;
-        public Fragment fragment;
-
-        public FragmentEntity(String name, Fragment fragment) {
-            this.name = name;
-            this.fragment = fragment;
-        }
     }
 }

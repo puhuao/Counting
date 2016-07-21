@@ -4,5 +4,5 @@
         android:centerX="0.5"
         android:centerY="0.5"
         android:endColor="#59B8FE"
-        android:startColor="#7FD5FF" />
+        android:startColor="@color/colorPrimary" />
 </shape>

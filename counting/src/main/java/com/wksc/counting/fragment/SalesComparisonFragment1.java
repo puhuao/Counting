@@ -18,9 +18,10 @@ import com.wksc.counting.activity.SalesComparisonActivity;
 import com.wksc.counting.adapter.SalesCompareListAdapter;
 import com.wksc.counting.callBack.DialogCallback;
 import com.wksc.counting.config.Urls;
-import com.wksc.counting.event.SaleComparisonLoadDataEvent;
+import com.wksc.counting.event.CompareDetailRefreshEvent1;
 import com.wksc.counting.event.SaleComparisonLoadDataEvent1;
 import com.wksc.counting.model.coreDetail.CoreDetail;
+import com.wksc.counting.tools.Params;
 import com.wksc.counting.tools.UrlUtils;
 import com.wksc.counting.widegit.BarChartTool;
 import com.wksc.counting.widegit.ConditionLayout;
@@ -256,6 +257,23 @@ public class SalesComparisonFragment1 extends CommonFragment {
                     getData();
                 }
             }
+    }
+
+    @Subscribe
+    public void onEvent(CompareDetailRefreshEvent1 event) {
+        if (event.pos == currentPos) {
+            if (Params.mcu.length() > 0) {
+                Params.mcu.delete(0, Params.mcu.length());
+            }
+            if (Params.areal.length() > 0) {
+                Params.areal.delete(0, Params.areal.length());
+            }
+            Params.mcu.append("&mcu=").append(event.sb);
+            Params.areal.append(event.names);
+            conditionLayout.initViewByParam();
+            extraParam = conditionLayout.getAllConditions();
+            getData();
+        }
     }
 
 }

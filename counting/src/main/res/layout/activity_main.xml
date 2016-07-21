@@ -30,7 +30,7 @@
 
             <RadioButton
                 android:id="@+id/btn_core_index"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:layout_weight="1"
@@ -44,7 +44,7 @@
 
             <RadioButton
                 android:id="@+id/btn_thematic_analysis"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:layout_weight="1"
@@ -56,7 +56,7 @@
                 android:drawableTop="@drawable/main_thematic_tab_selector"/>
             <RadioButton
                 android:id="@+id/btn_news"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:layout_weight="1"
@@ -68,7 +68,7 @@
                 android:drawableTop="@drawable/main_news_tab_selector"/>
             <RadioButton
                 android:id="@+id/btn_telescope"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:layout_weight="1"
@@ -82,7 +82,7 @@
 
             <RadioButton
                 android:id="@+id/btn_more"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:layout_weight="1"

@@ -15,7 +15,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.wksc.counting.R;
-import com.wksc.counting.event.CompareFragmentTransPagerEvent;
+import com.wksc.counting.event.CompareFragmentTransPagerEvent1;
 import com.wksc.counting.model.FragmentEntity;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.platform.config.IConfig;
@@ -29,16 +29,15 @@ import java.util.ArrayList;
  *
  * @
  */
-public class ComparePopupWindow extends PopupWindow {
+public class ComparePopupWindow1 extends PopupWindow {
     private IConfig config;
     private final Activity mContext;
-    private ArrayList<FragmentEntity> indicatorFragmentEntityList;
     private TextView titleView;
     private int positon=0;
 
-    public ComparePopupWindow(Activity context,
-                              ArrayList<FragmentEntity> indicatorFragmentEntityList,
-                              int pos) {
+    public ComparePopupWindow1(Activity context,
+                               ArrayList<FragmentEntity> indicatorFragmentEntityList,
+                               int pos) {
         positon = pos;
         mContext = context;
         View view = LayoutInflater.from(context).inflate(R.layout.pop_layout_compare, null);
@@ -72,7 +71,7 @@ public class ComparePopupWindow extends PopupWindow {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 RadioButton radioButton = (RadioButton) group.findViewById(checkedId);
-                CompareFragmentTransPagerEvent event = new CompareFragmentTransPagerEvent();
+                CompareFragmentTransPagerEvent1 event = new CompareFragmentTransPagerEvent1();
                 event.pos = (int) radioButton.getTag();
                 EventBus.getDefault().post(event);
                 dissmisPopupwindow();
