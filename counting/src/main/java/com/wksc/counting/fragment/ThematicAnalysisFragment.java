@@ -61,22 +61,7 @@ public class ThematicAnalysisFragment extends CommonFragment {
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_thematic_analysis, null);
-//        hideLeftButton();
         hideTitleBar();
-//        showRightButton();
-//        getRightButton().setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                EventBus.getDefault().post(new TurnToMoreFragmentEvent(false));
-//            }
-//        });
-//        setHeaderTitle("专题分析");
-//        Drawable drawable = getContext().getResources().getDrawable(R.drawable.title_rectangle_down);
-//        drawable.setBounds(0,0,drawable.getMinimumWidth(),drawable.getMinimumHeight());
-//        getTitleHeaderBar().getTitleTextView().setCompoundDrawables(null,null,drawable,null);
-////        getTitleHeaderBar().getTitleTextView().getPaint().setFlags(Paint. UNDERLINE_TEXT_FLAG ); //下划线
-////        getTitleHeaderBar().getTitleTextView().getPaint().setAntiAlias(true);
-//        getTitleHeaderBar().getTitleTextView().setCompoundDrawablePadding(10);
         return v;
     }
 

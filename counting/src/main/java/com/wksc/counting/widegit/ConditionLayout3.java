@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -60,6 +61,7 @@ public class ConditionLayout3 extends LinearLayout implements View.OnClickListen
     ChannelPopupWindow2 channelPopupWindow;
     public Params2 params2;
     LinearLayout dark_below;
+    ImageView iv1, iv2, iv3, iv4, iv5, iv6;
 
     public String getAllConditions() {
         return params2.getParam();
@@ -94,6 +96,12 @@ public class ConditionLayout3 extends LinearLayout implements View.OnClickListen
         area_layout = (RelativeLayout) findViewById(R.id.area_layout);
         area1_layout = (LinearLayout) findViewById(R.id.area1_layout);
         dark_below = (LinearLayout) findViewById(R.id.dark_below);
+        iv1 = (ImageView) findViewById(R.id.iv1);
+        iv2 = (ImageView) findViewById(R.id.iv2);
+        iv3 = (ImageView) findViewById(R.id.iv3);
+        iv4 = (ImageView) findViewById(R.id.iv4);
+        iv5 = (ImageView) findViewById(R.id.iv5);
+        iv6 = (ImageView) findViewById(R.id.iv6);
         area.setOnClickListener(this);
         goods.setOnClickListener(this);
         time.setOnClickListener(this);
@@ -263,6 +271,7 @@ public class ConditionLayout3 extends LinearLayout implements View.OnClickListen
                         }
                         params2.changeAreal(name);
                         conditionSelect.postParams();
+                        hideShadow();
                     }
                 });
                 areaPopupWindow.setDarkStyle(-1);
@@ -270,6 +279,7 @@ public class ConditionLayout3 extends LinearLayout implements View.OnClickListen
                 areaPopupWindow.resetDarkPosition();
                 areaPopupWindow.darkBelow(dark_below);
                 areaPopupWindow.showAsDropDown(v, v.getRight() / 2, 0);
+                showShadow(0);
                 break;
             case R.id.goods:
 
@@ -300,6 +310,7 @@ public class ConditionLayout3 extends LinearLayout implements View.OnClickListen
                         params2.changeGoods(name);
 
                         conditionSelect.postParams();
+                        hideShadow();
                     }
                 });
                 goodsPopupWindow.setDarkStyle(-1);
@@ -307,6 +318,7 @@ public class ConditionLayout3 extends LinearLayout implements View.OnClickListen
                 goodsPopupWindow.resetDarkPosition();
                 goodsPopupWindow.darkBelow(dark_below);
                 goodsPopupWindow.showAsDropDown(v, v.getRight() / 2, 0);
+                showShadow(3);
                 break;
             case R.id.time:
 
@@ -328,6 +340,7 @@ public class ConditionLayout3 extends LinearLayout implements View.OnClickListen
                 myPopupwindow.resetDarkPosition();
                 myPopupwindow.darkBelow(dark_below);
                 myPopupwindow.showAsDropDown(v, v.getRight() / 2, 0);
+                showShadow(1);
                 myPopupwindow.setOnDateSelectListener(new DateSelectPopupWindow2.OnDateSelectListener() {
                     @Override
                     public void onDateSelect(String y, String m, String date, int f) {
@@ -356,6 +369,7 @@ public class ConditionLayout3 extends LinearLayout implements View.OnClickListen
                             params2.changeTime(y + "-" + m + "-" + date);
                         }
                         conditionSelect.postParams();
+                        hideShadow();
                     }
                 });
                 break;
@@ -383,6 +397,7 @@ public class ConditionLayout3 extends LinearLayout implements View.OnClickListen
                         channel.setText(name);
                         params2.changeChannel(name);
                         conditionSelect.postParams();
+                        hideShadow();
                     }
                 });
                 channelPopupWindow.setDarkStyle(-1);
@@ -390,6 +405,7 @@ public class ConditionLayout3 extends LinearLayout implements View.OnClickListen
                 channelPopupWindow.resetDarkPosition();
                 channelPopupWindow.darkBelow(dark_below);
                 channelPopupWindow.showAsDropDown(v, v.getRight() / 2, 0);
+                showShadow(2);
                 break;
 //            case R.id.index:
 //                IndexPopupWindow indexPopupwindow = new IndexPopupWindow((Activity) getContext());
@@ -438,6 +454,51 @@ private Condition mCondition;
     public interface OnConditionSelect {
         public void postParams();
     }
+    public void showShadow(int po){
+        switch (po){
+            case 0:
+                iv1.setVisibility(GONE);
+                iv2.setVisibility(VISIBLE);
+                iv3.setVisibility(GONE);
+                iv4.setVisibility(GONE);
+                iv5.setVisibility(GONE);
+                iv6.setVisibility(GONE);
+                break;
+            case 1:
+                iv1.setVisibility(VISIBLE);
+                iv2.setVisibility(GONE);
+                iv3.setVisibility(GONE);
+                iv4.setVisibility(VISIBLE);
+                iv5.setVisibility(GONE);
+                iv6.setVisibility(GONE);
+                break;
+            case 2:
+                iv1.setVisibility(GONE);
+                iv2.setVisibility(GONE);
+                iv3.setVisibility(VISIBLE);
+                iv4.setVisibility(GONE);
+                iv5.setVisibility(GONE);
+                iv6.setVisibility(VISIBLE);
+                break;
+            case 3:
+                iv1.setVisibility(GONE);
+                iv2.setVisibility(GONE);
+                iv3.setVisibility(GONE);
+                iv4.setVisibility(GONE);
+                iv5.setVisibility(VISIBLE);
+                iv6.setVisibility(GONE);
+                break;
+        }
 
+    }
+
+    public void hideShadow(){
+        iv1.setVisibility(GONE);
+        iv2.setVisibility(GONE);
+        iv3.setVisibility(GONE);
+        iv4.setVisibility(GONE);
+        iv5.setVisibility(GONE);
+        iv6.setVisibility(GONE);
+    }
 
 }

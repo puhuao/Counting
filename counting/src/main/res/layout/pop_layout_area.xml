@@ -1,136 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-<RelativeLayout
-    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:layout_marginLeft="12dp"
-    android:layout_marginRight="12dp">
+    android:orientation="vertical">
 
-    <RadioGroup
-        android:id="@+id/rg"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:visibility="gone">
-
-        <RadioButton
-            android:id="@+id/rb1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:button="@null"
-            android:checked="true"
-            android:drawableLeft="@drawable/radio_group_selector"
-            android:text="省"
-            android:textColor="@color/main_tab_text_selector" />
-
-        <RadioButton
-            android:id="@+id/rb2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:button="@null"
-            android:drawableLeft="@drawable/radio_group_selector"
-            android:text="市"
-            android:textColor="@color/main_tab_text_selector" />
-
-        <RadioButton
-            android:id="@+id/rb3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:button="@null"
-            android:drawableLeft="@drawable/radio_group_selector"
-            android:text="区县"
-            android:textColor="@color/main_tab_text_selector" />
-
-        <RadioButton
-            android:id="@+id/rb4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:button="@null"
-            android:drawableLeft="@drawable/radio_group_selector"
-            android:singleLine="true"
-            android:text="门店"
-            android:textColor="@color/main_tab_text_selector" />
-    </RadioGroup>
-    <LinearLayout
-        android:id="@+id/ll1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_alignParentBottom="true">
-        <Button
-            android:id="@+id/reset"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="重置"
-            android:textSize="14sp"
-            android:background="#D9D9D9"/>
-        <Button
-            android:id="@+id/sure"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="确认"
-            android:textSize="14sp"
-            android:background="#50ADFA"/>
-    </LinearLayout>
-    <com.wksc.counting.widegit.OverScrollView
-        android:id="@+id/scroll"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/rg"
-        android:layout_above="@id/ll1">
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/white">
+
+        <RadioGroup
+            android:id="@+id/rg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <RadioButton
+                android:id="@+id/rb1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:button="@null"
+                android:checked="true"
+                android:drawableLeft="@drawable/radio_group_selector"
+                android:text="省"
+                android:textColor="@color/main_tab_text_selector" />
+
+            <RadioButton
+                android:id="@+id/rb2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:button="@null"
+                android:drawableLeft="@drawable/radio_group_selector"
+                android:text="市"
+                android:textColor="@color/main_tab_text_selector" />
+
+            <RadioButton
+                android:id="@+id/rb3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:button="@null"
+                android:drawableLeft="@drawable/radio_group_selector"
+                android:text="区县"
+                android:textColor="@color/main_tab_text_selector" />
+
+            <RadioButton
+                android:id="@+id/rb4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:button="@null"
+                android:drawableLeft="@drawable/radio_group_selector"
+                android:singleLine="true"
+                android:text="门店"
+                android:textColor="@color/main_tab_text_selector" />
+        </RadioGroup>
+
         <LinearLayout
+            android:id="@+id/ll1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/reset"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#D9D9D9"
+                android:padding="10dp"
+                android:text="重置"
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/sure"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#50ADFA"
+                android:padding="10dp"
+                android:text="确认"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <com.wksc.counting.widegit.OverScrollView
+            android:id="@+id/scroll"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_above="@id/ll1"
+            android:layout_below="@id/rg">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="2"
-                android:orientation="horizontal">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <CheckBox
-                        android:id="@+id/checkbox1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="全选"
-                        android:button="@null"
-                        android:drawableLeft="@drawable/pop_item_selector"
-                        android:drawablePadding="5dp"
-                        android:padding="10dp"/>
-
-                    <com.wksc.counting.widegit.unionPickListView.PickListView
-                        android:id="@+id/diriction_area"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/citys"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="2"
                     android:orientation="horizontal">
 
@@ -141,98 +119,126 @@
                         android:orientation="vertical">
 
                         <CheckBox
-                            android:id="@+id/checkbox2"
+                            android:id="@+id/checkbox1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="全选"
                             android:button="@null"
                             android:drawableLeft="@drawable/pop_item_selector"
                             android:drawablePadding="5dp"
-                            android:padding="10dp"/>
+                            android:padding="10dp"
+                            android:text="全选" />
 
                         <com.wksc.counting.widegit.unionPickListView.PickListView
-                            android:id="@+id/diriction_province"
+                            android:id="@+id/diriction_area"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent" />
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/countys"
+                        android:id="@+id/citys"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:layout_weight="2"
+                        android:orientation="horizontal">
 
-                        <CheckBox
-                            android:id="@+id/checkbox3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="全选"
-                            android:button="@null"
-                            android:drawableLeft="@drawable/pop_item_selector"
-                            android:drawablePadding="5dp"
-                            android:padding="10dp"
-                            />
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
 
-                        <com.wksc.counting.widegit.unionPickListView.PickListView
-                            android:id="@+id/diriction_city"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
+                            <CheckBox
+                                android:id="@+id/checkbox2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:button="@null"
+                                android:drawableLeft="@drawable/pop_item_selector"
+                                android:drawablePadding="5dp"
+                                android:padding="10dp"
+                                android:text="全选" />
+
+                            <com.wksc.counting.widegit.unionPickListView.PickListView
+                                android:id="@+id/diriction_province"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/countys"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <CheckBox
+                                android:id="@+id/checkbox3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:button="@null"
+                                android:drawableLeft="@drawable/pop_item_selector"
+                                android:drawablePadding="5dp"
+                                android:padding="10dp"
+                                android:text="全选" />
+
+                            <com.wksc.counting.widegit.unionPickListView.PickListView
+                                android:id="@+id/diriction_city"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent" />
+                        </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_height="0dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
-                    <EditText
-                        android:id="@+id/edit_query"
-                        android:layout_width="0dp"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:hint="请输入要查询门店所在的地区名" />
+                        android:orientation="horizontal">
 
-                    <ImageView
-                        android:id="@+id/search"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:scaleType="center"
-                        android:src="@drawable/ic_search" />
+                        <EditText
+                            android:id="@+id/edit_query"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:hint="请输入要查询门店所在的地区名" />
+
+                        <ImageView
+                            android:id="@+id/search"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:scaleType="center"
+                            android:src="@drawable/ic_search" />
+                    </LinearLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/empty"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:padding="10dp"
+                            android:text="没有数据"
+                            android:visibility="gone" />
+
+                        <com.wksc.counting.widegit.NestedListView
+                            android:id="@+id/stores"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </FrameLayout>
                 </LinearLayout>
 
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/empty"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:padding="10dp"
-                        android:text="没有数据"
-                        android:visibility="gone" />
-
-                    <com.wksc.counting.widegit.NestedListView
-                        android:id="@+id/stores"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-                </FrameLayout>
             </LinearLayout>
-
-        </LinearLayout>
-    </com.wksc.counting.widegit.OverScrollView>
-</RelativeLayout>
+        </com.wksc.counting.widegit.OverScrollView>
+    </RelativeLayout>
 </LinearLayout>

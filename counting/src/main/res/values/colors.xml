@@ -11,4 +11,10 @@
 
     <color name="text_color">#51a6ff</color>
     <color name="pop_back">#5E5E5E</color>
+    <color name="color_1">#06C8FC</color>
+    <color name="color_2">#FFBC69</color>
+    <color name="color_3">#E6A3F4</color>
+    <color name="color_4">#FB7367</color>
+    <color name="color_5">#4BDA88</color>
+
 </resources>

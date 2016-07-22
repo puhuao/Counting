@@ -20,8 +20,7 @@
         android:singleLine="true"
         android:text="营销中心"
         android:textColor="#ffffff"
-        android:textSize="15sp"
-        android:textStyle="bold"
+        android:textSize="@dimen/dimen_15"
         android:button="@null"
         android:layout_gravity="center_vertical"
         android:padding="10dp"
@@ -41,8 +40,7 @@
         android:singleLine="true"
         android:text="供应链中心"
         android:textColor="#ffffff"
-        android:textSize="15sp"
-        android:textStyle="bold"
+        android:textSize="@dimen/dimen_15"
         android:button="@null"
         android:layout_gravity="center_vertical"
         android:padding="10dp"/>
@@ -61,11 +59,11 @@
         android:singleLine="true"
         android:text="会员中心"
         android:textColor="#ffffff"
-        android:textSize="15sp"
-        android:textStyle="bold"
+        android:textSize="@dimen/dimen_15"
         android:button="@null"
         android:layout_gravity="center_vertical"
-        android:padding="10dp"/>
+        android:padding="10dp"
+        android:checked="false" />
     <TextView
         android:layout_width="0dp"
         android:layout_height="match_parent"

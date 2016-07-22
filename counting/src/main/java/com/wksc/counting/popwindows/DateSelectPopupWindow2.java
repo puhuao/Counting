@@ -136,7 +136,7 @@ public class DateSelectPopupWindow2 extends BasePopupWindow {
         this.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
         //设置PopupWindow弹出窗体的高
         this.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
-        this.setBackgroundDrawable(new ColorDrawable(0xffffffff));//必须设置  ps:xml bg和这个不冲突
+        this.setBackgroundDrawable(new ColorDrawable(0x00000000));//必须设置  ps:xml bg和这个不冲突
         this.setAnimationStyle(R.style.selectDataViewAnimation);
         this.setFocusable(true);//设置后  达到返回按钮先消失popupWindow
         this.setOnDismissListener(new OnDismissListener() {

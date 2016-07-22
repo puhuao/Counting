@@ -74,26 +74,29 @@ public class PieChartTool {
             PieDataSet dataSet = new PieDataSet(yVals1, peiModel.chartTitle1);
             dataSet.setSliceSpace(3f);
             dataSet.setSelectionShift(5f);
+            dataSet.setDrawValues(false);
             // add a lot of colors
 
             ArrayList<Integer> colors = new ArrayList<>();
 
-            for (int c : ColorTemplate.VORDIPLOM_COLORS)
+
+
+            for (int c : ColorTemplate.COLOR_PRIMERY)
                 colors.add(c);
 
-            for (int c : ColorTemplate.JOYFUL_COLORS)
-                colors.add(c);
-
-            for (int c : ColorTemplate.COLORFUL_COLORS)
-                colors.add(c);
-
-            for (int c : ColorTemplate.LIBERTY_COLORS)
-                colors.add(c);
-
-            for (int c : ColorTemplate.PASTEL_COLORS)
-                colors.add(c);
-
-            colors.add(ColorTemplate.getHoloBlue());
+//            for (int c : ColorTemplate.JOYFUL_COLORS)
+//                colors.add(c);
+//
+//            for (int c : ColorTemplate.COLORFUL_COLORS)
+//                colors.add(c);
+//
+//            for (int c : ColorTemplate.LIBERTY_COLORS)
+//                colors.add(c);
+//
+//            for (int c : ColorTemplate.PASTEL_COLORS)
+//                colors.add(c);
+//
+//            colors.add(ColorTemplate.getHoloBlue());
 
             dataSet.setColors(colors);
             //dataSet.setSelectionShift(0f);

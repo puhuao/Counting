@@ -225,6 +225,7 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
                         }
                         Params.changeAreal(name);
                         conditionSelect.postParams();
+                        hideShadow();
                     }
                 });
 //                areaPopupWindow.showPopupwindow(v);
@@ -260,6 +261,7 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
                         Params.changeGoods(name);
 
                         conditionSelect.postParams();
+                        hideShadow();
                     }
                 });
 //                goodsPopupWindow.showPopupwindow(v);
@@ -282,7 +284,7 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
                 myPopupwindow.resetDarkPosition();
                 myPopupwindow.darkBelow(dark_below);
                 myPopupwindow.showAsDropDown(v, v.getRight() / 2, 0);
-showShadow(1);
+                showShadow(1);
                 myPopupwindow.setOnDateSelectListener(new DateSelectPopupWindow.OnDateSelectListener() {
                     @Override
                     public void onDateSelect(String y, String m, String date, int f) {
@@ -311,6 +313,7 @@ showShadow(1);
                             Params.changeTime(y + "-" + m + "-" + date);
                         }
                         conditionSelect.postParams();
+                        hideShadow();
                     }
                 });
                 break;
@@ -335,6 +338,7 @@ showShadow(1);
                         channel.setText(name);
                         Params.changeChannel(name);
                         conditionSelect.postParams();
+                        hideShadow();
                     }
                 });
 //                channelPopupWindow.showPopupwindow(v);
@@ -375,8 +379,8 @@ showShadow(1);
         public void postParams();
     }
 
-    public void showShadow(int po){
-        switch (po){
+    public void showShadow(int po) {
+        switch (po) {
             case 0:
                 iv1.setVisibility(GONE);
                 iv2.setVisibility(VISIBLE);
@@ -411,6 +415,15 @@ showShadow(1);
                 break;
         }
 
+    }
+
+    public void hideShadow() {
+        iv1.setVisibility(GONE);
+        iv2.setVisibility(GONE);
+        iv3.setVisibility(GONE);
+        iv4.setVisibility(GONE);
+        iv5.setVisibility(GONE);
+        iv6.setVisibility(GONE);
     }
 
 
