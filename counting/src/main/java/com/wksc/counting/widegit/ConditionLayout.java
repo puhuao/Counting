@@ -6,7 +6,9 @@ import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.wksc.counting.R;
 import com.wksc.counting.popwindows.AreaPopupwindow;
@@ -29,7 +31,7 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
     LinearLayout layout_channel1;
     LinearLayout layout_goods1;
     Calendar calendar;
-//    MarqueeText channel1;
+    //    MarqueeText channel1;
 //    MarqueeText time1;
 //    MarqueeText area1;
 //    MarqueeText goods1;
@@ -37,14 +39,15 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
     MarqueeText goods;
     MarqueeText time;
     MarqueeText channel;
-    LinearLayout layoutGoods;
-    LinearLayout layoutChannel;
+    RelativeLayout layoutGoods;
+    RelativeLayout layoutChannel;
     LinearLayout layout;
     AreaPopupwindow areaPopupWindow;
     GoodsPopupWindow goodsPopupWindow;
     DateSelectPopupWindow myPopupwindow;
     ChannelPopupWindow channelPopupWindow;
     LinearLayout dark_below;
+    ImageView iv1, iv2, iv3, iv4, iv5, iv6;
 
     public String getAllConditions() {
         return Params.getParam();
@@ -74,12 +77,18 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
         goods = (MarqueeText) findViewById(R.id.goods);
         time = (MarqueeText) findViewById(R.id.time);
         channel = (MarqueeText) findViewById(R.id.channel);
-        layoutGoods = (LinearLayout) findViewById(R.id.layout_goods);
-        layoutChannel = (LinearLayout) findViewById(R.id.layout_channel);
+        layoutGoods = (RelativeLayout) findViewById(R.id.layout_goods);
+        layoutChannel = (RelativeLayout) findViewById(R.id.layout_channel);
         layout = (LinearLayout) findViewById(R.id.layout);
         layout_goods1 = (LinearLayout) findViewById(R.id.layout_goods1);
         layout_channel1 = (LinearLayout) findViewById(R.id.layout_channel1);
         dark_below = (LinearLayout) findViewById(R.id.dark_below);
+        iv1 = (ImageView) findViewById(R.id.iv1);
+        iv2 = (ImageView) findViewById(R.id.iv2);
+        iv3 = (ImageView) findViewById(R.id.iv3);
+        iv4 = (ImageView) findViewById(R.id.iv4);
+        iv5 = (ImageView) findViewById(R.id.iv5);
+        iv6 = (ImageView) findViewById(R.id.iv6);
         area.setOnClickListener(this);
         goods.setOnClickListener(this);
         time.setOnClickListener(this);
@@ -92,9 +101,9 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
 
 
     public void init() {
-        if (Params.y==0)
+        if (Params.y == 0)
             Params.y = calendar.get(Calendar.YEAR);
-        if (Params.m==0)
+        if (Params.m == 0)
             Params.m = calendar.get(Calendar.MONTH);
         if (Params.d == 0)
             Params.d = calendar.get(Calendar.DAY_OF_MONTH);
@@ -174,8 +183,8 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.area:
-                if (firbidSelectArea){
-                    ToastUtil.showShortMessage(getContext(),"禁止选择区域");
+                if (firbidSelectArea) {
+                    ToastUtil.showShortMessage(getContext(), "禁止选择区域");
                     break;
                 }
                 if (areaPopupWindow == null) {
@@ -224,6 +233,7 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
                 areaPopupWindow.resetDarkPosition();
                 areaPopupWindow.darkBelow(dark_below);
                 areaPopupWindow.showAsDropDown(v, v.getRight() / 2, 0);
+                showShadow(0);
                 break;
             case R.id.goods:
 
@@ -258,6 +268,7 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
                 goodsPopupWindow.resetDarkPosition();
                 goodsPopupWindow.darkBelow(dark_below);
                 goodsPopupWindow.showAsDropDown(v, v.getRight() / 2, 0);
+                showShadow(3);
                 break;
             case R.id.time:
                 if (myPopupwindow == null) {
@@ -271,7 +282,7 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
                 myPopupwindow.resetDarkPosition();
                 myPopupwindow.darkBelow(dark_below);
                 myPopupwindow.showAsDropDown(v, v.getRight() / 2, 0);
-
+showShadow(1);
                 myPopupwindow.setOnDateSelectListener(new DateSelectPopupWindow.OnDateSelectListener() {
                     @Override
                     public void onDateSelect(String y, String m, String date, int f) {
@@ -332,6 +343,7 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
                 channelPopupWindow.resetDarkPosition();
                 channelPopupWindow.darkBelow(dark_below);
                 channelPopupWindow.showAsDropDown(v, v.getRight() / 2, 0);
+                showShadow(2);
                 break;
 //            case R.id.index:
 //                IndexPopupWindow indexPopupwindow = new IndexPopupWindow((Activity) getContext());
@@ -352,13 +364,53 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
     public void hideDay() {
         hideDay = true;
     }
-private Boolean firbidSelectArea = false;
+
+    private Boolean firbidSelectArea = false;
+
     public void ferbidSelectArea() {
         firbidSelectArea = true;
     }
 
     public interface OnConditionSelect {
         public void postParams();
+    }
+
+    public void showShadow(int po){
+        switch (po){
+            case 0:
+                iv1.setVisibility(GONE);
+                iv2.setVisibility(VISIBLE);
+                iv3.setVisibility(GONE);
+                iv4.setVisibility(GONE);
+                iv5.setVisibility(GONE);
+                iv6.setVisibility(GONE);
+                break;
+            case 1:
+                iv1.setVisibility(VISIBLE);
+                iv2.setVisibility(GONE);
+                iv3.setVisibility(GONE);
+                iv4.setVisibility(VISIBLE);
+                iv5.setVisibility(GONE);
+                iv6.setVisibility(GONE);
+                break;
+            case 2:
+                iv1.setVisibility(GONE);
+                iv2.setVisibility(GONE);
+                iv3.setVisibility(VISIBLE);
+                iv4.setVisibility(GONE);
+                iv5.setVisibility(GONE);
+                iv6.setVisibility(VISIBLE);
+                break;
+            case 3:
+                iv1.setVisibility(GONE);
+                iv2.setVisibility(GONE);
+                iv3.setVisibility(GONE);
+                iv4.setVisibility(GONE);
+                iv5.setVisibility(VISIBLE);
+                iv6.setVisibility(GONE);
+                break;
+        }
+
     }
 
 

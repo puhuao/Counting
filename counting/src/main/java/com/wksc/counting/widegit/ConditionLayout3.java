@@ -7,16 +7,15 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.wksc.counting.Contorner.Condition;
 import com.wksc.counting.R;
-import com.wksc.counting.popwindows.AreaPopupwindow2;
 import com.wksc.counting.popwindows.AreaPopupwindow3;
 import com.wksc.counting.popwindows.BasePopupWindow;
 import com.wksc.counting.popwindows.ChannelPopupWindow2;
 import com.wksc.counting.popwindows.DateSelectPopupWindow2;
 import com.wksc.counting.popwindows.GoodsPopupWindow2;
-import com.wksc.counting.tools.Params;
 import com.wksc.counting.tools.Params2;
 import com.wksc.framwork.util.StringUtils;
 
@@ -41,7 +40,7 @@ public class ConditionLayout3 extends LinearLayout implements View.OnClickListen
 
     LinearLayout layout_channel1;
     LinearLayout layout_goods1;
-    LinearLayout area_layout;
+    RelativeLayout area_layout;
     LinearLayout area1_layout;
     Calendar calendar;
 //    MarqueeText channel1;
@@ -52,8 +51,8 @@ public class ConditionLayout3 extends LinearLayout implements View.OnClickListen
     MarqueeText goods;
     MarqueeText time;
     MarqueeText channel;
-    LinearLayout layoutGoods;
-    LinearLayout layoutChannel;
+    RelativeLayout layoutGoods;
+    RelativeLayout layoutChannel;
     LinearLayout layout;
     AreaPopupwindow3 areaPopupWindow;
     GoodsPopupWindow2 goodsPopupWindow;
@@ -87,12 +86,12 @@ public class ConditionLayout3 extends LinearLayout implements View.OnClickListen
         goods = (MarqueeText) findViewById(R.id.goods);
         time = (MarqueeText) findViewById(R.id.time);
         channel = (MarqueeText) findViewById(R.id.channel);
-        layoutGoods = (LinearLayout) findViewById(R.id.layout_goods);
-        layoutChannel = (LinearLayout) findViewById(R.id.layout_channel);
+        layoutGoods = (RelativeLayout) findViewById(R.id.layout_goods);
+        layoutChannel = (RelativeLayout) findViewById(R.id.layout_channel);
         layout = (LinearLayout) findViewById(R.id.layout);
         layout_goods1 = (LinearLayout) findViewById(R.id.layout_goods1);
         layout_channel1 = (LinearLayout) findViewById(R.id.layout_channel1);
-        area_layout = (LinearLayout) findViewById(R.id.area_layout);
+        area_layout = (RelativeLayout) findViewById(R.id.area_layout);
         area1_layout = (LinearLayout) findViewById(R.id.area1_layout);
         dark_below = (LinearLayout) findViewById(R.id.dark_below);
         area.setOnClickListener(this);
