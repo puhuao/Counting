@@ -15,6 +15,7 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
@@ -55,17 +56,21 @@ public class LocusPassWordView extends View {
 	private boolean isTouch = true; // 是否可操作
 	private Matrix mMatrix = new Matrix();
 	private int lineAlpha = 50;//连线的透明度
+	private Context mConext;
 
 	public LocusPassWordView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
+		mConext = context;
 	}
 
 	public LocusPassWordView(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		mConext = context;
 	}
 
 	public LocusPassWordView(Context context) {
 		super(context);
+		mConext = context;
 	}
 
 	@Override
@@ -155,6 +160,9 @@ public class LocusPassWordView extends View {
 				R.drawable.locus_round_click);
 		locus_round_click_error = BitmapFactory.decodeResource(
 				this.getResources(), R.drawable.locus_round_click_error);
+
+		View view = LayoutInflater.from(mConext).inflate(R.layout.white_line,null);
+
 
 		locus_line = BitmapFactory.decodeResource(this.getResources(),
 				R.drawable.locus_line);
