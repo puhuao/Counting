@@ -212,6 +212,12 @@ public class AreaPopupwindow3 extends BasePopupWindow {
                 List<BaseWithCheckBean> checkBeenRagion = condition.checkedRagions();
                 List<BaseWithCheckBean> checkBeenCity = condition.checkedCitys();
                 List<BaseWithCheckBean> checkBeenCountys = condition.checkedCountys();
+
+                if (checkBeenRagion.size()==0&&checkBeenCity.size()==0&&checkBeenCountys.size()==0){
+                    ToastUtil.showShortMessage(mContext,"请选择条件");
+                    return;
+                }
+
                 if (store.length()>0){
                     flag = 4;
                 }else if(checkBeenCountys.size()>0&&store.length()==0){
@@ -241,8 +247,6 @@ public class AreaPopupwindow3 extends BasePopupWindow {
 //                    radioGroup.check(2);
                     if (mListener != null)
                         mListener.conditionSelect(store.toString(), storsAdapter.sb.toString(), 4);
-                } else {
-                    ToastUtil.showShortMessage(mContext, "筛选条件的格式不正确");
                 }
 
             }

@@ -144,10 +144,10 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
      * @param
      */
     public void initViewBySelf() {
-        time.setText(Params.y + "-" + (Params.m + 1) + "-" + (Params.d - 1));
-        area.setText("全部");
-        channel.setText("全部");
-        goods.setText("全部");
+//        time.setText(Params.y + "-" + (Params.m + 1) + "-" + (Params.d - 1));
+//        area.setText("全部");
+//        channel.setText("全部");
+//        goods.setText("全部");
     }
 
     public void initViewByParam() {
@@ -157,15 +157,18 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
             time.setText(Params.time.toString());
         }
         if (StringUtils.isBlank(Params.areal.toString())) {
-            area.setText("全部");
+//            area.setText("全部");
+            area.setText("区域");
         } else
             area.setText(Params.areal.toString());
         if (StringUtils.isBlank(Params.channel.toString())) {
-            channel.setText("全部");
+//            channel.setText("全部");
+            channel.setText("渠道");
         } else
             channel.setText(Params.channel.toString());
         if (StringUtils.isBlank(Params.goods.toString())) {
-            goods.setText("全部");
+//            goods.setText("全部");
+            goods.setText("商品");
         } else
             goods.setText(Params.goods.toString());
     }

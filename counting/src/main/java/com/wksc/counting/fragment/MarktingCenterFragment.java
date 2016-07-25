@@ -104,10 +104,10 @@ public class MarktingCenterFragment extends CommonFragment {
             }
         }
 
-        ChangeTitleEvent changeTitleEvent = new ChangeTitleEvent();
-        changeTitleEvent.pos = 1;
-        changeTitleEvent.title = indicatorFragmentEntityList.get(0).name;
-        EventBus.getDefault().post(changeTitleEvent);
+//        ChangeTitleEvent changeTitleEvent = new ChangeTitleEvent();
+//        changeTitleEvent.pos = 1;
+//        changeTitleEvent.title = indicatorFragmentEntityList.get(0).name;
+//        EventBus.getDefault().post(changeTitleEvent);
 
         mIndicator.setTabViewFactory(new PagerSlidingTabStrip.TabViewFactory() {
             @Override

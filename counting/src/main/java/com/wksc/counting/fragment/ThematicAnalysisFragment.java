@@ -188,11 +188,11 @@ public class ThematicAnalysisFragment extends CommonFragment {
     }
     @Subscribe
     public void onEvent(ChangeTitleEvent event){
-        if (event.pos == 1){
-            titleLeft.setText(event.title);
-        }else  if(event.pos == 2){
-            titleCenter.setText(event.title);
-        }
+//        if (event.pos == 1){
+//            titleLeft.setText(event.title);
+//        }else  if(event.pos == 2){
+//            titleCenter.setText(event.title);
+//        }
     }
 
 }
