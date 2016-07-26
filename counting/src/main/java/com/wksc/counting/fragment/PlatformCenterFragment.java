@@ -114,6 +114,7 @@ Condition condition;
         conditionLayout.setConditionSelect(new ConditionLayout3.OnConditionSelect() {
             @Override
             public void postParams() {
+                conditionLayout.initViewByParam();
                 extraParam = conditionLayout.getAllConditions();
                 getListData();
             }

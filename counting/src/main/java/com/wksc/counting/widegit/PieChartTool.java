@@ -74,7 +74,7 @@ public class PieChartTool {
             PieDataSet dataSet = new PieDataSet(yVals1, peiModel.chartTitle1);
             dataSet.setSliceSpace(3f);
             dataSet.setSelectionShift(5f);
-            dataSet.setDrawValues(false);
+            dataSet.setDrawValues(true);
             // add a lot of colors
 
             ArrayList<Integer> colors = new ArrayList<>();

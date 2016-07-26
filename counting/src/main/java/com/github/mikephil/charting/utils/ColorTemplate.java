@@ -54,8 +54,8 @@ public class ColorTemplate {
 
 
     public static final int[] COLOR_PRIMERY = {
-            Color.rgb(5, 200, 252), Color.rgb(255, 188, 105), Color.rgb(230, 163, 244),
-            Color.rgb(251, 115, 103), Color.rgb(75, 218, 136)
+            Color.rgb(6, 200, 252), Color.rgb(255, 188, 105), Color.rgb(230, 163, 244),
+            Color.rgb(251, 115, 103), Color.rgb(75, 218, 136),Color.rgb(74, 144, 226)
     };
     /**
      * Converts the given hex-color-string to rgb.

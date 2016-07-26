@@ -108,6 +108,7 @@ public class VipComparisonFragment extends CommonFragment {
         conditionLayout.setConditionSelect(new ConditionLayout.OnConditionSelect() {
             @Override
             public void postParams() {
+                conditionLayout.initViewByParam();
                 extraParam = conditionLayout.getAllConditions();
                 getData();
             }

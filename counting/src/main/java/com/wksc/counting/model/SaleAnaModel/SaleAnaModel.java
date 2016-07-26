@@ -8,8 +8,5 @@ import java.util.List;
  * @
  */
 public class SaleAnaModel {
-    public PeiModel chartData;
     public List<TableModel> tableData;
-    public String tableTitle;
-    public String tableTitleDesc;
 }

@@ -9,7 +9,7 @@
         android:layout_margin="10dp"
         android:text="会员/非会员订单对比" />
 
-    <com.github.mikephil.charting.charts.PieChart
+    <com.github.mikephil.charting.charts.BarChart
         android:id="@+id/pie"
         android:layout_width="match_parent"
         android:layout_height="200dp" />
@@ -23,10 +23,12 @@
         android:orientation="horizontal"
         android:padding="10dp" />
 
-    <com.wksc.counting.widegit.NestedListView
-        android:id="@+id/lv"
+    <LinearLayout
+        android:id="@+id/item_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp"/>
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"

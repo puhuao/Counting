@@ -77,10 +77,10 @@ public class GoodsPopupWindow2 extends BasePopupWindow {
             @Override
             public void onClick(View v) {
 
-                if (typeListAdapter.getCheckedNumber()==0&&nameListAdapter.getCheckedNumber()==0){
-                        ToastUtil.showShortMessage(mContext,"请选择商品");
-                        return;
-                }
+//                if (typeListAdapter.getCheckedNumber()==0&&nameListAdapter.getCheckedNumber()==0){
+//                        ToastUtil.showShortMessage(mContext,"请选择商品");
+//                        return;
+//                }
                 dissmisPopupwindow();
                 backgroundAlpha(1f);
 

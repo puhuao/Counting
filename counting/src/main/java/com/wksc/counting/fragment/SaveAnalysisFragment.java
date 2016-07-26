@@ -99,6 +99,7 @@ public class SaveAnalysisFragment extends CommonFragment {
         conditionLayout.setConditionSelect(new ConditionLayout3.OnConditionSelect() {
             @Override
             public void postParams() {
+                conditionLayout.initViewByParam();
                 extraParam = conditionLayout.getAllConditions();
                 getListData();
             }

@@ -153,6 +153,7 @@ public class CoreIndexListAdapter extends BaseListAdapter<CoreIndexListModel>{
         leftAxis.setAxisMaxValue(Float.valueOf(mList.get(position).maxY));
         leftAxis.setAxisMinValue(Float.valueOf(mList.get(position).minY));
         leftAxis.setDrawGridLines(true);
+        leftAxis.setEnabled(false);
         if (mList.get(position).coreCode.equals("30")){
             leftAxis.setValueFormatter(new PercentFormatter());
         }

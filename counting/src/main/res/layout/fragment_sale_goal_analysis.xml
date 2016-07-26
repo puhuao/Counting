@@ -11,39 +11,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/refresh_layout">
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-
-
-            <com.github.mikephil.charting.charts.PieChart
-                android:id="@+id/pie"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:background="#FBF9FA"
-                android:layout_marginTop="5dp"/>
-
-            <com.wksc.counting.widegit.TableTitleLayout
-                android:id="@+id/titles"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="10dp"
-                android:background="#FBF9FA"
-                android:layout_marginTop="5dp"/>
 
             <com.wksc.counting.widegit.NestedListView
                 android:id="@+id/sales_analysis"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#FBF9FA"/>
-        </LinearLayout>
-    </ScrollView>
     </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>

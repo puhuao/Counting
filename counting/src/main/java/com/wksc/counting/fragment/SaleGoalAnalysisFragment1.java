@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +17,11 @@ import com.wksc.counting.Basedata.FragmentDataUtil;
 import com.wksc.counting.Contorner.Condition;
 import com.wksc.counting.R;
 import com.wksc.counting.activity.TogleActivity;
-import com.wksc.counting.adapter.GoodsSalesAnalysisListAdapter;
+import com.wksc.counting.adapter.SalesFinishListAdapter;
 import com.wksc.counting.callBack.DialogCallback;
 import com.wksc.counting.config.Urls;
-import com.wksc.counting.event.GoodsAnaEvent;
-import com.wksc.counting.model.SaleAnaModel.PeiModel;
-import com.wksc.counting.model.goodsSaleAnaModle.GoodSaleModle;
+import com.wksc.counting.event.SaleGoalAnaEvent;
+import com.wksc.counting.model.SaleAnaModel.SaleAnaModel;
 import com.wksc.counting.tools.UrlUtils;
 import com.wksc.counting.widegit.ConditionLayout3;
 import com.wksc.counting.widegit.NestedListView;
@@ -45,7 +45,7 @@ import okhttp3.Response;
  *
  * @
  */
-public class GoodsAnalysisFragment extends CommonFragment {
+public class SaleGoalAnalysisFragment1 extends CommonFragment {
     @Bind(R.id.sales_analysis)
     NestedListView lvSalesAnalysis;
     @Bind(R.id.condition)
@@ -56,8 +56,8 @@ public class GoodsAnalysisFragment extends CommonFragment {
     PieChart pieChart;
     @Bind(R.id.refresh_layout)
     SwipeRefreshLayout refreshLayout;
+    SalesFinishListAdapter salesFinishListAdapter;
     PieChartTool pieChartTool;
-    GoodsSalesAnalysisListAdapter goodsSalesAnalysisListAdapter;
     private IConfig config;
     Condition condition;
 
@@ -69,7 +69,7 @@ public class GoodsAnalysisFragment extends CommonFragment {
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_goods_analysis, null);
+        View v = inflater.inflate(R.layout.fragment_sale_goal_analysis1, null);
         hideTitleBar();
         return v;
     }
@@ -82,18 +82,30 @@ public class GoodsAnalysisFragment extends CommonFragment {
         return v;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.e("tag", "onrums");
+    }
+
     private void initView() {
-        goodsSalesAnalysisListAdapter = new GoodsSalesAnalysisListAdapter(getActivity());
-        lvSalesAnalysis.setAdapter(goodsSalesAnalysisListAdapter);
+        salesFinishListAdapter = new SalesFinishListAdapter(getActivity());
+        lvSalesAnalysis.setAdapter(salesFinishListAdapter);
         pieChartTool = new PieChartTool(pieChart);
-        condition = new Condition(BaseDataUtil2.goodsAnaSet);
+
+        condition = new Condition(BaseDataUtil2.saleGoleRegionSet);
         condition.init();
-        condition.goodsClassFirst = BaseDataUtil2.goodsClassFirstGoods;
-        conditionLayout.hideGoods(false);
-        conditionLayout.init(3);
+        condition.goodsClassFirst = BaseDataUtil2.goodsClassFirstGoal;
+        conditionLayout.init(0);
+        conditionLayout.hideDay();
         conditionLayout.initViewByParam();
+        conditionLayout.initParams();
+        conditionLayout.hideCity();
+        conditionLayout.hideCounty();
+        conditionLayout.hideStores();
         conditionLayout.setcondition(condition);
-//        conditionLayout.initParams();
+        conditionLayout.hideBothGoodsAndChannel(true);
+
         conditionLayout.setConditionSelect(new ConditionLayout3.OnConditionSelect() {
             @Override
             public void postParams() {
@@ -114,44 +126,38 @@ public class GoodsAnalysisFragment extends CommonFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Bundle bundle = new Bundle();
-                bundle.putString("code", goodsSalesAnalysisListAdapter.getList().get(position).code);
+                bundle.putString("code", salesFinishListAdapter.getList().get(position).code);
                 bundle.putString("extra", extraParam);
-                bundle.putInt("flag", 3);
+                bundle.putInt("flag", 1);
+                bundle.putString("titel", salesFinishListAdapter.getList().get(position).title);
                 bundle.putSerializable("condition", condition);
-                String[] array = goodsSalesAnalysisListAdapter.getList().get(position).newValue.split("\\|");
-                bundle.putString("titel", array[0]);
                 Intent intent = new Intent(getActivity(), TogleActivity.class);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
-        if (FragmentDataUtil.goodSaleModle != null) {
-            titleLayout.clearAllViews();
-            String[] titles = FragmentDataUtil.goodSaleModle.table.tableTitle.split("\\|");
-            String[] desc = FragmentDataUtil.goodSaleModle.table.tableTitleDesc.split("\\|");
-            titleLayout.initView(titles, desc);
-            goodsSalesAnalysisListAdapter.setItemCloums(titles.length);
-            goodsSalesAnalysisListAdapter.setList(FragmentDataUtil.goodSaleModle.tableData);
-
-            PeiModel peiModel = new PeiModel();
-            peiModel.chartPoint1 = FragmentDataUtil.goodSaleModle.table.chartTitle;
-            peiModel.chartValue1 = FragmentDataUtil.goodSaleModle.table.chartData;
-            peiModel.chartTitle1 = FragmentDataUtil.goodSaleModle.table.title;
-            pieChartTool.setData(peiModel);
-            pieChartTool.setPiechart();
+        if (FragmentDataUtil.saleAnaModel != null) {
+//            Log.i("TAG", FragmentDataUtil.saleAnaModel.tableTitle);
+//            String[] titles = FragmentDataUtil.saleAnaModel.tableTitle.split("\\|");
+//            String[] desc = FragmentDataUtil.saleAnaModel.tableTitleDesc.split("\\|");
+//            titleLayout.clearAllViews();
+//            titleLayout.initView(titles, desc);
+//            salesFinishListAdapter.setItemCloums(titles.length);
+//            salesFinishListAdapter.setList(FragmentDataUtil.saleAnaModel.tableData);
+//            pieChartTool.setData(FragmentDataUtil.saleAnaModel.chartData);
+//            pieChartTool.setPiechart();
         }
     }
 
     private void getListData() {
-
         StringBuilder sb = new StringBuilder(Urls.TOPICINDEX);
         config = BaseApplication.getInstance().getCurrentConfig();
-        UrlUtils.getInstance().addSession(sb, config).praseToUrl(sb, "class", "20")
-                .praseToUrl(sb, "level", "1").praseToUrl(sb, "item", "40");
+        UrlUtils.getInstance().addSession(sb, config).praseToUrl(sb, "class", "10")
+                .praseToUrl(sb, "level", "1").praseToUrl(sb, "item", "10");
         sb.append(extraParam);
         OkHttpUtils.post(sb.toString())//
                 .tag(this)//
-                .execute(new DialogCallback<GoodSaleModle>(getContext(), GoodSaleModle.class, refreshLayout) {
+                .execute(new DialogCallback<SaleAnaModel>(getContext(), SaleAnaModel.class, refreshLayout) {
 
                     @Override
                     public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
@@ -159,24 +165,22 @@ public class GoodsAnalysisFragment extends CommonFragment {
                     }
 
                     @Override
-                    public void onResponse(boolean isFromCache, GoodSaleModle c, Request request, @Nullable Response response) {
+                    public void onResponse(boolean isFromCache, SaleAnaModel c, Request request, @Nullable Response response) {
+//                       if (c.tableData.size()>0){
                         if (refreshLayout.isRefreshing()) {
                             refreshLayout.setRefreshing(false);
                         }
-                        FragmentDataUtil.goodSaleModle = c;
-                        titleLayout.clearAllViews();
-                        String[] titles = c.table.tableTitle.split("\\|");
-                        String[] desc = c.table.tableTitleDesc.split("\\|");
-                        titleLayout.initView(titles, desc);
-                        goodsSalesAnalysisListAdapter.setItemCloums(titles.length);
-                        goodsSalesAnalysisListAdapter.setList(c.tableData);
+//                        FragmentDataUtil.saleAnaModel = c;
+//                        Log.i("TAG", FragmentDataUtil.saleAnaModel.tableTitle);
+//                        String[] titles = FragmentDataUtil.saleAnaModel.tableTitle.split("\\|");
+//                        String[] desc = FragmentDataUtil.saleAnaModel.tableTitleDesc.split("\\|");
+//                        titleLayout.clearAllViews();
+//                        titleLayout.initView(titles, desc);
+//                        salesFinishListAdapter.setItemCloums(titles.length);
+//                        salesFinishListAdapter.setList(FragmentDataUtil.saleAnaModel.tableData);
+//                        pieChartTool.setData(FragmentDataUtil.saleAnaModel.chartData);
+//                        pieChartTool.setPiechart();
 
-                        PeiModel peiModel = new PeiModel();
-                        peiModel.chartPoint1 = c.table.chartTitle;
-                        peiModel.chartValue1 = c.table.chartData;
-                        peiModel.chartTitle1 = c.table.title;
-                        pieChartTool.setData(peiModel);
-                        pieChartTool.setPiechart();
                     }
 
                 });
@@ -193,18 +197,11 @@ public class GoodsAnalysisFragment extends CommonFragment {
     }
 
     @Subscribe
-    public void changeChart(GoodsAnaEvent event) {
-        if (FragmentDataUtil.goodSaleModle == null) {
+    public void changeChart(SaleGoalAnaEvent event) {
 
-//            if (Params2.extraParams!=null){
-//                conditionLayout.initViewByParam();
-//                extraParam = Params2.extraParams;
-//            }else{
-//                extraParam = Params2.extraParams;
-            extraParam = conditionLayout.getAllConditions();
-//            }
-            getListData();
-        }
-
+//        if (FragmentDataUtil.saleAnaModel == null) {
+//            extraParam = conditionLayout.getAllConditions();
+//            getListData();
+//        }
     }
 }

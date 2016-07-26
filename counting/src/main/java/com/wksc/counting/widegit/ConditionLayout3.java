@@ -190,7 +190,7 @@ public class ConditionLayout3 extends LinearLayout implements View.OnClickListen
             time.setText(params2.time.toString());
         }
         if (StringUtils.isBlank(params2.areal.toString())) {
-            area.setText("地区");
+            area.setText("区域");
         } else
             area.setText(params2.areal.toString());
         if (StringUtils.isBlank(params2.channel.toString())) {
@@ -267,7 +267,7 @@ public class ConditionLayout3 extends LinearLayout implements View.OnClickListen
                             params2.mcu.append("&mcu=").append(checkBeenRagion);
                             area.setText(name);
                         } else {
-                            area.setText("全国");
+                            area.setText("全部");
                         }
                         params2.changeAreal(name);
                         conditionSelect.postParams();

@@ -82,8 +82,6 @@ public class GoodsPopupWindow extends BasePopupWindow {
             }else if (first.size()==0&&scend.size()==0){
                 mListener.conditionSelect(BaseDataUtil.sbGoodsClassFirstCode.toString(),
                         BaseDataUtil.sbGoodsClassScend.toString(),-1);
-            }else {
-                ToastUtil.showShortMessage(mContext,"筛选条件的格式不正确" );
             }
 
                 if (sbChannel.length()>0)

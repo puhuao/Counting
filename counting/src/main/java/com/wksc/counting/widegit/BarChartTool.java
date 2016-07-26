@@ -47,7 +47,6 @@ public class BarChartTool {
         horizontalBarChart.setDrawGridBackground(false);
         horizontalBarChart.setClickable(false);
         horizontalBarChart.setDrawValueAboveBar(false);
-
         // mChart.setDrawYLabels(false);
 
         tf = Typeface.createFromAsset(mContext.getAssets(), "OpenSans-Regular.ttf");
@@ -56,14 +55,14 @@ public class BarChartTool {
         xl.setPosition(XAxis.XAxisPosition.BOTTOM);
         xl.setTypeface(tf);
         xl.setDrawAxisLine(true);
-        xl.setDrawGridLines(true);
+        xl.setDrawGridLines(false);
         xl.setGridLineWidth(0.3f);
         xl.setSpaceBetweenLabels(10);
         xl.setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE);
         YAxis yl = horizontalBarChart.getAxisLeft();
         yl.setTypeface(tf);
         yl.setDrawAxisLine(true);
-        yl.setDrawGridLines(true);
+        yl.setDrawGridLines(false);
         yl.setGridLineWidth(0.3f);
         yl.setAxisMinValue(0f); // this replaces setStartAtZero(true)
 //        yl.setInverted(true);

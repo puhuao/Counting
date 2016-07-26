@@ -18,6 +18,7 @@ import com.wksc.counting.callBack.DialogCallback;
 import com.wksc.counting.config.Urls;
 import com.wksc.counting.event.SaleGoalAnaEvent;
 import com.wksc.counting.model.SaleAnaModel.SaleAnaModel;
+import com.wksc.counting.model.SaleAnaModel.SaleAnaModel1;
 import com.wksc.counting.tools.PixToDp;
 import com.wksc.counting.tools.UrlUtils;
 import com.wksc.counting.widegit.ConditionLayout3;
@@ -146,7 +147,7 @@ public class ToglSaleGoalAnalysisFragment extends CommonFragment {
         sb.append(extraParam);
         OkHttpUtils.post(sb.toString())//
                 .tag(this)//
-                .execute(new DialogCallback<SaleAnaModel>(getContext(), SaleAnaModel.class,refreshLayout) {
+                .execute(new DialogCallback<SaleAnaModel1>(getContext(), SaleAnaModel1.class,refreshLayout) {
 
                     @Override
                     public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
@@ -154,7 +155,7 @@ public class ToglSaleGoalAnalysisFragment extends CommonFragment {
                     }
 
                     @Override
-                    public void onResponse(boolean isFromCache, SaleAnaModel c, Request request, @Nullable Response response) {
+                    public void onResponse(boolean isFromCache, SaleAnaModel1 c, Request request, @Nullable Response response) {
 //                       if (c.tableData.size()>0){
                         if (refreshLayout.isRefreshing()) {
                             refreshLayout.setRefreshing(false);

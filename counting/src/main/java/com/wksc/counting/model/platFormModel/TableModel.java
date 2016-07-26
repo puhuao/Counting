@@ -15,4 +15,5 @@ public class TableModel {
     public String tableTitle;
     public String tableTitleDesc;
     public String tableColor;
+    public String code;
 }

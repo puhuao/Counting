@@ -110,6 +110,7 @@ public class ChartZoomPopupwindow extends PopupWindow {
         xAxis.setDrawAxisLine(false);
         xAxis.setSpaceBetweenLabels(1);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setAvoidFirstLastClipping(true);
 
 
         YAxis leftAxis = chart.getAxisLeft();

@@ -79,11 +79,11 @@ public class ChannelPopupWindow extends BasePopupWindow {
             @Override
             public void onClick(View v) {
 
-                if (channelListAdapter.getCheckedNumber()==0&&platformListAdapter.getCheckedNumber()==0)
-                {
-                    ToastUtil.showShortMessage(context,"请选择渠道");
-                    return;
-                }
+//                if (channelListAdapter.getCheckedNumber()==0&&platformListAdapter.getCheckedNumber()==0)
+//                {
+//                    ToastUtil.showShortMessage(context,"请选择渠道");
+//                    return;
+//                }
                 dissmisPopupwindow();
                 backgroundAlpha(1f);
                 int i = 0,j=0;
