@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -21,14 +20,11 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-import com.github.mikephil.charting.listener.BarLineChartTouchListener;
-import com.github.mikephil.charting.listener.ChartTouchListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.wksc.counting.R;
 import com.wksc.counting.model.CoreIndexListModel;
 import com.wksc.counting.popwindows.ChartZoomPopupwindow;
 import com.wksc.counting.popwindows.TitleDescribewindow;
-import com.wksc.counting.widegit.ConditionLayout;
 import com.wksc.framwork.util.StringUtils;
 
 import java.util.ArrayList;
@@ -64,9 +60,11 @@ public class CoreIndexListAdapter extends BaseListAdapter<CoreIndexListModel>{
                 return false;
             }
         });
+
         holder.name.setText(mList.get(position).title);
         holder.unit.setText("/"+mList.get(position).titleUnit);
         holder.name1.setText(mList.get(position).item1);
+
         holder.text1.setText(mList.get(position).itemValue1);
         holder.text2.setText(mList.get(position).itemValue2);
         holder.name2.setText(mList.get(position).item2);
@@ -162,6 +160,19 @@ public class CoreIndexListAdapter extends BaseListAdapter<CoreIndexListModel>{
         YAxis rightAxis = holder.chart.getAxisRight();
         rightAxis.setEnabled(false);
         return convertView;
+    }
+
+    private String pattenString(String itemValue1,int temp) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(itemValue1);
+        int len = 0;
+        if (sb.length()<temp){
+            len = temp-sb.length();
+            for (int i =0 ;i < len;i++){
+                sb.append(" ");
+            }
+        }
+        return sb.toString();
     }
 
     private void setData(int count, String range, Chart chart,int pos,CoreIndexListModel coreIndexListModel) {
