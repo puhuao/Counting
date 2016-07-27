@@ -7,7 +7,7 @@
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/chart"
-        android:layout_width="130dp"
+        android:layout_width="120dp"
         android:layout_height="130dp"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
@@ -16,7 +16,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="130dp"
-        android:layout_marginRight="12dp"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -142,14 +141,17 @@
             <LinearLayout
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:layout_margin="@dimen/dimen_10"
+                android:layout_marginRight="@dimen/dimen_10"
+                android:layout_marginLeft="@dimen/dimen_10"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:background="#4BACFD"
                 android:orientation="horizontal" />
 
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.9">
+                android:layout_weight="1">
 
                 <LinearLayout
                     android:id="@+id/l2"

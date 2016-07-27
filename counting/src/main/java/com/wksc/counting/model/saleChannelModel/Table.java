@@ -14,4 +14,7 @@ public class Table {
     public String tableData;
     public String chartTitle;
     public String chartDesc;
+    public String code;
+    public String tableColor;
+
 }

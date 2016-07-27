@@ -40,10 +40,10 @@ public class PieChartTool {
         pieChart1.setTransparentCircleRadius(61f);
 
         pieChart1.setDrawCenterText(true);
-
+pieChart1.setTouchEnabled(false);
         pieChart1.setRotationAngle(0);
         // enable rotation of the chart by touch
-        pieChart1.setRotationEnabled(true);
+        pieChart1.setRotationEnabled(false);
         pieChart1.setHighlightPerTapEnabled(true);
         Legend l = pieChart1.getLegend();
         l.setPosition(Legend.LegendPosition.BELOW_CHART_CENTER);

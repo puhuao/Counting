@@ -128,7 +128,7 @@ public class PickListView3 extends NestedListView implements AdapterView.OnItemC
             ////////////////////////////////////////////////////////////
             if (checkecNumber == currentDataSet.size()) {
                 if (checkecNumber == 1&& currentDataSet.size()==1){
-                    if (ShowCityVisiable)
+//                    if (ShowCityVisiable)
                     scendListView.show();
                 }else{
                     scendListView.hide();
@@ -137,7 +137,7 @@ public class PickListView3 extends NestedListView implements AdapterView.OnItemC
 //                scentAdapter.setAllNormal();
 //                scendListView.hide();
             }else if(checkecNumber == 1){
-                if (ShowCityVisiable)
+//                if (ShowCityVisiable)
                 scendListView.show();
             }else if (checkecNumber>1){
                 scendListView.hide();
@@ -226,9 +226,25 @@ public class PickListView3 extends NestedListView implements AdapterView.OnItemC
     private void changeSupperStatus(int positon,int status){
         this.currentDataSet.get(positon).isCheck = status;
         if (hasSuperLevel){
-            superListView.currentAdapter.getList().
-                    get(mCondition.superPosition).isCheck = status;
-            superListView.currentAdapter.notifyDataSetChanged();
+
+            if(this.currentAdapter.getCheckedNumber(-1)==this.currentAdapter.getList().size()){
+                superListView.currentAdapter.getList().
+                        get(mCondition.superPosition).isCheck = CheckBoxListAdapter.ALL;
+                superListView.currentAdapter.notifyDataSetChanged();
+            }else if (this.currentAdapter.getCheckedNumber(-1)<this.currentAdapter.getList().size()&&this.currentAdapter.getCheckedNumber(-1)>=0
+                    &&scendListView.currentAdapter.getCheckedNumber(-1)>0){
+                superListView.currentAdapter.getList().
+                        get(mCondition.superPosition).isCheck = CheckBoxListAdapter.HALF;
+                superListView.currentAdapter.notifyDataSetChanged();
+            }else {
+                superListView.currentAdapter.getList().
+                        get(mCondition.superPosition).isCheck = CheckBoxListAdapter.NORMAL;
+                superListView.currentAdapter.notifyDataSetChanged();
+            }
+
+//            superListView.currentAdapter.getList().
+//                    get(mCondition.superPosition).isCheck = status;
+//            superListView.currentAdapter.notifyDataSetChanged();
         }
     }
 

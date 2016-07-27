@@ -90,7 +90,7 @@
             android:padding="12dp"
             android:background="@color/white"
             android:layout_marginTop="0.5dp"
-            android:textColor="@color/text_color_abnormal"/>
+            android:textColor="@color/colorPrimary"/>
     </LinearLayout>
 
 </LinearLayout>

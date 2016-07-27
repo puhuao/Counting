@@ -216,9 +216,22 @@ public class PickListView extends NestedListView implements AdapterView.OnItemCl
         this.currentAdapter.getList().get(positon).isCheck = status;
 //        this.currentDataSet.get(positon).isCheck = status;
         if (hasSuperLevel){
-            superListView.currentAdapter.getList().
-                    get(BaseDataUtil.superPosition).isCheck = status;
-            superListView.currentAdapter.notifyDataSetChanged();
+            if(this.currentAdapter.getCheckedNumber(-1)==this.currentAdapter.getList().size()){
+                superListView.currentAdapter.getList().
+                        get(BaseDataUtil.superPosition).isCheck = CheckBoxListAdapter.ALL;
+                superListView.currentAdapter.notifyDataSetChanged();
+            }else if (this.currentAdapter.getCheckedNumber(-1)<this.currentAdapter.getList().size()&&this.currentAdapter.getCheckedNumber(-1)>=0
+                    &&scendListView.currentAdapter.getCheckedNumber(-1)>0){
+                superListView.currentAdapter.getList().
+                        get(BaseDataUtil.superPosition).isCheck = CheckBoxListAdapter.HALF;
+                superListView.currentAdapter.notifyDataSetChanged();
+            }else {
+                superListView.currentAdapter.getList().
+                        get(BaseDataUtil.superPosition).isCheck = CheckBoxListAdapter.NORMAL;
+                superListView.currentAdapter.notifyDataSetChanged();
+            }
+                ;
+
         }
     }
 

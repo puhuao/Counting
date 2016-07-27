@@ -134,22 +134,9 @@ public class SaleChainAnalysisFragment extends CommonFragment {
             titleLayout.initView(titles, desc);
             salesSupplyListAdapter.setItemCloums(titles.length);
             salesSupplyListAdapter.setList(FragmentDataUtil.saleChannelModel.tableData);
-
-            StringBuilder sb1 = new StringBuilder();
-            StringBuilder sb2 = new StringBuilder();
-            for (int i = 0; i < FragmentDataUtil.saleChannelModel.tableData.size(); i++) {
-                String[] array = FragmentDataUtil.saleChannelModel.tableData.get(i).newValue.split("\\|");
-                sb1.append(array[1]).append("|");
-                sb2.append(array[0]).append("|");
-            }
-
-            if (sb1.length() > 0) {
-                sb1.deleteCharAt(sb1.length() - 1);
-                sb2.deleteCharAt(sb2.length() - 1);
-            }
             PeiModel peiModel = new PeiModel();
-            peiModel.chartPoint1 = sb2.toString();
-            peiModel.chartValue1 = sb1.toString();
+            peiModel.chartPoint1 = FragmentDataUtil.saleChannelModel.table.chartTitle;
+            peiModel.chartValue1 = FragmentDataUtil.saleChannelModel.table.chartData;
             peiModel.chartTitle1 = FragmentDataUtil.saleChannelModel.table.title;
             pieChartTool.setData(peiModel);
             pieChartTool.setPiechart();
@@ -186,21 +173,21 @@ public class SaleChainAnalysisFragment extends CommonFragment {
                             salesSupplyListAdapter.setItemCloums(titles.length);
                             salesSupplyListAdapter.setList(FragmentDataUtil.saleChannelModel.tableData);
 
-                            StringBuilder sb1 = new StringBuilder();
-                            StringBuilder sb2 = new StringBuilder();
-                            for (int i = 0; i < FragmentDataUtil.saleChannelModel.tableData.size(); i++) {
-                                String[] array = FragmentDataUtil.saleChannelModel.tableData.get(i).newValue.split("\\|");
-                                sb1.append(array[1]).append("|");
-                                sb2.append(array[0]).append("|");
-                            }
-
-                            if (sb1.length() > 0) {
-                                sb1.deleteCharAt(sb1.length() - 1);
-                                sb2.deleteCharAt(sb2.length() - 1);
-                            }
+//                            StringBuilder sb1 = new StringBuilder();
+//                            StringBuilder sb2 = new StringBuilder();
+//                            for (int i = 0; i < FragmentDataUtil.saleChannelModel.tableData.size(); i++) {
+//                                String[] array = FragmentDataUtil.saleChannelModel.tableData.get(i).newValue.split("\\|");
+//                                sb1.append(array[1]).append("|");
+//                                sb2.append(array[0]).append("|");
+//                            }
+//
+//                            if (sb1.length() > 0) {
+//                                sb1.deleteCharAt(sb1.length() - 1);
+//                                sb2.deleteCharAt(sb2.length() - 1);
+//                            }
                             PeiModel peiModel = new PeiModel();
-                            peiModel.chartPoint1 = sb2.toString();
-                            peiModel.chartValue1 = sb1.toString();
+                            peiModel.chartPoint1 =FragmentDataUtil.saleChannelModel.table.chartTitle;
+                            peiModel.chartValue1 = FragmentDataUtil.saleChannelModel.table.chartData;
                             peiModel.chartTitle1 = FragmentDataUtil.saleChannelModel.table.title;
                             pieChartTool.setData(peiModel);
                             pieChartTool.setPiechart();

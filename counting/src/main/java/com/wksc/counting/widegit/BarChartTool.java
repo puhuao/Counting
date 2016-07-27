@@ -40,6 +40,7 @@ public class BarChartTool {
         horizontalBarChart.setDescription("");
 
         horizontalBarChart.setMaxVisibleValueCount(60);
+        horizontalBarChart.setTouchEnabled(false);
 
         // scaling can now only be done on x- and y-axis separately
         horizontalBarChart.setPinchZoom(false);
@@ -98,8 +99,8 @@ public class BarChartTool {
 
         BarDataSet set = new BarDataSet(yValues, coreChart.chartTitle1);
         set.setBarSpacePercent(50f);
-        int color1 = Color.parseColor("#70AD47");
-        int color2 = Color.parseColor("#BE364B");
+        int color1 = Color.parseColor("#75e2ff");
+        int color2 = Color.parseColor("#FFBD3F");
         int[] colors = new int[]{color2, color1};
         set.setColors(colors);
         ArrayList<IBarDataSet> dataSets = new ArrayList<>();

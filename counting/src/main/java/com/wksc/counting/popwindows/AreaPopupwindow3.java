@@ -140,7 +140,7 @@ public class AreaPopupwindow3 extends BasePopupWindow {
         }
 //        cityListView.superPosition = condition.superPosition;
 
-        countyListAdapter = new CheckBoxListAdapter(context);
+//        countyListAdapter = new CheckBoxListAdapter(context);
         if (condition.countys!=null){
             countyListAdapter.setList(condition.countys);
         }else{
@@ -314,7 +314,10 @@ public class AreaPopupwindow3 extends BasePopupWindow {
                 condition.regionsNormal();
                 condition.citys();
                 condition.countys();
-                countyListAdapter.setAllNormal();
+                cityListAdapter.setList(condition.citys(0));
+                countyListAdapter.setList(condition.countys(0, 0));
+                condition.superPosition = 0;
+                condition.scendPositon = 0;
                 regionListAdapter.notifyDataSetChanged();
                 cityListAdapter.notifyDataSetChanged();
                 countyListAdapter.notifyDataSetChanged();

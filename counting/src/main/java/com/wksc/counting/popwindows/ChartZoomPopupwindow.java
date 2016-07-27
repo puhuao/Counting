@@ -5,6 +5,8 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -157,6 +159,8 @@ public class ChartZoomPopupwindow extends PopupWindow {
         set1.setHighLightColor(Color.rgb(244, 117, 117));
         set1.setDrawCircleHole(false);
         set1.setDrawFilled(true);
+        Drawable drawable = ContextCompat.getDrawable(mContext, R.drawable.blue_fade);
+        set1.setFillDrawable(drawable);
         if (coreIndexListModel.coreCode.equals("30")){
             set1.setValueFormatter(new PercentFormatter());
         }

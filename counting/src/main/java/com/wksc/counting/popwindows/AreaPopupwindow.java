@@ -306,6 +306,10 @@ public class AreaPopupwindow extends BasePopupWindow {
                 BaseDataUtil.regionsNormal();
                 BaseDataUtil.citys();
                 BaseDataUtil.countys();
+                BaseDataUtil.superPosition = 0;
+                BaseDataUtil.scendPositon = 0;
+                cityListAdapter.setList(BaseDataUtil.citys(0));
+                countyListAdapter.setList(BaseDataUtil.countys(0, 0));
                 regionListAdapter.notifyDataSetChanged();
                 cityListAdapter.notifyDataSetChanged();
                 countyListAdapter.notifyDataSetChanged();
