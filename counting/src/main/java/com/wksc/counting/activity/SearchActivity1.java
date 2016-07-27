@@ -139,7 +139,7 @@ public class SearchActivity1 extends Activity {
                 if (store.length() > 0) {
                     store.delete(0, store.length());
                 }
-                if (storsAdapter.getCheckedNumber() > 0)
+                if (storsAdapter.getCheckedNumber(position) > 0)
                     for (int i = 0; i < storsAdapter.getList().size(); i++) {
                         BaseWithCheckBean bean = storsAdapter.getList().get(i);
                         if (bean.isCheck == CheckBoxListAdapter.ALL)

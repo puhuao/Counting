@@ -18,7 +18,6 @@ import com.wksc.counting.R;
 import com.wksc.counting.adapter.CheckBoxListAdapter;
 import com.wksc.counting.model.baseinfo.BaseWithCheckBean;
 import com.wksc.counting.widegit.MarqueeText;
-import com.wksc.framwork.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -129,9 +128,9 @@ public class GoodsPopupWindow extends BasePopupWindow {
                 superPosition = position;
                 nameListAdapter.setList(BaseDataUtil.goodsClassScend(position));
                 nameListAdapter.notifyDataSetChanged();
-                if (typeListAdapter.getCheckedNumber()>1){
+                if (typeListAdapter.getCheckedNumber(position)>1){
                     lvGoodsName.setVisibility(View.INVISIBLE);
-                }else if(typeListAdapter.getCheckedNumber()==1){
+                }else if(typeListAdapter.getCheckedNumber(position)==1){
                     lvGoodsName.setVisibility(View.VISIBLE);
                 }
 

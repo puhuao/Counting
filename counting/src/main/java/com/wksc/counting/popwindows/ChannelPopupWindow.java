@@ -18,7 +18,6 @@ import com.wksc.counting.R;
 import com.wksc.counting.adapter.CheckBoxListAdapter;
 import com.wksc.counting.model.baseinfo.BaseWithCheckBean;
 import com.wksc.counting.widegit.MarqueeText;
-import com.wksc.framwork.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -131,7 +130,7 @@ public class ChannelPopupWindow extends BasePopupWindow {
                 }
 
                 isFromList = true;
-                if (platformListAdapter.getCheckedNumber()==platformListAdapter.getList().size()){
+                if (platformListAdapter.getCheckedNumber(-1)==platformListAdapter.getList().size()){
                     checkBox2.setChecked(true);
                 }else{
                     checkBox2.setChecked(false);
@@ -146,14 +145,14 @@ public class ChannelPopupWindow extends BasePopupWindow {
                 platformListAdapter.notifyDataSetChanged();
                 channelListAdapter.moveToNextStatus(position);
                 channelListAdapter.notifyDataSetChanged();
-                if (channelListAdapter.getCheckedNumber()==1){
+                if (channelListAdapter.getCheckedNumber(position)==1){
                     if (platformListAdapter.getList().size()>0)
                     layout_platforms.setVisibility(View.VISIBLE);
                 }else{
                     layout_platforms.setVisibility(View.INVISIBLE);
                 }
                 isFromList = true;
-                if (channelListAdapter.getCheckedNumber()==BaseDataUtil.channels().size()){
+                if (channelListAdapter.getCheckedNumber(position)==BaseDataUtil.channels().size()){
 
                     checkBox1.setChecked(true);
                 }else{
@@ -168,7 +167,7 @@ public class ChannelPopupWindow extends BasePopupWindow {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 platformListAdapter.moveToNextStatus(position);
                 platformListAdapter.notifyDataSetChanged();
-                if (platformListAdapter.getCheckedNumber()==platformListAdapter.getList().size()){
+                if (platformListAdapter.getCheckedNumber(position)==platformListAdapter.getList().size()){
 
                     checkBox2.setChecked(true);
                 }else{
@@ -202,8 +201,8 @@ public class ChannelPopupWindow extends BasePopupWindow {
                 isFromList = false;
             }
         });
-        if (channelListAdapter.getCheckedNumber()==0||
-                channelListAdapter.getCheckedNumber()==channelListAdapter.getList().size()){
+        if (channelListAdapter.getCheckedNumber(-1)==0||
+                channelListAdapter.getCheckedNumber(-1)==channelListAdapter.getList().size()){
             layout_platforms.setVisibility(View.INVISIBLE);
         }
 

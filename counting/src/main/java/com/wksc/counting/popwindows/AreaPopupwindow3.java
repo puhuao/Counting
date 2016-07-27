@@ -138,7 +138,7 @@ public class AreaPopupwindow3 extends BasePopupWindow {
         }else{
             laytout_citys.setVisibility(View.VISIBLE);
         }
-        cityListView.superPosition = condition.superPosition;
+//        cityListView.superPosition = condition.superPosition;
 
         countyListAdapter = new CheckBoxListAdapter(context);
         if (condition.countys!=null){
@@ -151,8 +151,8 @@ public class AreaPopupwindow3 extends BasePopupWindow {
         }else{
             layout_countys.setVisibility(View.VISIBLE);
         }
-        countyListView.superPosition = condition.superPosition;
-        countyListView.scendPosition=condition.scendPositon;
+//        countyListView.superPosition = condition.superPosition;
+//        countyListView.scendPosition=condition.scendPositon;
 
         regionListView.initView(null, cityListView);
         cityListView.initView(regionListView, countyListView);
@@ -190,7 +190,7 @@ public class AreaPopupwindow3 extends BasePopupWindow {
                 if (store.length() > 0) {
                     store.delete(0, store.length());
                 }
-                if (storsAdapter.getCheckedNumber() > 0)
+                if (storsAdapter.getCheckedNumber(position) > 0)
                     for (int i = 0; i < storsAdapter.getList().size(); i++) {
                         BaseWithCheckBean bean = storsAdapter.getList().get(i);
                         if (bean.isCheck == CheckBoxListAdapter.ALL)
@@ -314,6 +314,7 @@ public class AreaPopupwindow3 extends BasePopupWindow {
                 condition.regionsNormal();
                 condition.citys();
                 condition.countys();
+                countyListAdapter.setAllNormal();
                 regionListAdapter.notifyDataSetChanged();
                 cityListAdapter.notifyDataSetChanged();
                 countyListAdapter.notifyDataSetChanged();

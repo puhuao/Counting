@@ -8,10 +8,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.wksc.counting.R;
-import com.wksc.counting.model.SaleAnaModel.TableModel;
 import com.wksc.counting.model.SaleAnaModel.TableModel1;
 import com.wksc.counting.widegit.MarqueeText;
-import com.wksc.counting.widegit.TableTitleLayout;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -32,7 +30,7 @@ public class SalesFinishListAdapter extends BaseListAdapter<TableModel1>{
         if (convertView != null) {
             holder = (ViewHolder) convertView.getTag();
         } else {
-            convertView = mContext.getLayoutInflater().inflate(R.layout.item_salegoale, parent, false);
+            convertView = mContext.getLayoutInflater().inflate(R.layout.item, parent, false);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         }
@@ -66,8 +64,8 @@ public class SalesFinishListAdapter extends BaseListAdapter<TableModel1>{
     class ViewHolder{
        @Bind(R.id.item_layout)
         LinearLayout layoutContainer;
-        @Bind(R.id.table_titles)
-        TableTitleLayout titleLayout;
+//        @Bind(R.id.table_titles)
+//        TableTitleLayout titleLayout;
         public ViewHolder(View convertView) {
             ButterKnife.bind(this,convertView);
         }

@@ -74,7 +74,7 @@ public class CheckBoxListAdapter extends BaseListAdapter<BaseWithCheckBean> {
 
     public int oneCheckPosition = 0;
 
-    public int getCheckedNumber(){
+    public int getCheckedNumber(int pos){
         if (sb.length()>0){
             sb.delete(0,sb.length());
         }
@@ -83,12 +83,16 @@ public class CheckBoxListAdapter extends BaseListAdapter<BaseWithCheckBean> {
              mList) {
             if (area.isCheck==ALL){
                 i++;
+                if (pos>=0)
                 oneCheckPosition = mList.indexOf(area);
                 sb.append(area.name).append(".");
             }
         }
         if (sb.length()>0)
         sb.deleteCharAt(sb.length()-1);
+        if (i>1&&pos>=0){
+            oneCheckPosition = pos;
+        }
         return i;
     }
 

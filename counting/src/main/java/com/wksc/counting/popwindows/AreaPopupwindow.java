@@ -134,7 +134,7 @@ public class AreaPopupwindow extends BasePopupWindow {
         }else{
             laytout_citys.setVisibility(View.VISIBLE);
         }
-        cityListView.superPosition = BaseDataUtil.superPosition;
+//        cityListView.superPosition = BaseDataUtil.superPosition;
 //        if (checkedRagions.size()==0){
 //
 //        }else if(checkedRagions.size()==1){
@@ -154,8 +154,8 @@ public class AreaPopupwindow extends BasePopupWindow {
         }else{
             layout_countys.setVisibility(View.VISIBLE);
         }
-        countyListView.superPosition = BaseDataUtil.superPosition;
-        countyListView.scendPosition=BaseDataUtil.scendPositon;
+//        countyListView.superPosition = BaseDataUtil.superPosition;
+//        countyListView.scendPosition=BaseDataUtil.scendPositon;
 //        if (checkedRagions.size()==0&&checkedCitys.size()==0){
 //        }else if (checkedCitys.size() == 1){
 //
@@ -192,7 +192,7 @@ public class AreaPopupwindow extends BasePopupWindow {
                 if (store.length() > 0) {
                     store.delete(0, store.length());
                 }
-                if (storsAdapter.getCheckedNumber() > 0)
+                if (storsAdapter.getCheckedNumber(position) > 0)
                     for (int i = 0; i < storsAdapter.getList().size(); i++) {
                         BaseWithCheckBean bean = storsAdapter.getList().get(i);
                         if (bean.isCheck == CheckBoxListAdapter.ALL)

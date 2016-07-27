@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.github.mikephil.charting.charts.PieChart;
 import com.lzy.okhttputils.OkHttpUtils;
 import com.wksc.counting.Basedata.BaseDataUtil2;
 import com.wksc.counting.Basedata.FragmentDataUtil;
@@ -19,16 +18,13 @@ import com.wksc.counting.Contorner.Condition;
 import com.wksc.counting.R;
 import com.wksc.counting.activity.TogleActivity;
 import com.wksc.counting.adapter.SaleGoaleListAdapter;
-import com.wksc.counting.adapter.SalesFinishListAdapter;
 import com.wksc.counting.callBack.DialogCallback;
 import com.wksc.counting.config.Urls;
+import com.wksc.counting.event.ClickTojumpEvent;
 import com.wksc.counting.event.SaleGoalAnaEvent;
 import com.wksc.counting.model.SaleAnaModel.SaleAnaModel;
 import com.wksc.counting.tools.UrlUtils;
 import com.wksc.counting.widegit.ConditionLayout3;
-import com.wksc.counting.widegit.NestedListView;
-import com.wksc.counting.widegit.PieChartTool;
-import com.wksc.counting.widegit.TableTitleLayout;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 import com.wksc.framwork.platform.config.IConfig;
@@ -121,15 +117,7 @@ public class SaleGoalAnalysisFragment extends CommonFragment {
         lvSalesAnalysis.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Bundle bundle = new Bundle();
-                bundle.putString("code", salesFinishListAdapter.getList().get(position).code);
-                bundle.putString("extra", extraParam);
-                bundle.putInt("flag", 1);
-                bundle.putString("titel", salesFinishListAdapter.getList().get(position).title);
-                bundle.putSerializable("condition", condition);
-                Intent intent = new Intent(getActivity(), TogleActivity.class);
-                intent.putExtras(bundle);
-                startActivity(intent);
+
             }
         });
         if (FragmentDataUtil.saleAnaModel != null) {
@@ -191,5 +179,17 @@ public class SaleGoalAnalysisFragment extends CommonFragment {
             extraParam = conditionLayout.getAllConditions();
             getListData();
         }
+    }
+    @Subscribe
+    public void jump(ClickTojumpEvent event) {
+        Bundle bundle = new Bundle();
+        bundle.putString("code", salesFinishListAdapter.getList().get(event.pos).code);
+        bundle.putString("extra", extraParam);
+        bundle.putInt("flag", 1);
+        bundle.putString("titel", salesFinishListAdapter.getList().get(event.pos).title);
+        bundle.putSerializable("condition", condition);
+        Intent intent = new Intent(getActivity(), TogleActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 }

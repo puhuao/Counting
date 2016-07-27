@@ -17,7 +17,6 @@ import com.wksc.counting.adapter.SalesFinishListAdapter;
 import com.wksc.counting.callBack.DialogCallback;
 import com.wksc.counting.config.Urls;
 import com.wksc.counting.event.SaleGoalAnaEvent;
-import com.wksc.counting.model.SaleAnaModel.SaleAnaModel;
 import com.wksc.counting.model.SaleAnaModel.SaleAnaModel1;
 import com.wksc.counting.tools.PixToDp;
 import com.wksc.counting.tools.UrlUtils;
@@ -70,7 +69,7 @@ public class ToglSaleGoalAnalysisFragment extends CommonFragment {
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_sale_goal_analysis, null);
+        View v = inflater.inflate(R.layout.fragment_sale_goal_analysis1, null);
 //        showRightButton();
 //        getRightButton().setOnClickListener(new View.OnClickListener() {
 //            @Override

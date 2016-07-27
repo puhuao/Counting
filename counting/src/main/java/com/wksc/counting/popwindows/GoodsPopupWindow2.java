@@ -18,7 +18,6 @@ import com.wksc.counting.R;
 import com.wksc.counting.adapter.CheckBoxListAdapter;
 import com.wksc.counting.model.baseinfo.BaseWithCheckBean;
 import com.wksc.counting.widegit.MarqueeText;
-import com.wksc.framwork.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -142,14 +141,14 @@ public class GoodsPopupWindow2 extends BasePopupWindow {
                 superPosition = position;
                 nameListAdapter.setList(mCondition.goodsClassScend(position));
                 nameListAdapter.notifyDataSetChanged();
-                if (typeListAdapter.getCheckedNumber()>1){
+                if (typeListAdapter.getCheckedNumber(position)>1){
                     lvGoodsName.setVisibility(View.INVISIBLE);
-                }else if(typeListAdapter.getCheckedNumber()==1){
+                }else if(typeListAdapter.getCheckedNumber(position)==1){
                     if (nameListAdapter.getList().size()>0)
                     lvGoodsName.setVisibility(View.VISIBLE);
                 }
                 isFromList = true;
-                if (typeListAdapter.getCheckedNumber()==typeListAdapter.getList().size()){
+                if (typeListAdapter.getCheckedNumber(position)==typeListAdapter.getList().size()){
                     checkBox1.setChecked(true);
                 }else{
                     checkBox1.setChecked(false);
@@ -166,7 +165,7 @@ public class GoodsPopupWindow2 extends BasePopupWindow {
                         nameListAdapter.moveToNextStatus(position));
                 nameListAdapter.notifyDataSetChanged();
                 isFromList = true;
-                if (nameListAdapter.getCheckedNumber()==nameListAdapter.getList().size()){
+                if (nameListAdapter.getCheckedNumber(position)==nameListAdapter.getList().size()){
                     checkBox2.setChecked(true);
                 }else{
                     checkBox2.setChecked(false);

@@ -2,7 +2,6 @@ package com.wksc.counting.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -23,7 +22,6 @@ import com.wksc.counting.event.CompareDetailRefreshEvent;
 import com.wksc.counting.event.CoreIndextRefreshEvent;
 import com.wksc.counting.model.MCU;
 import com.wksc.counting.model.baseinfo.BaseWithCheckBean;
-import com.wksc.counting.tools.Params;
 import com.wksc.counting.tools.UrlUtils;
 import com.wksc.counting.widegit.NestedListView;
 import com.wksc.framwork.BaseApplication;
@@ -141,7 +139,7 @@ public class SearchActivity extends Activity {
                 if (store.length() > 0) {
                     store.delete(0, store.length());
                 }
-                if (storsAdapter.getCheckedNumber() > 0)
+                if (storsAdapter.getCheckedNumber(position) > 0)
                     for (int i = 0; i < storsAdapter.getList().size(); i++) {
                         BaseWithCheckBean bean = storsAdapter.getList().get(i);
                         if (bean.isCheck == CheckBoxListAdapter.ALL)

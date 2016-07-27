@@ -9,18 +9,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.charts.PieChart;
 import com.wksc.counting.R;
+import com.wksc.counting.event.ClickTojumpEvent;
 import com.wksc.counting.model.SaleAnaModel.PeiModel;
 import com.wksc.counting.model.SaleAnaModel.TableModel;
 import com.wksc.counting.widegit.MarqueeText;
-import com.wksc.counting.widegit.NestedListView;
-import com.wksc.counting.widegit.PieChartTool;
 import com.wksc.counting.widegit.TableTitleLayout;
 import com.wksc.counting.widegit.VirtualBarTool;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -36,7 +33,7 @@ public class SaleGoaleListAdapter extends BaseListAdapter<TableModel> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         convertView = null;
         if (convertView != null) {
@@ -87,6 +84,14 @@ public class SaleGoaleListAdapter extends BaseListAdapter<TableModel> {
 //            }
             holder.lv.addView(textView);
         }
+        holder.lv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ClickTojumpEvent event = new ClickTojumpEvent();
+                event.pos = position;
+                EventBus.getDefault().post(event);
+            }
+        });
 
         return convertView;
     }

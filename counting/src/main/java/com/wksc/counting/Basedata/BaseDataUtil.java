@@ -12,8 +12,6 @@ import com.wksc.counting.model.baseinfo.Region;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.crypto.SealedObject;
-
 /**
  * Created by puhua on 2016/6/21.
  *
@@ -60,6 +58,8 @@ public class BaseDataUtil {
         coreItems.clear();
         channels.clear();
         SearchActivity.historys.clear();
+        superPosition = 0;
+        scendPositon = 0;
     }
     public static StringBuilder sbGoodsClassFirst= new StringBuilder();
     public static StringBuilder sbGoodsClassFirstCode = new StringBuilder();

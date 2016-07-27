@@ -43,9 +43,9 @@ public class PickListView extends NestedListView implements AdapterView.OnItemCl
     private List<BaseWithCheckBean> superDataSet;
     private List<BaseWithCheckBean> scendDataSet;
     private List<BaseWithCheckBean> currentDataSet;
-    public  int superPosition;
-
-    public  int scendPosition;
+//    public  int superPosition;
+//
+//    public  int scendPosition;
 
     public int lastPos;
 
@@ -98,16 +98,16 @@ public class PickListView extends NestedListView implements AdapterView.OnItemCl
                     currentAdapter.moveToNextStatus(position));
 
             //////////////////////////////////////////////////////////
-            int checkecNumber = currentAdapter.getCheckedNumber();
+            int checkecNumber = currentAdapter.getCheckedNumber(position);
 
             if (checkecNumber == 1){
-                scendListView.superPosition = currentAdapter.oneCheckPosition;
+//                scendListView.superPosition = currentAdapter.oneCheckPosition;
                 BaseDataUtil.superPosition = currentAdapter.oneCheckPosition;
                 scendDataSet = BaseDataUtil.citys(currentAdapter.oneCheckPosition);
                 scentAdapter.setList(scendDataSet);
                 scendListView.update(currentAdapter.oneCheckPosition,0);
             }else{
-                scendListView.superPosition = position;
+//                scendListView.superPosition = position;
                 BaseDataUtil.superPosition = position;
                 scendDataSet = BaseDataUtil.citys(position);
                 scentAdapter.setList(scendDataSet);
@@ -136,25 +136,25 @@ public class PickListView extends NestedListView implements AdapterView.OnItemCl
         } else if (hasSuperLevel && hasScendLevel) {
 
             getCurrentData();
-            scendListView.superPosition = superPosition;
-            BaseDataUtil.updateDataStatus(superPosition,position,-1,
+//            scendListView.superPosition = superPosition;
+            BaseDataUtil.updateDataStatus(BaseDataUtil.superPosition,position,-1,
                     currentAdapter.moveToNextStatus(position));
             //下级列表重新加载当前position对应的列表
             //判断本级当前位置是否选中，选中将下级
 
             //////////////////////////////////////////////////////////
-            int checkecNumber = currentAdapter.getCheckedNumber();
+            int checkecNumber = currentAdapter.getCheckedNumber(position);
 
             if (checkecNumber == 1){
-                scendListView.scendPosition = currentAdapter.oneCheckPosition;
-                BaseDataUtil.scendPositon = currentAdapter.oneCheckPosition;;
-                scendDataSet = BaseDataUtil.countys(superPosition,currentAdapter.oneCheckPosition);
+//                scendListView.scendPosition = currentAdapter.oneCheckPosition;
+                BaseDataUtil.scendPositon = currentAdapter.oneCheckPosition;
+                scendDataSet = BaseDataUtil.countys(BaseDataUtil.superPosition,currentAdapter.oneCheckPosition);
                 scentAdapter.setList(scendDataSet);
 //                scendListView.update(currentAdapter.oneCheckPosition,0);
             }else{
-                scendListView.scendPosition = position;
+//                scendListView.scendPosition = position;
                 BaseDataUtil.scendPositon =position;
-                scendDataSet = BaseDataUtil.countys(superPosition,position);
+                scendDataSet = BaseDataUtil.countys(BaseDataUtil.superPosition,position);
                 scentAdapter.setList(scendDataSet);
 //                scendListView.update(superPosition,0);
             }
@@ -178,31 +178,31 @@ public class PickListView extends NestedListView implements AdapterView.OnItemCl
             }
 
             if (checkecNumber<currentDataSet.size()&&checkecNumber!=0){
-                superListView.changeSupperStatus(superPosition,CheckBoxListAdapter.HALF);
+                superListView.changeSupperStatus(BaseDataUtil.superPosition,CheckBoxListAdapter.HALF);
             }else if (checkecNumber==currentDataSet.size()){
-                superListView.changeSupperStatus(superPosition,CheckBoxListAdapter.ALL);
+                superListView.changeSupperStatus(BaseDataUtil.superPosition,CheckBoxListAdapter.ALL);
             }else if(checkecNumber==0){
-                superListView.changeSupperStatus(scendPosition,CheckBoxListAdapter.NORMAL);
+                superListView.changeSupperStatus(BaseDataUtil.superPosition,CheckBoxListAdapter.NORMAL);
             }
             currentAdapter.notifyDataSetChanged();
             scentAdapter.notifyDataSetChanged();
             superAdaper.notifyDataSetChanged();
         }else if (hasSuperLevel && !hasScendLevel){
             getCurrentData();
-            BaseDataUtil.updateDataStatus(superPosition,scendPosition,position,
+            BaseDataUtil.updateDataStatus(BaseDataUtil.superPosition,BaseDataUtil.scendPositon,position,
                     currentAdapter.moveToNextStatus(position));
             /////////////////////////////////////////////////////////////
-            int checkecNumber = currentAdapter.getCheckedNumber();
+            int checkecNumber = currentAdapter.getCheckedNumber(position);
             if (checkecNumber == currentDataSet.size()) {
                 //super设置为全选
 
                 }
             if (checkecNumber<currentDataSet.size()&&checkecNumber!=0){
-                superListView.changeSupperStatus(scendPosition,CheckBoxListAdapter.HALF);
+                superListView.changeSupperStatus(BaseDataUtil.scendPositon,CheckBoxListAdapter.HALF);
             }else if (checkecNumber==currentDataSet.size()){
-                superListView.changeSupperStatus(scendPosition,CheckBoxListAdapter.ALL);
+                superListView.changeSupperStatus(BaseDataUtil.scendPositon,CheckBoxListAdapter.ALL);
             }else if(checkecNumber==0){
-                superListView.changeSupperStatus(scendPosition,CheckBoxListAdapter.NORMAL);
+                superListView.changeSupperStatus(BaseDataUtil.scendPositon,CheckBoxListAdapter.NORMAL);
             }
             currentAdapter.notifyDataSetChanged();
             superAdaper.notifyDataSetChanged();
@@ -213,7 +213,13 @@ public class PickListView extends NestedListView implements AdapterView.OnItemCl
     }
 
     private void changeSupperStatus(int positon,int status){
-        this.currentDataSet.get(positon).isCheck = status;
+        this.currentAdapter.getList().get(positon).isCheck = status;
+//        this.currentDataSet.get(positon).isCheck = status;
+        if (hasSuperLevel){
+            superListView.currentAdapter.getList().
+                    get(BaseDataUtil.superPosition).isCheck = status;
+            superListView.currentAdapter.notifyDataSetChanged();
+        }
     }
 
     public void update(int arg1,int arg2){
@@ -240,7 +246,7 @@ public class PickListView extends NestedListView implements AdapterView.OnItemCl
         this.setVisibility(VISIBLE);
         this.nextLayout.setVisibility(VISIBLE);
         if (hasScendLevel){
-            if (currentAdapter.getCheckedNumber()==1||currentAdapter.getCheckedNumber()==0){
+            if (currentAdapter.getCheckedNumber(-1)==1||currentAdapter.getCheckedNumber(-1)==0){
                 scendListView.show();
             }
         }

@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:focusable="false"
-        android:visibility="gone"/>
+        />
 
     <com.wksc.counting.widegit.TableTitleLayout
         android:id="@+id/table_titles"
