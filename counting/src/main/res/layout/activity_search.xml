@@ -20,7 +20,7 @@
             android:background="@drawable/shape_edit_text"
             android:drawableLeft="@drawable/ic_search"
             android:gravity="center"
-            android:hint="请输入要查询门店所在的地区名"
+            android:hint="请输入要查询门店的关键字"
             android:padding="5dp" />
 
         <TextView
@@ -88,7 +88,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="10dp"
-            android:text="没有数据"
+            android:text="请检查输入关键字是否在选择区域范围内"
             android:visibility="gone" />
 
         <com.wksc.counting.widegit.NestedListView

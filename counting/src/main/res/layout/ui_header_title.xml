@@ -65,7 +65,7 @@
         android:drawableRight="@drawable/title_selector"
         android:gravity="center"
         android:singleLine="true"
-        android:text="会员中心"
+        android:text="客服中心"
         android:textColor="#ffffff"
         android:textSize="@dimen/dimen_15"
         android:button="@null"

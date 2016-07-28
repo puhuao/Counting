@@ -18,6 +18,7 @@ import com.wksc.counting.R;
 import com.wksc.counting.adapter.CheckBoxListAdapter;
 import com.wksc.counting.model.baseinfo.BaseWithCheckBean;
 import com.wksc.counting.widegit.MarqueeText;
+import com.wksc.framwork.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +46,7 @@ public class GoodsPopupWindow2 extends BasePopupWindow {
     public void setCondition( Condition condition){
         this.mCondition = condition;
     }
-    public GoodsPopupWindow2(Activity context,Condition condition){
+    public GoodsPopupWindow2(Activity context, final Condition condition){
         super();
         mContext = context;
         mCondition =condition;
@@ -76,10 +77,10 @@ public class GoodsPopupWindow2 extends BasePopupWindow {
             @Override
             public void onClick(View v) {
 
-//                if (typeListAdapter.getCheckedNumber()==0&&nameListAdapter.getCheckedNumber()==0){
-//                        ToastUtil.showShortMessage(mContext,"请选择商品");
-//                        return;
-//                }
+                if (typeListAdapter.getCheckedNumber(-1)==0&&nameListAdapter.getCheckedNumber(-1)==0){
+                        ToastUtil.showShortMessage(mContext,"请选择筛选条件");
+                        return;
+                }
                 dissmisPopupwindow();
                 backgroundAlpha(1f);
 
@@ -179,6 +180,8 @@ public class GoodsPopupWindow2 extends BasePopupWindow {
                 if (!isFromList)
                 if (isChecked){
                     typeListAdapter.setAllCheck();
+                    condition.citys();
+                    condition.countys();
                 }else{
                     typeListAdapter.setAllNormal();
                 }
@@ -192,6 +195,7 @@ public class GoodsPopupWindow2 extends BasePopupWindow {
                 if (!isFromList)
                 if (isChecked){
                     nameListAdapter.setAllCheck();
+                    condition.countys();
                 }else{
                     nameListAdapter.setAllNormal();
                 }

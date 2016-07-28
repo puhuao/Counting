@@ -213,10 +213,10 @@ public class AreaPopupwindow3 extends BasePopupWindow {
                 List<BaseWithCheckBean> checkBeenCity = condition.checkedCitys();
                 List<BaseWithCheckBean> checkBeenCountys = condition.checkedCountys();
 
-//                if (checkBeenRagion.size()==0&&checkBeenCity.size()==0&&checkBeenCountys.size()==0){
-//                    ToastUtil.showShortMessage(mContext,"请选择条件");
-//                    return;
-//                }
+                if (checkBeenRagion.size()==0&&checkBeenCity.size()==0&&checkBeenCountys.size()==0){
+                    ToastUtil.showShortMessage(mContext,"请选择筛选条件");
+                    return;
+                }
 
                 if (store.length()>0){
                     flag = 4;

@@ -18,6 +18,7 @@ import com.wksc.counting.R;
 import com.wksc.counting.adapter.CheckBoxListAdapter;
 import com.wksc.counting.model.baseinfo.BaseWithCheckBean;
 import com.wksc.counting.widegit.MarqueeText;
+import com.wksc.framwork.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,11 +79,11 @@ public class ChannelPopupWindow extends BasePopupWindow {
             @Override
             public void onClick(View v) {
 
-//                if (channelListAdapter.getCheckedNumber()==0&&platformListAdapter.getCheckedNumber()==0)
-//                {
-//                    ToastUtil.showShortMessage(context,"请选择渠道");
-//                    return;
-//                }
+                if (channelListAdapter.getCheckedNumber(-1)==0&&platformListAdapter.getCheckedNumber(-1)==0)
+                {
+                    ToastUtil.showShortMessage(context,"请选择筛选条件");
+                    return;
+                }
                 dissmisPopupwindow();
                 backgroundAlpha(1f);
                 int i = 0,j=0;

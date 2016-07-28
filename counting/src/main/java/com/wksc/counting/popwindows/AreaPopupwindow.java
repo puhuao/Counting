@@ -209,10 +209,10 @@ public class AreaPopupwindow extends BasePopupWindow {
                 List<BaseWithCheckBean> checkBeenCity = BaseDataUtil.checkedCitys();
                 List<BaseWithCheckBean> checkBeenCountys = BaseDataUtil.checkedCountys();
 
-//                if (checkBeenRagion.size()==0&&checkBeenCity.size()==0&&checkBeenCountys.size()==0){
-//                    ToastUtil.showShortMessage(context,"请选择条件");
-//                    return;
-//                }
+                if (checkBeenRagion.size()==0&&checkBeenCity.size()==0&&checkBeenCountys.size()==0){
+                    ToastUtil.showShortMessage(context,"请选择筛选条件");
+                    return;
+                }
                 if (store.length()>0){
                     flag = 4;
                 }else if(checkBeenCountys.size()>0&&store.length()==0){
@@ -268,6 +268,8 @@ public class AreaPopupwindow extends BasePopupWindow {
                 if (!mFromList)
                 if (isChecked){
                     regionListAdapter.setAllCheck();
+                    BaseDataUtil.citys();
+                    BaseDataUtil.countys();
                 }else{
                     regionListAdapter.setAllNormal();
                 }
@@ -281,6 +283,7 @@ public class AreaPopupwindow extends BasePopupWindow {
                 if (!mFromList)
                 if (isChecked){
                     cityListAdapter.setAllCheck();
+                    BaseDataUtil.countys();
                 }else{
                     cityListAdapter.setAllNormal();
                 }
