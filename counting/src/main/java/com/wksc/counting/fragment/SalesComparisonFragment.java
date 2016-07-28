@@ -14,13 +14,13 @@ import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.lzy.okhttputils.OkHttpUtils;
 import com.wksc.counting.Basedata.FragmentDataUtil;
 import com.wksc.counting.R;
-import com.wksc.counting.activity.SalesComparisonActivity;
 import com.wksc.counting.adapter.SalesCompareListAdapter;
 import com.wksc.counting.callBack.DialogCallback;
 import com.wksc.counting.config.Urls;
 import com.wksc.counting.event.CompareDetailRefreshEvent;
 import com.wksc.counting.event.SaleComparisonLoadDataEvent;
 import com.wksc.counting.model.coreDetail.CoreDetail;
+import com.wksc.counting.tools.NetWorkTool;
 import com.wksc.counting.tools.Params;
 import com.wksc.counting.tools.PixToDp;
 import com.wksc.counting.tools.UrlUtils;
@@ -32,6 +32,7 @@ import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 import com.wksc.framwork.platform.config.IConfig;
 import com.wksc.framwork.util.StringUtils;
+import com.wksc.framwork.util.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -200,6 +201,10 @@ public class SalesComparisonFragment extends CommonFragment {
         }
 
         sb.append(extraParam);
+        if(!NetWorkTool.isNetworkAvailable(getActivity())){
+            ToastUtil.showShortMessage(getActivity(),"网络错误");
+            return;
+        }
         DialogCallback callback = new DialogCallback<CoreDetail>(getContext(), CoreDetail.class,refreshLayout) {
 
             @Override

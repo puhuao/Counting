@@ -9,12 +9,9 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.PopupWindow;
 
 import com.github.mikephil.charting.charts.Chart;
@@ -27,14 +24,11 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-import com.github.mikephil.charting.listener.ChartTouchListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.wksc.counting.R;
-import com.wksc.counting.adapter.SortListAdapter;
 import com.wksc.counting.model.CoreIndexListModel;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Administrator on 2016/5/29.
@@ -148,7 +142,7 @@ public class ChartZoomPopupwindow extends PopupWindow {
         }
 
         // create a dataset and give it a type
-        LineDataSet set1 = new LineDataSet(yVals1, coreIndexListModel.title);
+        LineDataSet set1 = new LineDataSet(yVals1, coreIndexListModel.title+"/"+coreIndexListModel.titleUnit);
         set1.setAxisDependency(YAxis.AxisDependency.LEFT);
         set1.setColor(ColorTemplate.getHoloBlue());
         set1.setCircleColor(Color.WHITE);

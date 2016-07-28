@@ -16,6 +16,7 @@ import com.wksc.counting.adapter.SalesCompareListAdapter;
 import com.wksc.counting.callBack.DialogCallback;
 import com.wksc.counting.config.Urls;
 import com.wksc.counting.model.coreDetail.CoreDetail;
+import com.wksc.counting.tools.NetWorkTool;
 import com.wksc.counting.tools.UrlUtils;
 import com.wksc.counting.widegit.BarChartTool;
 import com.wksc.counting.widegit.ConditionLayout;
@@ -24,6 +25,7 @@ import com.wksc.counting.widegit.TableTitleLayout;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 import com.wksc.framwork.platform.config.IConfig;
+import com.wksc.framwork.util.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -153,6 +155,10 @@ public class TogleFragment extends CommonFragment {
         .praseToUrl(sb, "code", provice);
         if (!extraParam.equals(originExtraParam))
         sb.append(extraParam);
+        if(!NetWorkTool.isNetworkAvailable(getActivity())){
+            ToastUtil.showShortMessage(getActivity(),"网络错误");
+            return;
+        }
         OkHttpUtils.post(sb.toString())//
                 .tag(this)//
                 .execute(new DialogCallback<CoreDetail>(getContext(), CoreDetail.class,refreshLayout) {

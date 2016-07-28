@@ -430,4 +430,10 @@ public class AreaPopupwindow3 extends BasePopupWindow {
     public void hideStores() {
         edit_query.setVisibility(View.GONE);
     }
+
+    public void setFirstSelect() {
+        regionListAdapter.setAllCheck();
+        mFromList = true;
+        checkBox1.setChecked(true);
+    }
 }

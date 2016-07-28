@@ -415,4 +415,10 @@ public class AreaPopupwindow extends BasePopupWindow {
     }
 
 
+    public void setFirstSelect() {
+        regionListAdapter.setAllCheck();
+        mFromList = true;
+        checkBox1.setChecked(true);
+
+    }
 }

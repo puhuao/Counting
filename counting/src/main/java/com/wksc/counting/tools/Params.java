@@ -49,10 +49,10 @@ public class Params {
 
     }
     public static void changeGoods(String string){
-        if (areal.length()>0){
-            areal.delete(0,areal.length());
+        if (goods.length()>0){
+            goods.delete(0,goods.length());
         }
-        areal.append(string);
+        goods.append(string);
 
     }
     public static void changeTime(String string){

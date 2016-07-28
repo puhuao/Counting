@@ -1,6 +1,5 @@
 package com.wksc.counting.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -15,7 +14,6 @@ import com.wksc.counting.Basedata.BaseDataUtil2;
 import com.wksc.counting.Basedata.FragmentDataUtil;
 import com.wksc.counting.Contorner.Condition;
 import com.wksc.counting.R;
-import com.wksc.counting.activity.TogleActivity;
 import com.wksc.counting.adapter.GoodsSalesAnalysisListAdapter;
 import com.wksc.counting.callBack.DialogCallback;
 import com.wksc.counting.config.Urls;
@@ -113,16 +111,16 @@ public class GoodsAnalysisFragment extends CommonFragment {
         lvSalesAnalysis.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Bundle bundle = new Bundle();
-                bundle.putString("code", goodsSalesAnalysisListAdapter.getList().get(position).code);
-                bundle.putString("extra", extraParam);
-                bundle.putInt("flag", 3);
-                bundle.putSerializable("condition", condition);
-                String[] array = goodsSalesAnalysisListAdapter.getList().get(position).newValue.split("\\|");
-                bundle.putString("titel", array[0]);
-                Intent intent = new Intent(getActivity(), TogleActivity.class);
-                intent.putExtras(bundle);
-                startActivity(intent);
+//                Bundle bundle = new Bundle();
+//                bundle.putString("code", goodsSalesAnalysisListAdapter.getList().get(position).code);
+//                bundle.putString("extra", extraParam);
+//                bundle.putInt("flag", 3);
+//                bundle.putSerializable("condition", condition);
+//                String[] array = goodsSalesAnalysisListAdapter.getList().get(position).newValue.split("\\|");
+//                bundle.putString("titel", array[0]);
+//                Intent intent = new Intent(getActivity(), TogleActivity.class);
+//                intent.putExtras(bundle);
+//                startActivity(intent);
             }
         });
         if (FragmentDataUtil.goodSaleModle != null) {

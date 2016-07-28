@@ -239,6 +239,10 @@ public class ConditionLayout3 extends LinearLayout implements View.OnClickListen
                 if (hideStores) {
                     areaPopupWindow.hideStores();
                 }
+
+                if (params2.areal.length()==0){
+                    areaPopupWindow.setFirstSelect();
+                }
                 areaPopupWindow.bindTextView(area);
 
                 areaPopupWindow.setOnConditionSelectListener(new BasePopupWindow.OnConditionSelectListener() {
@@ -285,6 +289,9 @@ public class ConditionLayout3 extends LinearLayout implements View.OnClickListen
 
                 if (goodsPopupWindow == null) {
                     goodsPopupWindow = new GoodsPopupWindow2((Activity) getContext(),mCondition);
+                }
+                if (params2.goods.length()==0){
+                    goodsPopupWindow.setFirstSelect();
                 }
                 goodsPopupWindow.setCondition(mCondition);
                 goodsPopupWindow.bindTextView(goods);

@@ -192,4 +192,8 @@ public class GoodsPopupWindow extends BasePopupWindow {
 //        this.goods = goods;
     }
 
+    public void setFirstSelect() {
+        typeListAdapter.setAllCheck();
+        checkBox1.setChecked(true);
+    }
 }

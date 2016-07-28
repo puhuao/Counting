@@ -2,14 +2,11 @@ package com.wksc.counting.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.lzy.okhttputils.OkHttpUtils;
 import com.wksc.counting.R;
@@ -18,9 +15,8 @@ import com.wksc.counting.activity.MainActivity;
 import com.wksc.counting.callBack.BaseInfo;
 import com.wksc.counting.callBack.DialogCallback;
 import com.wksc.counting.config.Urls;
-import com.wksc.counting.model.NoticeResult;
+import com.wksc.counting.tools.NetWorkTool;
 import com.wksc.counting.tools.UrlUtils;
-import com.wksc.counting.widegit.LoadMoreListView;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.ActivityManager;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
@@ -98,6 +94,10 @@ public class ModifyPasswordFragment extends CommonFragment {
 
         StringBuilder sb = new StringBuilder(Urls.MODIFY_PASSWORD);
         UrlUtils.getInstance().addSession(sb, config).praseToUrl(sb, "oldPassword", oldPassword).praseToUrl(sb, "password", newPassword);
+        if(!NetWorkTool.isNetworkAvailable(getActivity())){
+            ToastUtil.showShortMessage(getActivity(),"网络错误");
+            return;
+        }
         OkHttpUtils.post(sb.toString())//
                 .tag(this)//
                 .execute(new DialogCallback<Object>(getContext(), Object.class) {

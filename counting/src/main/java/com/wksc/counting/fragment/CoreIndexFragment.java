@@ -12,7 +12,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.lzy.okhttputils.OkHttpUtils;
-import com.wksc.counting.Basedata.BaseDataUtil;
 import com.wksc.counting.Basedata.FragmentDataUtil;
 import com.wksc.counting.R;
 import com.wksc.counting.activity.SalesComparisonActivity;
@@ -22,14 +21,8 @@ import com.wksc.counting.callBack.DialogCallback;
 import com.wksc.counting.config.Urls;
 import com.wksc.counting.event.CoreIndextLoadDataEvent;
 import com.wksc.counting.event.CoreIndextRefreshEvent;
-import com.wksc.counting.event.SaleComparisonLoadDataEvent;
-import com.wksc.counting.event.TurnToMoreFragmentEvent;
 import com.wksc.counting.model.CoreIndexListModel;
-import com.wksc.counting.model.baseinfo.Channel;
-import com.wksc.counting.model.baseinfo.CoreItem;
-import com.wksc.counting.model.baseinfo.GoodsClassFirst;
-import com.wksc.counting.model.baseinfo.GoodsClassScend;
-import com.wksc.counting.model.baseinfo.Region;
+import com.wksc.counting.tools.NetWorkTool;
 import com.wksc.counting.tools.Params;
 import com.wksc.counting.tools.PixToDp;
 import com.wksc.counting.tools.UrlUtils;
@@ -43,12 +36,8 @@ import com.wksc.framwork.util.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -191,6 +180,10 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
         };
 //        callback.setDialogHide();
 //        callback.setRefreshLayout(refreshLayout);
+        if(!NetWorkTool.isNetworkAvailable(getActivity())){
+            ToastUtil.showShortMessage(getActivity(),"网络错误");
+            return;
+        }
         OkHttpUtils.post(sb.toString())
                 .tag(this)
                 .execute(callback);

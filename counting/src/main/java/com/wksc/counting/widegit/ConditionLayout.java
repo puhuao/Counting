@@ -192,8 +192,11 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
                 }
                 if (areaPopupWindow == null) {
                     areaPopupWindow = new AreaPopupwindow((Activity) getContext());
-                }
 
+                }
+                if (Params.areal.length()==0){
+                    areaPopupWindow.setFirstSelect();
+                }
                 areaPopupWindow.bindTextView(area);
                 areaPopupWindow.setOnConditionSelectListener(new BasePopupWindow.OnConditionSelectListener() {
                     @Override
@@ -240,6 +243,10 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
                 showShadow(0);
                 break;
             case R.id.goods:
+
+                if (Params.goods.length()==0){
+                    goodsPopupWindow.setFirstSelect();
+                }
 
                 goodsPopupWindow.bindTextView(goods);
                 goodsPopupWindow.setOnConditionSelectListener(new BasePopupWindow.OnConditionSelectListener() {
@@ -322,6 +329,9 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
                 break;
             case R.id.channel:
 
+                if (Params.channel.length()==0){
+                    channelPopupWindow.setFirstSelect();
+                }
                 channelPopupWindow.bindTextView(channel);
                 channelPopupWindow.setOnConditionSelectListener(new BasePopupWindow.OnConditionSelectListener() {
                     @Override

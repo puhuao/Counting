@@ -387,6 +387,7 @@ public abstract class BaseRequest<R extends BaseRequest> {
     /** 非阻塞方法，异步请求，但是回调在子线程中执行 */
     @SuppressWarnings("unchecked")
     public <T> void execute(AbsCallback<T> callback) {
+
         mCallback = callback;
         if (mCallback == null) mCallback = AbsCallback.CALLBACK_DEFAULT;
 

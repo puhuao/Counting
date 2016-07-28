@@ -17,6 +17,7 @@ import com.wksc.counting.config.Urls;
 import com.wksc.counting.event.SaveAnaEvent;
 import com.wksc.counting.model.SaleAnaModel.PeiModel;
 import com.wksc.counting.model.goodsSaleAnaModle.GoodSaleModle;
+import com.wksc.counting.tools.NetWorkTool;
 import com.wksc.counting.tools.PixToDp;
 import com.wksc.counting.tools.UrlUtils;
 import com.wksc.counting.widegit.ConditionLayout3;
@@ -26,6 +27,7 @@ import com.wksc.counting.widegit.TableTitleLayout;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 import com.wksc.framwork.platform.config.IConfig;
+import com.wksc.framwork.util.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -125,6 +127,10 @@ public class TogleSaveAnalysisFragment extends CommonFragment {
                 .praseToUrl(sb, "level", "2").praseToUrl(sb, "item", "50")
                 .praseToUrl(sb, "code", code);
         sb.append(extraParam);
+        if(!NetWorkTool.isNetworkAvailable(getActivity())){
+            ToastUtil.showShortMessage(getActivity(),"网络错误");
+            return;
+        }
         OkHttpUtils.post(sb.toString())//
                 .tag(this)//
                 .execute(new DialogCallback<GoodSaleModle>(getContext(), GoodSaleModle.class,refreshLayout) {

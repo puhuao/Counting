@@ -237,4 +237,8 @@ public class ChannelPopupWindow extends BasePopupWindow {
         mContext.getWindow().setAttributes(lp);
     }
 
+    public void setFirstSelect() {
+        channelListAdapter.setAllCheck();
+        checkBox1.setChecked(true);
+    }
 }

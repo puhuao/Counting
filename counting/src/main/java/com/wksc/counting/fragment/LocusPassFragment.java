@@ -19,6 +19,7 @@ import com.wksc.counting.model.baseinfo.CoreItem;
 import com.wksc.counting.model.baseinfo.GoodsClassFirst;
 import com.wksc.counting.model.baseinfo.GoodsClassScend;
 import com.wksc.counting.model.baseinfo.Region;
+import com.wksc.counting.tools.NetWorkTool;
 import com.wksc.counting.tools.UrlUtils;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
@@ -126,6 +127,10 @@ public class LocusPassFragment extends CommonFragment {
             StringBuilder sb = new StringBuilder(Urls.LOGIN);
             UrlUtils.getInstance().praseToUrl(sb,"username",config.getString("username",""))
                     .praseToUrl(sb,"password",config.getString("password",""));
+        if(!NetWorkTool.isNetworkAvailable(getActivity())){
+            ToastUtil.showShortMessage(getActivity(),"网络错误");
+            return;
+        }
         DialogCallback callback =new DialogCallback<Object>(getContext(), Object.class) {
 
             @Override
@@ -143,6 +148,10 @@ public class LocusPassFragment extends CommonFragment {
 //                getActivity().finish();
             }
         };
+        if(!NetWorkTool.isNetworkAvailable(getActivity())){
+            ToastUtil.showShortMessage(getActivity(),"请检查网络设置");
+            return;
+        }
         callback.setDialogHide();
             OkHttpUtils.post(sb.toString())//
                     .tag(this)//
@@ -157,6 +166,10 @@ public class LocusPassFragment extends CommonFragment {
     private void getBaseData() {
         StringBuilder sb = new StringBuilder(Urls.BASE_INFO);
         UrlUtils.getInstance().addSession(sb, config);
+        if(!NetWorkTool.isNetworkAvailable(getActivity())){
+            ToastUtil.showShortMessage(getActivity(),"网络错误");
+            return;
+        }
         OkHttpUtils.post(sb.toString())//
                 .tag(this)//
                 .execute(new DialogCallback<String>(getActivity(), String.class) {
