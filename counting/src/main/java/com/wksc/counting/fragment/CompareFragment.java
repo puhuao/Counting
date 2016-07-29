@@ -6,11 +6,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.wksc.counting.Basedata.BaseDataUtil;
 import com.wksc.counting.Basedata.FragmentDataUtil;
@@ -23,6 +21,7 @@ import com.wksc.counting.event.VipComparisonLoadDataEvent;
 import com.wksc.counting.model.FragmentEntity;
 import com.wksc.counting.model.baseinfo.CoreItem;
 import com.wksc.counting.popwindows.ComparePopupWindow;
+import com.wksc.counting.tools.Params;
 import com.wksc.counting.widegit.CustomViewPager;
 import com.wksc.counting.widegit.PagerSlidingTabStrip;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
@@ -69,8 +68,10 @@ public class CompareFragment extends CommonFragment {
         getRightButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String str = Params.getAreas();
                 Intent intent = new Intent(getContext(), SearchActivity.class);
                 intent.putExtra("flag",pos);
+                intent.putExtra("param",str);
                 getActivity().startActivity(intent);
             }
         });

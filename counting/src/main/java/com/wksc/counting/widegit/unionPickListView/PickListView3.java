@@ -224,7 +224,7 @@ public class PickListView3 extends NestedListView implements AdapterView.OnItemC
     }
 
     private void changeSupperStatus(int positon,int status){
-        this.currentDataSet.get(positon).isCheck = status;
+        this.currentAdapter.getList().get(positon).isCheck = status;
         if (hasSuperLevel){
 
             if(this.currentAdapter.getCheckedNumber(-1)==this.currentAdapter.getList().size()){

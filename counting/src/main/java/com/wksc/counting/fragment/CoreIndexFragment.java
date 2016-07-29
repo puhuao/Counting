@@ -62,7 +62,7 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
 
 
     @Override
-    protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    protected View createView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_core_index, null);
         hideLeftButton();
         showRightButton();
@@ -70,7 +70,9 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), SearchActivity.class);
+                String str = conditionLayout.getAreas();
                 intent.putExtra("flag",-1);
+                intent.putExtra("param",str);
                 getActivity().startActivity(intent);
             }
         });

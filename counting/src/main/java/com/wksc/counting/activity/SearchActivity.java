@@ -64,6 +64,7 @@ public class SearchActivity extends Activity {
     StringBuilder store = new StringBuilder();
     private StoreHistoryAdapter historyAdapter;
     public static List<String> historys = new ArrayList<>();
+    public String params;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -71,6 +72,7 @@ public class SearchActivity extends Activity {
         setContentView(R.layout.activity_search);
         ButterKnife.bind(this);
         flag = getIntent().getIntExtra("flag", -1);
+        params = getIntent().getStringExtra("param");
         initView();
     }
 
@@ -167,6 +169,7 @@ public class SearchActivity extends Activity {
         config = BaseApplication.getInstance().getCurrentConfig();
         StringBuilder sb = new StringBuilder(Urls.STORS);
         UrlUtils.getInstance().addSession(sb, config).praseToUrl(sb, "name", param);
+        sb.append(params);
         DialogCallback<MCU> callback = new DialogCallback<MCU>(SearchActivity.this, MCU.class) {
             @Override
             public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {

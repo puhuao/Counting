@@ -25,6 +25,12 @@ public class Params {
     public static int y,m,d;
     public static int dateFlag = 3;
 
+    public static String getAreas(){
+        StringBuilder sb = new StringBuilder();
+        sb.append(province).append(city).append(county);
+        return sb.toString();
+    }
+
     public static String getParam(){
         if (prams.length() > 0) {
             prams.delete(0, prams.length());
