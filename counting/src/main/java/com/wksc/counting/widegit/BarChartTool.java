@@ -98,6 +98,7 @@ public class BarChartTool {
             yValues.add(new BarEntry(Float.valueOf(coreChart.chartValue1), 1));
 
         BarDataSet set = new BarDataSet(yValues, coreChart.chartTitle1);
+        set.setDrawValues(false);
         set.setBarSpacePercent(50f);
         int color1 = Color.parseColor("#75e2ff");
         int color2 = Color.parseColor("#FFBD3F");

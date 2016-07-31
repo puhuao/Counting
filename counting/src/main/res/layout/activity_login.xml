@@ -70,7 +70,7 @@
                 android:background="@null"
                 android:ellipsize="end"
                 android:gravity="center_vertical"
-                android:hint="密码/验证码"
+                android:hint="请输入密码"
                 android:inputType="textPassword"
                 android:padding="5dp"
                 android:singleLine="true"
@@ -84,7 +84,8 @@
                     android:layout_height="20dp"
                     android:background="@color/white"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginRight="5dp"/>
+                    android:layout_marginRight="5dp"
+                    android:visibility="gone"/>
                 <TextView
                     android:id="@+id/get_valid_code"
                     android:layout_width="wrap_content"
@@ -92,7 +93,8 @@
                     android:background="@null"
                     android:text="发送验证码"
                     android:textColor="@color/white"
-                    android:layout_gravity="center_vertical"/>
+                    android:layout_gravity="center_vertical"
+                    android:visibility="gone"/>
 
             </LinearLayout>
             <View
@@ -137,7 +139,8 @@
             android:text="接收不到验证码? 尝试一下语音验证码吧"
             android:gravity="center"
             android:textColor="@color/white"
-            android:layout_marginTop="20dp"/>
+            android:layout_marginTop="20dp"
+            android:visibility="gone"/>
     </LinearLayout>
 
 </LinearLayout>

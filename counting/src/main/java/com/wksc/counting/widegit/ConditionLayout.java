@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.wksc.counting.Basedata.BaseDataUtil;
 import com.wksc.counting.R;
 import com.wksc.counting.popwindows.AreaPopupwindow;
 import com.wksc.counting.popwindows.BasePopupWindow;
@@ -100,11 +101,12 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
 //        index.setOnClickListener(this);
         goodsPopupWindow = new GoodsPopupWindow((Activity) getContext());
         channelPopupWindow = new ChannelPopupWindow((Activity) getContext());
-        init();
+//        init();
     }
 
 
     public void init() {
+        Params.getAreaByFlag(areaFlag);
         if (Params.y == 0)
             Params.y = calendar.get(Calendar.YEAR);
         if (Params.m == 0)
@@ -128,11 +130,21 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
             }
         }
         if (Params.day.length() == 0) {
-            if (Params.d < 10) {
+            if (Params.d < 10&&Params.d>1) {
                 if (Params.day.length() == 0)
                     Params.day.append("&day=").append("0" + (Params.d - 1));
             } else if (Params.d == 1) {
+//                calendar.add(Calendar.MONTH, -1);
+//                calendar.set(Calendar.DATE, 1);// 把日期设置为当月第一天
+                calendar.roll(Calendar.DATE, -1);
 
+//                Params.m = calendar.get(Calendar.MONTH);
+                Params.m = calendar.get(Calendar.MONTH)-1;
+                Params.month.delete(0,Params.month.length()-1);
+                    Params.month.append("&month=").append(calendar.get(Calendar.MONTH));
+                if (Params.day.length() == 0)
+                    Params.d = calendar.get(Calendar.DAY_OF_MONTH)+1;
+                    Params.day.append("&day=").append(Params.d);
             } else {
                 if (Params.day.length() == 0)
                     Params.day.append("&day=").append(Params.d - 1);
@@ -155,6 +167,7 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
     }
 
     public void initViewByParam() {
+        Params.getAreaByFlag(areaFlag);
         if (StringUtils.isBlank(Params.time.toString())) {
             time.setText(Params.y + "-" + (Params.m + 1) + "-" + (Params.d - 1));
         } else {
@@ -194,10 +207,12 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
                     ToastUtil.showShortMessage(getContext(), "禁止选择区域");
                     break;
                 }
-                if (areaPopupWindow == null) {
-                    areaPopupWindow = new AreaPopupwindow((Activity) getContext());
-
-                }
+//                if (areaPopupWindow == null) {
+                    areaPopupWindow = new AreaPopupwindow((Activity) getContext(),areaFlag);
+                    if (hideCity)
+                        areaPopupWindow.hideCity(hideCity);
+//                }
+                BaseDataUtil.setListPosition(areaFlag);
                 if (Params.areal.length()==0){
                     areaPopupWindow.setFirstSelect();
                 }
@@ -390,6 +405,17 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
 
     public void ferbidSelectArea() {
         firbidSelectArea = true;
+    }
+
+    private Boolean hideCity = false;
+
+    public void hideCity(boolean b) {
+        hideCity = b;
+    }
+
+    int areaFlag = 0;
+    public void setFlag(int i) {
+        areaFlag = i;
     }
 
     public interface OnConditionSelect {

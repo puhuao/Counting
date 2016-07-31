@@ -76,10 +76,11 @@ public class AreaPopupwindow extends BasePopupWindow {
 //    List<BaseWithCheckBean> checkedCitys;
     List<BaseWithCheckBean> checkedCounty;
     public Boolean mFromList = false;
-
-    public AreaPopupwindow(final Activity context) {
+int areaFlag = 0;
+    public AreaPopupwindow(final Activity context, int areaFlag) {
         super();
         mContext = context;
+        this.areaFlag = areaFlag;
         contentView = LayoutInflater.from(context).inflate(R.layout.pop_layout_area, null);
         regionListView = (PickListView) contentView.findViewById(R.id.diriction_area);
         cityListView = (PickListView) contentView.findViewById(R.id.diriction_province);
@@ -112,6 +113,7 @@ public class AreaPopupwindow extends BasePopupWindow {
             }
         });
         init();
+        BaseDataUtil.setFlag(areaFlag);
         regionListAdapter = new CheckBoxListAdapter(context);
         regionListAdapter.isAll = true;
         regionListAdapter.setList(BaseDataUtil.regions());
@@ -121,6 +123,9 @@ public class AreaPopupwindow extends BasePopupWindow {
         radioGroup.setVisibility(View.GONE);
         cityListAdapter = new CheckBoxListAdapter(context);
         cityListView.setAdapter(cityListAdapter);
+        regionListView.setFlag(areaFlag);
+        cityListView.setFlag(areaFlag);
+        countyListView.setFlag(areaFlag);
         checkedRagions = BaseDataUtil.checkedRagions();
         checkedCitys = BaseDataUtil.checkedCitys();
         if (BaseDataUtil.citySet!=null){
@@ -311,6 +316,10 @@ public class AreaPopupwindow extends BasePopupWindow {
                 BaseDataUtil.countys();
                 BaseDataUtil.superPosition = 0;
                 BaseDataUtil.scendPositon = 0;
+                BaseDataUtil.coreSuperPostion = 0;
+                BaseDataUtil.coreScendPosition = 0;
+                BaseDataUtil.mainScendPosition = 0;
+                BaseDataUtil.mainScendPosition = 0;
                 cityListAdapter.setList(BaseDataUtil.citys(0));
                 countyListAdapter.setList(BaseDataUtil.countys(0, 0));
                 regionListAdapter.notifyDataSetChanged();
@@ -404,6 +413,7 @@ public class AreaPopupwindow extends BasePopupWindow {
 
     public void dissmisPopupwindow() {
         this.dismiss();
+        BaseDataUtil.restorePosition(areaFlag);
     }
 
     public void backgroundAlpha(float bgAlpha) {
@@ -423,5 +433,11 @@ public class AreaPopupwindow extends BasePopupWindow {
         mFromList = true;
         checkBox1.setChecked(true);
 
+    }
+
+    private Boolean hideCity = false;
+    public void hideCity(Boolean hideCity) {
+        this.hideCity = hideCity;
+        cityListView.hideNext(true);
     }
 }

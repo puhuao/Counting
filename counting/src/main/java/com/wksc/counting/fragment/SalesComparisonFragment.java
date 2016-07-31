@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.lzy.okhttputils.OkHttpUtils;
+import com.wksc.counting.Basedata.BaseDataUtil;
 import com.wksc.counting.Basedata.FragmentDataUtil;
 import com.wksc.counting.R;
 import com.wksc.counting.adapter.SalesCompareListAdapter;
@@ -123,7 +124,10 @@ public class SalesComparisonFragment extends CommonFragment {
     }
 
     private void initView() {
+        conditionLayout.setFlag(1);
+        conditionLayout.init();
         conditionLayout.hideGoods(true);
+        conditionLayout.hideCity(true);
         conditionLayout.initViewByParam();
         conditionLayout.setConditionSelect(new ConditionLayout.OnConditionSelect() {
             @Override
@@ -142,7 +146,12 @@ public class SalesComparisonFragment extends CommonFragment {
                     Bundle bundle = new Bundle();
                     bundle.putString("param", param);
                     bundle.putString("provice", adapter.getList().get(position).code);
+                    conditionLayout.getAllConditions();
                     bundle.putString("extraParam", extraParam);
+                    if (Params.arealMain1.length()>0){
+                        Params.arealMain1.delete(0,Params.arealMain1.length()-1);
+                    }
+                    Params.arealMain1.append(adapter.getList().get(position).area);
 //                bundle.putString("title",adapter.getList().get(position).area);
 //                getContext().pushFragmentToBackStack(TogleFragment.class, bundle);
                     getContext().pushFragmentToBackStack(CompareFragment1.class, bundle);
@@ -152,7 +161,8 @@ public class SalesComparisonFragment extends CommonFragment {
         });
         if (isFirstShow) {
             conditionLayout.initViewByParam();
-            extraParam = bundle.getString("extraParam");
+            extraParam = conditionLayout.getAllConditions();
+//            extraParam = bundle.getString("extraParam");
             setOldParams(extraParam);
             refreshLayout.setProgressViewOffset(false, 0, PixToDp.dip2px(getContext(), 24));
             getData();
@@ -249,6 +259,12 @@ public class SalesComparisonFragment extends CommonFragment {
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        BaseDataUtil.regionsNormal();
+        BaseDataUtil.citys();
+        BaseDataUtil.countys();
+        BaseDataUtil.setFlag(0);
+        Params.clearArea();
+        Params.getAreaByFlag(0);
     }
 
     @Override

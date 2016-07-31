@@ -8,6 +8,8 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.lzy.okhttputils.OkHttpUtils;
 import com.wksc.counting.activity.LoginActivity;
+import com.wksc.counting.activity.MainActivity;
+import com.wksc.counting.tools.AppManager;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.platform.config.IConfig;
 import com.wksc.framwork.util.StringUtils;
@@ -77,6 +79,7 @@ public abstract class JsonCallback<T> extends EncryptCallback<T> {
                 break;
             case -2:
                 mConext.startActivity(new Intent(mConext, LoginActivity.class));
+                AppManager.getAppManager().finishActivity(MainActivity.class);
                 OkHttpUtils.getInstance().getDelivery().post(new Runnable() {
                     @Override
                     public void run() {

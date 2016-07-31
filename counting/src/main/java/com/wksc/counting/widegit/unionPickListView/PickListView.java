@@ -257,6 +257,7 @@ public class PickListView extends NestedListView implements AdapterView.OnItemCl
 
     public void show(){
         this.setVisibility(VISIBLE);
+        if (!hideNext)
         this.nextLayout.setVisibility(VISIBLE);
         if (hasScendLevel){
             if (currentAdapter.getCheckedNumber(-1)==1||currentAdapter.getCheckedNumber(-1)==0){
@@ -273,6 +274,16 @@ public class PickListView extends NestedListView implements AdapterView.OnItemCl
 
     public void setNextLayout(LinearLayout laytout_citys) {
         this.nextLayout = laytout_citys;
+    }
+
+    private Boolean hideNext = false;
+    public void hideNext(Boolean hideCity) {
+        hideNext = hideCity;
+    }
+
+    private int areaFlag = 0;
+    public void setFlag(int areaFlag) {
+        this.areaFlag = areaFlag;
     }
 
 

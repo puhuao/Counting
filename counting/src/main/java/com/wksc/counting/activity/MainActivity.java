@@ -1,6 +1,8 @@
 package com.wksc.counting.activity;
 
 import android.content.DialogInterface;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -18,6 +20,7 @@ import com.wksc.counting.Basedata.BaseDataUtil2;
 import com.wksc.counting.Basedata.FragmentDataUtil;
 import com.wksc.counting.R;
 import com.wksc.counting.callBack.DialogCallback;
+import com.wksc.counting.config.Constans;
 import com.wksc.counting.config.Urls;
 import com.wksc.counting.event.SaleGoalAnaEvent;
 import com.wksc.counting.event.TurnToMoreFragmentEvent;
@@ -26,12 +29,14 @@ import com.wksc.counting.fragment.MoreFragment;
 import com.wksc.counting.fragment.NewsFragment;
 import com.wksc.counting.fragment.TelescopeFragment;
 import com.wksc.counting.fragment.ThematicAnalysisFragment;
+import com.wksc.counting.model.UpdateInfo;
 import com.wksc.counting.model.baseinfo.BaseWithCheckBean;
 import com.wksc.counting.model.baseinfo.Channel;
 import com.wksc.counting.model.baseinfo.CoreItem;
 import com.wksc.counting.model.baseinfo.GoodsClassFirst;
 import com.wksc.counting.model.baseinfo.GoodsClassScend;
 import com.wksc.counting.model.baseinfo.Region;
+import com.wksc.counting.tools.NetWorkTool;
 import com.wksc.counting.tools.Params;
 import com.wksc.counting.tools.UrlUtils;
 import com.wksc.counting.widegit.CustomDialog;
@@ -243,4 +248,6 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
         });
         builder.create().show();
     }
+
+
 }

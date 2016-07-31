@@ -10,20 +10,52 @@ public class Params {
     public static StringBuilder years = new StringBuilder();
     public static StringBuilder month = new StringBuilder();
     public static StringBuilder day = new StringBuilder();
-    public static StringBuilder city = new StringBuilder();
-    public static StringBuilder county = new StringBuilder();
+    public static StringBuilder city ;
+    public static StringBuilder county;
     public static  StringBuilder mcu = new StringBuilder();
     public static StringBuilder goodsclass = new StringBuilder();
     public static StringBuilder goodssubclass = new StringBuilder();
-    public static StringBuilder province = new StringBuilder();
+    public static StringBuilder province;
     /////////////////////////////////////////////////////////////////
-    public static StringBuilder areal = new StringBuilder();
+    public static StringBuilder areal;
     public static StringBuilder goods = new StringBuilder();
     public static StringBuilder time = new StringBuilder();
     public static StringBuilder channel = new StringBuilder();
-
+    public static StringBuilder arealCore = new StringBuilder();
+    public static StringBuilder arealMain = new StringBuilder();
+    public static StringBuilder arealMain1 = new StringBuilder();
     public static int y,m,d;
     public static int dateFlag = 3;
+
+    public static StringBuilder cityCore = new StringBuilder();
+    public static StringBuilder countyCore = new StringBuilder();
+    public static StringBuilder provinceCore = new StringBuilder();
+    public static StringBuilder cityMain = new StringBuilder();
+    public static StringBuilder countyMain = new StringBuilder();
+    public static StringBuilder provinceMain = new StringBuilder();
+    public static StringBuilder cityMain1 = new StringBuilder();
+    public static StringBuilder countyMain1 = new StringBuilder();
+    public static StringBuilder provinceMain1 = new StringBuilder();
+
+    public static void getAreaByFlag(int flag){
+        if (flag == 0){
+            province = provinceCore;
+            city = cityCore;
+            county = countyCore;
+            areal =arealCore;
+
+        }else if(flag == 1){
+            province = provinceMain;
+            city = cityMain;
+            county = countyMain;
+            areal = arealMain;
+        }else if(flag == 2){
+            province = provinceMain1;
+            city = cityMain1;
+            county = countyMain1;
+            areal = arealMain1;
+        }
+    }
 
     public static String getAreas(){
         StringBuilder sb = new StringBuilder();
@@ -74,6 +106,19 @@ public class Params {
         }
         channel.append(string);
 
+    }
+
+    public static void clearArea(){
+        if (areal.length()>0)
+            areal.delete(0,areal.length());
+        if (city.length()>0)
+            city.delete(0,city.length());
+        if (county.length()>0)
+            county.delete(0,county.length());
+        if (mcu.length()>0)
+            mcu.delete(0,mcu.length());
+        if (province.length()>0)
+            province.delete(0,province.length());
     }
 
     public static void clearData(){

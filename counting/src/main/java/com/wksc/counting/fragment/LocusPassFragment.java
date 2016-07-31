@@ -1,10 +1,13 @@
 package com.wksc.counting.fragment;
 
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.lzy.okhttputils.OkHttpUtils;
@@ -14,6 +17,7 @@ import com.wksc.counting.R;
 import com.wksc.counting.activity.MainActivity;
 import com.wksc.counting.callBack.DialogCallback;
 import com.wksc.counting.config.Urls;
+import com.wksc.counting.model.UpdateInfo;
 import com.wksc.counting.model.baseinfo.Channel;
 import com.wksc.counting.model.baseinfo.CoreItem;
 import com.wksc.counting.model.baseinfo.GoodsClassFirst;
@@ -50,6 +54,8 @@ public class LocusPassFragment extends CommonFragment {
     LocusPassWordView mLocusPassView;
     @Bind(R.id.title)
     TextView title;
+    @Bind(R.id.to_login)
+    Button toLogin;
     IConfig config;
 
     private Boolean isLogin;
@@ -59,6 +65,7 @@ public class LocusPassFragment extends CommonFragment {
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_lacus_pass, null);
+        getVersion();
         return v;
     }
 
@@ -71,6 +78,14 @@ public class LocusPassFragment extends CommonFragment {
         if (isLogin) {
             setHeaderTitle("手势登录");
             getTitleHeaderBar().getLeftViewContainer().setVisibility(View.GONE);
+            toLogin.setVisibility(View.VISIBLE);
+            toLogin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    config.setBoolean("setLocusPassword", false);
+                   getContext().pushFragmentToBackStack(LoginFragment.class, null);
+                }
+            });
         } else {
             setHeaderTitle("管理手势密码");
             getTitleHeaderBar().getLeftViewContainer().setOnClickListener(new View.OnClickListener() {
@@ -195,8 +210,11 @@ public class LocusPassFragment extends CommonFragment {
                                 JSONArray array = object.getJSONArray("GoodsClass");
                                 BaseDataUtil.clearData();
                                 BaseDataUtil2.clearData();
-                                BaseDataUtil.region.addAll(
+                                BaseDataUtil.main1Region.addAll(
                                         GsonUtil.fromJsonList(region, Region.class));
+                                BaseDataUtil.mainRegion.addAll(
+                                        GsonUtil.fromJsonList(region, Region.class));
+                                BaseDataUtil.coreRegion.addAll(GsonUtil.fromJsonList(region, Region.class));
                                 BaseDataUtil2.region.addAll(
                                         GsonUtil.fromJsonList(region, Region.class));
                                 BaseDataUtil2.copyConditionSet(region);
@@ -243,5 +261,45 @@ public class LocusPassFragment extends CommonFragment {
             }
         }
         return  goodsClassFirsts;
+    }
+
+    private void getVersion() {
+        StringBuilder sb = new StringBuilder(Urls.UPDATEINFO);
+//        UrlUtils.getInstance().addSession(sb, config);
+        if (!NetWorkTool.isNetworkAvailable(getActivity())) {
+            ToastUtil.showShortMessage(getActivity(), "网络错误");
+            return;
+        }
+        DialogCallback dialogCallback = new DialogCallback<UpdateInfo>(getActivity(), UpdateInfo.class) {
+
+            @Override
+            public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
+                super.onError(isFromCache, call, response, e);
+            }
+
+            @Override
+            public void onResponse(boolean isFromCache, UpdateInfo o, Request request, @Nullable Response response) {
+                if (o != null) {
+                    PackageManager manager = getActivity().getPackageManager();
+                    try {
+                        int remoteVersionCode = Integer.valueOf(o.version);
+                        PackageInfo info = manager.getPackageInfo(getActivity().getPackageName(), 0);
+                        int versionCode = info.versionCode;
+//                        ToastUtil.showShortMessage(getActivity(), "versonCode=" + remoteVersionCode + " thisVer"
+//                                + versionCode);
+                        if (remoteVersionCode > versionCode) {
+
+                        }
+                    } catch (PackageManager.NameNotFoundException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+        };
+        dialogCallback.setDialogHide();
+        OkHttpUtils.post(sb.toString())//
+                .tag(this)//
+                .execute(dialogCallback);
     }
 }

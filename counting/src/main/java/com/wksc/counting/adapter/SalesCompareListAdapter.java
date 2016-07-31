@@ -95,13 +95,13 @@ public class SalesCompareListAdapter extends BaseListAdapter<ComparisonModel> {
         color = model.newColors[3].split(",");
         holder.newText4.setTextColor(Color.rgb(Integer.valueOf(color[0]),
                 Integer.valueOf(color[1]),Integer.valueOf(color[2])));
-        holder.name.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                StorePopupwindow popupWindow = new StorePopupwindow(mContext);
-                popupWindow.showPopupwindow(v);
-            }
-        });
+//        holder.name.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                StorePopupwindow popupWindow = new StorePopupwindow(mContext);
+//                popupWindow.showPopupwindow(v);
+//            }
+//        });
         return convertView;
     }
 

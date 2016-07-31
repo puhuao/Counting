@@ -173,13 +173,26 @@ public class AreaPopupwindow3 extends BasePopupWindow {
 
             @Override
             public void afterTextChanged(Editable s) {
-                getData();
+                StringBuilder sb = new StringBuilder();
+
+                if (condition.sbRegionCode.length()>0){
+                    sb.append("&province=").append(condition.sbRegionCode);
+                }
+                if (condition.sbCityCode.length()>0){
+                    sb.append("&city=").append(condition.sbCityCode);
+                }
+
+                if (condition.sbCountyCode.length()>0){
+                    sb.append("&county=").append(condition.sbCountyCode);
+                }
+                String param = sb.toString();
+                getData(param);
             }
         });
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getData();
+                getData(null);
             }
         });
         stores.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -362,7 +375,7 @@ public class AreaPopupwindow3 extends BasePopupWindow {
         }
         mFromList = false;
     }
-    private void getData() {
+    private void getData(String pa) {
         String param = edit_query.getText().toString();
 
         if (StringUtils.isBlank(param)) {
@@ -372,6 +385,7 @@ public class AreaPopupwindow3 extends BasePopupWindow {
         config = BaseApplication.getInstance().getCurrentConfig();
         StringBuilder sb = new StringBuilder(Urls.STORS);
         UrlUtils.getInstance().addSession(sb, config).praseToUrl(sb, "name", param);
+        sb.append(pa);
         DialogCallback<MCU> callback = new DialogCallback<MCU>(mContext,MCU.class) {
             @Override
             public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {

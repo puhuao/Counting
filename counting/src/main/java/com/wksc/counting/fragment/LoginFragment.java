@@ -1,5 +1,7 @@
 package com.wksc.counting.fragment;
 
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -18,6 +20,7 @@ import com.wksc.counting.callBack.BaseInfo;
 import com.wksc.counting.callBack.DialogCallback;
 import com.wksc.counting.config.Constans;
 import com.wksc.counting.config.Urls;
+import com.wksc.counting.model.UpdateInfo;
 import com.wksc.counting.model.baseinfo.Channel;
 import com.wksc.counting.model.baseinfo.CoreItem;
 import com.wksc.counting.model.baseinfo.GoodsClassFirst;
@@ -69,6 +72,7 @@ public class LoginFragment extends CommonFragment {
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mTitleHeaderBar.setVisibility(View.GONE);
         final View view = inflater.inflate(R.layout.activity_login, null);
+        getVersion();
         ButterKnife.bind(this, view);
         config = BaseApplication.getInstance().getCurrentConfig();
         userName.setText(config.getString("username", ""));
@@ -90,12 +94,14 @@ public class LoginFragment extends CommonFragment {
                 getValidCode();
                 break;
             case R.id.fab:
-                    doLogin();
+                doLogin();
                 break;
         }
     }
+
     String username;
     String password;
+
     private void doLogin() {
         if (StringUtils.isBlank(userName.getText().toString())) {
             ToastUtil.showShortMessage(getContext(), "请输入用户名");
@@ -106,18 +112,18 @@ public class LoginFragment extends CommonFragment {
             return;
         }
 
-        username  = userName.getText().toString();
-        password  = passWord.getText().toString();
+        username = userName.getText().toString();
+        password = passWord.getText().toString();
 
         StringBuilder sb = new StringBuilder(Urls.LOGIN);
 
-        if (validType==0){
+        if (validType == 0) {
             UrlUtils.getInstance().praseToUrl(sb, "username", username).praseToUrl(sb, "password", password);
-        }else{
+        } else {
             UrlUtils.getInstance().praseToUrl(sb, "username", username).praseToUrl(sb, "smsValidCode", password);
         }
 
-        DialogCallback callback  = new DialogCallback<Object>(getContext(), Object.class) {
+        DialogCallback callback = new DialogCallback<Object>(getContext(), Object.class) {
 
             @Override
             public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
@@ -127,9 +133,9 @@ public class LoginFragment extends CommonFragment {
             @Override
             public void onResponse(boolean isFromCache, Object o, Request request, @Nullable Response response) {
                 if (BaseInfo.code == 1) {
-                    if(validType==0)
+                    if (validType == 0)
                         ToastUtil.showShortMessage(getContext(), "密码错误");
-                    else{
+                    else {
                         ToastUtil.showShortMessage(getContext(), "验证码错误");
                     }
                 } else {
@@ -138,8 +144,8 @@ public class LoginFragment extends CommonFragment {
 
             }
         };
-        if(!NetWorkTool.isNetworkAvailable(getActivity())){
-            ToastUtil.showShortMessage(getActivity(),"网络错误\n请检查网络设置");
+        if (!NetWorkTool.isNetworkAvailable(getActivity())) {
+            ToastUtil.showShortMessage(getActivity(), "网络错误\n请检查网络设置");
             return;
         }
         callback.setDialogHide();
@@ -163,9 +169,9 @@ public class LoginFragment extends CommonFragment {
 
         StringBuilder sb = new StringBuilder(Urls.GET_MOBILE_VALID_CODE);
         UrlUtils.getInstance().addSession(sb, config).praseToUrl(sb, "username", username).praseToUrl(sb, "busiType",
-                Constans.LOGIN).praseToUrl(sb,"phone",username);
-        if(!NetWorkTool.isNetworkAvailable(getActivity())){
-            ToastUtil.showShortMessage(getActivity(),"网络错误");
+                Constans.LOGIN).praseToUrl(sb, "phone", username);
+        if (!NetWorkTool.isNetworkAvailable(getActivity())) {
+            ToastUtil.showShortMessage(getActivity(), "网络错误");
             return;
         }
         OkHttpUtils.post(sb.toString())//
@@ -192,8 +198,8 @@ public class LoginFragment extends CommonFragment {
     private void getBaseData() {
         StringBuilder sb = new StringBuilder(Urls.BASE_INFO);
         UrlUtils.getInstance().addSession(sb, config);
-        if(!NetWorkTool.isNetworkAvailable(getActivity())){
-            ToastUtil.showShortMessage(getActivity(),"网络错误");
+        if (!NetWorkTool.isNetworkAvailable(getActivity())) {
+            ToastUtil.showShortMessage(getActivity(), "网络错误");
             return;
         }
         OkHttpUtils.post(sb.toString())//
@@ -203,7 +209,7 @@ public class LoginFragment extends CommonFragment {
                     @Override
                     public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
                         super.onError(isFromCache, call, response, e);
-                        ToastUtil.showShortMessage(getContext(),"基础信息获取出错！！");
+                        ToastUtil.showShortMessage(getContext(), "基础信息获取出错！！");
                     }
 
                     @Override
@@ -216,13 +222,16 @@ public class LoginFragment extends CommonFragment {
                                 String channel = object.getString("channel");
                                 String items = object.getString("coreitem");
                                 String topicrule = object.getString("topicrule");
-                                config.setString("topicrule",topicrule);
-                                config.setString("noderule",object.getString("noderule"));
+                                config.setString("topicrule", topicrule);
+                                config.setString("noderule", object.getString("noderule"));
                                 JSONArray array = object.getJSONArray("GoodsClass");
                                 BaseDataUtil.clearData();
                                 BaseDataUtil2.clearData();
-                                BaseDataUtil.region.addAll(
+                                BaseDataUtil.main1Region.addAll(
                                         GsonUtil.fromJsonList(region, Region.class));
+                                BaseDataUtil.mainRegion.addAll(
+                                        GsonUtil.fromJsonList(region, Region.class));
+                                BaseDataUtil.coreRegion.addAll(GsonUtil.fromJsonList(region, Region.class));
                                 BaseDataUtil2.region.addAll(
                                         GsonUtil.fromJsonList(region, Region.class));
                                 BaseDataUtil2.copyConditionSet(region);
@@ -237,7 +246,7 @@ public class LoginFragment extends CommonFragment {
                                 BaseDataUtil2.goodsClassFirstVip.addAll(getGoods(array));
                                 BaseDataUtil2.goodsClassFirstGoods.addAll(getGoods(array));
                                 BaseDataUtil2.goodsClassFirstSave.addAll(getGoods(array));
-                                config.setInt("validType",validType);
+                                config.setInt("validType", validType);
                                 config.setString("username", username);
                                 config.setString("password", password);
                                 startActivity(MainActivity.class);
@@ -253,7 +262,7 @@ public class LoginFragment extends CommonFragment {
                 });
     }
 
-    public List<GoodsClassFirst> getGoods(JSONArray array){
+    public List<GoodsClassFirst> getGoods(JSONArray array) {
         List<GoodsClassFirst> goodsClassFirsts = new ArrayList<>();
         for (int i = 0; i < array.length(); i++) {
             JSONObject obj = null;
@@ -271,6 +280,47 @@ public class LoginFragment extends CommonFragment {
                 e.printStackTrace();
             }
         }
-        return  goodsClassFirsts;
+        return goodsClassFirsts;
+    }
+
+    private void getVersion() {
+        StringBuilder sb = new StringBuilder(Urls.UPDATEINFO);
+//        UrlUtils.getInstance().addSession(sb, config);
+        if (!NetWorkTool.isNetworkAvailable(getActivity())) {
+            ToastUtil.showShortMessage(getActivity(), "网络错误");
+            return;
+        }
+
+        DialogCallback dialogCallback = new DialogCallback<UpdateInfo>(getActivity(), UpdateInfo.class) {
+
+            @Override
+            public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
+                super.onError(isFromCache, call, response, e);
+            }
+
+            @Override
+            public void onResponse(boolean isFromCache, UpdateInfo o, Request request, @Nullable Response response) {
+                if (o != null) {
+                    PackageManager manager = getActivity().getPackageManager();
+                    try {
+                        int remoteVersionCode = Integer.valueOf(o.version);
+                        PackageInfo info = manager.getPackageInfo(getActivity().getPackageName(), 0);
+                        int versionCode = info.versionCode;
+//                        ToastUtil.showShortMessage(getActivity(), "versonCode=" + remoteVersionCode + " thisVer"
+//                                + versionCode);
+                        if (remoteVersionCode > versionCode) {
+
+                        }
+                    } catch (PackageManager.NameNotFoundException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+        };
+        dialogCallback.setDialogHide();
+        OkHttpUtils.post(sb.toString())//
+                .tag(this)//
+                .execute(dialogCallback);
     }
 }

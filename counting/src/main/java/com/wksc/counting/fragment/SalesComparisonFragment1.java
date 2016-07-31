@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.lzy.okhttputils.OkHttpUtils;
+import com.wksc.counting.Basedata.BaseDataUtil;
 import com.wksc.counting.Basedata.FragmentDataUtil;
 import com.wksc.counting.R;
 import com.wksc.counting.activity.SalesComparisonActivity;
@@ -123,6 +124,8 @@ public class SalesComparisonFragment1 extends CommonFragment {
     }
 
     private void initView() {
+        conditionLayout.setFlag(2);
+        conditionLayout.init();
         conditionLayout.hideGoods(true);
         conditionLayout.initViewByParam();
         conditionLayout.ferbidSelectArea();
@@ -246,6 +249,14 @@ public class SalesComparisonFragment1 extends CommonFragment {
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        BaseDataUtil.regionsNormal();
+        BaseDataUtil.citys();
+        BaseDataUtil.countys();
+        BaseDataUtil.setFlag(1);
+        Params.clearArea();
+        Params.getAreaByFlag(1);
+
+
     }
 
     @Override

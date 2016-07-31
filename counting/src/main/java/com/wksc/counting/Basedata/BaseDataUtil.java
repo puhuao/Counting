@@ -25,13 +25,34 @@ public class BaseDataUtil {
     public static List<BaseWithCheckBean> stores;
     public static List<BaseWithCheckBean> citySet;//用以记录地区选择消失后的位置
     public static List<BaseWithCheckBean> countySet;
-    public static List<Region> region = new ArrayList<>();
-    public static StringBuilder sbRegion= new StringBuilder();
+    public static List<Region> region;
+    public static List<Region> mainRegion = new ArrayList<>();
+    public static List<Region> main1Region = new ArrayList<>();
+    public static List<Region> coreRegion = new ArrayList<>();
+    public static StringBuilder sbRegion;
     public static StringBuilder sbCity= new StringBuilder();
     public static StringBuilder sbCounty= new StringBuilder();
     public static StringBuilder sbRegionCode= new StringBuilder();
     public static StringBuilder sbCityCode= new StringBuilder();
     public static StringBuilder sbCountyCode= new StringBuilder();
+    public static StringBuilder sbRegionCore= new StringBuilder();
+    public static StringBuilder sbCityCore= new StringBuilder();
+    public static StringBuilder sbCountyCore= new StringBuilder();
+    public static StringBuilder sbRegionCodeCore= new StringBuilder();
+    public static StringBuilder sbCityCodeCore= new StringBuilder();
+    public static StringBuilder sbCountyCodeCore= new StringBuilder();
+    public static StringBuilder sbRegionMain= new StringBuilder();
+    public static StringBuilder sbCityMain= new StringBuilder();
+    public static StringBuilder sbCountyMain= new StringBuilder();
+    public static StringBuilder sbRegionCodeMain= new StringBuilder();
+    public static StringBuilder sbCityCodeMain= new StringBuilder();
+    public static StringBuilder sbCountyCodeMain= new StringBuilder();
+    public static StringBuilder sbRegionMain1= new StringBuilder();
+    public static StringBuilder sbCityMain1= new StringBuilder();
+    public static StringBuilder sbCountyMain1= new StringBuilder();
+    public static StringBuilder sbRegionCodeMain1= new StringBuilder();
+    public static StringBuilder sbCityCodeMain1= new StringBuilder();
+    public static StringBuilder sbCountyCodeMain1= new StringBuilder();
     public static List<GoodsClassFirst> goodsClassFirst = new ArrayList<>();
 
     public static List<CoreItem> coreItems = new ArrayList<>();
@@ -42,6 +63,38 @@ public class BaseDataUtil {
     public static int scendPositon;
     public static int superPosition;
 
+    public static int coreScendPosition;
+    public static int coreSuperPostion;
+    public static int mainScendPosition;
+    public static int mainSuperPosition;
+    public static int main1ScendPosition;
+    public static int main1SuperPosition;
+    public static void restorePosition(int flag){
+        if (flag ==0){
+            coreScendPosition = scendPositon;
+            coreSuperPostion = superPosition;
+        }else if(flag == 1){
+            mainScendPosition = scendPositon;
+            mainSuperPosition = superPosition;
+        }else if(flag == 2){
+            main1ScendPosition = scendPositon;
+            main1SuperPosition = superPosition;
+        }
+    }
+
+    public static void setListPosition(int flag){
+        if (flag ==0){
+             scendPositon =coreScendPosition;
+             superPosition =coreSuperPostion;
+        }else if(flag == 1){
+             scendPositon =mainScendPosition;
+            superPosition = mainSuperPosition ;
+        }else if(flag == 2){
+            scendPositon =main1ScendPosition;
+            superPosition = main1SuperPosition ;
+        }
+    }
+
 
     public static List<BaseWithCheckBean> coreItems(){
         List<BaseWithCheckBean> regions = new ArrayList<>();
@@ -51,9 +104,39 @@ public class BaseDataUtil {
         return regions;
     }
 
+    public static void setFlag(int flag){
+        if (flag ==0){
+            region = coreRegion;
+            sbRegion = sbRegionCore;
+            sbCity = sbCityCore;
+            sbCounty = sbCountyCore;
+            sbRegionCode = sbRegionCodeCore;
+            sbCityCode = sbCityCodeCore;
+            sbCountyCode = sbCountyCodeCore;
+        }else if(flag == 1){
+            region = mainRegion;
+            sbRegion = sbRegionMain;
+            sbCity = sbCityMain;
+            sbCounty = sbCountyMain;
+            sbRegionCode = sbRegionCodeMain;
+            sbCityCode = sbCityCodeMain;
+            sbCountyCode = sbCountyCodeMain;
+        }else if(flag == 2){
+            region = main1Region;
+            sbRegion = sbRegionMain1;
+            sbCity = sbCityMain1;
+            sbCounty = sbCountyMain1;
+            sbRegionCode = sbRegionCodeMain1;
+            sbCityCode = sbCityCodeMain1;
+            sbCountyCode = sbCountyCodeMain1;
+        }
+    }
+
 
     public static void clearData(){
-        region.clear();
+        coreRegion.clear();
+        mainRegion.clear();
+        main1Region.clear();
         goodsClassFirst.clear();
         coreItems.clear();
         channels.clear();

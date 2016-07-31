@@ -17,5 +17,6 @@ public class Urls {
     public static final String SET_NODE_RULE = BASE_URL+"appSetNodeRule";
     public static final String GET_ARTICLES = BASE_URL+"appArticleList";
     public static final String MODIFY_PASSWORD = BASE_URL+"updateLoginMemberPassword";
+    public static final String UPDATEINFO = "http://mbasys.1919.cn:8880/app/update.json";
 
 }

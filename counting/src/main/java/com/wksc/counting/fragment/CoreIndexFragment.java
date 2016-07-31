@@ -93,6 +93,8 @@ public class CoreIndexFragment extends CommonFragment implements AdapterView.OnI
         coreIndexListAdapter.setList(FragmentDataUtil.coreIndexListModels);
         list.setAdapter(coreIndexListAdapter);
         list.setOnItemClickListener(this);
+        conditionLayout.setFlag(0);
+        conditionLayout.init();
         conditionLayout.hideGoods(true);
         conditionLayout.setConditionSelect(new ConditionLayout.OnConditionSelect() {
             @Override
