@@ -97,7 +97,7 @@ public class TogleSaleChainAnalysisFragment extends CommonFragment {
         salesSupplyListAdapter = new SalesSupplyListAdapter(getActivity());
         lvSupplyAnalysis.setAdapter(salesSupplyListAdapter);
         conditionLayout.init(1);
-        conditionLayout.initParams();
+//        conditionLayout.initParams();
         conditionLayout.hideGoods(false);
         conditionLayout.initViewByParam();
         conditionLayout.setcondition(condition);

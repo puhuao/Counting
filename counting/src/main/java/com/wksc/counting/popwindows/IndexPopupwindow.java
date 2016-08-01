@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 
@@ -41,6 +43,8 @@ public class IndexPopupwindow extends PopupWindow {
     CheckBoxListAdapter areaListAdapter;
     Activity mContext;
     String[] noderule;
+    CheckBox checkbox1;
+    private boolean isFromList =false;
 
     public IndexPopupwindow(Activity context){
         super();
@@ -48,6 +52,7 @@ public class IndexPopupwindow extends PopupWindow {
         View view = LayoutInflater.from(context).inflate(R.layout.pop_layout_index,null);
         list = (ListView) view.findViewById(R.id.diriction_area);
         sure = (Button) view.findViewById(R.id.sure);
+        checkbox1 = (CheckBox) view.findViewById(R.id.checkbox1);
         this.setContentView(view);
         this.setOutsideTouchable(true);
         this.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
@@ -74,6 +79,12 @@ public class IndexPopupwindow extends PopupWindow {
                 }
             }
         }
+//        isFromList = true;
+        if (noderule.length==BaseDataUtil.coreItems.size()){
+            checkbox1.setChecked(true);
+        }else{
+            checkbox1.setChecked(false);
+        }
         areaListAdapter = new CheckBoxListAdapter(context);
         areaListAdapter. setList(BaseDataUtil.coreItems());
         list.setAdapter(areaListAdapter);
@@ -89,6 +100,26 @@ public class IndexPopupwindow extends PopupWindow {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 BaseDataUtil.updateCoreItemsStatus(position,areaListAdapter.moveToNextStatus(position));
                 areaListAdapter.notifyDataSetChanged();
+
+                isFromList = true;
+                if (areaListAdapter.getCheckedNumber(position)==BaseDataUtil.coreItems.size()){
+                    checkbox1.setChecked(true);
+                }else{
+                    checkbox1.setChecked(false);
+                }
+                isFromList = false;
+            }
+        });
+        checkbox1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (!isFromList)
+                    if (isChecked){
+                        areaListAdapter.setAllCheck();
+                    }else{
+                        areaListAdapter.setAllNormal();
+                    }
+                isFromList = false;
             }
         });
     }

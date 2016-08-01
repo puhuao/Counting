@@ -236,6 +236,7 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
                 dialog.dismiss();
                 FragmentDataUtil.clearData();
                 Params.clearData();
+//                BaseDataUtil2.clearData();
                 MainActivity.super.onBackPressed();
             }
         });

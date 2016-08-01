@@ -151,7 +151,7 @@ public class ConditionLayout3 extends LinearLayout implements View.OnClickListen
                     params2.month.append("&month=").append(calendar.get(Calendar.MONTH));
                 }
 //                if (params2.day.length() == 0)
-                    params2.d = calendar.get(Calendar.DAY_OF_MONTH)+1;
+                    params2.d = calendar.get(Calendar.DAY_OF_MONTH);
                 params2.day.append("&day=").append(calendar.get(Calendar.DAY_OF_MONTH));
             } else {
                 if (params2.day.length() == 0)
@@ -196,7 +196,14 @@ public class ConditionLayout3 extends LinearLayout implements View.OnClickListen
             if (hideDay) {
                 time.setText(params2.y + "-" + (params2.m + 1));
             } else {
-                time.setText(params2.y + "-" + (params2.m + 1) + "-" + (params2.d - 1));
+                if ((params2.d==31&&(params2.m+1==1||params2.m+1==3||params2.m+1==5||params2.m+1==7||params2.m+1==8
+                        ||params2.m+1==10||params2.m+1==12))||(params2.d+1==30&&(params2.m+1==2||params2.m+1==4
+                        ||params2.m+1==6||params2.m+1==9||params2.m+1==11
+                )))
+                time.setText(params2.y + "-" + (params2.m + 1) + "-" + (params2.d ));
+                else{
+                    time.setText(params2.y + "-" + (params2.m + 1) + "-" + (params2.d -1));
+                }
             }
         } else {
             time.setText(params2.time.toString());

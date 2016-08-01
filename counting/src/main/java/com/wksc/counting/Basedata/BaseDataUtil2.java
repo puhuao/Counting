@@ -70,10 +70,22 @@ public class BaseDataUtil2 {
 
 
     public static void clearData(){
+        saleChannelSet.clear();
+        saleGoleRegionSet.clear();
+        vipSet.clear();
+        goodsAnaSet.clear();
+        saveSet.clear();
         region.clear();
         goodsClassFirst.clear();
         coreItems.clear();
         channels.clear();
+        channels.clear();
+        goodsClassFirst.clear();
+        goodsClassFirstGoal.clear();
+         goodsClassFirstChannel.clear();
+        goodsClassFirstVip.clear();
+        goodsClassFirstGoods.clear();
+        goodsClassFirstSave.clear();
     }
     public static StringBuilder sbGoodsClassFirst= new StringBuilder();
     public static StringBuilder sbGoodsClassFirstCode = new StringBuilder();

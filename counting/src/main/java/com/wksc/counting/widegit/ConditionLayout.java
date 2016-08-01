@@ -132,7 +132,7 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
         if (Params.day.length() == 0) {
             if (Params.d < 10&&Params.d>1) {
                 if (Params.day.length() == 0)
-                    Params.day.append("&day=").append("0" + (Params.d - 1));
+                    Params.day.append("&day=").append("0" + (Params.d ));
             } else if (Params.d == 1) {
 //                calendar.add(Calendar.MONTH, -1);
 //                calendar.set(Calendar.DATE, 1);// 把日期设置为当月第一天
@@ -147,7 +147,7 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
                     Params.month.append("&month=").append(calendar.get(Calendar.MONTH));
                 }
                 if (Params.day.length() == 0)
-                    Params.d = calendar.get(Calendar.DAY_OF_MONTH)+1;
+                    Params.d = calendar.get(Calendar.DAY_OF_MONTH);
                     Params.day.append("&day=").append(calendar.get(Calendar.DAY_OF_MONTH));
             } else {
                 if (Params.day.length() == 0)
@@ -173,7 +173,13 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
     public void initViewByParam() {
         Params.getAreaByFlag(areaFlag);
         if (StringUtils.isBlank(Params.time.toString())) {
-            time.setText(Params.y + "-" + (Params.m + 1) + "-" + (Params.d - 1));
+            if ((Params.d==31&&(Params.m+1==1||Params.m+1==3||Params.m+1==5||Params.m+1==7||Params.m+1==8
+                    ||Params.m+1==10||Params.m+1==12))||(Params.d==30&&(Params.m+1==2||Params.m+1==4||Params.m+1==6||Params.m+1==9||Params.m+1==11
+                    )))
+            time.setText(Params.y + "-" + (Params.m + 1) + "-" + (Params.d ));
+            else{
+                time.setText(Params.y + "-" + (Params.m + 1) + "-" + (Params.d-1 ));
+            }
         } else {
             time.setText(Params.time.toString());
         }
