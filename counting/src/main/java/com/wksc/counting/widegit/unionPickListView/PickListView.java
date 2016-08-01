@@ -115,21 +115,23 @@ public class PickListView extends NestedListView implements AdapterView.OnItemCl
             }
 
             ////////////////////////////////////////////////////////////
-            if (checkecNumber == currentDataSet.size()) {
-                if (checkecNumber == 1&& currentDataSet.size()==1){
+            if (checkecNumber == currentAdapter.getList().size()) {
+                if (checkecNumber == 1&& currentAdapter.getList().size()==1){
                     scendListView.show();
                 }else{
                     BaseDataUtil.hideCity = true;
                     scendListView.hide();
                 }
-            } else if (checkecNumber == 0) {
-            }else if(checkecNumber == 1){
-                scendListView.show();
-            }else if (checkecNumber>1){
-                BaseDataUtil.hideCity = true;
-                scendListView.hide();
-                BaseDataUtil.citys();
-                BaseDataUtil.countys();
+            } else{
+                if (checkecNumber == 0) {
+                }else if(checkecNumber == 1){
+                    scendListView.show();
+                }else if (checkecNumber>1){
+                    BaseDataUtil.hideCity = true;
+                    scendListView.hide();
+                    BaseDataUtil.citys();
+                    BaseDataUtil.countys();
+                }
             }
             currentAdapter.notifyDataSetChanged();
             scentAdapter.notifyDataSetChanged();
@@ -159,27 +161,29 @@ public class PickListView extends NestedListView implements AdapterView.OnItemCl
 //                scendListView.update(superPosition,0);
             }
             ///////////////////////////////////////////////////////////////
-            if (checkecNumber == currentDataSet.size()) {
-                if (checkecNumber == 1&& currentDataSet.size()==1){
+            if (checkecNumber == currentAdapter.getList().size()) {
+                if (checkecNumber == 1&& currentAdapter.getList().size()==1){
                     scendListView.show();
                 }else{
                     BaseDataUtil.hideCounty = true;
                     scendListView.hide();
                 }
-            } else if (checkecNumber == 0) {
+            } else{
+                if (checkecNumber == 0) {
 //                scentAdapter.setAllNormal();
 //                scendListView.hide();
-            }else if(checkecNumber == 1){
-                scendListView.show();
-            }else if (checkecNumber>1){
-                BaseDataUtil.hideCounty = true;
-                scendListView.hide();
-                BaseDataUtil.countys();
+                }else if(checkecNumber == 1){
+                    scendListView.show();
+                }else if (checkecNumber>1){
+                    BaseDataUtil.hideCounty = true;
+                    scendListView.hide();
+                    BaseDataUtil.countys();
+                }
             }
 
-            if (checkecNumber<currentDataSet.size()&&checkecNumber!=0){
+            if (checkecNumber<currentAdapter.getList().size()&&checkecNumber!=0){
                 superListView.changeSupperStatus(BaseDataUtil.superPosition,CheckBoxListAdapter.HALF);
-            }else if (checkecNumber==currentDataSet.size()){
+            }else if (checkecNumber==currentAdapter.getList().size()){
                 superListView.changeSupperStatus(BaseDataUtil.superPosition,CheckBoxListAdapter.ALL);
             }else if(checkecNumber==0){
                 superListView.changeSupperStatus(BaseDataUtil.superPosition,CheckBoxListAdapter.NORMAL);
@@ -197,9 +201,9 @@ public class PickListView extends NestedListView implements AdapterView.OnItemCl
                 //super设置为全选
 
                 }
-            if (checkecNumber<currentDataSet.size()&&checkecNumber!=0){
+            if (checkecNumber<currentAdapter.getList().size()&&checkecNumber!=0){
                 superListView.changeSupperStatus(BaseDataUtil.scendPositon,CheckBoxListAdapter.HALF);
-            }else if (checkecNumber==currentDataSet.size()){
+            }else if (checkecNumber==currentAdapter.getList().size()){
                 superListView.changeSupperStatus(BaseDataUtil.scendPositon,CheckBoxListAdapter.ALL);
             }else if(checkecNumber==0){
                 superListView.changeSupperStatus(BaseDataUtil.scendPositon,CheckBoxListAdapter.NORMAL);
@@ -230,7 +234,6 @@ public class PickListView extends NestedListView implements AdapterView.OnItemCl
                         get(BaseDataUtil.superPosition).isCheck = CheckBoxListAdapter.NORMAL;
                 superListView.currentAdapter.notifyDataSetChanged();
             }
-                ;
 
         }
     }

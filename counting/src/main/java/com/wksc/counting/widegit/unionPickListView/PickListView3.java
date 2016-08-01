@@ -126,23 +126,25 @@ public class PickListView3 extends NestedListView implements AdapterView.OnItemC
             }
 
             ////////////////////////////////////////////////////////////
-            if (checkecNumber == currentDataSet.size()) {
-                if (checkecNumber == 1&& currentDataSet.size()==1){
+            if (checkecNumber == currentAdapter.getList().size()) {
+                if (checkecNumber == 1&& currentAdapter.getList().size()==1){
 //                    if (ShowCityVisiable)
                     scendListView.show();
                 }else{
                     scendListView.hide();
                 }
-            } else if (checkecNumber == 0) {
+            } else {
+                if (checkecNumber == 0) {
 //                scentAdapter.setAllNormal();
 //                scendListView.hide();
-            }else if(checkecNumber == 1){
+                }else if(checkecNumber == 1){
 //                if (ShowCityVisiable)
-                scendListView.show();
-            }else if (checkecNumber>1){
-                scendListView.hide();
-                mCondition.citys();
-                mCondition.countys();
+                    scendListView.show();
+                }else if (checkecNumber>1){
+                    scendListView.hide();
+                    mCondition.citys();
+                    mCondition.countys();
+                }
             }
             currentAdapter.notifyDataSetChanged();
             scentAdapter.notifyDataSetChanged();
@@ -172,25 +174,27 @@ public class PickListView3 extends NestedListView implements AdapterView.OnItemC
 //                scendListView.update(superPosition,0);
             }
             ///////////////////////////////////////////////////////////////
-            if (checkecNumber == currentDataSet.size()) {
-                if (checkecNumber == 1&& currentDataSet.size()==1){
+            if (checkecNumber == currentAdapter.getList().size()) {
+                if (checkecNumber == 1&& currentAdapter.getList().size()==1){
                     scendListView.show();
                 }else{
                     scendListView.hide();
                 }
-            } else if (checkecNumber == 0) {
+            } else {
+                if (checkecNumber == 0) {
 //                scentAdapter.setAllNormal();
 //                scendListView.hide();
-            }else if(checkecNumber == 1){
-                scendListView.show();
-            }else if (checkecNumber>1){
-                scendListView.hide();
-                mCondition.countys();
+                }else if(checkecNumber == 1){
+                    scendListView.show();
+                }else if (checkecNumber>1){
+                    scendListView.hide();
+                    mCondition.countys();
+                }
             }
 
-            if (checkecNumber<currentDataSet.size()&&checkecNumber!=0){
+            if (checkecNumber<currentAdapter.getList().size()&&checkecNumber!=0){
                 superListView.changeSupperStatus(mCondition.superPosition,CheckBoxListAdapter.HALF);
-            }else if (checkecNumber==currentDataSet.size()){
+            }else if (checkecNumber==currentAdapter.getList().size()){
                 superListView.changeSupperStatus(mCondition.superPosition,CheckBoxListAdapter.ALL);
             }else if(checkecNumber==0){
                 superListView.changeSupperStatus(mCondition.superPosition,CheckBoxListAdapter.NORMAL);
@@ -208,9 +212,9 @@ public class PickListView3 extends NestedListView implements AdapterView.OnItemC
                 //super设置为全选
 
                 }
-            if (checkecNumber<currentDataSet.size()&&checkecNumber!=0){
+            if (checkecNumber<currentAdapter.getList().size()&&checkecNumber!=0){
                 superListView.changeSupperStatus(mCondition.scendPositon,CheckBoxListAdapter.HALF);
-            }else if (checkecNumber==currentDataSet.size()){
+            }else if (checkecNumber==currentAdapter.getList().size()){
                 superListView.changeSupperStatus(mCondition.scendPositon,CheckBoxListAdapter.ALL);
             }else if(checkecNumber==0){
                 superListView.changeSupperStatus(mCondition.scendPositon,CheckBoxListAdapter.NORMAL);
@@ -270,6 +274,7 @@ public class PickListView3 extends NestedListView implements AdapterView.OnItemC
 
     public void show(){
         this.setVisibility(VISIBLE);
+        if (ShowCityVisiable)
         this.nextLayout.setVisibility(VISIBLE);
         if (hasScendLevel){
             if (currentAdapter.getCheckedNumber(-1)==1||currentAdapter.getCheckedNumber(-1)==0){

@@ -293,6 +293,7 @@ int areaFlag = 0;
                     cityListAdapter.setAllNormal();
                 }
                 mFromList = false;
+                if (cityListAdapter.getList().size()>1)
                 layout_countys.setVisibility(View.GONE);
             }
         });

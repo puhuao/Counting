@@ -306,6 +306,7 @@ public class AreaPopupwindow3 extends BasePopupWindow {
                     cityListAdapter.setAllNormal();
                 }
                 mFromList = false;
+                if (cityListAdapter.getList().size()>1)
                 layout_countys.setVisibility(View.GONE);
             }
         });
@@ -433,7 +434,7 @@ public class AreaPopupwindow3 extends BasePopupWindow {
     public void hideCity() {
         cityListView.setVisibility(View.GONE);
         citysLayout.setVisibility(View.GONE);
-        regionListView.ShowCityVisiable = false;
+        cityListView.ShowCityVisiable = false;
     }
 
     public void hideCounty() {

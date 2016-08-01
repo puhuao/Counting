@@ -150,7 +150,7 @@ public class ConditionLayout3 extends LinearLayout implements View.OnClickListen
                 else{
                     params2.month.append("&month=").append(calendar.get(Calendar.MONTH));
                 }
-                if (params2.day.length() == 0)
+//                if (params2.day.length() == 0)
                     params2.d = calendar.get(Calendar.DAY_OF_MONTH)+1;
                 params2.day.append("&day=").append(calendar.get(Calendar.DAY_OF_MONTH));
             } else {
@@ -248,9 +248,9 @@ public class ConditionLayout3 extends LinearLayout implements View.OnClickListen
                     areaPopupWindow.hideCounty();
                 }
 
-                if (hideStores) {
+//                if (hideStores) {
                     areaPopupWindow.hideStores();
-                }
+//                }
 
                 if (params2.areal.length()==0){
                     areaPopupWindow.setFirstSelect();
