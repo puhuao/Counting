@@ -249,14 +249,14 @@ public class SalesComparisonFragment1 extends CommonFragment {
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
-        BaseDataUtil.regionsNormal();
-        BaseDataUtil.citys();
-        BaseDataUtil.countys();
-        BaseDataUtil.setFlag(1);
-        Params.clearArea();
-        Params.getAreaByFlag(1);
-
-
+        if (BaseDataUtil.region!=null){
+            BaseDataUtil.regionsNormal();
+            BaseDataUtil.citys();
+            BaseDataUtil.countys();
+            BaseDataUtil.setFlag(1);
+            Params.clearArea();
+            Params.getAreaByFlag(1);
+        }
     }
 
     @Override

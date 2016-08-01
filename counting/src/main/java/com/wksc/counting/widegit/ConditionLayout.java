@@ -140,11 +140,15 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
 
 //                Params.m = calendar.get(Calendar.MONTH);
                 Params.m = calendar.get(Calendar.MONTH)-1;
-                Params.month.delete(0,Params.month.length()-1);
+                Params.month.delete(0,Params.month.length());
+                if (calendar.get(Calendar.MONTH)<10)
+                    Params.month.append("&month=").append("0"+calendar.get(Calendar.MONTH));
+                else{
                     Params.month.append("&month=").append(calendar.get(Calendar.MONTH));
+                }
                 if (Params.day.length() == 0)
                     Params.d = calendar.get(Calendar.DAY_OF_MONTH)+1;
-                    Params.day.append("&day=").append(Params.d);
+                    Params.day.append("&day=").append(calendar.get(Calendar.DAY_OF_MONTH));
             } else {
                 if (Params.day.length() == 0)
                     Params.day.append("&day=").append(Params.d - 1);

@@ -149,7 +149,7 @@ public class SalesComparisonFragment extends CommonFragment {
                     conditionLayout.getAllConditions();
                     bundle.putString("extraParam", extraParam);
                     if (Params.arealMain1.length()>0){
-                        Params.arealMain1.delete(0,Params.arealMain1.length()-1);
+                        Params.arealMain1.delete(0,Params.arealMain1.length());
                     }
                     Params.arealMain1.append(adapter.getList().get(position).area);
 //                bundle.putString("title",adapter.getList().get(position).area);
@@ -259,12 +259,14 @@ public class SalesComparisonFragment extends CommonFragment {
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
-        BaseDataUtil.regionsNormal();
-        BaseDataUtil.citys();
-        BaseDataUtil.countys();
-        BaseDataUtil.setFlag(0);
-        Params.clearArea();
-        Params.getAreaByFlag(0);
+        if (BaseDataUtil.region!=null){
+            BaseDataUtil.regionsNormal();
+            BaseDataUtil.citys();
+            BaseDataUtil.countys();
+            BaseDataUtil.setFlag(0);
+            Params.clearArea();
+            Params.getAreaByFlag(0);
+        }
     }
 
     @Override

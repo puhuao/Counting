@@ -136,11 +136,23 @@ public class ConditionLayout3 extends LinearLayout implements View.OnClickListen
             }
         }
         if (params2.day.length() == 0) {
-            if (params2.d < 10) {
+            if (params2.d < 10&&params2.d>1) {
                 if (params2.day.length() == 0)
                     params2.day.append("&day=").append("0" + (params2.d - 1));
             } else if (params2.d == 1) {
+                calendar.roll(Calendar.DATE, -1);
 
+//                Params.m = calendar.get(Calendar.MONTH);
+                params2.m = calendar.get(Calendar.MONTH)-1;
+                params2.month.delete(0,params2.month.length());
+                if (calendar.get(Calendar.MONTH)<10)
+                    params2.month.append("&month=").append("0"+calendar.get(Calendar.MONTH));
+                else{
+                    params2.month.append("&month=").append(calendar.get(Calendar.MONTH));
+                }
+                if (params2.day.length() == 0)
+                    params2.d = calendar.get(Calendar.DAY_OF_MONTH)+1;
+                params2.day.append("&day=").append(calendar.get(Calendar.DAY_OF_MONTH));
             } else {
                 if (params2.day.length() == 0)
                     params2.day.append("&day=").append(params2.d - 1);

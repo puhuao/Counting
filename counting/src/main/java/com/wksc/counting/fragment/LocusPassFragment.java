@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.lzy.okhttputils.OkHttpUtils;
@@ -25,6 +24,7 @@ import com.wksc.counting.model.baseinfo.GoodsClassScend;
 import com.wksc.counting.model.baseinfo.Region;
 import com.wksc.counting.tools.NetWorkTool;
 import com.wksc.counting.tools.UrlUtils;
+import com.wksc.counting.update.UpdateManager;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 import com.wksc.framwork.platform.config.IConfig;
@@ -55,7 +55,7 @@ public class LocusPassFragment extends CommonFragment {
     @Bind(R.id.title)
     TextView title;
     @Bind(R.id.to_login)
-    Button toLogin;
+    TextView toLogin;
     IConfig config;
 
     private Boolean isLogin;
@@ -65,7 +65,7 @@ public class LocusPassFragment extends CommonFragment {
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_lacus_pass, null);
-        getVersion();
+
         return v;
     }
 
@@ -76,6 +76,7 @@ public class LocusPassFragment extends CommonFragment {
         oldPass = new StringBuilder();
         isLogin = (Boolean) getmDataIn();
         if (isLogin) {
+            getVersion();
             setHeaderTitle("手势登录");
             getTitleHeaderBar().getLeftViewContainer().setVisibility(View.GONE);
             toLogin.setVisibility(View.VISIBLE);
@@ -88,6 +89,7 @@ public class LocusPassFragment extends CommonFragment {
             });
         } else {
             setHeaderTitle("管理手势密码");
+            toLogin.setVisibility(View.GONE);
             getTitleHeaderBar().getLeftViewContainer().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -144,6 +146,7 @@ public class LocusPassFragment extends CommonFragment {
                     .praseToUrl(sb,"password",config.getString("password",""));
         if(!NetWorkTool.isNetworkAvailable(getActivity())){
             ToastUtil.showShortMessage(getActivity(),"网络错误");
+            mLocusPassView.clearPassword();
             return;
         }
         DialogCallback callback =new DialogCallback<Object>(getContext(), Object.class) {
@@ -288,7 +291,9 @@ public class LocusPassFragment extends CommonFragment {
 //                        ToastUtil.showShortMessage(getActivity(), "versonCode=" + remoteVersionCode + " thisVer"
 //                                + versionCode);
                         if (remoteVersionCode > versionCode) {
-
+                            UpdateManager.getUpdateManager().setContext(getContext());
+                            UpdateManager.getUpdateManager().setUpdateInfo(o);
+                            UpdateManager.getUpdateManager().showNoticeDialog();
                         }
                     } catch (PackageManager.NameNotFoundException e) {
                         e.printStackTrace();

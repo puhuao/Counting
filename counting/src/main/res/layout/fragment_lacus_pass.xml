@@ -13,19 +13,6 @@
         android:layout_marginTop="20dp"
         android:layout_centerInParent="true"
         android:id="@+id/textView" />
-        <Button
-            android:id="@+id/to_login"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="密码登录"
-            android:textColor="@color/button_text_selector"
-            android:textSize="16sp"
-            android:background="@drawable/selector_btn_yz"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:visibility="gone"/>
     </RelativeLayout>
     <TextView
         android:id="@+id/title"
@@ -37,8 +24,20 @@
 
     <com.wksc.framwork.widget.LocusPassWordView
         android:id="@+id/mLocusPassWordView"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:layout_margin="10dp">
     </com.wksc.framwork.widget.LocusPassWordView>
+
+    <TextView
+        android:id="@+id/to_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="密码登录"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:layout_gravity="center_horizontal"
+        android:padding="10dp"/>
 </LinearLayout>

@@ -28,6 +28,7 @@ import com.wksc.counting.model.baseinfo.GoodsClassScend;
 import com.wksc.counting.model.baseinfo.Region;
 import com.wksc.counting.tools.NetWorkTool;
 import com.wksc.counting.tools.UrlUtils;
+import com.wksc.counting.update.UpdateManager;
 import com.wksc.framwork.BaseApplication;
 import com.wksc.framwork.baseui.fragment.CommonFragment;
 import com.wksc.framwork.platform.config.IConfig;
@@ -73,6 +74,8 @@ public class LoginFragment extends CommonFragment {
         mTitleHeaderBar.setVisibility(View.GONE);
         final View view = inflater.inflate(R.layout.activity_login, null);
         getVersion();
+//        UpdateManager.getUpdateManager().checkAppUpdate(getActivity(),
+//                false);
         ButterKnife.bind(this, view);
         config = BaseApplication.getInstance().getCurrentConfig();
         userName.setText(config.getString("username", ""));
@@ -308,8 +311,11 @@ public class LoginFragment extends CommonFragment {
                         int versionCode = info.versionCode;
 //                        ToastUtil.showShortMessage(getActivity(), "versonCode=" + remoteVersionCode + " thisVer"
 //                                + versionCode);
-                        if (remoteVersionCode > versionCode) {
 
+                        if (remoteVersionCode > versionCode) {
+                            UpdateManager.getUpdateManager().setContext(getContext());
+                            UpdateManager.getUpdateManager().setUpdateInfo(o);
+                            UpdateManager.getUpdateManager().showNoticeDialog();
                         }
                     } catch (PackageManager.NameNotFoundException e) {
                         e.printStackTrace();
