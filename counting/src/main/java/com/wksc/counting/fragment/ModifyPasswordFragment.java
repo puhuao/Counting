@@ -24,6 +24,9 @@ import com.wksc.framwork.platform.config.IConfig;
 import com.wksc.framwork.util.StringUtils;
 import com.wksc.framwork.util.ToastUtil;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import okhttp3.Call;
@@ -82,6 +85,16 @@ public class ModifyPasswordFragment extends CommonFragment {
             ToastUtil.showShortMessage(getContext(),"请输入新密码");
             return;
         }
+
+//        if (newPassword.length()<6||newPassword.length()>25){
+//            ToastUtil.showShortMessage(getContext(),"密码长度限制为6-25位");
+//            return;
+//        }
+
+        if (oldPassword.equals(newPassword)){
+            ToastUtil.showShortMessage(getContext(),"新密码不能和原密码相同");
+            return;
+        }
         if (StringUtils.isBlank(surePassword)){
             ToastUtil.showShortMessage(getContext(),"请输入确认密码");
             return;
@@ -89,6 +102,13 @@ public class ModifyPasswordFragment extends CommonFragment {
 
         if (!newPassword.equals(surePassword)){
             ToastUtil.showShortMessage(getContext(),"确认密码有误，请重新输入");
+            return;
+        }
+
+        Pattern p = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])\\S{6,25}$");
+        Matcher m = p.matcher(newPassword);
+        if (!m.matches()) {
+            ToastUtil.showShortMessage(getContext(), "密码长度限制为6-25位\n必须包含至少一个大写和小写字母");
             return;
         }
 

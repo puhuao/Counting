@@ -16,6 +16,7 @@ import com.wksc.counting.Basedata.BaseDataUtil;
 import com.wksc.counting.Basedata.BaseDataUtil2;
 import com.wksc.counting.R;
 import com.wksc.counting.activity.MainActivity;
+import com.wksc.counting.activity.ModifyPasswordActivity;
 import com.wksc.counting.callBack.BaseInfo;
 import com.wksc.counting.callBack.DialogCallback;
 import com.wksc.counting.config.Constans;
@@ -106,17 +107,17 @@ public class LoginFragment extends CommonFragment {
     String password;
 
     private void doLogin() {
-        if (StringUtils.isBlank(userName.getText().toString())) {
-            ToastUtil.showShortMessage(getContext(), "请输入用户名");
-            return;
-        }
-        if (StringUtils.isBlank(passWord.getText().toString())) {
-            ToastUtil.showShortMessage(getContext(), "请输入密码");
-            return;
-        }
 
         username = userName.getText().toString();
         password = passWord.getText().toString();
+        if (StringUtils.isBlank(username)) {
+            ToastUtil.showShortMessage(getContext(), "请输入用户名");
+            return;
+        }
+        if (StringUtils.isBlank(password)) {
+            ToastUtil.showShortMessage(getContext(), "请输入密码");
+            return;
+        }
 
         StringBuilder sb = new StringBuilder(Urls.LOGIN);
 
@@ -142,7 +143,15 @@ public class LoginFragment extends CommonFragment {
                         ToastUtil.showShortMessage(getContext(), "验证码错误");
                     }
                 } else {
-                    getBaseData();
+
+                    if (username.equals(password)){
+                        ToastUtil.showShortMessage(getContext(),"密码与用户名相同，请重新设置密码");
+                        getActivity().finish();
+                        startActivity(ModifyPasswordActivity.class);
+                        return;
+                    }else{
+                        getBaseData();
+                    }
                 }
 
             }
@@ -156,7 +165,7 @@ public class LoginFragment extends CommonFragment {
                 .tag(this)//
                 .execute(callback);
     }
-
+//^(?=.*[a-z])(?=.*[A-Z])\S{6,25}$
     private void getValidCode() {
         Pattern p = Pattern.compile("^((13[0-9])|(15[^4,\\D])|(18[0-9])|(17[6,7,8]))\\d{8}$");
         Matcher m = p.matcher(userName.getText().toString());

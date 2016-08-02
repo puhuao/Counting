@@ -132,7 +132,7 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
         if (Params.day.length() == 0) {
             if (Params.d < 10&&Params.d>1) {
                 if (Params.day.length() == 0)
-                    Params.day.append("&day=").append("0" + (Params.d ));
+                    Params.day.append("&day=").append("0" + (Params.d-1 ));
             } else if (Params.d == 1) {
 //                calendar.add(Calendar.MONTH, -1);
 //                calendar.set(Calendar.DATE, 1);// 把日期设置为当月第一天
@@ -146,7 +146,7 @@ public class ConditionLayout extends LinearLayout implements View.OnClickListene
                 else{
                     Params.month.append("&month=").append(calendar.get(Calendar.MONTH));
                 }
-                if (Params.day.length() == 0)
+//                if (Params.day.length() == 0)
                     Params.d = calendar.get(Calendar.DAY_OF_MONTH);
                     Params.day.append("&day=").append(calendar.get(Calendar.DAY_OF_MONTH));
             } else {
