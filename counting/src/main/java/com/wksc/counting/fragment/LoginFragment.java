@@ -132,6 +132,7 @@ public class LoginFragment extends CommonFragment {
             @Override
             public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
                 super.onError(isFromCache, call, response, e);
+                ToastUtil.showShortMessage(getContext(),"系统错误");
             }
 
             @Override
@@ -150,6 +151,17 @@ public class LoginFragment extends CommonFragment {
                         startActivity(ModifyPasswordActivity.class);
                         return;
                     }else{
+                        config.setInt("validType", validType);
+                        Boolean isSetLocusPassword = config.getBoolean("setLocusPassword", false);
+                        if (isSetLocusPassword){
+                            String oldName = config.getString("username","");
+                            if (!oldName.equals(username)){
+                                config.setString("username", username);
+                                config.setString("password", password);
+                                config.setBoolean("setLocusPassword", false);
+                                config.setString("locusPassword","");
+                            }
+                        }
                         getBaseData();
                     }
                 }
@@ -226,7 +238,7 @@ public class LoginFragment extends CommonFragment {
 
                     @Override
                     public void onResponse(boolean isFromCache, String c, Request request, @Nullable Response response) {
-                        config = BaseApplication.getInstance().getPreferenceConfig();
+
                         try {
                             if (!StringUtils.isBlank(c)) {
                                 JSONObject object = new JSONObject(c);
@@ -258,9 +270,7 @@ public class LoginFragment extends CommonFragment {
                                 BaseDataUtil2.goodsClassFirstVip.addAll(getGoods(array));
                                 BaseDataUtil2.goodsClassFirstGoods.addAll(getGoods(array));
                                 BaseDataUtil2.goodsClassFirstSave.addAll(getGoods(array));
-                                config.setInt("validType", validType);
-                                config.setString("username", username);
-                                config.setString("password", password);
+
                                 startActivity(MainActivity.class);
                                 getActivity().finish();
                             } else {
