@@ -117,10 +117,7 @@ public class MoreFragment extends CommonFragment implements View.OnClickListener
                 indexPopupwindow.showPopupwindow(v);
                 break;
             case R.id.logout:
-                /*在退出登录时将存在本地的手势密码清空，将设置手势密码的标志位设为未设置*/
-
-//                config.setBoolean("setLocusPassword", false);
-//                config.setString("locusPassword","");
+                config.setBoolean("isFromModify", true);
                 startActivity(LoginActivity.class,null);
                 getActivity().finish();
                 break;

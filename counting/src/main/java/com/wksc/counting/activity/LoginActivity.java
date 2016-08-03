@@ -34,7 +34,10 @@ public class LoginActivity extends CommonActivity {
         config = BaseApplication.getInstance().getCurrentConfig();
         isSetLocusPassword = config.getBoolean("setLocusPassword", false);
         if (isSetLocusPassword) {
-           pushFragmentToBackStack(LocusPassFragment.class, true);
+            if (config.getBoolean("isFromModify",false))
+                pushFragmentToBackStack(LoginFragment.class, null);
+            else
+                pushFragmentToBackStack(LocusPassFragment.class, true);
         }else {
             pushFragmentToBackStack(LoginFragment.class, null);
         }

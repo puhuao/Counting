@@ -46,7 +46,7 @@
                 android:padding="10dp"
                 android:textColor="@color/text_bold"
                 android:textSize="14sp"
-                android:text="3" />
+                 />
         </LinearLayout>
 
         <LinearLayout

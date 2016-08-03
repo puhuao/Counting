@@ -146,18 +146,20 @@ public class LoginFragment extends CommonFragment {
                 } else {
 
                     if (username.equals(password)){
+                        config.setString("username", username);
+                        config.setString("password", password);
                         ToastUtil.showShortMessage(getContext(),"密码与用户名相同，请重新设置密码");
                         getActivity().finish();
                         startActivity(ModifyPasswordActivity.class);
                         return;
                     }else{
+                        config.setString("username", username);
+                        config.setString("password", password);
                         config.setInt("validType", validType);
                         Boolean isSetLocusPassword = config.getBoolean("setLocusPassword", false);
                         if (isSetLocusPassword){
                             String oldName = config.getString("username","");
                             if (!oldName.equals(username)){
-                                config.setString("username", username);
-                                config.setString("password", password);
                                 config.setBoolean("setLocusPassword", false);
                                 config.setString("locusPassword","");
                             }

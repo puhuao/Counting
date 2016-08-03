@@ -107,6 +107,7 @@ public class LocusPassFragment extends CommonFragment {
                     String savedPassword = config.getString("locusPassword","");
                     if (savedPassword.equals(password)){
                     if (config.getInt("validType",0)==0){
+                        config.setBoolean("isFromModify", false);
                         doLogin();
                     }else{
                         mLocusPassView.clearPassword();
@@ -126,6 +127,7 @@ public class LocusPassFragment extends CommonFragment {
                     } else {
                         if (oldPass.toString().equals(password)) {
                             config.setBoolean("setLocusPassword", true);
+                            config.setBoolean("isFromModify", false);
                             config.setString("locusPassword",password);
                             getActivity().finish();
                         } else {
