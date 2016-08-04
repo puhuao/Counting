@@ -135,6 +135,7 @@ public class ModifyPasswordFragment extends CommonFragment {
                                      ToastUtil.showShortMessage(getContext(), "修改密码成功");
                                      config.setBoolean("setLocusPassword", false);
                                      config.setString("locusPassword","");
+                                     config.setString("password","");
                                      ActivityManager.getInstance().finishActivity(MainActivity.class);
                                      getActivity().finish();
                                      startActivity(LoginActivity.class,null);

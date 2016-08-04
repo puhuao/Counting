@@ -2,7 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-
+    <com.wksc.counting.widegit.OverScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dip"
@@ -92,5 +98,6 @@
             android:layout_marginTop="0.5dp"
             android:textColor="@color/colorPrimary"/>
     </LinearLayout>
-
+</LinearLayout>
+    </com.wksc.counting.widegit.OverScrollView>
 </LinearLayout>

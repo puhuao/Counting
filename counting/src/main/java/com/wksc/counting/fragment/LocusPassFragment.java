@@ -156,7 +156,7 @@ public class LocusPassFragment extends CommonFragment {
             @Override
             public void onError(boolean isFromCache, Call call, @Nullable Response response, @Nullable Exception e) {
                 super.onError(isFromCache, call, response, e);
-                ToastUtil.showShortMessage(getContext(),"系统错误");
+                ToastUtil.showShortMessage(getContext(),"网络错误");
                 mLocusPassView.clearPassword();
             }
 

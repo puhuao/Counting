@@ -118,6 +118,7 @@ public class MoreFragment extends CommonFragment implements View.OnClickListener
                 break;
             case R.id.logout:
                 config.setBoolean("isFromModify", true);
+                config.setString("password","");
                 startActivity(LoginActivity.class,null);
                 getActivity().finish();
                 break;
