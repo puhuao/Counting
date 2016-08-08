@@ -98,7 +98,8 @@ public class SearchActivity extends Activity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                getData();
+                if (!StringUtils.isBlank(edit_query.getText().toString()))
+                    getData();
             }
         });
         canel.setOnClickListener(new View.OnClickListener() {
@@ -110,7 +111,9 @@ public class SearchActivity extends Activity {
         reset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                storsAdapter.setAllNormal();
+                edit_query.setText("");
+                if(storsAdapter.getList()!=null)
+                storsAdapter.getList().clear();
                 storsAdapter.notifyDataSetChanged();
             }
         });

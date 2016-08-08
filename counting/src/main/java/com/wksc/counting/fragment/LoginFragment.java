@@ -80,7 +80,7 @@ public class LoginFragment extends CommonFragment {
         ButterKnife.bind(this, view);
         config = BaseApplication.getInstance().getCurrentConfig();
         userName.setText(config.getString("username", ""));
-        passWord.setText(config.getString("password", ""));
+//        passWord.setText(config.getString("password", ""));
         return view;
     }
 
