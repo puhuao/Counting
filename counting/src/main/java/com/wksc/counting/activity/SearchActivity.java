@@ -112,9 +112,10 @@ public class SearchActivity extends Activity {
             @Override
             public void onClick(View v) {
                 edit_query.setText("");
-                if(storsAdapter.getList()!=null)
-                storsAdapter.getList().clear();
-                storsAdapter.notifyDataSetChanged();
+                if(storsAdapter.getList()!=null){
+                    storsAdapter.getList().clear();
+                    storsAdapter.notifyDataSetChanged();
+                }
             }
         });
         sure.setOnClickListener(new View.OnClickListener() {
