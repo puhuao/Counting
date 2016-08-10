@@ -136,7 +136,7 @@ public class ConditionLayout3 extends LinearLayout implements View.OnClickListen
             }
         }
         if (params2.day.length() == 0) {
-            if (params2.d < 10&&params2.d>1) {
+            if (params2.d <= 10&&params2.d>1) {
                 if (params2.day.length() == 0)
                     params2.day.append("&day=").append("0" + (params2.d - 1));
             } else if (params2.d == 1) {
